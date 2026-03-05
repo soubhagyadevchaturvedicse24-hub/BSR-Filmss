@@ -12,13 +12,16 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
  *
  * Mobile optimization:
  *   - Desktop: loads all 120 frames for silky smooth playback
- *   - Mobile:  loads every 2nd frame (60 frames) for much lower memory usage
- *   - The canvas is sized to device pixel density (capped for perf)
+ *   - Mobile:  loads every 3rd frame (40 frames) as ImageBitmaps for lower memory
+ *   - Canvas rendered at 80% resolution (CSS-upscaled) to cut fill-rate cost
+ *   - Cover-fit draw params cached; clearRect skipped (cover always fills canvas)
+ *   - imageSmoothingQuality set to 'low'; DPR capped at 1
  * ──────────────────────────────────────────────────────────────────────────────
  */
 
 const TOTAL_FRAMES_FULL = 120;
 const SCROLL_MULTIPLIER = 2.5;
+const MOBILE_CANVAS_SCALE = 0.8;
 
 /** Returns the public URL for frame index i (0-based, out of 120). */
 const frameUrl = (i: number) =>
@@ -53,28 +56,32 @@ export default function HeroCanvas() {
     const TOTAL_FRAMES = Math.ceil(TOTAL_FRAMES_FULL / FRAME_STEP);
 
     // ── Frame registry ──
-    const images: HTMLImageElement[] = new Array(TOTAL_FRAMES);
+    const images: (HTMLImageElement | ImageBitmap)[] = new Array(TOTAL_FRAMES);
     let loadedCount = 0;
     let currentFrame = 0;
     let stReady = false;
     let rafPending = false;
+    // Cached cover-fit draw parameters — invalidated on canvas resize
+    let drawParams: { dx: number; dy: number; dw: number; dh: number } | null = null;
 
     // ── Draw helper: cover-fit image on canvas ─────────────────────
     const drawFrame = (idx: number) => {
       const img = images[idx];
-      if (!img?.complete || !img.naturalWidth) return;
+      if (!img) return;
+      if (img instanceof HTMLImageElement && (!img.complete || !img.naturalWidth)) return;
 
-      const scale = Math.max(
-        canvas.width / img.naturalWidth,
-        canvas.height / img.naturalHeight
-      );
-      const dw = img.naturalWidth * scale;
-      const dh = img.naturalHeight * scale;
-      const dx = (canvas.width - dw) / 2;
-      const dy = (canvas.height - dh) / 2;
+      // Recompute cover-fit params only after canvas resize (all frames share dimensions)
+      if (!drawParams) {
+        const iw = img instanceof HTMLImageElement ? img.naturalWidth : img.width;
+        const ih = img instanceof HTMLImageElement ? img.naturalHeight : img.height;
+        const s = Math.max(canvas.width / iw, canvas.height / ih);
+        const dw = iw * s;
+        const dh = ih * s;
+        drawParams = { dx: (canvas.width - dw) / 2, dy: (canvas.height - dh) / 2, dw, dh };
+      }
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, dx, dy, dw, dh);
+      // Cover-fit always fills the entire canvas — no clearRect needed
+      ctx.drawImage(img, drawParams.dx, drawParams.dy, drawParams.dw, drawParams.dh);
     };
 
     // ── Size canvas (cap DPR on mobile for perf) ──────────────────
@@ -82,13 +89,16 @@ export default function HeroCanvas() {
     const sizeCanvas = () => {
       cancelAnimationFrame(resizeRaf);
       resizeRaf = requestAnimationFrame(() => {
-        // Cap DPR: mobile = 1, desktop = Math.min(dpr, 2)
         const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
-        canvas.width = window.innerWidth * dpr;
-        canvas.height = window.innerHeight * dpr;
+        // Mobile: render at reduced resolution — CSS scales up; imperceptible on small screens
+        const res = isMobile ? MOBILE_CANVAS_SCALE : 1;
+        canvas.width = Math.round(window.innerWidth * dpr * res);
+        canvas.height = Math.round(window.innerHeight * dpr * res);
         canvas.style.width = `${window.innerWidth}px`;
         canvas.style.height = `${window.innerHeight}px`;
-        if (images[currentFrame]?.complete) drawFrame(currentFrame);
+        drawParams = null; // Invalidate cached cover-fit params
+        if (isMobile) ctx.imageSmoothingQuality = 'low';
+        drawFrame(currentFrame);
       });
     };
     sizeCanvas();
@@ -178,7 +188,9 @@ export default function HeroCanvas() {
       const img = new Image();
       img.decoding = "async";
       img.src = frameUrl(frameIdx);
-      img.onload = () => {
+
+      const onReady = (drawable: HTMLImageElement | ImageBitmap) => {
+        images[arrayIdx] = drawable;
         loadedCount++;
         if (arrayIdx === 0) drawFrame(0);
         if (loadedCount >= EARLY_INIT_THRESHOLD && !stReady) {
@@ -186,6 +198,15 @@ export default function HeroCanvas() {
           setupScrollTrigger();
         }
         resolve();
+      };
+
+      img.onload = () => {
+        // Mobile: create ImageBitmap for GPU-optimised, pre-decoded texture draws
+        if (isMobile && typeof createImageBitmap === 'function') {
+          createImageBitmap(img).then(bmp => onReady(bmp), () => onReady(img));
+        } else {
+          onReady(img);
+        }
       };
       img.onerror = () => {
         loadedCount++;
@@ -223,6 +244,8 @@ export default function HeroCanvas() {
       cancelAnimationFrame(resizeRaf);
       clearTimeout(fallback);
       ScrollTrigger.getAll().forEach((t) => t.kill());
+      // Free GPU memory from ImageBitmaps
+      images.forEach(img => { if (img instanceof ImageBitmap) img.close(); });
     };
   }, []);
 
@@ -241,6 +264,7 @@ export default function HeroCanvas() {
           id="hero-canvas"
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover"
+          style={mobile ? { willChange: 'transform' } : undefined}
         />
 
         {/* Fallback gradient */}

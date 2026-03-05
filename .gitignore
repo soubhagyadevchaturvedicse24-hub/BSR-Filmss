@@ -33,3 +33,4 @@ yarn-error.log*
 # ── Archive / raw assets (not needed for deployment) ──────────
 /assets/
 /Seq*/
+.vercel
