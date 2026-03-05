@@ -1,6 +1,17 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#050608" },
+    { media: "(prefers-color-scheme: light)", color: "#F5F0E8" },
+  ],
+};
 
 export const metadata: Metadata = {
   title: "BSR Films | Media Production House — Raipur, Chhattisgarh",
@@ -35,6 +46,10 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/bsr-favicon.png" type="image/png" />
         <link rel="apple-touch-icon" href="/bsr-favicon.png" />
+        {/* Preconnect to critical origins for faster resource loading */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://img.youtube.com" />
         {/* Inline script: apply saved theme before paint to prevent FOUC */}
         <script
           dangerouslySetInnerHTML={{

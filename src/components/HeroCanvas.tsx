@@ -1,28 +1,32 @@
 ﻿"use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 /**
- * â”€â”€â”€ FRAME CONFIGURATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+ * ─── FRAME CONFIGURATION ──────────────────────────────────────────────────────
  *
- * Frames located at:  /public/frames/ezgif-frame-001.jpg â†’ ezgif-frame-120.jpg
- * (Copied from D:\Local Codebase\BSR Films\Seq 1)
+ * Frames located at:  /public/frames/ezgif-frame-001.jpg → ezgif-frame-120.jpg
  *
- * To replace with your own frames:
- *   1. Drop your JPEGs into /public/frames/
- *   2. Update TOTAL_FRAMES and FRAME_NAME_FN below.
- * â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+ * Mobile optimization:
+ *   - Desktop: loads all 120 frames for silky smooth playback
+ *   - Mobile:  loads every 2nd frame (60 frames) for much lower memory usage
+ *   - The canvas is sized to device pixel density (capped for perf)
+ * ──────────────────────────────────────────────────────────────────────────────
  */
 
-const TOTAL_FRAMES = 120;
-const SCROLL_MULTIPLIER = 2.2; // 220vh container — faster, tighter scroll
+const TOTAL_FRAMES_FULL = 120;
+const SCROLL_MULTIPLIER = 2.5;
 
-/** Returns the public URL for frame index i (0-based). */
+/** Returns the public URL for frame index i (0-based, out of 120). */
 const frameUrl = (i: number) =>
   `/frames/ezgif-frame-${String(i + 1).padStart(3, "0")}.jpg`;
+
+/** Detect mobile once at module level */
+const getIsMobile = () =>
+  typeof window !== "undefined" && (window.innerWidth < 768 || window.matchMedia("(pointer: coarse)").matches);
 
 export default function HeroCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -36,17 +40,24 @@ export default function HeroCanvas() {
     gsap.registerPlugin(ScrollTrigger);
 
     const canvas = canvasRef.current!;
-    const ctx = canvas.getContext("2d")!;
+    const ctx = canvas.getContext("2d", { alpha: false })!;
     const container = containerRef.current!;
 
-    // â”€â”€ Frame registry â€” declared FIRST so sizeCanvas / drawFrame can close over them â”€â”€
+    const isMobile = getIsMobile();
+
+    // On mobile, only load every 2nd frame → 60 frames
+    // This halves memory usage and network requests
+    const FRAME_STEP = isMobile ? 2 : 1;
+    const TOTAL_FRAMES = Math.ceil(TOTAL_FRAMES_FULL / FRAME_STEP);
+
+    // ── Frame registry ──
     const images: HTMLImageElement[] = new Array(TOTAL_FRAMES);
     let loadedCount = 0;
     let currentFrame = 0;
     let stReady = false;
-    let rafPending = false; // throttle canvas draws to 1 per animation frame
+    let rafPending = false;
 
-    // â”€â”€ Draw helper: cover-fit image on canvas â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Draw helper: cover-fit image on canvas ─────────────────────
     const drawFrame = (idx: number) => {
       const img = images[idx];
       if (!img?.complete || !img.naturalWidth) return;
@@ -64,57 +75,52 @@ export default function HeroCanvas() {
       ctx.drawImage(img, dx, dy, dw, dh);
     };
 
-    // â”€â”€ Size canvas to viewport (after drawFrame is declared) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Size canvas (cap DPR on mobile for perf) ──────────────────
+    let resizeRaf: number;
     const sizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      // Re-draw current frame after resize so the canvas isn't blank
-      if (images[currentFrame]?.complete) drawFrame(currentFrame);
+      cancelAnimationFrame(resizeRaf);
+      resizeRaf = requestAnimationFrame(() => {
+        // Cap DPR: mobile = 1, desktop = Math.min(dpr, 2)
+        const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        canvas.style.width = `${window.innerWidth}px`;
+        canvas.style.height = `${window.innerHeight}px`;
+        if (images[currentFrame]?.complete) drawFrame(currentFrame);
+      });
     };
     sizeCanvas();
-    window.addEventListener("resize", sizeCanvas);
+    window.addEventListener("resize", sizeCanvas, { passive: true });
 
-    // â”€â”€ ScrollTrigger setup â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    // CSS `sticky` on the inner wrapper already pins the canvas visually.
-    // ScrollTrigger is used ONLY to read scroll progress â€” no pin/pinSpacing
-    // needed (adding those would double the scroll height and create a black gap).
+    // ── ScrollTrigger setup ──────────────────────────────────────────
     const setupScrollTrigger = () => {
-      drawFrame(0); // paint frame 0 immediately
+      drawFrame(0);
 
-      // Set initial states
       gsap.set(endOverlayRef.current, { opacity: 0, y: 80, pointerEvents: 'none' });
       gsap.set(canvasOverlayRef.current, { opacity: 0 });
-      // Guarantee heroTextRef starts at its visible resting position before GSAP takes over
       gsap.set(heroTextRef.current, { x: 0, opacity: 1, filter: 'none' });
       gsap.set(kickerRef.current, { y: 0, opacity: 1, filter: 'none' });
 
-      // ── Proxy object: GSAP tweens "frame" 0→119; onUpdate renders the canvas ──
-      // This is the MASTER TRACK — it dictates the full timeline length (duration:1).
-      // Every other tween's position/duration is relative to this 0→1.0 range.
       const frameProxy = { frame: 0 };
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container,
           start: "top top",
-          end: "+=180vh",
-          scrub: 0.8,     // snappier response for faster feel
+          end: "+=200vh",
+          scrub: isMobile ? 1.8 : 1,
         },
       });
 
-      // ── Track 1 (MASTER): Canvas frame sequence — spans 100% of scroll ──
-      // Custom ease: starts slow (cinematic reveal of first frames / forest),
-      // then accelerates through the camera-lens zoom for a dramatic feel.
-      // "power1.in" = cubic bezier that lingers early, speeds up later.
+      // Track 1 (MASTER): Canvas frame sequence
       tl.to(frameProxy, {
         frame: TOTAL_FRAMES - 1,
-        ease: 'power1.in',  // slow start → faster finish (smooth cinematic ramp)
-        duration: 1,        // anchors the timeline length
+        ease: 'none',
+        duration: 1,
         onUpdate() {
           const idx = Math.min(Math.round(frameProxy.frame), TOTAL_FRAMES - 1);
-          if (idx === currentFrame) return; // skip if same frame
+          if (idx === currentFrame) return;
           currentFrame = idx;
-          // Throttle to 1 draw per animation frame (prevents jank from rapid GSAP ticks)
           if (!rafPending) {
             rafPending = true;
             requestAnimationFrame(() => {
@@ -125,16 +131,16 @@ export default function HeroCanvas() {
         },
       }, 0);
 
-      // Track 2: Hero text — exit left on scroll
+      // Track 2: Hero text exit
       tl.to(heroTextRef.current, {
-        x: '-40vw',
+        x: isMobile ? '-30vw' : '-40vw',
         opacity: 0,
         filter: 'blur(10px)',
         ease: 'power2.in',
         duration: 0.35,
       }, 0);
 
-      // Track 2b: Kicker (Raipur, Chhattisgarh) — fade up and out
+      // Track 2b: Kicker fade
       tl.to(kickerRef.current, {
         y: -60,
         opacity: 0,
@@ -143,14 +149,14 @@ export default function HeroCanvas() {
         duration: 0.35,
       }, 0);
 
-      // Track 3: Dark scrim — fades in from 65% to 75% so cards are readable
+      // Track 3: Dark scrim
       tl.to(canvasOverlayRef.current, {
         opacity: 0.55,
         ease: 'none',
         duration: 0.1,
       }, 0.65);
 
-      // Track 4: "Why Choose" cards — enter at 70% scroll, finish at 100% (pin releases)
+      // Track 4: End overlay cards
       tl.fromTo(endOverlayRef.current,
         { opacity: 0, y: 30 },
         {
@@ -162,19 +168,17 @@ export default function HeroCanvas() {
         }, 0.7);
     };
 
-    // ── Batched frame preloader (6 concurrent max) ────────────────────────
-    // Instead of 120 simultaneous requests which floods the connection pool,
-    // we load in small batches. ScrollTrigger inits after the first batch.
-    const BATCH_SIZE = 6;
-    const EARLY_INIT_THRESHOLD = 10; // init ST after this many frames loaded
+    // ── Batched frame preloader ──────────────────────────────────────
+    const BATCH_SIZE = isMobile ? 4 : 6;
+    const EARLY_INIT_THRESHOLD = isMobile ? 6 : 10;
 
-    const loadImage = (i: number): Promise<void> => new Promise(resolve => {
+    const loadImage = (frameIdx: number, arrayIdx: number): Promise<void> => new Promise(resolve => {
       const img = new Image();
       img.decoding = "async";
-      img.src = frameUrl(i);
+      img.src = frameUrl(frameIdx);
       img.onload = () => {
         loadedCount++;
-        if (i === 0) drawFrame(0); // show first frame ASAP
+        if (arrayIdx === 0) drawFrame(0);
         if (loadedCount >= EARLY_INIT_THRESHOLD && !stReady) {
           stReady = true;
           setupScrollTrigger();
@@ -189,41 +193,38 @@ export default function HeroCanvas() {
         }
         resolve();
       };
-      images[i] = img;
+      images[arrayIdx] = img;
     });
 
-    // Load frames in sequential batches of BATCH_SIZE
     const loadAllFrames = async () => {
       for (let start = 0; start < TOTAL_FRAMES; start += BATCH_SIZE) {
         const batch = [];
         for (let i = start; i < Math.min(start + BATCH_SIZE, TOTAL_FRAMES); i++) {
-          batch.push(loadImage(i));
+          // Map array index → actual frame file index
+          const actualFrame = i * FRAME_STEP;
+          batch.push(loadImage(actualFrame, i));
         }
         await Promise.all(batch);
       }
     };
     loadAllFrames();
 
-    // Fallback: init ScrollTrigger even if some frames fail to load
     const fallback = setTimeout(() => {
       if (!stReady) {
         stReady = true;
         setupScrollTrigger();
       }
-    }, 3000);
+    }, isMobile ? 5000 : 3000);
 
     return () => {
       window.removeEventListener("resize", sizeCanvas);
+      cancelAnimationFrame(resizeRaf);
       clearTimeout(fallback);
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, []);
 
   return (
-    /*
-     * The outer div is SCROLL_MULTIPLIER Ã— 100vh tall so the pinned canvas
-     * section has enough scroll distance for the full frame sequence.
-     */
     <div
       ref={containerRef}
       id="hero"
@@ -231,9 +232,8 @@ export default function HeroCanvas() {
       style={{ height: `${SCROLL_MULTIPLIER * 100}vh` }}
       aria-label="Hero: BSR Films cinematic scroll experience"
     >
-      {/* â”€â”€ Pinned canvas (GSAP pins this element) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Pinned canvas ──────────────────────────────────────────── */}
       <div className="sticky top-0 w-full h-screen overflow-hidden">
-        {/* Canvas for scroll-driven frame sequence */}
         <canvas
           ref={canvasRef}
           id="hero-canvas"
@@ -242,38 +242,38 @@ export default function HeroCanvas() {
           style={{ willChange: 'transform' }}
         />
 
-        {/* Fallback gradient background when frames are missing */}
+        {/* Fallback gradient */}
         <div
           className="absolute inset-0 bg-gradient-to-br from-[#050608] via-[#101218] to-[#1a2a1a] -z-10"
           aria-hidden="true"
         />
 
-        {/* Dark scrim — fades in during Phase 2 to ensure card legibility */}
+        {/* Dark scrim */}
         <div
           ref={canvasOverlayRef}
           aria-hidden="true"
           className="absolute inset-0 bg-black pointer-events-none z-[5]"
         />
 
-        {/* Left gradient — keeps text readable, camera on the right stays bright */}
+        {/* Left gradient */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-r from-[#050608]/90 via-[#050608]/50 to-transparent w-[60%] z-10 pointer-events-none"
+          className="absolute inset-0 bg-gradient-to-r from-[#050608]/90 via-[#050608]/50 to-transparent w-[70%] sm:w-[60%] z-10 pointer-events-none"
         />
 
-        {/* Subtle bottom vignette */}
+        {/* Bottom vignette */}
         <div
-          className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#050608] to-transparent pointer-events-none"
+          className="absolute bottom-0 left-0 right-0 h-32 sm:h-48 bg-gradient-to-t from-[#050608] to-transparent pointer-events-none"
           aria-hidden="true"
         />
 
         {/* Unified left hero block */}
         <div className="absolute inset-0 z-20 pointer-events-none flex items-center">
 
-          {/* Top-right kicker — fades away on scroll via GSAP */}
+          {/* Top-right kicker */}
           <div
             ref={kickerRef}
-            className="absolute top-[100px] md:top-[120px] right-[4%] md:right-[5%] z-30 text-right pointer-events-auto"
+            className="absolute top-[72px] sm:top-[88px] md:top-[120px] right-[3%] sm:right-[4%] md:right-[5%] z-30 text-right pointer-events-auto"
             style={{ willChange: 'transform, opacity' }}
           >
             <motion.div
@@ -281,17 +281,17 @@ export default function HeroCanvas() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
             >
-              <p className="text-[#E3A652] font-bold tracking-[0.12em] md:tracking-[0.15em] text-[0.6rem] md:text-sm uppercase drop-shadow-[0_2px_10px_rgba(0,0,0,1)] bg-black/30 px-3 md:px-4 py-1.5 md:py-2 rounded-full backdrop-blur-sm">
+              <p className="text-[#E3A652] font-bold tracking-[0.1em] sm:tracking-[0.12em] md:tracking-[0.15em] text-[0.5rem] sm:text-[0.55rem] md:text-sm uppercase drop-shadow-[0_2px_10px_rgba(0,0,0,1)] bg-black/30 px-2 sm:px-2.5 md:px-4 py-0.5 sm:py-1 md:py-2 rounded-full backdrop-blur-sm">
                 Raipur, Chhattisgarh<br />
                 <span className="text-white">Est. 25+ Years</span>
               </p>
             </motion.div>
           </div>
 
-          {/* GSAP exit wrapper (plain div) -- Framer Motion entry lives inside so they never conflict */}
+          {/* Hero text block */}
           <div
             ref={heroTextRef}
-            className="w-full max-w-[420px] md:max-w-[500px] lg:max-w-[520px] pl-4 md:pl-16 lg:pl-24 pointer-events-auto flex flex-col justify-center"
+            className="w-full max-w-[300px] sm:max-w-[380px] md:max-w-[480px] lg:max-w-[520px] pl-3 sm:pl-5 md:pl-16 lg:pl-24 pointer-events-auto flex flex-col justify-center"
             style={{ willChange: "transform, opacity" }}
           >
             <motion.div
@@ -300,20 +300,20 @@ export default function HeroCanvas() {
               transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-col justify-center"
             >
-              {/* Cascading H1 -- smallest -> medium -> largest */}
+              {/* Cascading H1 */}
               <motion.h1
                 initial={{ opacity: 0, y: 32 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.52, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                className="font-extrabold leading-[1.05] tracking-tight mb-4 md:mb-6 drop-shadow-2xl flex flex-col items-start"
+                className="font-extrabold leading-[1.05] tracking-tight mb-2 sm:mb-3 md:mb-6 drop-shadow-2xl flex flex-col items-start"
               >
-                <span className="text-2xl md:text-4xl lg:text-5xl text-white/90">
+                <span className="text-lg sm:text-xl md:text-4xl lg:text-5xl text-white/90">
                   Stories from
                 </span>
-                <span className="text-3xl md:text-5xl lg:text-6xl text-[#E3A652] my-1 md:my-2">
+                <span className="text-xl sm:text-2xl md:text-5xl lg:text-6xl text-[#E3A652] my-0.5 sm:my-1 md:my-2">
                   the heart of
                 </span>
-                <span className="text-4xl md:text-6xl lg:text-[4.5rem] text-white">
+                <span className="text-2xl sm:text-3xl md:text-6xl lg:text-[4.5rem] text-white">
                   Chhattisgarh
                 </span>
               </motion.h1>
@@ -323,7 +323,7 @@ export default function HeroCanvas() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.72, duration: 0.85 }}
-                className="text-sm md:text-base lg:text-lg text-white/80 leading-relaxed mb-8 md:mb-10 max-w-[400px] drop-shadow-md"
+                className="text-[0.7rem] sm:text-xs md:text-base lg:text-lg text-white/80 leading-relaxed mb-3 sm:mb-5 md:mb-8 lg:mb-10 max-w-[400px] drop-shadow-md"
               >
                 Documentaries, ad films and social campaigns &mdash; crafted with
                 cinematic precision from the heart of India.
@@ -334,7 +334,7 @@ export default function HeroCanvas() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.88, duration: 0.75 }}
-                className="flex flex-wrap items-center gap-3 md:gap-4 mb-8 md:mb-10"
+                className="flex flex-wrap items-center gap-1.5 sm:gap-2 md:gap-4 mb-3 sm:mb-5 md:mb-8 lg:mb-10"
               >
                 <a
                   href="#work"
@@ -362,77 +362,73 @@ export default function HeroCanvas() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.15, duration: 1 }}
-                className="pt-4 md:pt-6 border-t border-white/10 flex flex-wrap gap-5 md:gap-8"
+                className="pt-2 sm:pt-3 md:pt-6 border-t border-white/10 flex flex-wrap gap-3 sm:gap-4 md:gap-8"
               >
                 {[['25+', 'Years of Experience'], ['500+', 'Projects Delivered'], ['20+', 'Govt. Bodies']].map(([n, l]) => (
                   <div key={l}>
-                    <p className="text-2xl md:text-3xl font-extrabold text-white leading-none">{n}</p>
-                    <p className="text-white/35 text-[.68rem] tracking-[.15em] uppercase mt-1">{l}</p>
+                    <p className="text-lg sm:text-xl md:text-3xl font-extrabold text-white leading-none">{n}</p>
+                    <p className="text-white/35 text-[.5rem] sm:text-[.6rem] tracking-[.12em] sm:tracking-[.15em] uppercase mt-0.5 sm:mt-1">{l}</p>
                   </div>
                 ))}
               </motion.div>
-            </motion.div>{/* end inner Framer entry div */}
-          </div>{/* end outer GSAP heroTextRef div */}
+            </motion.div>
+          </div>
         </div>
-        {/* Scroll indicator â€” bottom-right */}
+
+        {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.6, duration: 1 }}
-          className="absolute bottom-8 right-8 md:right-14 flex flex-col items-center gap-2"
+          className="absolute bottom-6 sm:bottom-8 right-6 sm:right-8 md:right-14 flex flex-col items-center gap-2"
           aria-hidden="true"
         >
           <span className="text-white/25 text-[.6rem] tracking-[.3em] uppercase">scroll</span>
-          <div className="w-px h-10 bg-gradient-to-b from-[#E3A652]/60 to-transparent" />
+          <div className="w-px h-8 sm:h-10 bg-gradient-to-b from-[#E3A652]/60 to-transparent" />
         </motion.div>
 
-        {/*
-         * â”€â”€ End-of-hero bridge overlay â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-         * Opacity driven from 0â†’1 by ScrollTrigger over the last 28% of frames.
-         * Sits above the canvas, below the hero text, giving a cinematic
-         * "what's next" teaser before the Works section scrolls in.
-         */}
+        {/* End-of-hero bridge overlay */}
         <div
           ref={endOverlayRef}
           aria-hidden="true"
           className="absolute inset-0 overflow-hidden z-30"
         >
-          {/* Dark gradient scrim — ensures glass readability over waterfall */}
+          {/* Dark gradient scrim */}
           <div
             aria-hidden="true"
             className="absolute inset-0 pointer-events-none"
             style={{ background: "linear-gradient(105deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.35) 100%)" }}
           />
 
-          {/* ── 2-col liquid glass layout ──────────────────────────────── */}
-          <div className="relative h-full flex items-center py-10 px-6 md:px-14 lg:px-20 xl:px-28">
+          {/* ── 2-col liquid glass layout ──────────────────────────── */}
+          <div className="relative h-full flex items-center py-4 sm:py-6 md:py-10 px-3 sm:px-5 md:px-14 lg:px-20 xl:px-28">
             <div className="w-full max-w-screen-xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-14 items-start">
 
                 {/* Left: liquid glass text panel */}
                 <div
-                  className="relative rounded-2xl p-8 md:p-10 shadow-2xl overflow-hidden"
+                  className="relative rounded-xl sm:rounded-2xl p-3 sm:p-5 md:p-8 lg:p-10 shadow-2xl overflow-hidden"
                   style={{
                     background: "rgba(255,255,255,0.05)",
-                    backdropFilter: "blur(28px) saturate(180%)",
-                    WebkitBackdropFilter: "blur(28px) saturate(180%)",
+                    backdropFilter: "blur(20px) saturate(160%)",
+                    WebkitBackdropFilter: "blur(20px) saturate(160%)",
                     border: "1px solid rgba(255,255,255,0.08)",
                     boxShadow: "0 8px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06)",
                   }}
                 >
                   <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)" }} />
-                  <p className="text-[0.65rem] font-bold tracking-[0.28em] uppercase text-white/50 mb-4">The BSR Difference</p>
-                  <h2 className="text-[clamp(1.8rem,3.5vw,2.9rem)] font-extrabold text-white leading-[1.08] tracking-tight mb-5">
+                  <p className="text-[0.55rem] sm:text-[0.6rem] font-bold tracking-[0.25em] sm:tracking-[0.28em] uppercase text-white/50 mb-2 sm:mb-3 md:mb-4">The BSR Difference</p>
+                  <h2 className="text-[clamp(1.15rem,3.2vw,2.9rem)] font-extrabold text-white leading-[1.08] tracking-tight mb-2 sm:mb-3 md:mb-5">
                     Why Choose <span style={{ color: "#E3A652" }}>BSR Films?</span>
                   </h2>
-                  <p className="text-white/65 text-[1rem] leading-relaxed mb-7">
+                  <p className="text-white/65 text-xs sm:text-sm md:text-[1rem] leading-relaxed mb-3 sm:mb-5 md:mb-7">
                     We combine the intimacy of regional storytelling with the
                     discipline of a professional studio — producing content that
                     resonates locally and competes globally.
                   </p>
-                  <div aria-hidden="true" className="w-10 h-[2px] mb-7" style={{ background: "linear-gradient(90deg, #E3A652, transparent)" }} />
-                  <blockquote className="pl-5 py-1" style={{ borderLeft: "3px solid rgba(227,166,82,0.6)" }}>
-                    <p className="text-white/80 text-base italic leading-relaxed font-light">
+                  <div aria-hidden="true" className="w-8 sm:w-10 h-[2px] mb-3 sm:mb-5 md:mb-7" style={{ background: "linear-gradient(90deg, #E3A652, transparent)" }} />
+                  <blockquote className="pl-3 sm:pl-4 md:pl-5 py-1" style={{ borderLeft: "3px solid rgba(227,166,82,0.6)" }}>
+                    <p className="text-white/80 text-xs sm:text-sm md:text-base italic leading-relaxed font-light">
                       "We see Chhattisgarh through the lens of BSR Films."
                     </p>
                     <footer className="text-white/35 text-xs mt-2 tracking-wide">— Our guiding philosophy</footer>
@@ -440,7 +436,7 @@ export default function HeroCanvas() {
                 </div>
 
                 {/* Right: 5 liquid glass reason cards */}
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-1.5 sm:gap-2 md:gap-3">
                   {([
                     { title: "25+ Years of Proven Excellence", body: "Over two decades of cinematic media production and storytelling across Chhattisgarh." },
                     { title: "Trusted by Govts & Global Bodies", body: "Empanelled with NFDC & AIR. Partnered with World Bank, UNICEF & 20+ Govt Depts." },
@@ -450,25 +446,25 @@ export default function HeroCanvas() {
                   ] as { title: string; body: string }[]).map((r) => (
                     <div
                       key={r.title}
-                      className="relative rounded-2xl overflow-hidden"
+                      className="relative rounded-xl sm:rounded-2xl overflow-hidden"
                       style={{
                         background: "rgba(255,255,255,0.055)",
-                        backdropFilter: "blur(22px) saturate(160%)",
-                        WebkitBackdropFilter: "blur(22px) saturate(160%)",
+                        backdropFilter: "blur(16px) saturate(140%)",
+                        WebkitBackdropFilter: "blur(16px) saturate(140%)",
                         border: "1px solid rgba(255,255,255,0.08)",
                         borderLeft: "4px solid #E3A652",
                         boxShadow: "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)",
                       }}
                     >
                       <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, rgba(227,166,82,0.35), rgba(255,255,255,0.12), transparent)" }} />
-                      <div className="flex gap-3 items-start p-4 md:p-5">
-                        <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true" className="flex-shrink-0 mt-0.5">
+                      <div className="flex gap-2 sm:gap-2.5 md:gap-3 items-start p-2 sm:p-3 md:p-5">
+                        <svg width="16" height="16" viewBox="0 0 22 22" fill="none" aria-hidden="true" className="flex-shrink-0 mt-0.5 w-4 h-4 sm:w-[18px] sm:h-[18px] md:w-[20px] md:h-[20px]">
                           <circle cx="11" cy="11" r="10.5" stroke="#E3A652" strokeWidth="1.2" fill="rgba(227,166,82,0.12)" />
                           <path d="M6.5 11.2l3.2 3.2 5.8-6" stroke="#E3A652" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                         <div>
-                          <h3 className="text-white font-bold text-[0.85rem] mb-1 leading-snug">{r.title}</h3>
-                          <p className="text-base md:text-lg text-white/80 leading-snug font-medium mt-2">{r.body}</p>
+                          <h3 className="text-white font-bold text-[0.68rem] sm:text-[0.75rem] md:text-[0.85rem] mb-0.5 leading-snug">{r.title}</h3>
+                          <p className="text-[0.68rem] sm:text-sm md:text-base lg:text-lg text-white/80 leading-snug font-medium mt-0.5 sm:mt-1 md:mt-2">{r.body}</p>
                         </div>
                       </div>
                     </div>

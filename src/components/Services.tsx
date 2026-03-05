@@ -32,7 +32,6 @@ export default function Services() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [hoveredBg, setHoveredBg] = useState<number>(0);
 
-  /* The active background is whichever row is either open or hovered */
   const activeBg = openIndex !== null ? openIndex : hoveredBg;
 
   const toggle = (i: number) => setOpenIndex((prev) => (prev === i ? null : i));
@@ -42,10 +41,10 @@ export default function Services() {
       id="services"
       ref={ref}
       className="relative overflow-hidden"
-      style={{ paddingTop: "7rem", paddingBottom: "7rem", minHeight: "70vh", background: "linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%)" }}
+      style={{ paddingTop: "3.5rem", paddingBottom: "3.5rem", minHeight: "60vh", background: "linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%)" }}
       aria-label="360 degree media services offered by BSR Films"
     >
-      {/* Crossfading background images */}
+      {/* Crossfading background images — lazy-loaded */}
       {services.map((s, i) => (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -53,13 +52,14 @@ export default function Services() {
           src={s.bgImage}
           alt=""
           aria-hidden="true"
+          loading="lazy"
           className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
           style={{ opacity: activeBg === i ? 0.3 : 0, transition: "opacity 0.7s ease", zIndex: 0 }}
           draggable={false}
         />
       ))}
 
-      {/* Twilight overlay for depth */}
+      {/* Twilight overlay */}
       <div
         aria-hidden="true"
         className="absolute inset-0 pointer-events-none"
@@ -67,33 +67,33 @@ export default function Services() {
       />
 
       {/* Content */}
-      <div className="relative max-w-screen-xl mx-auto px-6 md:px-14 lg:px-20 xl:px-28" style={{ zIndex: 2 }}>
+      <div className="relative max-w-screen-xl mx-auto px-4 sm:px-5 md:px-14 lg:px-20 xl:px-28" style={{ zIndex: 2 }}>
 
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.85 }}
-          className="mb-16"
+          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-8 sm:mb-10 md:mb-16"
         >
           <p className="label-line justify-start">What We Do</p>
-          <h2 className="text-[clamp(2.4rem,5.5vw,4rem)] font-extrabold text-white leading-tight tracking-tight mt-2 text-cinema">
+          <h2 className="text-[clamp(1.6rem,5.5vw,4rem)] font-extrabold text-white leading-tight tracking-tight mt-1.5 sm:mt-2 text-cinema">
             360°{" "}
             <span style={{ color: "#E3A652" }}>Media Services</span>
           </h2>
-          <p className="text-white/45 text-base max-w-xl mt-4 leading-relaxed">
-            From script to screen, from jingle to campaign — hover a category to explore, click to expand.
+          <p className="text-white/45 text-xs sm:text-sm md:text-base max-w-xl mt-2 sm:mt-3 md:mt-4 leading-relaxed">
+            From script to screen, from jingle to campaign — tap a category to explore.
           </p>
           {/* Cinematic divider */}
-          <div className="section-divider mt-8 max-w-xs" />
+          <div className="section-divider mt-4 sm:mt-6 md:mt-8 max-w-xs" />
         </motion.div>
 
         {/* Accordion rows */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.3, duration: 0.7 }}
-          className="flex flex-col gap-4"
+          transition={{ delay: 0.3, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="flex flex-col gap-2 sm:gap-3 md:gap-4"
         >
           {services.map((svc, i) => {
             const isOpen = openIndex === i;
@@ -102,7 +102,7 @@ export default function Services() {
                 key={svc.title}
                 layout
                 onMouseEnter={() => setHoveredBg(i)}
-                className="rounded-2xl overflow-hidden transition-all duration-500"
+                className="rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-500"
                 style={{
                   background: isOpen
                     ? 'linear-gradient(135deg, rgba(227,166,82,0.06) 0%, rgba(255,255,255,0.03) 100%)'
@@ -114,16 +114,17 @@ export default function Services() {
                     : '0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.03)',
                 }}
               >
-                {/* Row trigger */}
+                {/* Row trigger — 44px min height for touch */}
                 <button
                   onClick={() => toggle(i)}
-                  className="w-full flex items-center justify-between px-6 md:px-8 py-6 md:py-8 gap-6 group text-left cursor-pointer"
+                  className="w-full flex items-center justify-between px-3 sm:px-5 md:px-8 py-4 sm:py-5 md:py-8 gap-3 sm:gap-4 md:gap-6 group text-left cursor-pointer"
                   aria-expanded={isOpen}
+                  style={{ minHeight: '48px' }}
                 >
                   {/* Index + title */}
-                  <div className="flex items-center gap-5 md:gap-6">
+                  <div className="flex items-center gap-2 sm:gap-3 md:gap-6">
                     <span
-                      className="text-xs font-bold tracking-[0.2em] flex-shrink-0 transition-all duration-300 w-8 h-8 rounded-lg flex items-center justify-center"
+                      className="text-[0.6rem] sm:text-[0.65rem] md:text-xs font-bold tracking-[0.15em] sm:tracking-[0.2em] flex-shrink-0 transition-all duration-300 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-md sm:rounded-lg flex items-center justify-center"
                       style={{
                         color: isOpen ? '#050608' : 'rgba(255,255,255,0.35)',
                         background: isOpen
@@ -137,7 +138,7 @@ export default function Services() {
                     <h3
                       className="font-extrabold tracking-tight transition-colors duration-300"
                       style={{
-                        fontSize: "clamp(1.4rem, 3.2vw, 2.4rem)",
+                        fontSize: "clamp(1.1rem, 3.2vw, 2.4rem)",
                         color: isOpen ? "#E3A652" : "rgba(255,255,255,0.88)",
                       }}
                     >
@@ -147,7 +148,7 @@ export default function Services() {
 
                   {/* Animated arrow icon */}
                   <div
-                    className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-400"
+                    className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-all duration-400"
                     style={{
                       border: `1px solid ${isOpen ? '#E3A652' : 'rgba(255,255,255,0.12)'}`,
                       background: isOpen
@@ -177,16 +178,16 @@ export default function Services() {
                       transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
                       style={{ overflow: "hidden" }}
                     >
-                      <div className="px-6 md:px-8 pb-7 pt-1">
-                        <div className="h-px w-full mb-6" style={{ background: 'linear-gradient(90deg, rgba(227,166,82,0.3) 0%, rgba(227,166,82,0.05) 100%)' }} />
-                        <ul className="grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-3">
+                      <div className="px-3 sm:px-5 md:px-8 pb-4 sm:pb-5 md:pb-7 pt-1">
+                        <div className="h-px w-full mb-3 sm:mb-4 md:mb-6" style={{ background: 'linear-gradient(90deg, rgba(227,166,82,0.3) 0%, rgba(227,166,82,0.05) 100%)' }} />
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 sm:gap-x-6 md:gap-x-8 gap-y-1.5 sm:gap-y-2 md:gap-y-3">
                           {svc.items.map((item, idx) => (
                             <motion.li
                               key={item}
                               initial={{ opacity: 0, y: 8 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ delay: idx * 0.06, duration: 0.35 }}
-                              className="flex items-center gap-3 text-white/70 text-sm md:text-base font-medium py-1.5 px-3 rounded-lg transition-colors duration-200 hover:bg-white/[0.03] hover:text-white/90"
+                              className="flex items-center gap-2 sm:gap-2.5 md:gap-3 text-white/70 text-xs sm:text-sm md:text-base font-medium py-1.5 sm:py-2 px-1.5 sm:px-2 md:px-3 rounded-lg transition-colors duration-200 hover:bg-white/[0.03] hover:text-white/90 active:bg-white/[0.05]"
                             >
                               <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "#E3A652", boxShadow: '0 0 6px rgba(227,166,82,0.4)' }} />
                               {item}

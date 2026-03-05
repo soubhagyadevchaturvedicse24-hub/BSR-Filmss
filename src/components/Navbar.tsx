@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import ThemeToggle from "./ThemeToggle";
@@ -22,11 +22,35 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { isDark } = useTheme();
+  const scrollYRef = useRef(0);
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
+  }, []);
+
+  // ── Body scroll lock on mobile menu ──────────────────────────────
+  useEffect(() => {
+    if (open) {
+      scrollYRef.current = window.scrollY;
+      document.body.classList.add("mobile-menu-open");
+      document.body.style.top = `-${scrollYRef.current}px`;
+    } else {
+      document.body.classList.remove("mobile-menu-open");
+      document.body.style.top = "";
+      window.scrollTo(0, scrollYRef.current);
+    }
+    return () => {
+      document.body.classList.remove("mobile-menu-open");
+      document.body.style.top = "";
+    };
+  }, [open]);
+
+  const handleNavClick = useCallback((href: string) => {
+    setOpen(false);
+    // Small delay to let the menu close animation start
+    setTimeout(() => smooth(href), 100);
   }, []);
 
   return (
@@ -43,13 +67,13 @@ export default function Navbar() {
           }`}
         role="banner"
       >
-        <div className="max-w-screen-xl mx-auto px-6 md:px-14 lg:px-20 h-16 md:h-[72px] flex items-center justify-between">
+        <div className="max-w-screen-xl mx-auto px-3 sm:px-5 md:px-14 lg:px-20 h-12 sm:h-14 md:h-[72px] flex items-center justify-between">
 
           {/* Logo */}
           <a
             href="#"
             onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-            className="flex items-center gap-3"
+            className="flex items-center gap-2 sm:gap-3"
             aria-label="BSR Films — home"
           >
             <Image
@@ -57,7 +81,7 @@ export default function Navbar() {
               alt="BSR Films"
               width={110}
               height={72}
-              className="h-12 md:h-16 w-auto object-contain drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)]"
+              className="h-8 sm:h-10 md:h-16 w-auto object-contain drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)]"
               priority
             />
             <span className="text-[var(--text-muted)] font-light text-xs tracking-[.22em] uppercase hidden sm:inline">Films</span>
@@ -97,12 +121,13 @@ export default function Navbar() {
             </a>
           </div>
 
-          {/* Hamburger */}
+          {/* Hamburger — larger tap target */}
           <button
-            className="md:hidden flex flex-col gap-[5px] p-2"
+            className="md:hidden flex flex-col gap-[5px] p-3 -mr-1"
             onClick={() => setOpen(p => !p)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
+            style={{ minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' }}
           >
             <span className={`block h-[1.5px] transition-all duration-300 ${isDark ? 'bg-white' : 'bg-[#1A1714]'} ${open ? "w-6 rotate-45 translate-y-[6.5px]" : "w-6"}`} />
             <span className={`block h-[1.5px] transition-all duration-300 ${isDark ? 'bg-white' : 'bg-[#1A1714]'} ${open ? "w-0 opacity-0" : "w-4"}`} />
@@ -119,8 +144,12 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: .3 }}
-            className="fixed inset-0 z-40 backdrop-blur-xl flex flex-col items-start justify-center px-10 gap-8 md:hidden"
-            style={{ background: isDark ? 'rgba(5,6,8,0.97)' : 'rgba(245,240,232,0.97)' }}
+            className="fixed inset-0 z-40 flex flex-col items-start justify-center px-8 sm:px-10 gap-6 sm:gap-8 md:hidden"
+            style={{
+              background: isDark ? 'rgba(5,6,8,0.97)' : 'rgba(245,240,232,0.97)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+            }}
             role="dialog" aria-modal="true"
           >
             {links.map((l, i) => (
@@ -130,16 +159,16 @@ export default function Navbar() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * .05 }}
-                onClick={e => { e.preventDefault(); setOpen(false); smooth(l.href); }}
-                className="text-[var(--text-heading)] text-3xl font-extrabold tracking-tight hover:text-[#E3A652] transition-colors"
+                onClick={e => { e.preventDefault(); handleNavClick(l.href); }}
+                className="text-[var(--text-heading)] text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight hover:text-[#E3A652] transition-colors active:text-[#E3A652]"
               >
                 {l.label}
               </motion.a>
             ))}
             <a
               href="#contact"
-              onClick={e => { e.preventDefault(); setOpen(false); smooth("#contact"); }}
-              className="cta-primary mt-4"
+              onClick={e => { e.preventDefault(); handleNavClick("#contact"); }}
+              className="cta-primary mt-2 sm:mt-4"
             >
               Start a Project
               <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l5 4-5 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>

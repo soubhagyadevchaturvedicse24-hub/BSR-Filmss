@@ -149,55 +149,55 @@ export default function Contact() {
     >
       {/* Decorative reel-dot pattern */}
       <div className="absolute inset-0 reel-dots opacity-30 pointer-events-none" aria-hidden="true" />
-      {/* Ambient gold glow - top right */}
-      <div aria-hidden="true" className="absolute top-0 right-0 w-[500px] h-[500px] pointer-events-none" style={{ background: "radial-gradient(circle, rgba(227,166,82,0.03) 0%, transparent 70%)" }} />
+      {/* Ambient gold glow */}
+      <div aria-hidden="true" className="absolute top-0 right-0 w-[200px] sm:w-[300px] md:w-[500px] h-[200px] sm:h-[300px] md:h-[500px] pointer-events-none" style={{ background: "radial-gradient(circle, rgba(227,166,82,0.03) 0%, transparent 70%)" }} />
 
       <div className="relative max-w-screen-xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center mb-8 sm:mb-10 md:mb-16"
         >
-          <p className="text-[#E3A652] text-sm font-semibold tracking-[0.2em] uppercase mb-3">
-            Let’s Create Together
+          <p className="text-[#E3A652] text-[0.65rem] sm:text-xs md:text-sm font-semibold tracking-[0.18em] sm:tracking-[0.2em] uppercase mb-1.5 sm:mb-2 md:mb-3">
+            Let&apos;s Create Together
           </p>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-white gold-underline mx-auto inline-block mb-6 text-cinema">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-white gold-underline mx-auto inline-block mb-3 sm:mb-4 md:mb-6 text-cinema">
             Start Your <span style={{ color: "#E3A652" }}>Project</span>
           </h2>
-          <p className="text-white/50 text-lg max-w-xl mx-auto mt-8 leading-relaxed">
-            Have a story to tell? Let's talk. Brief us about your project and
+          <p className="text-white/50 text-xs sm:text-sm md:text-lg max-w-xl mx-auto mt-3 sm:mt-5 md:mt-8 leading-relaxed px-2">
+            Have a story to tell? Let&apos;s talk. Brief us about your project and
             our team will get back within 24 hours.
           </p>
         </motion.div>
 
         {/* Split Screen */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-          {/* â”€â”€ Left: Contact Info â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 xl:gap-20">
+          {/* ── Left: Contact Info ─────────────────────────────────── */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-col justify-between gap-10"
+            className="flex flex-col justify-between gap-6 sm:gap-8 md:gap-10"
           >
             <div>
-              <h3 className="text-white text-2xl font-bold mb-8">
+              <h3 className="text-white text-lg sm:text-xl md:text-2xl font-bold mb-4 sm:mb-6 md:mb-8">
                 Reach Us Directly
               </h3>
 
-              <ul className="flex flex-col gap-7" role="list">
-                <li className="flex gap-4 items-start group">
-                  <div className="w-11 h-11 rounded-xl bg-[#E3A652]/10 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all duration-300 group-hover:bg-[#E3A652]/20 group-hover:shadow-[0_0_16px_rgba(227,166,82,0.2)]">
-                    <Mail size={20} className="text-[#E3A652]" />
+              <ul className="flex flex-col gap-4 sm:gap-5 md:gap-7" role="list">
+                <li className="flex gap-3 sm:gap-4 items-start group">
+                  <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#E3A652]/10 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all duration-300 group-hover:bg-[#E3A652]/20 group-hover:shadow-[0_0_16px_rgba(227,166,82,0.2)]">
+                    <Mail size={18} className="text-[#E3A652] sm:w-5 sm:h-5" />
                   </div>
                   <div>
-                    <p className="text-white/40 text-xs uppercase tracking-widest mb-1">
+                    <p className="text-white/40 text-[0.6rem] sm:text-xs uppercase tracking-widest mb-1">
                       Email
                     </p>
                     <a
                       href="mailto:info@bsrfilms.in"
-                      className="text-white text-base font-semibold hover:text-[#E3A652] transition-colors"
+                      className="text-white text-sm sm:text-base font-semibold hover:text-[#E3A652] transition-colors active:text-[#E3A652]"
                       aria-label="Send email to BSR Films"
                     >
                       info@bsrfilms.in
@@ -205,17 +205,17 @@ export default function Contact() {
                   </div>
                 </li>
 
-                <li className="flex gap-4 items-start group">
-                  <div className="w-11 h-11 rounded-xl bg-[#E3A652]/10 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all duration-300 group-hover:bg-[#E3A652]/20 group-hover:shadow-[0_0_16px_rgba(227,166,82,0.2)]">
-                    <Phone size={20} className="text-[#E3A652]" />
+                <li className="flex gap-3 sm:gap-4 items-start group">
+                  <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#E3A652]/10 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all duration-300 group-hover:bg-[#E3A652]/20 group-hover:shadow-[0_0_16px_rgba(227,166,82,0.2)]">
+                    <Phone size={18} className="text-[#E3A652] sm:w-5 sm:h-5" />
                   </div>
                   <div>
-                    <p className="text-white/40 text-xs uppercase tracking-widest mb-1">
+                    <p className="text-white/40 text-[0.6rem] sm:text-xs uppercase tracking-widest mb-1">
                       Phone
                     </p>
                     <a
                       href="tel:+917712345678"
-                      className="text-white text-base font-semibold hover:text-[#E3A652] transition-colors"
+                      className="text-white text-sm sm:text-base font-semibold hover:text-[#E3A652] transition-colors active:text-[#E3A652]"
                       aria-label="Call BSR Films"
                     >
                       +91 771 234 5678
@@ -223,15 +223,15 @@ export default function Contact() {
                   </div>
                 </li>
 
-                <li className="flex gap-4 items-start group">
-                  <div className="w-11 h-11 rounded-xl bg-[#E3A652]/10 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all duration-300 group-hover:bg-[#E3A652]/20 group-hover:shadow-[0_0_16px_rgba(227,166,82,0.2)]">
-                    <MapPin size={20} className="text-[#E3A652]" />
+                <li className="flex gap-3 sm:gap-4 items-start group">
+                  <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#E3A652]/10 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all duration-300 group-hover:bg-[#E3A652]/20 group-hover:shadow-[0_0_16px_rgba(227,166,82,0.2)]">
+                    <MapPin size={18} className="text-[#E3A652] sm:w-5 sm:h-5" />
                   </div>
                   <div>
-                    <p className="text-white/40 text-xs uppercase tracking-widest mb-1">
+                    <p className="text-white/40 text-[0.6rem] sm:text-xs uppercase tracking-widest mb-1">
                       Address
                     </p>
-                    <address className="text-white text-base font-semibold not-italic leading-relaxed">
+                    <address className="text-white text-sm sm:text-base font-semibold not-italic leading-relaxed">
                       BSR Films, Media Hub,
                       <br />
                       Raipur, Chhattisgarh — 492001
@@ -253,27 +253,27 @@ export default function Contact() {
             </div>
           </motion.div>
 
-          {/* â”€â”€ Right: Contact Form â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+          {/* ── Right: Contact Form ────────────────────────────────── */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           >
             {submitted ? (
-              <div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center">
-                <div className="w-16 h-16 rounded-full bg-[#E3A652]/15 flex items-center justify-center mb-6">
-                  <ArrowRight size={28} className="text-[#E3A652]" />
+              <div className="flex flex-col items-center justify-center h-full min-h-[350px] sm:min-h-[400px] text-center px-4">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#E3A652]/15 flex items-center justify-center mb-5 sm:mb-6">
+                  <ArrowRight size={24} className="text-[#E3A652] sm:w-7 sm:h-7" />
                 </div>
-                <h3 className="text-white text-2xl font-bold mb-3">
+                <h3 className="text-white text-xl sm:text-2xl font-bold mb-2 sm:mb-3">
                   Message Received!
                 </h3>
-                <p className="text-white/50 leading-relaxed max-w-sm">
+                <p className="text-white/50 text-sm sm:text-base leading-relaxed max-w-sm">
                   Thank you for reaching out. Our team will review your brief
                   and get back to you within 24 hours.
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="mt-8 text-[#E3A652] font-semibold text-sm hover:underline"
+                  className="mt-6 sm:mt-8 text-[#E3A652] font-semibold text-sm hover:underline active:underline min-h-[44px]"
                 >
                   Send another message
                 </button>
@@ -281,15 +281,15 @@ export default function Contact() {
             ) : (
               <form
                 onSubmit={handleSubmit}
-                className="flex flex-col gap-7"
+                className="flex flex-col gap-5 sm:gap-6 md:gap-7"
                 noValidate
                 aria-label="Project brief contact form"
               >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-7">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 md:gap-7">
                   <div>
                     <label
                       htmlFor="name"
-                      className="text-white/35 text-xs uppercase tracking-widest block mb-2"
+                      className="text-white/35 text-[0.6rem] sm:text-xs uppercase tracking-widest block mb-1.5 sm:mb-2"
                     >
                       Full Name *
                     </label>
@@ -313,7 +313,7 @@ export default function Contact() {
                   <div>
                     <label
                       htmlFor="org"
-                      className="text-white/35 text-xs uppercase tracking-widest block mb-2"
+                      className="text-white/35 text-[0.6rem] sm:text-xs uppercase tracking-widest block mb-1.5 sm:mb-2"
                     >
                       Organization
                     </label>
@@ -330,11 +330,11 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-7">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 md:gap-7">
                   <div>
                     <label
                       htmlFor="email"
-                      className="text-white/35 text-xs uppercase tracking-widest block mb-2"
+                      className="text-white/35 text-[0.6rem] sm:text-xs uppercase tracking-widest block mb-1.5 sm:mb-2"
                     >
                       Email *
                     </label>
@@ -357,7 +357,7 @@ export default function Contact() {
                   <div>
                     <label
                       htmlFor="phone"
-                      className="text-white/35 text-xs uppercase tracking-widest block mb-2"
+                      className="text-white/35 text-[0.6rem] sm:text-xs uppercase tracking-widest block mb-1.5 sm:mb-2"
                     >
                       Phone
                     </label>
@@ -379,7 +379,7 @@ export default function Contact() {
                 <div>
                   <label
                     htmlFor="projectType"
-                    className="text-white/35 text-xs uppercase tracking-widest block mb-2"
+                    className="text-white/35 text-[0.6rem] sm:text-xs uppercase tracking-widest block mb-1.5 sm:mb-2"
                   >
                     Project Type
                   </label>
@@ -405,7 +405,7 @@ export default function Contact() {
                 <div>
                   <label
                     htmlFor="message"
-                    className="text-white/35 text-xs uppercase tracking-widest block mb-2"
+                    className="text-white/35 text-[0.6rem] sm:text-xs uppercase tracking-widest block mb-1.5 sm:mb-2"
                   >
                     Project Brief *
                   </label>
@@ -427,7 +427,7 @@ export default function Contact() {
                 </div>
 
                 {error && (
-                  <p className="text-red-400 text-sm bg-red-400/10 border border-red-400/20 rounded-lg px-4 py-3">
+                  <p className="text-red-400 text-sm bg-red-400/10 border border-red-400/20 rounded-lg px-3 sm:px-4 py-2 sm:py-3">
                     {error}
                   </p>
                 )}
@@ -435,15 +435,16 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={sending || cooldown}
-                  className="self-start inline-flex items-center gap-3 text-[#050608] font-bold px-8 py-4 rounded-full hover:scale-105 transition-all duration-300 text-sm cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  className="self-start inline-flex items-center gap-2 sm:gap-3 text-[#050608] font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-full hover:scale-105 active:scale-[0.98] transition-all duration-300 text-xs sm:text-sm cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
                   style={{
                     background: "linear-gradient(135deg, #E3A652 0%, #D4913E 50%, #EDB96A 100%)",
                     boxShadow: "0 6px 20px rgba(227,166,82,0.35), 0 2px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.25)",
                     textShadow: "0 1px 0 rgba(255,255,255,0.2)",
+                    minHeight: "44px",
                   }}
                   aria-label="Submit your project brief"
                 >
-                  <Send size={16} className={sending ? "animate-pulse" : ""} />
+                  <Send size={14} className={sending ? "animate-pulse" : ""} />
                   {sending ? "Sending…" : cooldown ? "Please wait…" : "Send Project Brief"}
                 </button>
               </form>
@@ -451,24 +452,24 @@ export default function Contact() {
           </motion.div>
         </div>
 
-        {/* â”€â”€ Footer Bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-        <div className="mt-20 mb-2">
+        {/* ── Footer Bar ─────────────────────────────────────────── */}
+        <div className="mt-10 sm:mt-14 md:mt-20 mb-1 sm:mb-2">
           <div className="section-divider" />
         </div>
-        <div className="pt-8 flex flex-col items-center gap-6">
+        <div className="pt-4 sm:pt-6 md:pt-8 flex flex-col items-center gap-3 sm:gap-4 md:gap-6">
           {/* Social Media */}
-          <div className="flex items-center gap-5">
-            <p className="text-white/30 text-xs tracking-[0.15em] uppercase font-semibold mr-2">Follow Us</p>
+          <div className="flex items-center gap-2 sm:gap-3 md:gap-5 flex-wrap justify-center">
+            <p className="text-white/30 text-[0.55rem] sm:text-[0.6rem] md:text-xs tracking-[0.12em] sm:tracking-[0.15em] uppercase font-semibold mr-0.5 sm:mr-1 md:mr-2">Follow Us</p>
             {/* YouTube */}
             <a
               href="https://www.youtube.com/@bsrfilmsoriginal2461"
               target="_blank"
               rel="noopener noreferrer"
-              className="group w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 hover:-translate-y-1"
+              className="group w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-300 hover:-translate-y-1 active:scale-95"
               style={{ background: "linear-gradient(135deg, rgba(255,0,0,0.12) 0%, rgba(255,0,0,0.04) 100%)", border: "1px solid rgba(255,0,0,0.15)", boxShadow: "0 2px 10px rgba(0,0,0,0.2)" }}
               aria-label="BSR Films on YouTube"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="transition-transform duration-300 group-hover:scale-110">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="transition-transform duration-300 group-hover:scale-110 sm:w-5 sm:h-5">
                 <path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.55A3.02 3.02 0 00.5 6.19 31.6 31.6 0 000 12a31.6 31.6 0 00.5 5.81 3.02 3.02 0 002.12 2.14c1.88.55 9.38.55 9.38.55s7.5 0 9.38-.55a3.02 3.02 0 002.12-2.14A31.6 31.6 0 0024 12a31.6 31.6 0 00-.5-5.81z" fill="#FF0000" />
                 <path d="M9.75 15.02l6.25-3.52-6.25-3.52v7.04z" fill="white" />
               </svg>
@@ -478,11 +479,11 @@ export default function Contact() {
               href="https://www.facebook.com/people/BSR-Films/100064075840334/"
               target="_blank"
               rel="noopener noreferrer"
-              className="group w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 hover:-translate-y-1"
+              className="group w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-300 hover:-translate-y-1 active:scale-95"
               style={{ background: "linear-gradient(135deg, rgba(24,119,242,0.12) 0%, rgba(24,119,242,0.04) 100%)", border: "1px solid rgba(24,119,242,0.15)", boxShadow: "0 2px 10px rgba(0,0,0,0.2)" }}
               aria-label="BSR Films on Facebook"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="transition-transform duration-300 group-hover:scale-110">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="transition-transform duration-300 group-hover:scale-110 sm:w-5 sm:h-5">
                 <path d="M24 12c0-6.627-5.373-12-12-12S0 5.373 0 12c0 5.99 4.388 10.954 10.125 11.854V15.47H7.078V12h3.047V9.356c0-3.007 1.792-4.668 4.533-4.668 1.312 0 2.686.234 2.686.234v2.953H15.83c-1.491 0-1.956.925-1.956 1.875V12h3.328l-.532 3.47h-2.796v8.385C19.612 22.954 24 17.99 24 12z" fill="#1877F2" />
               </svg>
             </a>
@@ -491,11 +492,11 @@ export default function Contact() {
               href="https://www.instagram.com/bsrfilms"
               target="_blank"
               rel="noopener noreferrer"
-              className="group w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 hover:-translate-y-1"
+              className="group w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-300 hover:-translate-y-1 active:scale-95"
               style={{ background: "linear-gradient(135deg, rgba(225,48,108,0.12) 0%, rgba(252,175,69,0.04) 100%)", border: "1px solid rgba(225,48,108,0.15)", boxShadow: "0 2px 10px rgba(0,0,0,0.2)" }}
               aria-label="BSR Films on Instagram"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="transition-transform duration-300 group-hover:scale-110">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="transition-transform duration-300 group-hover:scale-110 sm:w-5 sm:h-5">
                 <defs>
                   <radialGradient id="ig-footer" cx="30%" cy="107%" r="150%">
                     <stop offset="0%" stopColor="#fdf497" />
@@ -511,12 +512,12 @@ export default function Contact() {
               </svg>
             </a>
           </div>
-          <div className="flex flex-col md:flex-row items-center justify-between w-full gap-4">
-            <p className="text-white/30 text-sm">
+          <div className="flex flex-col sm:flex-row items-center justify-between w-full gap-3 sm:gap-4 text-center sm:text-left">
+            <p className="text-white/30 text-xs sm:text-sm">
               &copy; {new Date().getFullYear()} BSR Films. All rights reserved.
               Raipur, Chhattisgarh, India.
             </p>
-            <p className="text-white/25 text-sm">
+            <p className="text-white/25 text-xs sm:text-sm">
               Empanelled with{" "}
               <span className="text-white/40">NFDC &middot; AIR Central Sales Unit &middot; Chhattisgarh Samvad</span>
             </p>
