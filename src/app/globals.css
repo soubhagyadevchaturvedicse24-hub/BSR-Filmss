@@ -377,14 +377,18 @@ body {
   }
 }
 
-/* Slow down marquee on mobile to reduce perceived jank */
+/* Slow down marquee on mobile to reduce jank */
 @media (max-width: 768px) {
+  .marquee-track {
+    will-change: auto;
+  }
+
   .marquee-track--left {
-    animation-duration: 28s;
+    animation-duration: 30s;
   }
 
   .marquee-track--right {
-    animation-duration: 28s;
+    animation-duration: 30s;
   }
 }
 
@@ -468,11 +472,10 @@ body {
   animation: grainShift 0.5s steps(3) infinite;
 }
 
-/* PERFORMANCE: Disable grain animation on mobile — saves significant GPU cycles */
+/* PERFORMANCE: Completely disable grain on mobile — saves significant GPU cycles */
 @media (max-width: 768px) {
   .film-grain::after {
-    animation: none;
-    opacity: calc(var(--grain-opacity) * 0.5);
+    display: none !important;
   }
 }
 
@@ -548,11 +551,12 @@ body {
   overflow: hidden;
 }
 
-/* PERFORMANCE: Reduce backdrop-filter on mobile */
+/* PERFORMANCE: Remove backdrop-filter entirely on mobile */
 @media (max-width: 768px) {
   .glass-card {
-    backdrop-filter: blur(12px) saturate(130%);
-    -webkit-backdrop-filter: blur(12px) saturate(130%);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(10, 12, 16, 0.92);
   }
 }
 
@@ -748,6 +752,13 @@ body {
   background-size: 20px 20px;
 }
 
+/* PERFORMANCE: Hide reel-dots on mobile */
+@media (max-width: 768px) {
+  .reel-dots {
+    display: none !important;
+  }
+}
+
 /* --- Animated border glow ----------------------------------------- */
 @keyframes borderGlow {
 
@@ -851,10 +862,16 @@ body {
 /* ── Global mobile performance ────────────────────────────────────── */
 @media (max-width: 768px) {
 
-  /* Reduce backdrop-filter intensity on mobile — biggest perf win */
+  /* Kill ALL backdrop-filter on mobile — biggest perf win */
   [style*="backdrop-filter"],
   [style*="backdropFilter"] {
-    --mobile-blur-override: 1;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Kill transition-all on mobile — use specific properties instead */
+  .transition-all {
+    transition-property: opacity, transform !important;
   }
 
   /* Disable expensive lens flare animations on mobile */
@@ -1259,9 +1276,11 @@ html.light header {
    SMOOTH SCROLL & PERFORMANCE HINTS
    ═══════════════════════════════════════════════════════════════════ */
 
-/* Optimize paint for fixed elements */
-.fixed {
-  will-change: transform;
+/* Optimize paint for fixed elements — only on desktop */
+@media (pointer: fine) {
+  .fixed {
+    will-change: transform;
+  }
 }
 
 /* Smooth momentum scrolling on iOS */
@@ -1303,8 +1322,8 @@ html.light header {
    SMOOTH ANIMATION REFINEMENTS
    ═══════════════════════════════════════════════════════════════════ */
 
-/* GPU-accelerate all animated sections for smoother scroll triggers */
-section {
+/* GPU-accelerate only the hero (pinned scroll) — NOT every section */
+#hero {
   will-change: auto;
   transform: translateZ(0);
 }

@@ -173,7 +173,7 @@ function SlideCard({ project: p, isActive, isPlaying, onPlay, onClose, onSlideTo
           <button
             onClick={(e) => { e.stopPropagation(); onClose(); }}
             className="absolute top-2 right-2 sm:top-3 sm:right-3 z-[15] w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-white text-sm font-bold transition-all duration-200 hover:scale-110 cursor-pointer"
-            style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)" }}
+            style={{ background: "rgba(0,0,0,0.75)", border: "1px solid rgba(255,255,255,0.2)" }}
             aria-label="Close video"
           >
             ✕
@@ -205,7 +205,7 @@ function SlideCard({ project: p, isActive, isPlaying, onPlay, onClose, onSlideTo
           {/* Tag badge */}
           <div className="absolute top-2 left-2 sm:top-3 sm:left-3 md:top-4 md:left-4 z-[6]">
             <span
-              className="text-[0.55rem] sm:text-[0.6rem] md:text-[0.65rem] font-bold tracking-[0.18em] uppercase px-2 sm:px-2.5 py-0.5 sm:py-1 rounded backdrop-blur-sm"
+              className="text-[0.55rem] sm:text-[0.6rem] md:text-[0.65rem] font-bold tracking-[0.18em] uppercase px-2 sm:px-2.5 py-0.5 sm:py-1 rounded"
               style={{ color: ts.text, background: ts.bg, border: `1px solid ${ts.border}` }}
             >
               {p.tag}
@@ -223,7 +223,7 @@ function SlideCard({ project: p, isActive, isPlaying, onPlay, onClose, onSlideTo
                   ? "linear-gradient(135deg, #E3A652 0%, #D4913E 50%, #EDB96A 100%)"
                   : "rgba(255,255,255,0.12)",
                 border: isActive ? "none" : "1.5px solid rgba(255,255,255,0.35)",
-                backdropFilter: "blur(10px)",
+                backdropFilter: isActive ? "blur(10px)" : "none",
                 boxShadow: isActive
                   ? "0 0 28px rgba(227,166,82,0.45), 0 6px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.25)"
                   : "0 4px 14px rgba(0,0,0,0.3)",
@@ -359,7 +359,7 @@ export default function Works() {
                 className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 md:p-5 transition-all duration-300 hover-lift cursor-pointer rounded-xl sm:rounded-2xl"
                 style={{
                   background: "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)",
-                  backdropFilter: "blur(12px)",
+                  ...(isMobile ? {} : { backdropFilter: "blur(12px)" }),
                   border: "1px solid rgba(255,255,255,0.12)",
                   boxShadow: "0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)",
                 }}
@@ -390,7 +390,7 @@ export default function Works() {
           <div key={dir} className={`absolute top-1/2 ${dir === "prev" ? "left-0.5 sm:left-2 md:left-10" : "right-0.5 sm:right-2 md:right-10"} -translate-y-1/2 z-[60]`}>
             <button
               onClick={() => dir === "prev" ? swiperRef.current?.slidePrev() : swiperRef.current?.slideNext()}
-              className="w-8 h-8 sm:w-9 sm:h-9 md:w-12 md:h-12 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all cursor-pointer"
+              className={`w-8 h-8 sm:w-9 sm:h-9 md:w-12 md:h-12 rounded-full flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all cursor-pointer${isMobile ? '' : ' backdrop-blur-md'}`}
               style={{
                 background: "linear-gradient(135deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 100%)",
                 border: "1px solid rgba(255,255,255,0.15)",
@@ -426,8 +426,8 @@ export default function Works() {
             coverflowEffect={{
               rotate: 0,
               stretch: 0,
-              depth: isMobile ? 60 : 140,
-              modifier: isMobile ? 1.2 : 2.5,
+              depth: isMobile ? 30 : 140,
+              modifier: isMobile ? 1 : 2.5,
               slideShadows: false,
             }}
             pagination={{ clickable: true }}

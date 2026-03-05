@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -35,6 +35,7 @@ export default function HeroCanvas() {
   const kickerRef = useRef<HTMLDivElement>(null);
   const canvasOverlayRef = useRef<HTMLDivElement>(null);
   const endOverlayRef = useRef<HTMLDivElement>(null);
+  const [mobile, setMobile] = useState(false);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -44,10 +45,11 @@ export default function HeroCanvas() {
     const container = containerRef.current!;
 
     const isMobile = getIsMobile();
+    setMobile(isMobile);
 
-    // On mobile, only load every 2nd frame → 60 frames
-    // This halves memory usage and network requests
-    const FRAME_STEP = isMobile ? 2 : 1;
+    // On mobile, only load every 3rd frame → 40 frames
+    // Drastically cuts memory, network requests & paint cost
+    const FRAME_STEP = isMobile ? 3 : 1;
     const TOTAL_FRAMES = Math.ceil(TOTAL_FRAMES_FULL / FRAME_STEP);
 
     // ── Frame registry ──
@@ -108,7 +110,7 @@ export default function HeroCanvas() {
           trigger: container,
           start: "top top",
           end: "+=200vh",
-          scrub: isMobile ? 1.8 : 1,
+          scrub: isMobile ? 2.2 : 1,
         },
       });
 
@@ -131,11 +133,11 @@ export default function HeroCanvas() {
         },
       }, 0);
 
-      // Track 2: Hero text exit
+      // Track 2: Hero text exit (no filter blur on mobile — expensive)
       tl.to(heroTextRef.current, {
         x: isMobile ? '-30vw' : '-40vw',
         opacity: 0,
-        filter: 'blur(10px)',
+        ...(isMobile ? {} : { filter: 'blur(10px)' }),
         ease: 'power2.in',
         duration: 0.35,
       }, 0);
@@ -144,7 +146,7 @@ export default function HeroCanvas() {
       tl.to(kickerRef.current, {
         y: -60,
         opacity: 0,
-        filter: 'blur(8px)',
+        ...(isMobile ? {} : { filter: 'blur(8px)' }),
         ease: 'power2.in',
         duration: 0.35,
       }, 0);
@@ -169,8 +171,8 @@ export default function HeroCanvas() {
     };
 
     // ── Batched frame preloader ──────────────────────────────────────
-    const BATCH_SIZE = isMobile ? 4 : 6;
-    const EARLY_INIT_THRESHOLD = isMobile ? 6 : 10;
+    const BATCH_SIZE = isMobile ? 3 : 6;
+    const EARLY_INIT_THRESHOLD = isMobile ? 4 : 10;
 
     const loadImage = (frameIdx: number, arrayIdx: number): Promise<void> => new Promise(resolve => {
       const img = new Image();
@@ -239,7 +241,6 @@ export default function HeroCanvas() {
           id="hero-canvas"
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ willChange: 'transform' }}
         />
 
         {/* Fallback gradient */}
@@ -274,14 +275,13 @@ export default function HeroCanvas() {
           <div
             ref={kickerRef}
             className="absolute top-[72px] sm:top-[88px] md:top-[120px] right-[3%] sm:right-[4%] md:right-[5%] z-30 text-right pointer-events-auto"
-            style={{ willChange: 'transform, opacity' }}
           >
             <motion.div
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
             >
-              <p className="text-[#E3A652] font-bold tracking-[0.1em] sm:tracking-[0.12em] md:tracking-[0.15em] text-[0.5rem] sm:text-[0.55rem] md:text-sm uppercase drop-shadow-[0_2px_10px_rgba(0,0,0,1)] bg-black/30 px-2 sm:px-2.5 md:px-4 py-0.5 sm:py-1 md:py-2 rounded-full backdrop-blur-sm">
+              <p className={`text-[#E3A652] font-bold tracking-[0.1em] sm:tracking-[0.12em] md:tracking-[0.15em] text-[0.5rem] sm:text-[0.55rem] md:text-sm uppercase drop-shadow-[0_2px_10px_rgba(0,0,0,1)] bg-black/30 px-2 sm:px-2.5 md:px-4 py-0.5 sm:py-1 md:py-2 rounded-full${mobile ? '' : ' backdrop-blur-sm'}`}>
                 Raipur, Chhattisgarh<br />
                 <span className="text-white">Est. 25+ Years</span>
               </p>
@@ -292,7 +292,6 @@ export default function HeroCanvas() {
           <div
             ref={heroTextRef}
             className="w-full max-w-[300px] sm:max-w-[380px] md:max-w-[480px] lg:max-w-[520px] pl-3 sm:pl-5 md:pl-16 lg:pl-24 pointer-events-auto flex flex-col justify-center"
-            style={{ willChange: "transform, opacity" }}
           >
             <motion.div
               initial={{ opacity: 0, x: -24 }}
@@ -409,9 +408,8 @@ export default function HeroCanvas() {
                 <div
                   className="relative rounded-xl sm:rounded-2xl p-3 sm:p-5 md:p-8 lg:p-10 shadow-2xl overflow-hidden"
                   style={{
-                    background: "rgba(255,255,255,0.05)",
-                    backdropFilter: "blur(20px) saturate(160%)",
-                    WebkitBackdropFilter: "blur(20px) saturate(160%)",
+                    background: mobile ? "rgba(10,12,16,0.92)" : "rgba(255,255,255,0.05)",
+                    ...(mobile ? {} : { backdropFilter: "blur(20px) saturate(160%)", WebkitBackdropFilter: "blur(20px) saturate(160%)" }),
                     border: "1px solid rgba(255,255,255,0.08)",
                     boxShadow: "0 8px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06)",
                   }}
@@ -448,9 +446,8 @@ export default function HeroCanvas() {
                       key={r.title}
                       className="relative rounded-xl sm:rounded-2xl overflow-hidden"
                       style={{
-                        background: "rgba(255,255,255,0.055)",
-                        backdropFilter: "blur(16px) saturate(140%)",
-                        WebkitBackdropFilter: "blur(16px) saturate(140%)",
+                        background: mobile ? "rgba(10,12,16,0.88)" : "rgba(255,255,255,0.055)",
+                        ...(mobile ? {} : { backdropFilter: "blur(16px) saturate(140%)", WebkitBackdropFilter: "blur(16px) saturate(140%)" }),
                         border: "1px solid rgba(255,255,255,0.08)",
                         borderLeft: "4px solid #E3A652",
                         boxShadow: "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)",

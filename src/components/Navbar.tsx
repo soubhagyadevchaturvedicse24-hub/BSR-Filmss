@@ -61,8 +61,8 @@ export default function Navbar() {
         transition={{ duration: .7, ease: [.22, 1, .36, 1] }}
         className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled
           ? isDark
-            ? "bg-[#050608]/90 backdrop-blur-md shadow-lg border-b border-white/10"
-            : "bg-[#F5F0E8]/90 backdrop-blur-md shadow-lg border-b border-black/5"
+            ? "bg-[#050608] shadow-lg border-b border-white/10"
+            : "bg-[#F5F0E8] shadow-lg border-b border-black/5"
           : "bg-transparent"
           }`}
         role="banner"
@@ -146,9 +146,7 @@ export default function Navbar() {
             transition={{ duration: .3 }}
             className="fixed inset-0 z-40 flex flex-col items-start justify-center px-8 sm:px-10 gap-6 sm:gap-8 md:hidden"
             style={{
-              background: isDark ? 'rgba(5,6,8,0.97)' : 'rgba(245,240,232,0.97)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
+              background: isDark ? 'rgba(5,6,8,0.98)' : 'rgba(245,240,232,0.98)',
             }}
             role="dialog" aria-modal="true"
           >

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 
 const services = [
@@ -31,6 +31,11 @@ export default function Services() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [hoveredBg, setHoveredBg] = useState<number>(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768 || window.matchMedia("(pointer: coarse)").matches);
+  }, []);
 
   const activeBg = openIndex !== null ? openIndex : hoveredBg;
 
@@ -44,8 +49,8 @@ export default function Services() {
       style={{ paddingTop: "3.5rem", paddingBottom: "3.5rem", minHeight: "60vh", background: "linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%)" }}
       aria-label="360 degree media services offered by BSR Films"
     >
-      {/* Crossfading background images — lazy-loaded */}
-      {services.map((s, i) => (
+      {/* Crossfading background images — skip on mobile for perf */}
+      {!isMobile && services.map((s, i) => (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           key={s.title}
@@ -108,7 +113,7 @@ export default function Services() {
                     ? 'linear-gradient(135deg, rgba(227,166,82,0.06) 0%, rgba(255,255,255,0.03) 100%)'
                     : 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)',
                   border: isOpen ? '1px solid rgba(227,166,82,0.2)' : '1px solid rgba(255,255,255,0.06)',
-                  backdropFilter: 'blur(12px)',
+                  ...(isMobile ? {} : { backdropFilter: 'blur(12px)' }),
                   boxShadow: isOpen
                     ? '0 8px 32px rgba(227,166,82,0.08), 0 0 0 1px rgba(227,166,82,0.05), inset 0 1px 0 rgba(255,255,255,0.04)'
                     : '0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.03)',

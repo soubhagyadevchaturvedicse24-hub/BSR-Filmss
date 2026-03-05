@@ -22,7 +22,7 @@ const buildTrack = (items: string[]) => [...items, ...items];
 
 function MarqueeBadge({ label }: { label: string }) {
   return (
-    <span className="px-3 sm:px-5 md:px-8 py-2 sm:py-3 md:py-4 rounded-full bg-white/5 border border-white/10 text-white/90 text-[0.65rem] sm:text-xs md:text-base font-medium whitespace-nowrap mx-1 sm:mx-2 md:mx-4 backdrop-blur-md flex items-center flex-shrink-0 transition-all duration-300 hover:bg-white/[0.08] hover:border-[#E3A652]/20 hover:shadow-[0_0_20px_rgba(227,166,82,0.08)] active:bg-white/[0.1]"
+    <span className="px-3 sm:px-5 md:px-8 py-2 sm:py-3 md:py-4 rounded-full bg-white/5 border border-white/10 text-white/90 text-[0.65rem] sm:text-xs md:text-base font-medium whitespace-nowrap mx-1 sm:mx-2 md:mx-4 flex items-center flex-shrink-0 active:bg-white/[0.1]"
       style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.3)" }}>
       <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#E3A652] mr-1.5 sm:mr-2 md:mr-3 flex-shrink-0" style={{ opacity: 0.85 }} />
       {label}
@@ -124,9 +124,8 @@ export default function Clients() {
         className="relative z-30 mx-auto text-center px-4 sm:px-6 md:px-10 py-4 sm:py-6 md:py-8 rounded-xl sm:rounded-2xl border-glow"
         style={{
           marginTop: "2rem",
-          background: "rgba(5,6,8,0.78)",
-          backdropFilter: "blur(24px) saturate(140%)",
-          WebkitBackdropFilter: "blur(24px) saturate(140%)",
+          background: isMobile ? "rgba(5,6,8,0.92)" : "rgba(5,6,8,0.78)",
+          ...(isMobile ? {} : { backdropFilter: "blur(24px) saturate(140%)", WebkitBackdropFilter: "blur(24px) saturate(140%)" }),
           border: "1px solid rgba(227,166,82,0.12)",
           boxShadow: "0 12px 56px rgba(0,0,0,0.7), 0 0 0 1px rgba(227,166,82,0.08), inset 0 1px 0 rgba(255,255,255,0.06), 0 0 80px rgba(227,166,82,0.05)",
           maxWidth: "560px",
