@@ -46,7 +46,7 @@ export default function About() {
   const member = team[teamIdx];
 
   return (
-    <section id="about" ref={ref} className="section-padding relative overflow-hidden" style={{ background: "linear-gradient(180deg, #050608 0%, #080a0e 50%, #050608 100%)" }} aria-label="About BSR Films">
+    <section id="about" ref={ref} className="section-padding relative overflow-hidden" style={{ background: "linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%)" }} aria-label="About BSR Films">
       {/* Decorative reel-dot pattern background */}
       <div className="absolute inset-0 reel-dots opacity-40 pointer-events-none" aria-hidden="true" />
       {/* Ambient lens flare */}
@@ -139,7 +139,7 @@ export default function About() {
                           draggable={false}
                         />
                       ) : (
-                    <div className="w-full h-full bg-[#0a0c10] flex items-center justify-center">
+                        <div className="w-full h-full bg-[#0a0c10] flex items-center justify-center">
                           <span className="text-6xl font-extrabold text-[#E3A652]/40 select-none">
                             {member.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
                           </span>

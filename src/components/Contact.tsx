@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, FormEvent } from "react";
+import { useRef, useState, useCallback, FormEvent } from "react";
 import { motion, useInView } from "framer-motion";
 import { Mail, Phone, MapPin, Send, ArrowRight } from "lucide-react";
 
@@ -35,6 +35,30 @@ const initialForm: FormState = {
   message: "",
 };
 
+type FieldErrors = Partial<Record<keyof FormState, string>>;
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const PHONE_REGEX = /^\+?[0-9\s\-()]{10,15}$/;
+const COOLDOWN_MS = 30_000; // 30-second rate limit after submission
+
+function validateForm(form: FormState): FieldErrors {
+  const errors: FieldErrors = {};
+  const name = form.name.trim();
+  const email = form.email.trim();
+  const phone = form.phone.trim();
+  const message = form.message.trim();
+
+  if (!name || name.length < 2) errors.name = "Name must be at least 2 characters.";
+  if (name.length > 100) errors.name = "Name must be under 100 characters.";
+  if (!email) errors.email = "Email is required.";
+  else if (!EMAIL_REGEX.test(email)) errors.email = "Please enter a valid email address.";
+  if (phone && !PHONE_REGEX.test(phone)) errors.phone = "Please enter a valid phone number.";
+  if (!message || message.length < 10) errors.message = "Please describe your project (min 10 characters).";
+  if (message.length > 2000) errors.message = "Message must be under 2000 characters.";
+
+  return errors;
+}
+
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
   const inView = useInView(sectionRef, { once: true, margin: "-80px" });
@@ -43,6 +67,8 @@ export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [cooldown, setCooldown] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -52,25 +78,48 @@ export default function Contact() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const startCooldown = useCallback(() => {
+    setCooldown(true);
+    setTimeout(() => setCooldown(false), COOLDOWN_MS);
+  }, []);
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setSending(true);
     setError(null);
+
+    // Client-side validation
+    const errors = validateForm(form);
+    setFieldErrors(errors);
+    if (Object.keys(errors).length > 0) return;
+
+    // Rate-limit guard
+    if (cooldown) {
+      setError("Please wait before submitting again.");
+      return;
+    }
+
+    const apiKey = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
+    if (!apiKey) {
+      setError("Form configuration error. Please contact us directly via email.");
+      return;
+    }
+
+    setSending(true);
 
     try {
       const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
-          access_key: "0ba34f6c-78ab-4c2e-8c14-05afcb7da401",
-          subject: `New Project Brief from ${form.name}`,
+          access_key: apiKey,
+          subject: `New Project Brief from ${form.name.trim()}`,
           from_name: "BSR Films Website",
-          name: form.name,
-          organization: form.org,
-          email: form.email,
-          phone: form.phone,
+          name: form.name.trim(),
+          organization: form.org.trim(),
+          email: form.email.trim(),
+          phone: form.phone.trim(),
           project_type: form.projectType,
-          message: form.message,
+          message: form.message.trim(),
         }),
       });
 
@@ -78,6 +127,8 @@ export default function Contact() {
       if (data.success) {
         setSubmitted(true);
         setForm(initialForm);
+        setFieldErrors({});
+        startCooldown();
       } else {
         throw new Error(data.message || "Submission failed");
       }
@@ -93,7 +144,7 @@ export default function Contact() {
       id="contact"
       ref={sectionRef}
       className="section-padding relative overflow-hidden"
-      style={{ background: "linear-gradient(180deg, #050608 0%, #080a0e 50%, #050608 100%)" }}
+      style={{ background: "linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%)" }}
       aria-label="Contact BSR Films for your project"
     >
       {/* Decorative reel-dot pattern */}
@@ -247,13 +298,16 @@ export default function Contact() {
                       name="name"
                       type="text"
                       required
+                      maxLength={100}
                       autoComplete="name"
                       placeholder="Rajesh Kumar"
                       value={form.name}
                       onChange={handleChange}
-                      className="form-input"
+                      className={`form-input ${fieldErrors.name ? 'border-red-400/50' : ''}`}
                       aria-required="true"
+                      aria-invalid={!!fieldErrors.name}
                     />
+                    {fieldErrors.name && <p className="text-red-400 text-xs mt-1">{fieldErrors.name}</p>}
                   </div>
 
                   <div>
@@ -293,9 +347,11 @@ export default function Contact() {
                       placeholder="you@example.com"
                       value={form.email}
                       onChange={handleChange}
-                      className="form-input"
+                      className={`form-input ${fieldErrors.email ? 'border-red-400/50' : ''}`}
                       aria-required="true"
+                      aria-invalid={!!fieldErrors.email}
                     />
+                    {fieldErrors.email && <p className="text-red-400 text-xs mt-1">{fieldErrors.email}</p>}
                   </div>
 
                   <div>
@@ -313,8 +369,10 @@ export default function Contact() {
                       placeholder="+91 98765 43210"
                       value={form.phone}
                       onChange={handleChange}
-                      className="form-input"
+                      className={`form-input ${fieldErrors.phone ? 'border-red-400/50' : ''}`}
+                      aria-invalid={!!fieldErrors.phone}
                     />
+                    {fieldErrors.phone && <p className="text-red-400 text-xs mt-1">{fieldErrors.phone}</p>}
                   </div>
                 </div>
 
@@ -356,12 +414,16 @@ export default function Contact() {
                     name="message"
                     required
                     rows={4}
+                    maxLength={2000}
                     placeholder="Tell us about your project — scope, timeline, goals…"
                     value={form.message}
                     onChange={handleChange}
-                    className="form-input resize-none"
+                    className={`form-input resize-none ${fieldErrors.message ? 'border-red-400/50' : ''}`}
                     aria-required="true"
+                    aria-invalid={!!fieldErrors.message}
                   />
+                  {fieldErrors.message && <p className="text-red-400 text-xs mt-1">{fieldErrors.message}</p>}
+                  <p className="text-white/20 text-xs mt-1 text-right">{form.message.length} / 2000</p>
                 </div>
 
                 {error && (
@@ -372,7 +434,7 @@ export default function Contact() {
 
                 <button
                   type="submit"
-                  disabled={sending}
+                  disabled={sending || cooldown}
                   className="self-start inline-flex items-center gap-3 text-[#050608] font-bold px-8 py-4 rounded-full hover:scale-105 transition-all duration-300 text-sm cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
                   style={{
                     background: "linear-gradient(135deg, #E3A652 0%, #D4913E 50%, #EDB96A 100%)",
@@ -382,7 +444,7 @@ export default function Contact() {
                   aria-label="Submit your project brief"
                 >
                   <Send size={16} className={sending ? "animate-pulse" : ""} />
-                  {sending ? "Sending…" : "Send Project Brief"}
+                  {sending ? "Sending…" : cooldown ? "Please wait…" : "Send Project Brief"}
                 </button>
               </form>
             )}
@@ -399,7 +461,7 @@ export default function Contact() {
             <p className="text-white/30 text-xs tracking-[0.15em] uppercase font-semibold mr-2">Follow Us</p>
             {/* YouTube */}
             <a
-              href="https://www.youtube.com/@bsrfilms"
+              href="https://www.youtube.com/@bsrfilmsoriginal2461"
               target="_blank"
               rel="noopener noreferrer"
               className="group w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 hover:-translate-y-1"
@@ -407,13 +469,13 @@ export default function Contact() {
               aria-label="BSR Films on YouTube"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="transition-transform duration-300 group-hover:scale-110">
-                <path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.55A3.02 3.02 0 00.5 6.19 31.6 31.6 0 000 12a31.6 31.6 0 00.5 5.81 3.02 3.02 0 002.12 2.14c1.88.55 9.38.55 9.38.55s7.5 0 9.38-.55a3.02 3.02 0 002.12-2.14A31.6 31.6 0 0024 12a31.6 31.6 0 00-.5-5.81z" fill="#FF0000"/>
-                <path d="M9.75 15.02l6.25-3.52-6.25-3.52v7.04z" fill="white"/>
+                <path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.55A3.02 3.02 0 00.5 6.19 31.6 31.6 0 000 12a31.6 31.6 0 00.5 5.81 3.02 3.02 0 002.12 2.14c1.88.55 9.38.55 9.38.55s7.5 0 9.38-.55a3.02 3.02 0 002.12-2.14A31.6 31.6 0 0024 12a31.6 31.6 0 00-.5-5.81z" fill="#FF0000" />
+                <path d="M9.75 15.02l6.25-3.52-6.25-3.52v7.04z" fill="white" />
               </svg>
             </a>
             {/* Facebook */}
             <a
-              href="https://www.facebook.com/bsrfilms"
+              href="https://www.facebook.com/people/BSR-Films/100064075840334/"
               target="_blank"
               rel="noopener noreferrer"
               className="group w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 hover:-translate-y-1"
@@ -421,7 +483,7 @@ export default function Contact() {
               aria-label="BSR Films on Facebook"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="transition-transform duration-300 group-hover:scale-110">
-                <path d="M24 12c0-6.627-5.373-12-12-12S0 5.373 0 12c0 5.99 4.388 10.954 10.125 11.854V15.47H7.078V12h3.047V9.356c0-3.007 1.792-4.668 4.533-4.668 1.312 0 2.686.234 2.686.234v2.953H15.83c-1.491 0-1.956.925-1.956 1.875V12h3.328l-.532 3.47h-2.796v8.385C19.612 22.954 24 17.99 24 12z" fill="#1877F2"/>
+                <path d="M24 12c0-6.627-5.373-12-12-12S0 5.373 0 12c0 5.99 4.388 10.954 10.125 11.854V15.47H7.078V12h3.047V9.356c0-3.007 1.792-4.668 4.533-4.668 1.312 0 2.686.234 2.686.234v2.953H15.83c-1.491 0-1.956.925-1.956 1.875V12h3.328l-.532 3.47h-2.796v8.385C19.612 22.954 24 17.99 24 12z" fill="#1877F2" />
               </svg>
             </a>
             {/* Instagram */}
@@ -436,16 +498,16 @@ export default function Contact() {
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="transition-transform duration-300 group-hover:scale-110">
                 <defs>
                   <radialGradient id="ig-footer" cx="30%" cy="107%" r="150%">
-                    <stop offset="0%" stopColor="#fdf497"/>
-                    <stop offset="5%" stopColor="#fdf497"/>
-                    <stop offset="45%" stopColor="#fd5949"/>
-                    <stop offset="60%" stopColor="#d6249f"/>
-                    <stop offset="90%" stopColor="#285AEB"/>
+                    <stop offset="0%" stopColor="#fdf497" />
+                    <stop offset="5%" stopColor="#fdf497" />
+                    <stop offset="45%" stopColor="#fd5949" />
+                    <stop offset="60%" stopColor="#d6249f" />
+                    <stop offset="90%" stopColor="#285AEB" />
                   </radialGradient>
                 </defs>
-                <rect x="2" y="2" width="20" height="20" rx="5" fill="url(#ig-footer)"/>
-                <circle cx="12" cy="12" r="5" stroke="white" strokeWidth="2" fill="none"/>
-                <circle cx="17.5" cy="6.5" r="1.5" fill="white"/>
+                <rect x="2" y="2" width="20" height="20" rx="5" fill="url(#ig-footer)" />
+                <circle cx="12" cy="12" r="5" stroke="white" strokeWidth="2" fill="none" />
+                <circle cx="17.5" cy="6.5" r="1.5" fill="white" />
               </svg>
             </a>
           </div>

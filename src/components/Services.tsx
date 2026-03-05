@@ -42,7 +42,7 @@ export default function Services() {
       id="services"
       ref={ref}
       className="relative overflow-hidden"
-      style={{ paddingTop: "7rem", paddingBottom: "7rem", minHeight: "70vh", background: "linear-gradient(180deg, #050608 0%, #0a0c12 50%, #050608 100%)" }}
+      style={{ paddingTop: "7rem", paddingBottom: "7rem", minHeight: "70vh", background: "linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%)" }}
       aria-label="360 degree media services offered by BSR Films"
     >
       {/* Crossfading background images */}

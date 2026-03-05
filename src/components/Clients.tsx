@@ -79,8 +79,8 @@ export default function Clients() {
       <div className="absolute inset-0 bg-[#050608]/85 backdrop-blur-sm z-0" aria-hidden="true" />
 
       {/* Page-blend top/bottom edge fades */}
-      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-36 pointer-events-none z-10" style={{ background: "linear-gradient(to bottom, #050608, transparent)" }} />
-      <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-36 pointer-events-none z-10" style={{ background: "linear-gradient(to top, #050608, transparent)" }} />
+      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-36 pointer-events-none z-10" style={{ background: "linear-gradient(to bottom, var(--bg-primary), transparent)" }} />
+      <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-36 pointer-events-none z-10" style={{ background: "linear-gradient(to top, var(--bg-primary), transparent)" }} />
 
       {/* ── Floating glass card ── */}
       <motion.div

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 export const metadata: Metadata = {
   title: "BSR Films | Media Production House — Raipur, Chhattisgarh",
@@ -30,13 +31,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth dark" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/bsr-favicon.png" type="image/png" />
         <link rel="apple-touch-icon" href="/bsr-favicon.png" />
-        {/* Font loaded via @import in globals.css — no duplicate <link> needed */}
+        {/* Inline script: apply saved theme before paint to prevent FOUC */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('bsr-theme');if(t==='light'){document.documentElement.classList.remove('dark');document.documentElement.classList.add('light')}}catch(e){}})()`,
+          }}
+        />
       </head>
-      <body className="antialiased film-grain">{children}</body>
+      <body className="antialiased film-grain">
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

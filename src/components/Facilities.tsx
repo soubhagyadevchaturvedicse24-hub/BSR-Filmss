@@ -56,7 +56,8 @@ export default function Facilities() {
     <section
       id="facilities"
       ref={sectionRef}
-      className="bg-[#101218] section-padding"
+      className="section-padding"
+      style={{ backgroundColor: "var(--bg-secondary)" }}
       aria-label="BSR Films state-of-the-art facilities"
     >
       <div className="max-w-screen-xl mx-auto">

@@ -44,6 +44,7 @@ export default function HeroCanvas() {
     let loadedCount = 0;
     let currentFrame = 0;
     let stReady = false;
+    let rafPending = false; // throttle canvas draws to 1 per animation frame
 
     // â”€â”€ Draw helper: cover-fit image on canvas â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const drawFrame = (idx: number) => {
@@ -81,7 +82,7 @@ export default function HeroCanvas() {
       drawFrame(0); // paint frame 0 immediately
 
       // Set initial states
-      gsap.set(endOverlayRef.current,   { opacity: 0, y: 80, pointerEvents: 'none' });
+      gsap.set(endOverlayRef.current, { opacity: 0, y: 80, pointerEvents: 'none' });
       gsap.set(canvasOverlayRef.current, { opacity: 0 });
       // Guarantee heroTextRef starts at its visible resting position before GSAP takes over
       gsap.set(heroTextRef.current, { x: 0, opacity: 1, filter: 'none' });
@@ -111,8 +112,16 @@ export default function HeroCanvas() {
         duration: 1,        // anchors the timeline length
         onUpdate() {
           const idx = Math.min(Math.round(frameProxy.frame), TOTAL_FRAMES - 1);
+          if (idx === currentFrame) return; // skip if same frame
           currentFrame = idx;
-          drawFrame(currentFrame);
+          // Throttle to 1 draw per animation frame (prevents jank from rapid GSAP ticks)
+          if (!rafPending) {
+            rafPending = true;
+            requestAnimationFrame(() => {
+              drawFrame(currentFrame);
+              rafPending = false;
+            });
+          }
         },
       }, 0);
 
@@ -153,31 +162,47 @@ export default function HeroCanvas() {
         }, 0.7);
     };
 
-    // â”€â”€ Eager preload with progressive first-frame paint â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    for (let i = 0; i < TOTAL_FRAMES; i++) {
+    // ── Batched frame preloader (6 concurrent max) ────────────────────────
+    // Instead of 120 simultaneous requests which floods the connection pool,
+    // we load in small batches. ScrollTrigger inits after the first batch.
+    const BATCH_SIZE = 6;
+    const EARLY_INIT_THRESHOLD = 10; // init ST after this many frames loaded
+
+    const loadImage = (i: number): Promise<void> => new Promise(resolve => {
       const img = new Image();
       img.decoding = "async";
       img.src = frameUrl(i);
-
       img.onload = () => {
         loadedCount++;
-        if (i === 0 && !stReady) drawFrame(0); // show first frame ASAP
-        if (loadedCount === TOTAL_FRAMES && !stReady) {
+        if (i === 0) drawFrame(0); // show first frame ASAP
+        if (loadedCount >= EARLY_INIT_THRESHOLD && !stReady) {
           stReady = true;
           setupScrollTrigger();
         }
+        resolve();
       };
-
       img.onerror = () => {
         loadedCount++;
-        if (loadedCount === TOTAL_FRAMES && !stReady) {
+        if (loadedCount >= EARLY_INIT_THRESHOLD && !stReady) {
           stReady = true;
           setupScrollTrigger();
         }
+        resolve();
       };
-
       images[i] = img;
-    }
+    });
+
+    // Load frames in sequential batches of BATCH_SIZE
+    const loadAllFrames = async () => {
+      for (let start = 0; start < TOTAL_FRAMES; start += BATCH_SIZE) {
+        const batch = [];
+        for (let i = start; i < Math.min(start + BATCH_SIZE, TOTAL_FRAMES); i++) {
+          batch.push(loadImage(i));
+        }
+        await Promise.all(batch);
+      }
+    };
+    loadAllFrames();
 
     // Fallback: init ScrollTrigger even if some frames fail to load
     const fallback = setTimeout(() => {
@@ -214,6 +239,7 @@ export default function HeroCanvas() {
           id="hero-canvas"
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover"
+          style={{ willChange: 'transform' }}
         />
 
         {/* Fallback gradient background when frames are missing */}
@@ -250,16 +276,16 @@ export default function HeroCanvas() {
             className="absolute top-[100px] md:top-[120px] right-[4%] md:right-[5%] z-30 text-right pointer-events-auto"
             style={{ willChange: 'transform, opacity' }}
           >
-          <motion.div
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-          >
-            <p className="text-[#E3A652] font-bold tracking-[0.12em] md:tracking-[0.15em] text-[0.6rem] md:text-sm uppercase drop-shadow-[0_2px_10px_rgba(0,0,0,1)] bg-black/30 px-3 md:px-4 py-1.5 md:py-2 rounded-full backdrop-blur-sm">
-              Raipur, Chhattisgarh<br />
-              <span className="text-white">Est. 25+ Years</span>
-            </p>
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+            >
+              <p className="text-[#E3A652] font-bold tracking-[0.12em] md:tracking-[0.15em] text-[0.6rem] md:text-sm uppercase drop-shadow-[0_2px_10px_rgba(0,0,0,1)] bg-black/30 px-3 md:px-4 py-1.5 md:py-2 rounded-full backdrop-blur-sm">
+                Raipur, Chhattisgarh<br />
+                <span className="text-white">Est. 25+ Years</span>
+              </p>
+            </motion.div>
           </div>
 
           {/* GSAP exit wrapper (plain div) -- Framer Motion entry lives inside so they never conflict */}
@@ -274,77 +300,77 @@ export default function HeroCanvas() {
               transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-col justify-center"
             >
-            {/* Cascading H1 -- smallest -> medium -> largest */}
-            <motion.h1
-              initial={{ opacity: 0, y: 32 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.52, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-              className="font-extrabold leading-[1.05] tracking-tight mb-4 md:mb-6 drop-shadow-2xl flex flex-col items-start"
-            >
-              <span className="text-2xl md:text-4xl lg:text-5xl text-white/90">
-                Stories from
-              </span>
-              <span className="text-3xl md:text-5xl lg:text-6xl text-[#E3A652] my-1 md:my-2">
-                the heart of
-              </span>
-              <span className="text-4xl md:text-6xl lg:text-[4.5rem] text-white">
-                Chhattisgarh
-              </span>
-            </motion.h1>
-
-            {/* Subtitle */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.72, duration: 0.85 }}
-              className="text-sm md:text-base lg:text-lg text-white/80 leading-relaxed mb-8 md:mb-10 max-w-[400px] drop-shadow-md"
-            >
-              Documentaries, ad films and social campaigns &mdash; crafted with
-              cinematic precision from the heart of India.
-            </motion.p>
-
-            {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.88, duration: 0.75 }}
-              className="flex flex-wrap items-center gap-3 md:gap-4 mb-8 md:mb-10"
-            >
-              <a
-                href="#work"
-                onClick={e => { e.preventDefault(); document.querySelector('#work')?.scrollIntoView({ behavior:'smooth' }); }}
-                className="cta-primary"
-                aria-label="View our work"
+              {/* Cascading H1 -- smallest -> medium -> largest */}
+              <motion.h1
+                initial={{ opacity: 0, y: 32 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.52, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                className="font-extrabold leading-[1.05] tracking-tight mb-4 md:mb-6 drop-shadow-2xl flex flex-col items-start"
               >
-                View Our Work
-                <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
-                  <path d="M1 5h12M8 1l5 4-5 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </a>
-              <a
-                href="#contact"
-                onClick={e => { e.preventDefault(); document.querySelector('#contact')?.scrollIntoView({ behavior:'smooth' }); }}
-                className="cta-ghost"
-                aria-label="Contact us for a project"
-              >
-                Start a Project
-              </a>
-            </motion.div>
+                <span className="text-2xl md:text-4xl lg:text-5xl text-white/90">
+                  Stories from
+                </span>
+                <span className="text-3xl md:text-5xl lg:text-6xl text-[#E3A652] my-1 md:my-2">
+                  the heart of
+                </span>
+                <span className="text-4xl md:text-6xl lg:text-[4.5rem] text-white">
+                  Chhattisgarh
+                </span>
+              </motion.h1>
 
-            {/* Stat strip */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.15, duration: 1 }}
-              className="pt-4 md:pt-6 border-t border-white/10 flex flex-wrap gap-5 md:gap-8"
-            >
-              {[['25+','Years of Experience'],['500+','Projects Delivered'],['20+','Govt. Bodies']].map(([n,l]) => (
-                <div key={l}>
-                  <p className="text-2xl md:text-3xl font-extrabold text-white leading-none">{n}</p>
-                  <p className="text-white/35 text-[.68rem] tracking-[.15em] uppercase mt-1">{l}</p>
-                </div>
-              ))}
-            </motion.div>
+              {/* Subtitle */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.72, duration: 0.85 }}
+                className="text-sm md:text-base lg:text-lg text-white/80 leading-relaxed mb-8 md:mb-10 max-w-[400px] drop-shadow-md"
+              >
+                Documentaries, ad films and social campaigns &mdash; crafted with
+                cinematic precision from the heart of India.
+              </motion.p>
+
+              {/* CTAs */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.88, duration: 0.75 }}
+                className="flex flex-wrap items-center gap-3 md:gap-4 mb-8 md:mb-10"
+              >
+                <a
+                  href="#work"
+                  onClick={e => { e.preventDefault(); document.querySelector('#work')?.scrollIntoView({ behavior: 'smooth' }); }}
+                  className="cta-primary"
+                  aria-label="View our work"
+                >
+                  View Our Work
+                  <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
+                    <path d="M1 5h12M8 1l5 4-5 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </a>
+                <a
+                  href="#contact"
+                  onClick={e => { e.preventDefault(); document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' }); }}
+                  className="cta-ghost"
+                  aria-label="Contact us for a project"
+                >
+                  Start a Project
+                </a>
+              </motion.div>
+
+              {/* Stat strip */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.15, duration: 1 }}
+                className="pt-4 md:pt-6 border-t border-white/10 flex flex-wrap gap-5 md:gap-8"
+              >
+                {[['25+', 'Years of Experience'], ['500+', 'Projects Delivered'], ['20+', 'Govt. Bodies']].map(([n, l]) => (
+                  <div key={l}>
+                    <p className="text-2xl md:text-3xl font-extrabold text-white leading-none">{n}</p>
+                    <p className="text-white/35 text-[.68rem] tracking-[.15em] uppercase mt-1">{l}</p>
+                  </div>
+                ))}
+              </motion.div>
             </motion.div>{/* end inner Framer entry div */}
           </div>{/* end outer GSAP heroTextRef div */}
         </div>

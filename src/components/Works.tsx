@@ -29,23 +29,23 @@ interface Project {
 }
 
 const projects: Project[] = [
-  { id: 1, tag: "Documentary",  title: "DOCUMENTARY FILMS",    desc: "Telling real stories from the soul of Chhattisgarh.", yt: "https://youtu.be/bg0PxI6_QZI?si=Wrwnp5ZfK5rsW1-x", accent: "#34d399" },
-  { id: 2, tag: "Corporate",   title: "CORPORATE FILMS",      desc: "Cinematic storytelling for global brands.",           yt: "https://youtu.be/pyAS6rpfw0Y?si=k0cS-UyAKMb3rUj1", accent: "#60a5fa" },
-  { id: 3, tag: "Ad Film",     title: "AD FILMS & JINGLES",   desc: "Creative TVCs that capture hearts at first frame.",   yt: "https://youtu.be/WxsYGECivmQ?si=Pzujhxe-bRQ_rkkN", accent: "#E3A652" },
-  { id: 4, tag: "Audio",       title: "AUDIO PRODUCTION",     desc: "Memorable audio production that stays with you.",     yt: "https://youtu.be/up7w3WY_dvI?si=2DrbR25LBJv8lcBG", accent: "#f472b6" },
-  { id: 5, tag: "Animation",   title: "ANIMATION & VFX",      desc: "Bringing imagination to life with cutting-edge tech.", yt: "https://youtu.be/g4OJZP6sa18",                      accent: "#c084fc" },
-  { id: 6, tag: "Event",       title: "EVENT COVERAGE",       desc: "Impactful event films across 27 districts.",          yt: "https://youtu.be/HlEgtE828N4?si=v_3aFWU1DYFj0kiu", accent: "#38bdf8" },
-  { id: 7, tag: "Short Film",  title: "SHORT FILMS",          desc: "Compact cinematic narratives with lasting impact.",   yt: "https://youtu.be/nBjr3Qgd0LY?si=7WUdVlRymjHjfQ8L", accent: "#fb923c" },
+  { id: 1, tag: "Documentary", title: "DOCUMENTARY FILMS", desc: "Telling real stories from the soul of Chhattisgarh.", yt: "https://youtu.be/bg0PxI6_QZI?si=Wrwnp5ZfK5rsW1-x", accent: "#34d399" },
+  { id: 2, tag: "Corporate", title: "CORPORATE FILMS", desc: "Cinematic storytelling for global brands.", yt: "https://youtu.be/pyAS6rpfw0Y?si=k0cS-UyAKMb3rUj1", accent: "#60a5fa" },
+  { id: 3, tag: "Ad Film", title: "AD FILMS & JINGLES", desc: "Creative TVCs that capture hearts at first frame.", yt: "https://youtu.be/WxsYGECivmQ?si=Pzujhxe-bRQ_rkkN", accent: "#E3A652" },
+  { id: 4, tag: "Audio", title: "AUDIO PRODUCTION", desc: "Memorable audio production that stays with you.", yt: "https://youtu.be/up7w3WY_dvI?si=2DrbR25LBJv8lcBG", accent: "#f472b6" },
+  { id: 5, tag: "Animation", title: "ANIMATION & VFX", desc: "Bringing imagination to life with cutting-edge tech.", yt: "https://youtu.be/g4OJZP6sa18", accent: "#c084fc" },
+  { id: 6, tag: "Event", title: "EVENT COVERAGE", desc: "Impactful event films across 27 districts.", yt: "https://youtu.be/HlEgtE828N4?si=v_3aFWU1DYFj0kiu", accent: "#38bdf8" },
+  { id: 7, tag: "Short Film", title: "SHORT FILMS", desc: "Compact cinematic narratives with lasting impact.", yt: "https://youtu.be/nBjr3Qgd0LY?si=7WUdVlRymjHjfQ8L", accent: "#fb923c" },
 ];
 
 const TAG_STYLE: Record<string, { bg: string; border: string; text: string }> = {
-  Documentary:  { bg: "rgba(52,211,153,0.15)",  border: "rgba(52,211,153,0.4)",  text: "#34d399" },
-  Corporate:    { bg: "rgba(96,165,250,0.15)",  border: "rgba(96,165,250,0.4)",  text: "#60a5fa" },
-  "Ad Film":    { bg: "rgba(227,166,82,0.15)",  border: "rgba(227,166,82,0.4)",  text: "#E3A652" },
-  Audio:        { bg: "rgba(244,114,182,0.15)", border: "rgba(244,114,182,0.4)", text: "#f472b6" },
-  Animation:    { bg: "rgba(192,132,252,0.15)", border: "rgba(192,132,252,0.4)", text: "#c084fc" },
-  Event:        { bg: "rgba(56,189,248,0.15)",  border: "rgba(56,189,248,0.4)",  text: "#38bdf8" },
-  "Short Film": { bg: "rgba(251,146,60,0.15)",  border: "rgba(251,146,60,0.4)",  text: "#fb923c" },
+  Documentary: { bg: "rgba(52,211,153,0.15)", border: "rgba(52,211,153,0.4)", text: "#34d399" },
+  Corporate: { bg: "rgba(96,165,250,0.15)", border: "rgba(96,165,250,0.4)", text: "#60a5fa" },
+  "Ad Film": { bg: "rgba(227,166,82,0.15)", border: "rgba(227,166,82,0.4)", text: "#E3A652" },
+  Audio: { bg: "rgba(244,114,182,0.15)", border: "rgba(244,114,182,0.4)", text: "#f472b6" },
+  Animation: { bg: "rgba(192,132,252,0.15)", border: "rgba(192,132,252,0.4)", text: "#c084fc" },
+  Event: { bg: "rgba(56,189,248,0.15)", border: "rgba(56,189,248,0.4)", text: "#38bdf8" },
+  "Short Film": { bg: "rgba(251,146,60,0.15)", border: "rgba(251,146,60,0.4)", text: "#fb923c" },
 };
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -302,8 +302,8 @@ export default function Works() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-      className="relative bg-[#050608]"
-      style={{ zIndex: 10, paddingTop: "5rem", paddingBottom: "6rem" }}
+      className="relative"
+      style={{ zIndex: 10, paddingTop: "5rem", paddingBottom: "6rem", backgroundColor: "var(--bg-primary)" }}
       aria-label="Selected Works"
     >
       <style>{SWIPER_CSS}</style>
