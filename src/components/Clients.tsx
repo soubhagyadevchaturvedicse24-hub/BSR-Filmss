@@ -96,21 +96,10 @@ export default function Clients() {
       className={`relative overflow-hidden min-h-[60vh] z-10 ${isDesktop ? '-mt-[100vh]' : ''}`}
       aria-label="Organizations and government departments that trust BSR Films"
     >
-      {/* Full-bleed background — WebP poster on mobile, video on desktop */}
-      {isMobile ? (
-        <img
-          src="/bsr-brand.webp"
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-contain object-bottom"
-          style={{ background: 'var(--bg-primary)' }}
-          loading="lazy"
-          decoding="async"
-        />
-      ) : (
+      {/* Full-bleed background — static image on mobile, video on desktop only */}
+      {isDesktop ? (
         <video
           ref={videoRef}
-          src="/hero-bg.mp4"
           autoPlay
           muted
           loop
@@ -119,6 +108,19 @@ export default function Clients() {
           poster="/bsr-brand.png"
           className="absolute inset-0 w-full h-full object-cover"
           aria-hidden="true"
+        >
+          <source src="/clients-bg.webm" type="video/webm" />
+          <source src="/clients-bg.mp4" type="video/mp4" />
+        </video>
+      ) : (
+        <img
+          src="/bsr-brand.webp"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-contain object-bottom"
+          style={{ background: 'var(--bg-primary)' }}
+          loading="lazy"
+          decoding="async"
         />
       )}
 
