@@ -380,7 +380,7 @@ body {
 /* Slow down marquee on mobile to reduce jank */
 @media (max-width: 768px) {
   .marquee-track {
-    will-change: auto;
+    will-change: transform;
   }
 
   .marquee-track--left {
@@ -928,6 +928,28 @@ body {
   .clients-overlay {
     background: rgba(5, 6, 8, 0.88) !important;
   }
+}
+
+/* ── Mobile-optimised marquee badge ─────────────────────────────────
+   Solid opaque bg — zero backdrop-filter, zero pseudo-element
+   animations, zero animated box-shadows. Pure GPU translate only. */
+.mobile-badge {
+  background: rgba(18, 20, 26, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  color: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  letter-spacing: 0.025em;
+}
+
+/* Static gold dot — no animation */
+.dot-gold-static {
+  background: #E3A652;
+  box-shadow: 0 0 4px 1px rgba(227, 166, 82, 0.5);
+}
+
+/* Paint isolation for mobile marquee containers */
+.mobile-marquee-container {
+  contain: content;
 }
 
 /* ── Mobile nav body scroll lock ──────────────────────────────────── */

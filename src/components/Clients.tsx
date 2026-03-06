@@ -46,19 +46,27 @@ function FullWidthMarquee({ items, direction }: { items: string[]; direction: "l
   );
 }
 
-/* Static wrapped grid for mobile — no animation, no duplicated track */
-function StaticBadgeGrid({ items }: { items: string[] }) {
+/* Lightweight badge for mobile — solid bg, no blur, no pseudo-element animations */
+function MobileBadge({ label }: { label: string }) {
   return (
-    <div className="flex flex-wrap justify-center gap-2 px-3">
-      {items.map((label) => (
-        <span
-          key={label}
-          className="px-4 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap flex items-center marquee-badge-styled"
-        >
-          <span className="w-1.5 h-1.5 rounded-full mr-2 flex-shrink-0 dot-gold-glow" />
-          {label}
-        </span>
-      ))}
+    <span className="px-5 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap mx-1.5 flex items-center flex-shrink-0 mobile-badge">
+      <span className="w-1.5 h-1.5 rounded-full mr-2 flex-shrink-0 dot-gold-static" />
+      {label}
+    </span>
+  );
+}
+
+function MobileMarquee({ items, direction }: { items: string[]; direction: "left" | "right" }) {
+  const track = buildTrack(items);
+  return (
+    <div className="relative w-full overflow-hidden marquee-mask mobile-marquee-container">
+      <div
+        className={`marquee-track ${direction === "left" ? "marquee-track--left" : "marquee-track--right"} w-max gap-0`}
+      >
+        {track.map((item, idx) => (
+          <MobileBadge key={`${item}-${idx}`} label={item} />
+        ))}
+      </div>
     </div>
   );
 }
@@ -119,8 +127,9 @@ export default function Clients() {
 
         {/* Full-width marquees — visible layer */}
         {isMobile ? (
-          <div className="w-full flex flex-col gap-3 sm:gap-4">
-            <StaticBadgeGrid items={[...majorOrgs, ...govtDepts]} />
+          <div className="w-full flex flex-col gap-3">
+            <MobileMarquee items={majorOrgs} direction="left" />
+            <MobileMarquee items={govtDepts} direction="right" />
           </div>
         ) : (
         <motion.div
