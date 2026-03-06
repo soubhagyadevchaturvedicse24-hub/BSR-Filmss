@@ -924,14 +924,14 @@ body {
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
   }
 
-  /* Overlay: gradient — lighter at bottom so BSR logo reads clearly */
+  /* Overlay: dark top for card text, lighter bottom for BSR logo */
   .clients-overlay {
     background: linear-gradient(
       180deg,
-      rgba(5, 6, 8, 0.92) 0%,
-      rgba(5, 6, 8, 0.80) 40%,
-      rgba(5, 6, 8, 0.35) 75%,
-      rgba(5, 6, 8, 0.15) 100%
+      rgba(5, 6, 8, 0.90) 0%,
+      rgba(5, 6, 8, 0.75) 35%,
+      rgba(5, 6, 8, 0.40) 70%,
+      rgba(5, 6, 8, 0.12) 100%
     ) !important;
   }
 }
