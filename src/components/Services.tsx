@@ -100,11 +100,10 @@ export default function Services() {
           {services.map((svc, i) => {
             const isOpen = openIndex === i;
             return (
-              <motion.div
+              <div
                 key={svc.title}
-                layout
-                onMouseEnter={() => setHoveredBg(i)}
-                className={`rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-500 ${isOpen ? 'accordion-card-open' : 'accordion-card'} ${!isMobile ? 'backdrop-blur-[12px]' : ''}`}
+                onMouseEnter={() => !isMobile && setHoveredBg(i)}
+                className={`rounded-xl sm:rounded-2xl overflow-hidden transition-colors duration-300 ${isOpen ? 'accordion-card-open' : 'accordion-card'} ${!isMobile ? 'backdrop-blur-[12px]' : ''}`}
               >
                 {/* Row trigger — 44px min height for touch */}
                 <button
@@ -151,23 +150,20 @@ export default function Services() {
                         <div className="h-px w-full mb-3 sm:mb-4 md:mb-6 gold-divider-subtle" />
                         <ul className="grid grid-cols-2 md:grid-cols-3 gap-x-3 sm:gap-x-6 md:gap-x-8 gap-y-1.5 sm:gap-y-2 md:gap-y-3">
                           {svc.items.map((item, idx) => (
-                            <motion.li
+                            <li
                               key={item}
-                              initial={{ opacity: 0, y: 8 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: idx * 0.06, duration: 0.35 }}
                               className="flex items-center gap-2 sm:gap-2.5 md:gap-3 text-white/70 text-xs sm:text-sm md:text-base font-medium py-1.5 sm:py-2 px-1.5 sm:px-2 md:px-3 rounded-lg transition-colors duration-200 hover:bg-white/[0.03] hover:text-white/90 active:bg-white/[0.05]"
                             >
                               <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 dot-gold" />
                               {item}
-                            </motion.li>
+                            </li>
                           ))}
                         </ul>
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </motion.div>
+              </div>
             );
           })}
         </motion.div>
