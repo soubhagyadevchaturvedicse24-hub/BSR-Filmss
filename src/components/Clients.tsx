@@ -106,7 +106,7 @@ export default function Clients() {
 
       {/* Overlay — solid on mobile, blurred on desktop */}
       <div
-        className={`absolute inset-0 z-0 transition-colors duration-700 clients-overlay ${!isMobile ? 'backdrop-blur-[4px]' : ''}`}
+        className={`absolute inset-0 z-0 clients-overlay ${!isMobile ? 'backdrop-blur-[4px] transition-colors duration-700' : ''}`}
         aria-hidden="true"
       />
 
@@ -118,48 +118,66 @@ export default function Clients() {
       <div className={`relative z-20 ${isDesktop ? 'pt-10 md:pt-14 pb-8 md:pb-12' : 'pt-4 pb-8'}`}>
 
         {/* Full-width marquees — visible layer */}
+        {isMobile ? (
+          <div className="w-full flex flex-col gap-3 sm:gap-4">
+            <StaticBadgeGrid items={[...majorOrgs, ...govtDepts]} />
+          </div>
+        ) : (
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: isMobile ? 0 : 0.4, duration: isMobile ? 0.3 : 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className={`w-full flex flex-col ${isDesktop ? 'gap-6' : 'gap-3 sm:gap-4'}`}
+          transition={{ delay: 0.4, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className={`w-full flex flex-col gap-6`}
         >
-          {isDesktop ? (
-            <>
-              <FullWidthMarquee items={majorOrgs} direction="left" />
-              <FullWidthMarquee items={govtDepts} direction="right" />
-              <FullWidthMarquee items={govtDepts} direction="left" />
-            </>
-          ) : (
-            <StaticBadgeGrid items={[...majorOrgs, ...govtDepts]} />
-          )}
+          <FullWidthMarquee items={majorOrgs} direction="left" />
+          <FullWidthMarquee items={govtDepts} direction="right" />
+          <FullWidthMarquee items={govtDepts} direction="left" />
         </motion.div>
+        )}
 
         {/* Compact glass card — in flow, below the marquees */}
-        <motion.div
-          initial={isMobile ? { opacity: 0, y: 12 } : { opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: isMobile ? 0.35 : 0.85, delay: isMobile ? 0 : 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={`mx-auto text-center px-6 sm:px-8 md:px-12 py-5 sm:py-6 md:py-8 rounded-2xl sm:rounded-3xl border-glow transition-colors duration-500 max-w-[520px] w-[calc(100%-2rem)] mt-8 md:mt-10 ${isMobile ? 'clients-card-mobile' : 'clients-card-desktop'}`}
-        >
-          <p className="label-line justify-center text-[0.6rem] mb-2">Trusted By</p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight tracking-tight transition-colors duration-500 heading-text-shadow">
-            Clients &amp; <span className="color-gold">Partners</span>
-          </h2>
-          <p className="text-sm sm:text-base mt-2 sm:mt-3 leading-relaxed opacity-60 transition-colors duration-500 color-primary">
-            Global bodies and state authorities that place their trust in BSR Films.
-          </p>
-
-          {/* Stats row — compact */}
-          <div className="flex justify-center gap-6 sm:gap-8 md:gap-12 mt-4 sm:mt-5 md:mt-6 pt-4 sm:pt-5 md:pt-6 transition-colors duration-500 border-top-subtle">
-            {[["29+", "Clients"], ["20+", "Govt. Depts"], ["500+", "Campaigns"]].map(([n, l]) => (
-              <div key={l} className="text-center">
-                <p className="text-xl sm:text-2xl md:text-3xl font-extrabold leading-none transition-colors duration-500 color-gold">{n}</p>
-                <p className="text-[0.55rem] sm:text-xs tracking-[0.12em] sm:tracking-[0.15em] uppercase mt-1 opacity-50 transition-colors duration-500 color-primary">{l}</p>
-              </div>
-            ))}
+        {isMobile ? (
+          <div className="mx-auto text-center px-6 py-5 rounded-2xl max-w-[520px] w-[calc(100%-2rem)] mt-6 clients-card-mobile">
+            <p className="label-line justify-center text-[0.6rem] mb-2">Trusted By</p>
+            <h2 className="text-3xl font-extrabold leading-tight tracking-tight heading-text-shadow">
+              Clients &amp; <span className="color-gold">Partners</span>
+            </h2>
+            <p className="text-sm mt-2 leading-relaxed opacity-60 color-primary">
+              Global bodies and state authorities that place their trust in BSR Films.
+            </p>
+            <div className="flex justify-center gap-6 mt-4 pt-4 border-top-subtle">
+              {[["29+", "Clients"], ["20+", "Govt. Depts"], ["500+", "Campaigns"]].map(([n, l]) => (
+                <div key={l} className="text-center">
+                  <p className="text-xl font-extrabold leading-none color-gold">{n}</p>
+                  <p className="text-[0.55rem] tracking-[0.12em] uppercase mt-1 opacity-50 color-primary">{l}</p>
+                </div>
+              ))}
+            </div>
           </div>
-        </motion.div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.85, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="mx-auto text-center px-6 sm:px-8 md:px-12 py-5 sm:py-6 md:py-8 rounded-2xl sm:rounded-3xl border-glow transition-colors duration-500 max-w-[520px] w-[calc(100%-2rem)] mt-8 md:mt-10 clients-card-desktop"
+          >
+            <p className="label-line justify-center text-[0.6rem] mb-2">Trusted By</p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight tracking-tight transition-colors duration-500 heading-text-shadow">
+              Clients &amp; <span className="color-gold">Partners</span>
+            </h2>
+            <p className="text-sm sm:text-base mt-2 sm:mt-3 leading-relaxed opacity-60 transition-colors duration-500 color-primary">
+              Global bodies and state authorities that place their trust in BSR Films.
+            </p>
+            <div className="flex justify-center gap-6 sm:gap-8 md:gap-12 mt-4 sm:mt-5 md:mt-6 pt-4 sm:pt-5 md:pt-6 transition-colors duration-500 border-top-subtle">
+              {[["29+", "Clients"], ["20+", "Govt. Depts"], ["500+", "Campaigns"]].map(([n, l]) => (
+                <div key={l} className="text-center">
+                  <p className="text-xl sm:text-2xl md:text-3xl font-extrabold leading-none transition-colors duration-500 color-gold">{n}</p>
+                  <p className="text-[0.55rem] sm:text-xs tracking-[0.12em] sm:tracking-[0.15em] uppercase mt-1 opacity-50 transition-colors duration-500 color-primary">{l}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
 
       </div>
     </section>

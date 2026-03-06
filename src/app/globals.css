@@ -891,6 +891,43 @@ body {
     animation: none;
     background: linear-gradient(90deg, #E3A652, #EDB96A);
   }
+
+  /* ── Mobile Clients section: kill ALL expensive effects ────────── */
+
+  /* Badge: solid bg instead of backdrop-filter blur (29 badges = 29 blur layers) */
+  .marquee-badge-styled {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    background: rgba(18, 20, 26, 0.85) !important;
+    border-color: rgba(255, 255, 255, 0.10);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: none !important;
+  }
+
+  /* Kill shimmer sweep animation on all badges */
+  .marquee-badge-shimmer::after {
+    animation: none !important;
+    display: none;
+  }
+
+  /* Kill gold dot pulse — static glow instead */
+  .dot-gold-glow {
+    animation: none !important;
+    box-shadow: 0 0 4px 1px rgba(227, 166, 82, 0.5);
+  }
+
+  /* Card: solid bg instead of backdrop-filter blur */
+  .clients-card-mobile {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    background: rgba(10, 12, 16, 0.92) !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Overlay: simpler, no extra compositing */
+  .clients-overlay {
+    background: rgba(5, 6, 8, 0.88) !important;
+  }
 }
 
 /* ── Mobile nav body scroll lock ──────────────────────────────────── */
