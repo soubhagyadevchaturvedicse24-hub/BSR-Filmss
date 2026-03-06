@@ -131,15 +131,37 @@ export default function Clients() {
       <div aria-hidden="true" className="absolute inset-x-0 top-0 h-16 sm:h-24 md:h-36 pointer-events-none z-10 fade-to-bg-bottom" />
       <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-16 sm:h-24 md:h-36 pointer-events-none z-10 fade-to-bg-top" />
 
-      {/* ── Clients content: marquees first, compact card below ── */}
-      <div className={`relative z-20 ${isDesktop ? 'pt-10 md:pt-14 pb-8 md:pb-12' : 'pt-4 pb-8'}`}>
+      {/* ── Clients content ── */}
+      <div className={`relative z-20 ${isDesktop ? 'pt-10 md:pt-14 pb-8 md:pb-12' : 'pt-6 pb-16'}`}>
 
-        {/* Full-width marquees — visible layer */}
+        {/* Mobile: card first, then marquees, then logo visible at bottom */}
         {isMobile ? (
-          <div className="w-full flex flex-col gap-3">
-            <MobileMarquee items={majorOrgs} direction="left" />
-            <MobileMarquee items={govtDepts} direction="right" />
-          </div>
+          <>
+            {/* Card at top */}
+            <div className="mx-auto text-center px-5 py-4 rounded-2xl max-w-[420px] w-[calc(100%-2rem)] mb-5 clients-card-mobile">
+              <p className="label-line justify-center text-[0.6rem] mb-1.5">Trusted By</p>
+              <h2 className="text-2xl font-extrabold leading-tight tracking-tight heading-text-shadow">
+                Clients &amp; <span className="color-gold">Partners</span>
+              </h2>
+              <p className="text-xs mt-1.5 leading-relaxed opacity-60 color-primary">
+                Global bodies and state authorities that trust BSR Films.
+              </p>
+              <div className="flex justify-center gap-5 mt-3 pt-3 border-top-subtle">
+                {[["29+", "Clients"], ["20+", "Govt. Depts"], ["500+", "Campaigns"]].map(([n, l]) => (
+                  <div key={l} className="text-center">
+                    <p className="text-lg font-extrabold leading-none color-gold">{n}</p>
+                    <p className="text-[0.5rem] tracking-[0.12em] uppercase mt-1 opacity-50 color-primary">{l}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Marquees below card */}
+            <div className="w-full flex flex-col gap-3">
+              <MobileMarquee items={majorOrgs} direction="left" />
+              <MobileMarquee items={govtDepts} direction="right" />
+            </div>
+          </>
         ) : (
         <motion.div
           initial={{ opacity: 0 }}
@@ -153,26 +175,8 @@ export default function Clients() {
         </motion.div>
         )}
 
-        {/* Compact glass card — in flow, below the marquees */}
-        {isMobile ? (
-          <div className="mx-auto text-center px-6 py-5 rounded-2xl max-w-[520px] w-[calc(100%-2rem)] mt-6 clients-card-mobile">
-            <p className="label-line justify-center text-[0.6rem] mb-2">Trusted By</p>
-            <h2 className="text-3xl font-extrabold leading-tight tracking-tight heading-text-shadow">
-              Clients &amp; <span className="color-gold">Partners</span>
-            </h2>
-            <p className="text-sm mt-2 leading-relaxed opacity-60 color-primary">
-              Global bodies and state authorities that place their trust in BSR Films.
-            </p>
-            <div className="flex justify-center gap-6 mt-4 pt-4 border-top-subtle">
-              {[["29+", "Clients"], ["20+", "Govt. Depts"], ["500+", "Campaigns"]].map(([n, l]) => (
-                <div key={l} className="text-center">
-                  <p className="text-xl font-extrabold leading-none color-gold">{n}</p>
-                  <p className="text-[0.55rem] tracking-[0.12em] uppercase mt-1 opacity-50 color-primary">{l}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : (
+        {/* Desktop card — below marquees */}
+        {!isMobile && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
