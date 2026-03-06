@@ -102,7 +102,8 @@ export default function Clients() {
           src="/bsr-brand.webp"
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-contain object-bottom"
+          style={{ background: 'var(--bg-primary)' }}
           loading="lazy"
           decoding="async"
         />
