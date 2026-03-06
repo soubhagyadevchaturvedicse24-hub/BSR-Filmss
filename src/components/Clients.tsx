@@ -132,13 +132,19 @@ export default function Clients() {
       <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-16 sm:h-24 md:h-36 pointer-events-none z-10 fade-to-bg-top" />
 
       {/* ── Clients content ── */}
-      <div className={`relative z-20 ${isDesktop ? 'pt-10 md:pt-14 pb-8 md:pb-12' : 'pt-6 pb-16'}`}>
+      <div className={`relative z-20 ${isDesktop ? 'pt-10 md:pt-14 pb-8 md:pb-12' : 'pt-5 pb-24'}`}>
 
-        {/* Mobile: card first, then marquees, then logo visible at bottom */}
+        {/* Mobile: marquees at top, card below — logo visible at bottom */}
         {isMobile ? (
           <>
-            {/* Card at top */}
-            <div className="mx-auto text-center px-5 py-4 rounded-2xl max-w-[420px] w-[calc(100%-2rem)] mb-5 clients-card-mobile">
+            {/* Marquees at top */}
+            <div className="w-full flex flex-col gap-3 mb-5">
+              <MobileMarquee items={majorOrgs} direction="left" />
+              <MobileMarquee items={govtDepts} direction="right" />
+            </div>
+
+            {/* Card just above the logo */}
+            <div className="mx-auto text-center px-5 py-4 rounded-2xl max-w-[420px] w-[calc(100%-2rem)] clients-card-mobile">
               <p className="label-line justify-center text-[0.6rem] mb-1.5">Trusted By</p>
               <h2 className="text-2xl font-extrabold leading-tight tracking-tight heading-text-shadow">
                 Clients &amp; <span className="color-gold">Partners</span>
@@ -154,12 +160,6 @@ export default function Clients() {
                   </div>
                 ))}
               </div>
-            </div>
-
-            {/* Marquees below card */}
-            <div className="w-full flex flex-col gap-3">
-              <MobileMarquee items={majorOrgs} direction="left" />
-              <MobileMarquee items={govtDepts} direction="right" />
             </div>
           </>
         ) : (
