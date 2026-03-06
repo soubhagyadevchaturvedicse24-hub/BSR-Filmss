@@ -96,8 +96,17 @@ export default function Clients() {
       className={`relative overflow-hidden min-h-[60vh] z-10 ${isDesktop ? '-mt-[100vh]' : ''}`}
       aria-label="Organizations and government departments that trust BSR Films"
     >
-      {/* Full-bleed background — nothing on mobile, video on desktop */}
-      {!isMobile && (
+      {/* Full-bleed background — WebP poster on mobile, video on desktop */}
+      {isMobile ? (
+        <img
+          src="/bsr-brand.webp"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
         <video
           ref={videoRef}
           src="/hero-bg.mp4"
