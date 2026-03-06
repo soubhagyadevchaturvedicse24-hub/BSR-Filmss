@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import CustomCursor from "@/components/CustomCursor";
 import Navbar from "@/components/Navbar";
 import HeroCanvas from "@/components/HeroCanvas";
+import Preloader from "@/components/Preloader";
 
 /* Lazy-load below-fold sections — reduces initial JS bundle on mobile */
 const Works = dynamic(() => import("@/components/Works"), { ssr: true });
@@ -28,6 +29,9 @@ const Contact = dynamic(() => import("@/components/Contact"), { ssr: true });
 export default function Home() {
   return (
     <main id="main-content" aria-label="BSR Films — Main Content">
+      {/* ── Cinematic preloader — keeps user engaged while assets load ── */}
+      <Preloader />
+
       {/* ── Premium custom cursor (non-touch only, rendered client-side) ── */}
       <CustomCursor />
 

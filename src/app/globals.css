@@ -5,6 +5,99 @@
 @tailwind utilities;
 
 /* ═══════════════════════════════════════════════════════════════════
+   PRELOADER — cinematic splash while assets load
+   ═══════════════════════════════════════════════════════════════════ */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  background: var(--bg-primary, #050608);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              visibility 0.6s;
+}
+.preloader--done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Logo group */
+.preloader__logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  animation: preloaderFadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.preloader__icon {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  animation: preloaderPulse 2s ease-in-out infinite;
+}
+@media (min-width: 640px) {
+  .preloader__icon { width: 64px; height: 64px; }
+}
+.preloader__brand {
+  font-family: Manrope, sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 0.35em;
+  color: var(--gold, #E3A652);
+  opacity: 0;
+  animation: preloaderFadeUp 0.7s 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@media (min-width: 640px) {
+  .preloader__brand { font-size: 1.3rem; letter-spacing: 0.4em; }
+}
+
+/* Progress track */
+.preloader__track {
+  width: min(220px, 60vw);
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  opacity: 0;
+  animation: preloaderFadeUp 0.5s 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+html.light .preloader__track {
+  background: rgba(0, 0, 0, 0.08);
+}
+.preloader__bar {
+  height: 100%;
+  background: var(--gold, #E3A652);
+  border-radius: 2px;
+  transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 0 12px rgba(227, 166, 82, 0.4);
+}
+
+/* Percentage counter */
+.preloader__pct {
+  font-family: Manrope, sans-serif;
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--text-muted, rgba(255, 255, 255, 0.45));
+  opacity: 0;
+  animation: preloaderFadeUp 0.5s 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes preloaderFadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes preloaderPulse {
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  50%      { opacity: 1;    transform: scale(1.06); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
    THEME TOKENS — dark (default) / light
    ═══════════════════════════════════════════════════════════════════ */
 html.dark {
