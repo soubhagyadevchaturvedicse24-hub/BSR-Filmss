@@ -321,7 +321,7 @@ export default function Works() {
             <div className="flex items-center gap-4 flex-shrink-0">
               <button
                 onClick={() => { setReel(true); swiperRef.current?.autoplay?.stop(); }}
-                className={`group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 md:p-5 transition-all duration-300 hover-lift cursor-pointer rounded-xl sm:rounded-2xl showreel-btn ${!isMobile ? 'backdrop-blur-[12px]' : ''}`}
+                className={`group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 md:p-5 transition-all duration-300 hover-lift cursor-pointer rounded-xl sm:rounded-2xl showreel-btn ${!isMobile ? 'backdrop-blur-[12px]' : 'bg-black/40'}`}
                 aria-label="Watch full showreel"
               >
                 <div className="relative w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 flex-shrink-0">
@@ -373,14 +373,14 @@ export default function Works() {
             slidesPerView="auto"
             loop
             speed={isMobile ? 450 : 650}
-            autoplay={{
+            autoplay={isMobile ? false : {
               delay: 5000,
               disableOnInteraction: false,
             }}
             coverflowEffect={{
               rotate: 0,
               stretch: 0,
-              depth: isMobile ? 30 : 140,
+              depth: isMobile ? 0 : 140,
               modifier: isMobile ? 1 : 2.5,
               slideShadows: false,
             }}
@@ -410,7 +410,7 @@ export default function Works() {
         {reel && (
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 md:p-6"
+            className="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center p-3 sm:p-4 md:p-6"
             onClick={() => { setReel(false); swiperRef.current?.autoplay?.start(); }}
             role="dialog" aria-modal="true" aria-label="Showreel video"
           >

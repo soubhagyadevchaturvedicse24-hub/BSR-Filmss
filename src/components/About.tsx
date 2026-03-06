@@ -52,7 +52,7 @@ export default function About() {
       {/* Decorative reel-dot pattern background */}
       <div className="absolute inset-0 reel-dots opacity-40 pointer-events-none" aria-hidden="true" />
       {/* Ambient lens flare */}
-      <div aria-hidden="true" className="absolute top-0 right-0 w-[200px] sm:w-[300px] md:w-[400px] h-[200px] sm:h-[300px] md:h-[400px] pointer-events-none radial-glow-gold animate-[flarePulse_6s_ease-in-out_infinite]" />
+      <div aria-hidden="true" className="absolute top-0 right-0 w-[200px] sm:w-[300px] md:w-[400px] h-[200px] sm:h-[300px] md:h-[400px] pointer-events-none radial-glow-gold hidden md:block animate-[flarePulse_6s_ease-in-out_infinite]" />
 
       <div className="relative max-w-screen-xl mx-auto">
 

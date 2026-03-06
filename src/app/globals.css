@@ -1445,9 +1445,21 @@ html.light header {
   }
 
   /* Cap transition durations so stale invisible states resolve quickly */
-  section,
-  section > div {
+  section {
     transition-duration: 0.35s !important;
+  }
+
+  /* Kill continuous CSS animations on mobile — saves GPU cycles */
+  .gold-underline::after {
+    animation: none !important;
+  }
+  .border-glow {
+    animation: none !important;
+    border-color: rgba(227, 166, 82, 0.15);
+  }
+  .lens-flare::before {
+    animation: none !important;
+    opacity: 0.5;
   }
 
   /* Ensure no element uses sticky positioning unintentionally on mobile
