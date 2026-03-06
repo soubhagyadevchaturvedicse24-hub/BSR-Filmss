@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const reasons = [
   {
@@ -38,7 +39,43 @@ const GoldCheck = () => (
 
 export default function WhyChoose() {
   const sectionRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const inView = useInView(sectionRef, { once: true, margin: "-60px" });
+  const isMobile = useIsMobile();
+  const [videoReady, setVideoReady] = useState(false);
+
+  // Lazy-load video on mobile — only play when section is visible
+  useEffect(() => {
+    if (!isMobile) return;
+    const video = videoRef.current;
+    const section = sectionRef.current;
+    if (!video || !section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVideoReady(true);
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, [isMobile]);
+
+  // Animation helpers — desktop: full cinematic, mobile: quick fade
+  const enterInitial = isMobile ? { opacity: 0, y: 12 } : { opacity: 0, y: 36 };
+  const cardInitial = isMobile ? { opacity: 0, y: 8 } : { opacity: 0, x: 32 };
+  const enterTransition = isMobile
+    ? { duration: 0.35, ease: [0.22, 1, 0.36, 1] }
+    : { duration: 0.9, ease: [0.22, 1, 0.36, 1] };
+  const cardTransition = (i: number) =>
+    isMobile
+      ? { delay: i * 0.04, duration: 0.35, ease: [0.22, 1, 0.36, 1] }
+      : { delay: 0.12 + i * 0.1, duration: 0.75, ease: [0.22, 1, 0.36, 1] };
 
   return (
     <section
@@ -49,8 +86,13 @@ export default function WhyChoose() {
     >
       {/* ── Cinematic video background ────────────────────────────────── */}
       <video
-        src="/hero-bg.mp4"
-        autoPlay muted loop playsInline
+        ref={videoRef}
+        src={isMobile && !videoReady ? undefined : "/hero-bg.mp4"}
+        autoPlay={!isMobile}
+        muted
+        loop
+        playsInline
+        preload={isMobile ? "none" : "auto"}
         className="absolute inset-0 w-full h-full object-cover"
         aria-hidden="true"
       />
@@ -58,11 +100,7 @@ export default function WhyChoose() {
       {/* ── Gradient overlays for depth & readability ─────────────────── */}
       <div
         aria-hidden="true"
-        className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(105deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.42) 45%, rgba(0,0,0,0.28) 100%)",
-        }}
+        className="absolute inset-0 hero-gradient-overlay"
       />
       {/* subtle top/bottom fades so section blends with neighbours */}
       <div aria-hidden="true" className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#050608] to-transparent" />
@@ -74,23 +112,15 @@ export default function WhyChoose() {
 
           {/* ── Left: Liquid glass text panel ──────────────────────────── */}
           <motion.div
-            initial={{ opacity: 0, y: 36 }}
+            initial={enterInitial}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="relative rounded-2xl p-8 md:p-10 shadow-2xl overflow-hidden"
-            style={{
-              background: "rgba(255,255,255,0.05)",
-              backdropFilter: "blur(28px) saturate(180%)",
-              WebkitBackdropFilter: "blur(28px) saturate(180%)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              boxShadow: "0 8px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)",
-            }}
+            transition={enterTransition}
+            className={`relative rounded-2xl p-8 md:p-10 shadow-2xl overflow-hidden ${isMobile ? "glass-panel-mobile" : "glass-panel-desktop"}`}
           >
             {/* inner specular sheen */}
             <div
               aria-hidden="true"
-              className="absolute inset-x-0 top-0 h-px"
-              style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)" }}
+              className="absolute inset-x-0 top-0 h-px specular-sheen"
             />
 
             {/* Eyebrow */}
@@ -114,8 +144,7 @@ export default function WhyChoose() {
             {/* Divider */}
             <div
               aria-hidden="true"
-              className="w-10 h-[2px] mb-8"
-              style={{ background: "linear-gradient(90deg, #E3A652, transparent)" }}
+              className="w-10 h-[2px] mb-8 gold-divider"
             />
 
             {/* Quote */}
@@ -134,37 +163,15 @@ export default function WhyChoose() {
             {reasons.map((r, i) => (
               <motion.div
                 key={r.title}
-                initial={{ opacity: 0, x: 32 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{
-                  delay: 0.12 + i * 0.1,
-                  duration: 0.75,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                className="group relative rounded-2xl overflow-hidden"
-                style={{
-                  background: "rgba(255,255,255,0.055)",
-                  backdropFilter: "blur(22px) saturate(160%)",
-                  WebkitBackdropFilter: "blur(22px) saturate(160%)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  borderLeft: "4px solid #E3A652",
-                  boxShadow: "0 4px 24px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.05)",
-                  transition: "background 0.3s, box-shadow 0.3s",
-                }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.09)";
-                  (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 36px rgba(0,0,0,0.38), 0 0 0 1px rgba(227,166,82,0.25), inset 0 1px 0 rgba(255,255,255,0.08)";
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.055)";
-                  (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 24px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.05)";
-                }}
+                initial={cardInitial}
+                animate={inView ? { opacity: 1, x: 0, y: 0 } : {}}
+                transition={cardTransition(i)}
+                className={`group relative rounded-2xl overflow-hidden ${isMobile ? "glass-card-mobile" : "glass-card-desktop"}`}
               >
                 {/* top specular sheen */}
                 <div
                   aria-hidden="true"
-                  className="absolute inset-x-0 top-0 h-px"
-                  style={{ background: "linear-gradient(90deg, rgba(227,166,82,0.3), rgba(255,255,255,0.12), transparent)" }}
+                  className="absolute inset-x-0 top-0 h-px specular-sheen-gold"
                 />
 
                 <div className="flex gap-4 items-start p-5 md:p-6">

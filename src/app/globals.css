@@ -175,8 +175,8 @@ body {
 /* --- Navbar ------------------------------------------------------- */
 .glass-nav {
   background: rgba(5, 6, 8, .92);
-  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255, 255, 255, .04);
 }
 
@@ -346,11 +346,11 @@ body {
 }
 
 .marquee-track--left {
-  animation: marqueeLeft 40s linear infinite;
+  animation: marqueeLeft 70s linear infinite;
 }
 
 .marquee-track--right {
-  animation: marqueeRight 40s linear infinite;
+  animation: marqueeRight 70s linear infinite;
 }
 
 .marquee-track:hover {
@@ -384,21 +384,21 @@ body {
   }
 
   .marquee-track--left {
-    animation-duration: 30s;
+    animation-duration: 50s;
   }
 
   .marquee-track--right {
-    animation-duration: 30s;
+    animation-duration: 50s;
   }
 }
 
 @media (max-width: 480px) {
   .marquee-track--left {
-    animation-duration: 22s;
+    animation-duration: 40s;
   }
 
   .marquee-track--right {
-    animation-duration: 22s;
+    animation-duration: 40s;
   }
 
   .marquee-track {
@@ -541,8 +541,8 @@ body {
 /* --- Cinematic Glass Card ----------------------------------------- */
 .glass-card {
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(24px) saturate(160%);
   -webkit-backdrop-filter: blur(24px) saturate(160%);
+  backdrop-filter: blur(24px) saturate(160%);
   border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.4),
@@ -554,8 +554,8 @@ body {
 /* PERFORMANCE: Remove backdrop-filter entirely on mobile */
 @media (max-width: 768px) {
   .glass-card {
-    backdrop-filter: none;
     -webkit-backdrop-filter: none;
+    backdrop-filter: none;
     background: rgba(10, 12, 16, 0.92);
   }
 }
@@ -865,8 +865,8 @@ body {
   /* Kill ALL backdrop-filter on mobile — biggest perf win */
   [style*="backdrop-filter"],
   [style*="backdropFilter"] {
-    backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
   }
 
   /* Kill transition-all on mobile — use specific properties instead */
@@ -955,6 +955,7 @@ html.light #hero .cta-ghost {
   background: rgba(255, 255, 255, 0.15);
   color: rgba(255, 255, 255, 0.9);
   border-color: rgba(255, 255, 255, 0.3);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
 
@@ -964,18 +965,8 @@ html.light #hero .cta-ghost:hover {
   border-color: #E3A652;
 }
 
-/* Marquee client pills — always white text on dark pill, both themes */
-html.light #clients .marquee-track span {
-  color: rgba(255, 255, 255, 0.9) !important;
-  background: rgba(255, 255, 255, 0.05) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
-}
-
-html.light #clients .marquee-track span:hover {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border-color: rgba(227, 166, 82, 0.2) !important;
-}
+/* Marquee pills in light mode — handled by #clients variable overrides above */
+/* .marquee-badge-styled base styles now use explicit white-on-dark values */
 
 /* ── Services section – full light mode treatment ─────────────────── */
 /* Background: override the dark gradient to a warm cream */
@@ -1011,6 +1002,7 @@ html.light #services [class*="rounded-2xl"] {
   background: rgba(255, 255, 255, 0.6) !important;
   border-color: rgba(0, 0, 0, 0.08) !important;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
   backdrop-filter: blur(10px) !important;
 }
 
@@ -1144,10 +1136,7 @@ html.light [style*="background: linear-gradient"][style*="#080a0e"] {
   background: var(--bg-secondary) !important;
 }
 
-/* Clients overlay */
-html.light [class*="bg-[#050608]/"] {
-  background-color: rgba(245, 240, 232, 0.85) !important;
-}
+/* Clients overlay — handled by .clients-overlay class directly */
 
 /* Smooth transitions for theme change */
 html.light section,
@@ -1372,4 +1361,440 @@ html.light header {
   .marquee-track {
     animation: none !important;
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MOBILE ANIMATION FALLBACK SAFETY NET
+   Ensures elements are visible even if JS-driven entrance animations
+   haven't fired yet (e.g. slow hydration).
+   ═══════════════════════════════════════════════════════════════════ */
+@media (max-width: 1023px) {
+  /* Remove will-change on mobile — saves composite layer memory */
+  [style*="will-change"] {
+    will-change: auto !important;
+  }
+
+  /* Kill expensive transforms that Framer Motion may leave behind */
+  .fixed {
+    will-change: auto;
+  }
+
+  /* Cap transition durations so stale invisible states resolve quickly */
+  section,
+  section > div {
+    transition-duration: 0.35s !important;
+  }
+
+  /* Ensure no element uses sticky positioning unintentionally on mobile
+     (HeroCanvas handles this via React state, but this is a safety net) */
+  .sticky:not(#hero .sticky) {
+    position: relative !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   REUSABLE UTILITY CLASSES — Extracted from inline styles
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* --- Theme-aware text colours ------------------------------------- */
+.color-gold { color: var(--gold); }
+.color-heading { color: var(--text-heading); }
+.color-primary { color: var(--text-primary); }
+.color-muted { color: var(--text-muted); }
+
+/* --- Theme-aware backgrounds -------------------------------------- */
+.bg-card-var { background: var(--bg-card); }
+.bg-secondary-var { background: var(--bg-secondary); }
+
+/* --- Section gradient (symmetrical vertical) ---------------------- */
+.section-gradient-primary {
+  background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%);
+}
+
+/* --- Gold accent elements ----------------------------------------- */
+.gold-text { color: #E3A652; }
+.gold-bg { background: #E3A652; }
+.gold-divider {
+  background: linear-gradient(90deg, #E3A652, transparent);
+}
+.gold-divider-var {
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+.gold-border-left {
+  border-left: 3px solid var(--gold);
+}
+.gold-border-left-4 {
+  border-left: 4px solid var(--gold);
+}
+
+/* --- Radial glow accents ------------------------------------------ */
+.radial-glow-gold {
+  background: radial-gradient(circle, rgba(227,166,82,0.04) 0%, transparent 70%);
+}
+.radial-glow-gold-subtle {
+  background: radial-gradient(circle, rgba(227,166,82,0.03) 0%, transparent 70%);
+}
+
+/* --- Specular sheen overlays -------------------------------------- */
+.specular-sheen {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+}
+.specular-sheen-gold {
+  background: linear-gradient(90deg, rgba(227,166,82,0.3), rgba(255,255,255,0.12), transparent);
+}
+.specular-sheen-var {
+  background: linear-gradient(90deg, transparent, var(--border-subtle), transparent);
+}
+.specular-sheen-gold-var {
+  background: linear-gradient(90deg, var(--gold-soft), var(--border-subtle), transparent);
+}
+
+/* --- Gradient overlays -------------------------------------------- */
+.hero-gradient-overlay {
+  background: linear-gradient(105deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.42) 45%, rgba(0,0,0,0.28) 100%);
+}
+
+/* --- Theme-aware canvas & hero scrims ----------------------------- */
+.canvas-scrim {
+  background-color: #000000;
+}
+.hero-scrim {
+  background: linear-gradient(105deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.4) 100%);
+}
+html.light .canvas-scrim {
+  background-color: #F5F0E8;
+}
+html.light .hero-scrim {
+  background: linear-gradient(105deg, rgba(245,240,232,0.95) 0%, rgba(245,240,232,0.9) 50%, rgba(245,240,232,0.4) 100%);
+}
+
+/*
+ * Force the #hero overlay ("Why Choose" cards on desktop) to stay in
+ * dark-cinema palette even when the page is in light mode.
+ * This sits on top of the always-dark hero canvas, so it must never
+ * flip to light-theme variables.
+ */
+html.light #hero {
+  --text-heading: #ffffff;
+  --text-primary: rgba(255,255,255,0.92);
+  --text-muted: rgba(255,255,255,0.5);
+  --gold: #E3A652;
+  --gold-soft: rgba(227,166,82,0.15);
+  --border-subtle: rgba(255,255,255,0.08);
+  --bg-card: rgba(255,255,255,0.03);
+}
+
+/* In light mode the hero scrim should also stay dark so the cards
+ * remain legible. We override the light-mode scrim to a dark tint. */
+html.light #hero .hero-scrim {
+  background: linear-gradient(105deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.35) 100%);
+}
+
+/* --- Glassmorphism panels (full theme-aware) ---------------------- */
+.glass-panel-var {
+  background: var(--bg-card);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.2), inset 0 0.5px 0 rgba(255,255,255,0.08);
+}
+
+.glass-card-var {
+  background: var(--bg-card);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  backdrop-filter: blur(22px) saturate(160%);
+  border: 1px solid var(--border-subtle);
+  border-left: 4px solid var(--gold);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+}
+
+/*
+ * Inside #hero these panels sit on a dark canvas, so the dark-locked
+ * variables (set via html.light #hero override above) produce the
+ * correct frosted-glass-on-dark look automatically.
+ */
+
+/* --- Frosted glass buttons ---------------------------------------- */
+.btn-frosted-glass {
+  background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+/* --- Gold CTA button ---------------------------------------------- */
+.btn-gold-gradient {
+  background: linear-gradient(135deg, #E3A652 0%, #D4913E 50%, #EDB96A 100%);
+  box-shadow: 0 6px 20px rgba(227,166,82,0.35), 0 2px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.25);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+}
+
+/* --- Social icon backgrounds -------------------------------------- */
+.icon-bg-youtube {
+  background: linear-gradient(135deg, rgba(255,0,0,0.12) 0%, rgba(255,0,0,0.04) 100%);
+  border: 1px solid rgba(255,0,0,0.15);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.icon-bg-facebook {
+  background: linear-gradient(135deg, rgba(24,119,242,0.12) 0%, rgba(24,119,242,0.04) 100%);
+  border: 1px solid rgba(24,119,242,0.15);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.icon-bg-instagram {
+  background: linear-gradient(135deg, rgba(225,48,108,0.12) 0%, rgba(252,175,69,0.04) 100%);
+  border: 1px solid rgba(225,48,108,0.15);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+/* --- WhyChoose mobile card styles (no backdrop-filter) ------------ */
+.glass-panel-mobile {
+  background: rgba(10,12,16,0.92);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.glass-card-mobile {
+  background: rgba(10,12,16,0.88);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-left: 4px solid #E3A652;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+}
+
+/* --- WhyChoose desktop glassmorphism ------------------------------ */
+.glass-panel-desktop {
+  background: rgba(255,255,255,0.05);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.glass-card-desktop {
+  background: rgba(255,255,255,0.055);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  backdrop-filter: blur(22px) saturate(160%);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-left: 4px solid #E3A652;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.05);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.glass-card-desktop:hover {
+  background: rgba(255,255,255,0.09);
+  box-shadow: 0 8px 36px rgba(0,0,0,0.38), 0 0 0 1px rgba(227,166,82,0.25), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+/* --- Team card shadow --------------------------------------------- */
+.shadow-card-gold {
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(227,166,82,0.05);
+}
+
+/* --- Services accordion ------------------------------------------- */
+.services-overlay {
+  background: linear-gradient(160deg, rgba(5,6,8,0.88) 0%, rgba(8,10,14,0.78) 50%, rgba(5,6,8,0.85) 100%);
+}
+.accordion-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.03);
+}
+.accordion-card-open {
+  background: linear-gradient(135deg, rgba(227,166,82,0.06) 0%, rgba(255,255,255,0.03) 100%);
+  border: 1px solid rgba(227,166,82,0.2);
+  box-shadow: 0 8px 32px rgba(227,166,82,0.08), 0 0 0 1px rgba(227,166,82,0.05), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+.accordion-idx {
+  color: rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.04);
+}
+.accordion-idx-open {
+  color: #050608;
+  background: linear-gradient(135deg, #E3A652 0%, #D4913E 100%);
+  box-shadow: 0 2px 8px rgba(227,166,82,0.3);
+}
+.accordion-arrow {
+  border: 1px solid rgba(255,255,255,0.12);
+  background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.accordion-arrow-open {
+  border: 1px solid #E3A652;
+  background: linear-gradient(135deg, rgba(227,166,82,0.2) 0%, rgba(227,166,82,0.08) 100%);
+  box-shadow: 0 4px 16px rgba(227,166,82,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.gold-divider-subtle {
+  background: linear-gradient(90deg, rgba(227,166,82,0.3) 0%, rgba(227,166,82,0.05) 100%);
+}
+.dot-gold {
+  background: #E3A652;
+  box-shadow: 0 0 6px rgba(227,166,82,0.4);
+}
+
+/* --- Works / SlideCard -------------------------------------------- */
+.slide-card-shadow {
+  box-shadow: 0 8px 28px rgba(0,0,0,0.5);
+}
+.slide-card-shadow-active {
+  box-shadow: 0 0 0 1px rgba(227,166,82,0.18), 0 20px 50px rgba(0,0,0,0.65), 0 0 40px rgba(227,166,82,0.12);
+}
+.slide-overlay-bg {
+  background: rgba(0,0,0,0.85);
+}
+.slide-gradient-bottom {
+  background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.50) 40%, transparent 100%);
+}
+.slide-gradient-top {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.50) 0%, transparent 30%);
+}
+.close-btn-dark {
+  background: rgba(0,0,0,0.75);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.play-btn-inactive {
+  background: rgba(255,255,255,0.12);
+  border: 1.5px solid rgba(255,255,255,0.35);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+}
+.play-btn-active {
+  background: linear-gradient(135deg, #E3A652 0%, #D4913E 50%, #EDB96A 100%);
+  border: none;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 28px rgba(227,166,82,0.45), 0 6px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.25);
+}
+.showreel-btn {
+  background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.nav-arrow-dark {
+  background: linear-gradient(135deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 100%);
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.works-top-fade {
+  background: linear-gradient(to bottom, rgba(5,6,8,1) 0%, transparent 100%);
+}
+
+/* --- Clients component -------------------------------------------- */
+
+/* Section overlay — lighter at top so animation shows, darker at bottom
+   where the card sits. */
+.clients-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(5, 6, 8, 0.30) 0%,
+    rgba(5, 6, 8, 0.40) 50%,
+    rgba(5, 6, 8, 0.60) 80%,
+    rgba(5, 6, 8, 0.75) 100%
+  );
+}
+
+/* Force dark-theme palette in light mode — section stays cinematic */
+html.light #clients {
+  --text-heading: #ffffff;
+  --text-primary: rgba(255, 255, 255, 0.92);
+  --text-muted: rgba(255, 255, 255, 0.5);
+  --gold: #E3A652;
+  --gold-soft: rgba(227, 166, 82, 0.15);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --nav-bg: rgba(5, 6, 8, 0.85);
+}
+
+/* Modern glass badge with gold shimmer sweep */
+.marquee-badge-styled {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.08) inset,
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 6px 24px rgba(0, 0, 0, 0.3),
+    0 0 50px -10px rgba(227, 166, 82, 0.06);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  letter-spacing: 0.025em;
+}
+/* Shimmer sweep highlight */
+.marquee-badge-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 20%,
+    rgba(227, 166, 82, 0.08) 40%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(227, 166, 82, 0.08) 60%,
+    transparent 80%
+  );
+  transform: translateX(-100%);
+  animation: badgeShimmer 6s ease-in-out infinite;
+  pointer-events: none;
+  border-radius: inherit;
+}
+@keyframes badgeShimmer {
+  0%, 100% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+}
+.marquee-badge-styled:hover {
+  background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 100%);
+  border-color: rgba(227, 166, 82, 0.4);
+  color: #fff;
+  box-shadow:
+    0 0 0 0.5px rgba(227, 166, 82, 0.2) inset,
+    0 1px 0 rgba(255, 255, 255, 0.1) inset,
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    0 0 40px -5px rgba(227, 166, 82, 0.25);
+  transform: translateY(-2px) scale(1.02);
+}
+.dot-gold-glow {
+  background: #E3A652;
+  box-shadow:
+    0 0 4px 1px rgba(227, 166, 82, 0.6),
+    0 0 10px 3px rgba(227, 166, 82, 0.25),
+    0 0 20px 6px rgba(227, 166, 82, 0.08);
+  animation: dotPulse 3s ease-in-out infinite;
+}
+@keyframes dotPulse {
+  0%, 100% { box-shadow: 0 0 4px 1px rgba(227,166,82,0.6), 0 0 10px 3px rgba(227,166,82,0.25), 0 0 20px 6px rgba(227,166,82,0.08); }
+  50% { box-shadow: 0 0 6px 2px rgba(227,166,82,0.8), 0 0 14px 5px rgba(227,166,82,0.35), 0 0 24px 8px rgba(227,166,82,0.12); }
+}
+.dot-gold-sm {
+  background: #E3A652;
+  opacity: 0.85;
+}
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+.fade-to-bg-bottom {
+  background: linear-gradient(to bottom, var(--bg-primary), transparent);
+}
+.fade-to-bg-top {
+  background: linear-gradient(to top, var(--bg-primary), transparent);
+}
+.heading-text-shadow {
+  color: var(--text-heading);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+.border-top-subtle {
+  border-top: 1px solid var(--border-subtle);
+}
+.clients-card-mobile {
+  background: rgba(5, 6, 8, 0.75);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+/* Apple-style frosted glass card */
+.clients-card-desktop {
+  background: rgba(255, 255, 255, 0.06);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.45),
+    inset 0 0.5px 0 rgba(255, 255, 255, 0.12);
 }

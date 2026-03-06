@@ -22,9 +22,8 @@ const buildTrack = (items: string[]) => [...items, ...items];
 
 function MarqueeBadge({ label }: { label: string }) {
   return (
-    <span className="px-3 sm:px-5 md:px-8 py-2 sm:py-3 md:py-4 rounded-full bg-white/5 border border-white/10 text-white/90 text-[0.65rem] sm:text-xs md:text-base font-medium whitespace-nowrap mx-1 sm:mx-2 md:mx-4 flex items-center flex-shrink-0 active:bg-white/[0.1]"
-      style={{ boxShadow: "0 4px 20px rgba(0,0,0,0.3)" }}>
-      <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#E3A652] mr-1.5 sm:mr-2 md:mr-3 flex-shrink-0" style={{ opacity: 0.85 }} />
+    <span className="px-6 sm:px-8 md:px-10 py-3.5 sm:py-4 md:py-5 rounded-full text-base sm:text-lg md:text-xl font-semibold whitespace-nowrap mx-2 sm:mx-3 md:mx-4 flex items-center flex-shrink-0 marquee-badge-styled marquee-badge-shimmer">
+      <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full mr-2.5 sm:mr-3 md:mr-3.5 flex-shrink-0 dot-gold-glow" />
       {label}
     </span>
   );
@@ -34,15 +33,10 @@ function FullWidthMarquee({ items, direction }: { items: string[]; direction: "l
   const track = buildTrack(items);
   return (
     <div
-      className="relative w-full overflow-hidden"
-      style={{
-        maskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
-        WebkitMaskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
-      }}
+      className="relative w-full overflow-hidden marquee-mask"
     >
       <div
-        className={`marquee-track ${direction === "left" ? "marquee-track--left" : "marquee-track--right"}`}
-        style={{ width: "max-content", gap: 0 }}
+        className={`marquee-track ${direction === "left" ? "marquee-track--left" : "marquee-track--right"} w-max gap-0`}
       >
         {track.map((item, idx) => (
           <MarqueeBadge key={`${item}-${idx}`} label={item} />
@@ -57,11 +51,18 @@ export default function Clients() {
   const inView = useInView(sectionRef, { once: true, margin: "-80px" });
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(true);
 
   // ── Detect mobile and lazy-load video ──────────────────────────
   useEffect(() => {
     const mobile = window.innerWidth < 768 || window.matchMedia("(pointer: coarse)").matches;
     setIsMobile(mobile);
+    // Match the HeroCanvas breakpoint: ≥1024px = desktop (has sticky hero → needs -100vh)
+    setIsDesktop(window.innerWidth >= 1024);
+
+    const mqList = window.matchMedia("(min-width: 1024px)");
+    const syncDesktop = () => setIsDesktop(mqList.matches);
+    mqList.addEventListener("change", syncDesktop);
 
     // On mobile, only play video when section is visible (saves battery)
     if (mobile && videoRef.current) {
@@ -76,16 +77,16 @@ export default function Clients() {
         { threshold: 0.1 }
       );
       observer.observe(sectionRef.current!);
-      return () => observer.disconnect();
+      return () => { observer.disconnect(); mqList.removeEventListener("change", syncDesktop); };
     }
+    return () => mqList.removeEventListener("change", syncDesktop);
   }, []);
 
   return (
     <section
       id="clients"
       ref={sectionRef}
-      className="relative overflow-hidden"
-      style={{ minHeight: "60vh", marginTop: "-100vh", zIndex: 10 }}
+      className={`relative overflow-hidden min-h-[60vh] z-10 ${isDesktop ? '-mt-[100vh]' : ''}`}
       aria-label="Organizations and government departments that trust BSR Films"
     >
       {/* Full-bleed logo video — lazy on mobile */}
@@ -97,84 +98,78 @@ export default function Clients() {
         loop
         playsInline
         preload={isMobile ? "none" : "auto"}
+        poster="/bsr-brand.png"
         className="absolute inset-0 w-full h-full object-cover"
         aria-hidden="true"
       />
 
-      {/* Heavy dark overlay */}
+      {/* Heavy overlay */}
       <div
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundColor: 'rgba(5,6,8,0.85)',
-          backdropFilter: isMobile ? 'none' : 'blur(4px)',
-          WebkitBackdropFilter: isMobile ? 'none' : 'blur(4px)',
-        }}
+        className={`absolute inset-0 z-0 transition-colors duration-700 clients-overlay ${!isMobile ? 'backdrop-blur-[4px]' : ''}`}
         aria-hidden="true"
       />
 
       {/* Page-blend top/bottom edge fades */}
-      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-16 sm:h-24 md:h-36 pointer-events-none z-10" style={{ background: "linear-gradient(to bottom, var(--bg-primary), transparent)" }} />
-      <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-16 sm:h-24 md:h-36 pointer-events-none z-10" style={{ background: "linear-gradient(to top, var(--bg-primary), transparent)" }} />
+      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-16 sm:h-24 md:h-36 pointer-events-none z-10 fade-to-bg-bottom" />
+      <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-16 sm:h-24 md:h-36 pointer-events-none z-10 fade-to-bg-top" />
 
-      {/* ── Floating glass card ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 28 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-        className="relative z-30 mx-auto text-center px-4 sm:px-6 md:px-10 py-4 sm:py-6 md:py-8 rounded-xl sm:rounded-2xl border-glow"
-        style={{
-          marginTop: "2rem",
-          background: isMobile ? "rgba(5,6,8,0.92)" : "rgba(5,6,8,0.78)",
-          ...(isMobile ? {} : { backdropFilter: "blur(24px) saturate(140%)", WebkitBackdropFilter: "blur(24px) saturate(140%)" }),
-          border: "1px solid rgba(227,166,82,0.12)",
-          boxShadow: "0 12px 56px rgba(0,0,0,0.7), 0 0 0 1px rgba(227,166,82,0.08), inset 0 1px 0 rgba(255,255,255,0.06), 0 0 80px rgba(227,166,82,0.05)",
-          maxWidth: "560px",
-          width: "calc(100% - 2rem)",
-        }}
-      >
-        <p className="label-line justify-center">Trusted By</p>
-        <h2 className="text-[clamp(1.3rem,4.5vw,3rem)] font-extrabold text-white leading-tight tracking-tight mt-1 text-cinema">
-          Clients &amp; <span style={{ color: "#E3A652" }}>Partners</span>
-        </h2>
-        <p className="text-white/50 text-xs sm:text-sm mt-2 sm:mt-3 leading-relaxed">
-          Global bodies and state authorities that place their trust in BSR Films.
-        </p>
+      {/* ── Clients content: marquees first, compact card below ── */}
+      <div className={`relative z-20 ${isDesktop ? 'pt-10 md:pt-14 pb-8 md:pb-12' : 'pt-4 pb-8'}`}>
 
-        {/* Stats */}
-        <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-10 mt-3 sm:mt-5 md:mt-7 pt-3 sm:pt-4 md:pt-6" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
-          {[["29+", "Clients"], ["20+", "Govt. Depts"], ["500+", "Campaigns"]].map(([n, l]) => (
-            <div key={l} className="text-center">
-              <p className="text-lg sm:text-xl md:text-3xl font-extrabold leading-none" style={{ color: "#E3A652" }}>{n}</p>
-              <p className="text-white/40 text-[0.5rem] sm:text-[0.55rem] md:text-[0.6rem] tracking-[0.15em] sm:tracking-[0.18em] uppercase mt-0.5 sm:mt-1">{l}</p>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* Content */}
-      <div className="relative z-20 flex flex-col" style={{ paddingTop: "2rem", paddingBottom: "3rem" }}>
-
-        {/* Full-width marquees */}
+        {/* Full-width marquees — visible layer */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.4, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full flex flex-col gap-3 sm:gap-4 md:gap-6"
+          transition={{ delay: isMobile ? 0 : 0.4, duration: isMobile ? 0.3 : 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className={`w-full flex flex-col ${isDesktop ? 'gap-6' : 'gap-3 sm:gap-4'}`}
         >
-          {/* Row 1 */}
-          <div>
-            <p className="text-[#E3A652] text-[0.55rem] sm:text-[0.65rem] md:text-xs font-bold tracking-widest uppercase mb-2 sm:mb-3 md:mb-4 text-center z-10 relative">
-              International &amp; National Organizations
-            </p>
-            <FullWidthMarquee items={majorOrgs} direction="left" />
-          </div>
+          {isDesktop ? (
+            <>
+              <FullWidthMarquee items={majorOrgs} direction="left" />
+              <FullWidthMarquee items={govtDepts} direction="right" />
+              <FullWidthMarquee items={govtDepts} direction="left" />
+            </>
+          ) : (
+            <>
+              <div>
+                <p className="text-[0.55rem] sm:text-[0.65rem] font-bold tracking-widest uppercase mb-2 sm:mb-3 text-center transition-colors duration-500 color-gold">
+                  International &amp; National Organizations
+                </p>
+                <FullWidthMarquee items={majorOrgs} direction="left" />
+              </div>
+              <div>
+                <p className="text-[0.55rem] sm:text-[0.65rem] font-bold tracking-widest uppercase mb-2 sm:mb-3 text-center opacity-65 transition-colors duration-500 color-gold">
+                  Chhattisgarh Government Departments
+                </p>
+                <FullWidthMarquee items={govtDepts} direction="right" />
+              </div>
+            </>
+          )}
+        </motion.div>
 
-          {/* Row 2 */}
-          <div>
-            <p className="text-[#E3A652] text-[0.55rem] sm:text-[0.65rem] md:text-xs font-bold tracking-widest uppercase mb-2 sm:mb-3 md:mb-4 text-center z-10 relative" style={{ opacity: 0.65 }}>
-              Chhattisgarh Government Departments
-            </p>
-            <FullWidthMarquee items={govtDepts} direction="right" />
+        {/* Compact glass card — in flow, below the marquees */}
+        <motion.div
+          initial={isMobile ? { opacity: 0, y: 12 } : { opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: isMobile ? 0.35 : 0.85, delay: isMobile ? 0 : 0.3, ease: [0.22, 1, 0.36, 1] }}
+          className={`mx-auto text-center px-6 sm:px-8 md:px-12 py-5 sm:py-6 md:py-8 rounded-2xl sm:rounded-3xl border-glow transition-colors duration-500 max-w-[520px] w-[calc(100%-2rem)] mt-8 md:mt-10 ${isMobile ? 'clients-card-mobile' : 'clients-card-desktop'}`}
+        >
+          <p className="label-line justify-center text-[0.6rem] mb-2">Trusted By</p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight tracking-tight transition-colors duration-500 heading-text-shadow">
+            Clients &amp; <span className="color-gold">Partners</span>
+          </h2>
+          <p className="text-sm sm:text-base mt-2 sm:mt-3 leading-relaxed opacity-60 transition-colors duration-500 color-primary">
+            Global bodies and state authorities that place their trust in BSR Films.
+          </p>
+
+          {/* Stats row — compact */}
+          <div className="flex justify-center gap-6 sm:gap-8 md:gap-12 mt-4 sm:mt-5 md:mt-6 pt-4 sm:pt-5 md:pt-6 transition-colors duration-500 border-top-subtle">
+            {[["29+", "Clients"], ["20+", "Govt. Depts"], ["500+", "Campaigns"]].map(([n, l]) => (
+              <div key={l} className="text-center">
+                <p className="text-xl sm:text-2xl md:text-3xl font-extrabold leading-none transition-colors duration-500 color-gold">{n}</p>
+                <p className="text-[0.55rem] sm:text-xs tracking-[0.12em] sm:tracking-[0.15em] uppercase mt-1 opacity-50 transition-colors duration-500 color-primary">{l}</p>
+              </div>
+            ))}
           </div>
         </motion.div>
 

@@ -142,19 +142,11 @@ function SlideCard({ project: p, isActive, isPlaying, onPlay, onClose, onSlideTo
   return (
     <div
       onClick={handleCardClick}
-      className="relative overflow-hidden rounded-xl sm:rounded-2xl select-none cursor-pointer"
-      style={{
-        aspectRatio: "16/9",
-        boxShadow: isActive
-          ? "0 0 0 1px rgba(227,166,82,0.18), 0 20px 50px rgba(0,0,0,0.65), 0 0 40px rgba(227,166,82,0.12)"
-          : "0 8px 28px rgba(0,0,0,0.5)",
-        transition: "box-shadow 0.5s ease",
-      }}
+      className={`relative overflow-hidden rounded-xl sm:rounded-2xl select-none cursor-pointer aspect-video transition-shadow duration-500 ${isActive ? 'slide-card-shadow-active' : 'slide-card-shadow'}`}
     >
       {/* Dark overlay for non-active slides */}
       <div
-        className="slide-overlay absolute inset-0 z-[5] pointer-events-none rounded-xl sm:rounded-2xl"
-        style={{ background: "rgba(0,0,0,0.85)" }}
+        className="slide-overlay absolute inset-0 z-[5] pointer-events-none rounded-xl sm:rounded-2xl slide-overlay-bg"
       />
 
       {isPlaying && isActive ? (
@@ -163,17 +155,15 @@ function SlideCard({ project: p, isActive, isPlaying, onPlay, onClose, onSlideTo
           <iframe
             src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
             title={p.title}
-            className="absolute inset-0 w-full h-full z-[6]"
+            className="absolute inset-0 w-full h-full z-[6] border-none"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             loading="lazy"
-            style={{ border: "none" }}
           />
           {/* Close button */}
           <button
             onClick={(e) => { e.stopPropagation(); onClose(); }}
-            className="absolute top-2 right-2 sm:top-3 sm:right-3 z-[15] w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-white text-sm font-bold transition-all duration-200 hover:scale-110 cursor-pointer"
-            style={{ background: "rgba(0,0,0,0.75)", border: "1px solid rgba(255,255,255,0.2)" }}
+            className="absolute top-2 right-2 sm:top-3 sm:right-3 z-[15] w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-white text-sm font-bold transition-all duration-200 hover:scale-110 cursor-pointer close-btn-dark"
             aria-label="Close video"
           >
             ✕
@@ -193,13 +183,11 @@ function SlideCard({ project: p, isActive, isPlaying, onPlay, onClose, onSlideTo
 
           {/* Bottom gradient */}
           <div
-            className="absolute inset-0 pointer-events-none"
-            style={{ background: "linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.50) 40%, transparent 100%)" }}
+            className="absolute inset-0 pointer-events-none slide-gradient-bottom"
           />
           {/* Top gradient */}
           <div
-            className="absolute inset-0 pointer-events-none"
-            style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.50) 0%, transparent 30%)" }}
+            className="absolute inset-0 pointer-events-none slide-gradient-top"
           />
 
           {/* Tag badge */}
@@ -216,18 +204,7 @@ function SlideCard({ project: p, isActive, isPlaying, onPlay, onClose, onSlideTo
           <div className="absolute inset-0 flex items-center justify-center z-[6]">
             <button
               onClick={(e) => { e.stopPropagation(); if (isActive) onPlay(); else onSlideToMe(); }}
-              className="group flex items-center justify-center rounded-full transition-all duration-300 hover:scale-110 cursor-pointer"
-              style={{
-                width: "52px", height: "52px",
-                background: isActive
-                  ? "linear-gradient(135deg, #E3A652 0%, #D4913E 50%, #EDB96A 100%)"
-                  : "rgba(255,255,255,0.12)",
-                border: isActive ? "none" : "1.5px solid rgba(255,255,255,0.35)",
-                backdropFilter: isActive ? "blur(10px)" : "none",
-                boxShadow: isActive
-                  ? "0 0 28px rgba(227,166,82,0.45), 0 6px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.25)"
-                  : "0 4px 14px rgba(0,0,0,0.3)",
-              }}
+              className={`group flex items-center justify-center rounded-full transition-all duration-300 hover:scale-110 cursor-pointer w-[52px] h-[52px] ${isActive ? 'play-btn-active' : 'play-btn-inactive'}`}
               aria-label={`Play ${p.title} video`}
             >
               <svg width="16" height="18" viewBox="0 0 18 20" fill="none" className="ml-0.5">
@@ -239,22 +216,12 @@ function SlideCard({ project: p, isActive, isPlaying, onPlay, onClose, onSlideTo
           {/* Bottom text content */}
           <div className="absolute bottom-0 inset-x-0 p-3 sm:p-4 md:p-5 lg:p-7 z-[6]">
             <h3
-              className="font-extrabold uppercase leading-tight tracking-wide"
-              style={{
-                fontSize: "clamp(0.75rem, 2.2vw, 1.3rem)",
-                color: isActive ? "#E3A652" : "#fff",
-                transition: "color 0.4s ease",
-              }}
+              className={`font-extrabold uppercase leading-tight tracking-wide text-[clamp(0.75rem,2.2vw,1.3rem)] transition-colors duration-400 ${isActive ? 'gold-text' : 'text-white'}`}
             >
               {p.title}
             </h3>
             <p
-              className="mt-1 leading-snug"
-              style={{
-                fontSize: "clamp(0.62rem, 1.4vw, 0.85rem)",
-                color: isActive ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.45)",
-                transition: "color 0.4s ease",
-              }}
+              className={`mt-1 leading-snug text-[clamp(0.62rem,1.4vw,0.85rem)] transition-colors duration-400 ${isActive ? 'text-white/60' : 'text-white/45'}`}
             >
               {p.desc}
             </p>
@@ -313,12 +280,11 @@ export default function Works() {
     <motion.section
       id="work"
       ref={ref}
-      initial={{ opacity: 0, y: 60 }}
+      initial={isMobile ? { opacity: 0, y: 16 } : { opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-      className="relative"
-      style={{ zIndex: 10, paddingTop: "2.5rem", paddingBottom: "3rem", backgroundColor: "var(--bg-primary)" }}
+      transition={{ duration: isMobile ? 0.4 : 0.9, ease: [0.22, 1, 0.36, 1] }}
+      className="relative z-10 pt-10 pb-12 bg-[var(--bg-primary)]"
       aria-label="Selected Works"
     >
       <style>{SWIPER_CSS}</style>
@@ -326,25 +292,24 @@ export default function Works() {
       {/* Top edge gradient fade */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-0 inset-x-0 h-24 sm:h-32"
-        style={{ background: "linear-gradient(to bottom, rgba(5,6,8,1) 0%, transparent 100%)" }}
+        className="pointer-events-none absolute top-0 inset-x-0 h-24 sm:h-32 works-top-fade"
       />
 
       {/* ── Header ─────────────────────────────────────────────────── */}
       <div className="relative max-w-screen-xl mx-auto px-4 sm:px-5 md:px-14 lg:px-20 xl:px-28">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={isMobile ? { opacity: 0, y: 12 } : { opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: isMobile ? 0.35 : 0.85, ease: [0.22, 1, 0.36, 1] }}
           className="mb-6 sm:mb-8 md:mb-14"
         >
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-6">
             <div className="lens-flare">
               <p className="label-line justify-start mb-3 sm:mb-4">
-                <span className="w-6 h-px block" style={{ background: "#E3A652" }} />Portfolio
+                <span className="w-6 h-px block gold-bg" />Portfolio
               </p>
               <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold text-white leading-none tracking-tight text-cinema">
-                SELECTED <span style={{ color: "#E3A652" }}>WORKS</span>
+                SELECTED <span className="gold-text">WORKS</span>
               </h2>
               <p className="text-xs sm:text-sm md:text-lg lg:text-xl text-white/50 mt-1.5 sm:mt-2 md:mt-3 font-light tracking-wide">
                 Craft that moves people &amp; markets.
@@ -356,13 +321,7 @@ export default function Works() {
             <div className="flex items-center gap-4 flex-shrink-0">
               <button
                 onClick={() => { setReel(true); swiperRef.current?.autoplay?.stop(); }}
-                className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 md:p-5 transition-all duration-300 hover-lift cursor-pointer rounded-xl sm:rounded-2xl"
-                style={{
-                  background: "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)",
-                  ...(isMobile ? {} : { backdropFilter: "blur(12px)" }),
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  boxShadow: "0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)",
-                }}
+                className={`group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 md:p-5 transition-all duration-300 hover-lift cursor-pointer rounded-xl sm:rounded-2xl showreel-btn ${!isMobile ? 'backdrop-blur-[12px]' : ''}`}
                 aria-label="Watch full showreel"
               >
                 <div className="relative w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 flex-shrink-0">
@@ -390,12 +349,7 @@ export default function Works() {
           <div key={dir} className={`absolute top-1/2 ${dir === "prev" ? "left-0.5 sm:left-2 md:left-10" : "right-0.5 sm:right-2 md:right-10"} -translate-y-1/2 z-[60]`}>
             <button
               onClick={() => dir === "prev" ? swiperRef.current?.slidePrev() : swiperRef.current?.slideNext()}
-              className={`w-8 h-8 sm:w-9 sm:h-9 md:w-12 md:h-12 rounded-full flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all cursor-pointer${isMobile ? '' : ' backdrop-blur-md'}`}
-              style={{
-                background: "linear-gradient(135deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 100%)",
-                border: "1px solid rgba(255,255,255,0.15)",
-                boxShadow: "0 4px 16px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)",
-              }}
+              className={`w-8 h-8 sm:w-9 sm:h-9 md:w-12 md:h-12 rounded-full flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all cursor-pointer nav-arrow-dark${isMobile ? '' : ' backdrop-blur-md'}`}
               aria-label={`${dir === "prev" ? "Previous" : "Next"} slide`}
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -406,9 +360,9 @@ export default function Works() {
         ))}
 
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={isMobile ? { opacity: 0, y: 16 } : { opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.3, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: isMobile ? 0 : 0.3, duration: isMobile ? 0.35 : 0.9, ease: [0.22, 1, 0.36, 1] }}
         >
           <Swiper
             className="works-swiper"

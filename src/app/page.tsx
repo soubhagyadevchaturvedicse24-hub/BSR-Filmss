@@ -1,11 +1,14 @@
+import dynamic from "next/dynamic";
 import CustomCursor from "@/components/CustomCursor";
 import Navbar from "@/components/Navbar";
 import HeroCanvas from "@/components/HeroCanvas";
-import Works from "@/components/Works";
-import About from "@/components/About";
-import Services from "@/components/Services";
-import Clients from "@/components/Clients";
-import Contact from "@/components/Contact";
+
+/* Lazy-load below-fold sections — reduces initial JS bundle on mobile */
+const Works = dynamic(() => import("@/components/Works"), { ssr: true });
+const About = dynamic(() => import("@/components/About"), { ssr: true });
+const Services = dynamic(() => import("@/components/Services"), { ssr: true });
+const Clients = dynamic(() => import("@/components/Clients"), { ssr: true });
+const Contact = dynamic(() => import("@/components/Contact"), { ssr: true });
 
 /**
  * BSR Films — Main Page

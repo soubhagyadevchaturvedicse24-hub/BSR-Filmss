@@ -1,0 +1,10 @@
+#:schema node_modules/wrangler/config-schema.json
+
+name = "bsr-films"
+compatibility_date = "2025-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+# OpenNext Cloudflare adapter output
+main = ".open-next/worker.js"
+
+assets = { directory = ".open-next/assets", binding = "ASSETS" }

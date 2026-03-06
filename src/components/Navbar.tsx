@@ -23,6 +23,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { isDark } = useTheme();
   const scrollYRef = useRef(0);
+  const menuFirstLinkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 50);
@@ -36,6 +37,8 @@ export default function Navbar() {
       scrollYRef.current = window.scrollY;
       document.body.classList.add("mobile-menu-open");
       document.body.style.top = `-${scrollYRef.current}px`;
+      // Focus first link after menu opens for keyboard accessibility
+      requestAnimationFrame(() => menuFirstLinkRef.current?.focus());
     } else {
       document.body.classList.remove("mobile-menu-open");
       document.body.style.top = "";
@@ -123,11 +126,10 @@ export default function Navbar() {
 
           {/* Hamburger — larger tap target */}
           <button
-            className="md:hidden flex flex-col gap-[5px] p-3 -mr-1"
+            className="md:hidden flex flex-col gap-[5px] p-3 -mr-1 min-w-[44px] min-h-[44px] items-center justify-center"
             onClick={() => setOpen(p => !p)}
             aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            style={{ minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' }}
+            {...(open ? { "aria-expanded": "true" } : {})}
           >
             <span className={`block h-[1.5px] transition-all duration-300 ${isDark ? 'bg-white' : 'bg-[#1A1714]'} ${open ? "w-6 rotate-45 translate-y-[6.5px]" : "w-6"}`} />
             <span className={`block h-[1.5px] transition-all duration-300 ${isDark ? 'bg-white' : 'bg-[#1A1714]'} ${open ? "w-0 opacity-0" : "w-4"}`} />
@@ -154,6 +156,7 @@ export default function Navbar() {
               <motion.a
                 key={l.href}
                 href={l.href}
+                ref={i === 0 ? menuFirstLinkRef : undefined}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * .05 }}

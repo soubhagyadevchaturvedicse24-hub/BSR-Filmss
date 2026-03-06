@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const team = [
   {
@@ -36,6 +37,7 @@ export default function About() {
   const [teamIdx, setTeamIdx] = useState(0);
   const [dir, setDir] = useState(1);
   const [tapped, setTapped] = useState(false);
+  const isMobile = useIsMobile();
 
   const navigate = (delta: number) => {
     setDir(delta);
@@ -46,11 +48,11 @@ export default function About() {
   const member = team[teamIdx];
 
   return (
-    <section id="about" ref={ref} className="section-padding relative overflow-hidden" style={{ background: "linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%)" }} aria-label="About BSR Films">
+    <section id="about" ref={ref} className="section-padding relative overflow-hidden section-gradient-primary" aria-label="About BSR Films">
       {/* Decorative reel-dot pattern background */}
       <div className="absolute inset-0 reel-dots opacity-40 pointer-events-none" aria-hidden="true" />
       {/* Ambient lens flare */}
-      <div aria-hidden="true" className="absolute top-0 right-0 w-[200px] sm:w-[300px] md:w-[400px] h-[200px] sm:h-[300px] md:h-[400px] pointer-events-none" style={{ background: "radial-gradient(circle, rgba(227,166,82,0.04) 0%, transparent 70%)", animation: "flarePulse 6s ease-in-out infinite" }} />
+      <div aria-hidden="true" className="absolute top-0 right-0 w-[200px] sm:w-[300px] md:w-[400px] h-[200px] sm:h-[300px] md:h-[400px] pointer-events-none radial-glow-gold animate-[flarePulse_6s_ease-in-out_infinite]" />
 
       <div className="relative max-w-screen-xl mx-auto">
 
@@ -59,16 +61,17 @@ export default function About() {
 
           {/* Left: company copy */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            initial={isMobile ? { opacity: 0, y: 12 } : { opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={isMobile ? { duration: 0.35, ease: [0.22, 1, 0.36, 1] } : { duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           >
-            <p className="label-line" style={{ color: "#E3A652" }}>
-              <span style={{ background: "#E3A652" }} className="w-6 h-px block" />Who We Are
+            <p className="label-line gold-text">
+              <span className="w-6 h-px block gold-bg" />Who We Are
             </p>
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] font-extrabold text-white leading-[1.06] tracking-tight mb-3 sm:mb-4 md:mb-5 text-cinema">
-              A production house<br />rooted in <span style={{ color: "#E3A652" }}>Chhattisgarh</span>.
+              A production house<br />rooted in <span className="gold-text">Chhattisgarh</span>.
             </h2>
-            <div className="w-7 sm:w-9 h-[2px] mb-4 sm:mb-5 md:mb-7" style={{ background: "linear-gradient(90deg, #E3A652, transparent)" }} />
+            <div className="w-7 sm:w-9 h-[2px] mb-4 sm:mb-5 md:mb-7 gold-divider" />
             <p className="text-white/60 text-xs sm:text-sm md:text-base leading-[1.75] sm:leading-[1.85] mb-3 sm:mb-4 md:mb-5">
               BSR Films is a leading media production house based in{" "}
               <strong className="text-white">Raipur, Chhattisgarh</strong>. Since the state&apos;s
@@ -98,12 +101,13 @@ export default function About() {
 
           {/* Right: vertical team carousel */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            initial={isMobile ? { opacity: 0, y: 12 } : { opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={isMobile ? { duration: 0.35, ease: [0.22, 1, 0.36, 1] } : { duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col"
           >
-            <p className="label-line" style={{ color: "#E3A652" }}>
-              <span style={{ background: "#E3A652" }} className="w-6 h-px block" />The Team
+            <p className="label-line gold-text">
+              <span className="w-6 h-px block gold-bg" />The Team
             </p>
             <h3 className="text-lg sm:text-xl md:text-2xl font-extrabold text-white mb-4 sm:mb-6 md:mb-8 tracking-tight">
               The people behind the lens.
@@ -124,8 +128,12 @@ export default function About() {
                   {/* Slide-up hover card — tap to reveal on touch */}
                   <div
                     onClick={() => setTapped((t) => !t)}
-                    className={`relative w-full max-w-[240px] sm:max-w-[280px] md:max-w-[320px] h-[300px] sm:h-[350px] md:h-[380px] lg:h-[420px] group rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden bg-black shadow-xl mx-auto hover-lift border border-white/[0.06] cursor-pointer${tapped ? " tapped" : ""}`}
-                    style={{ boxShadow: "0 8px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(227,166,82,0.05)" }}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTapped((t) => !t); } }}
+                    role="button"
+                    tabIndex={0}
+                    aria-expanded={tapped}
+                    aria-label={`${member.name} — ${tapped ? 'hide' : 'show'} details`}
+                    className={`relative w-full max-w-[240px] sm:max-w-[280px] md:max-w-[320px] h-[300px] sm:h-[350px] md:h-[380px] lg:h-[420px] group rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden bg-black mx-auto hover-lift border border-white/[0.06] cursor-pointer shadow-card-gold${tapped ? " tapped" : ""}`}
                   >
 
                     {/* Image */}
@@ -139,8 +147,8 @@ export default function About() {
                           draggable={false}
                         />
                       ) : (
-                        <div className="w-full h-full bg-[#0a0c10] flex items-center justify-center">
-                          <span className="text-5xl sm:text-6xl font-extrabold text-[#E3A652]/40 select-none">
+                        <div className="w-full h-full bg-[#0a0c10] flex items-center justify-center" role="img" aria-label={`Placeholder for ${member.name}`}>
+                          <span className="text-5xl sm:text-6xl font-extrabold text-[#E3A652]/40 select-none" aria-hidden="true">
                             {member.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
                           </span>
                         </div>
@@ -153,7 +161,7 @@ export default function About() {
                     </div>
 
                     {/* Hover: info panel */}
-                    <div className="absolute bottom-0 left-0 w-full bg-[#0a0c10] rounded-t-xl sm:rounded-t-2xl md:rounded-t-3xl p-3 sm:p-4 md:p-6 transform translate-y-[101%] transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:translate-y-0 z-20 flex flex-col justify-center" style={{ minHeight: "42%" }}>
+                    <div className="absolute bottom-0 left-0 w-full bg-[#0a0c10] rounded-t-xl sm:rounded-t-2xl md:rounded-t-3xl p-3 sm:p-4 md:p-6 transform translate-y-[101%] transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:translate-y-0 z-20 flex flex-col justify-center min-h-[42%]">
                       <h3 className="text-white text-base sm:text-lg md:text-xl font-bold mb-0.5 sm:mb-1 leading-tight">{member.name}</h3>
                       <p className="text-[#E3A652] text-[0.6rem] sm:text-[0.65rem] md:text-xs font-bold uppercase tracking-wider mb-1.5 sm:mb-2 md:mb-3">{member.role}</p>
                       <p className="text-white/50 text-[0.68rem] sm:text-xs md:text-sm leading-relaxed">{member.bio}</p>
@@ -166,8 +174,7 @@ export default function About() {
               <div className="flex items-center gap-2 sm:gap-3 mt-3 sm:mt-4 md:mt-5 max-w-[240px] sm:max-w-[280px] md:max-w-[320px] mx-auto">
                 <button
                   onClick={() => navigate(-1)}
-                  className="w-10 h-10 flex items-center justify-center transition-all duration-300 group rounded-full hover:-translate-y-0.5 active:scale-95"
-                  style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "0 2px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05)" }}
+                  className="w-10 h-10 flex items-center justify-center transition-all duration-300 group rounded-full hover:-translate-y-0.5 active:scale-95 btn-frosted-glass"
                   aria-label="Previous team member"
                 >
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -179,16 +186,14 @@ export default function About() {
                     <button
                       key={i}
                       onClick={() => { setDir(i > teamIdx ? 1 : -1); setTapped(false); setTeamIdx(i); }}
-                      className="transition-all duration-300"
-                      style={{ width: i === teamIdx ? "24px" : "6px", height: "6px", borderRadius: "3px", background: i === teamIdx ? "#E3A652" : "rgba(255,255,255,0.15)" }}
+                      className={`transition-all duration-300 h-1.5 rounded-full ${i === teamIdx ? "w-6 bg-[#E3A652]" : "w-1.5 bg-white/15"}`}
                       aria-label={`Go to team member ${i + 1}`}
                     />
                   ))}
                 </div>
                 <button
                   onClick={() => navigate(1)}
-                  className="w-10 h-10 flex items-center justify-center transition-all duration-300 group rounded-full hover:-translate-y-0.5 active:scale-95"
-                  style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)", border: "1px solid rgba(255,255,255,0.1)", boxShadow: "0 2px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05)" }}
+                  className="w-10 h-10 flex items-center justify-center transition-all duration-300 group rounded-full hover:-translate-y-0.5 active:scale-95 btn-frosted-glass"
                   aria-label="Next team member"
                 >
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none">

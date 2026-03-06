@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import { Monitor, Mic2, Camera, Zap } from "lucide-react";
 
@@ -24,7 +24,7 @@ const facilities = [
   {
     icon: Camera,
     title: "Green Screen Studio",
-    body: "20Ã—30 ft chroma-key cyclorama with multi-camera setup (up to 4K), motorised LED soft boxes, cinema-grade hard lights and a full equipment inventory.",
+    body: "20×30 ft chroma-key cyclorama with multi-camera setup (up to 4K), motorised LED soft boxes, cinema-grade hard lights and a full equipment inventory.",
     accent: "from-emerald-500/10 to-emerald-600/5",
     iconBg: "bg-emerald-500/15 text-emerald-400",
     border: "hover:border-emerald-500/30",
@@ -32,40 +32,50 @@ const facilities = [
   {
     icon: Zap,
     title: "End-to-End Production Pipeline",
-    body: "From ideation & scripting, on-location shoots and studio recording, through post-production and delivery â€” all under one roof with timely turnaround.",
+    body: "From ideation & scripting, on-location shoots and studio recording, through post-production and delivery — all under one roof with timely turnaround.",
     accent: "from-[#E3A652]/10 to-[#E3A652]/5",
     iconBg: "bg-[#E3A652]/15 text-[#E3A652]",
     border: "hover:border-[#E3A652]/30",
   },
 ];
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
+/** Stagger multiplier: faster on mobile (single-column) to reduce perceived lag */
+const STAGGER_DESKTOP = 0.13;
+const STAGGER_MOBILE = 0.08;
+
+const makeCardVariants = (stagger: number, mobile: boolean) => ({
+  hidden: { opacity: 0, y: mobile ? 16 : 40 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.75, delay: i * 0.13, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: mobile ? 0.35 : 0.75, delay: i * stagger, ease: [0.22, 1, 0.36, 1] },
   }),
-};
+});
 
 export default function Facilities() {
   const sectionRef = useRef<HTMLElement>(null);
   const inView = useInView(sectionRef, { once: true, margin: "-80px" });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
+  const cardVariants = makeCardVariants(isMobile ? STAGGER_MOBILE : STAGGER_DESKTOP, isMobile);
 
   return (
     <section
       id="facilities"
       ref={sectionRef}
-      className="section-padding"
-      style={{ backgroundColor: "var(--bg-secondary)" }}
+      className="section-padding bg-secondary-var"
       aria-label="BSR Films state-of-the-art facilities"
     >
       <div className="max-w-screen-xl mx-auto">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={isMobile ? { opacity: 0, y: 12 } : { opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: isMobile ? 0.35 : 0.8 }}
           className="text-center mb-16"
         >
           <p className="text-[#E3A652] text-sm font-semibold tracking-[0.2em] uppercase mb-3">

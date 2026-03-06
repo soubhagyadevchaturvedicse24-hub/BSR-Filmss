@@ -45,8 +45,7 @@ export default function Services() {
     <section
       id="services"
       ref={ref}
-      className="relative overflow-hidden"
-      style={{ paddingTop: "3.5rem", paddingBottom: "3.5rem", minHeight: "60vh", background: "linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%)" }}
+      className="relative overflow-hidden pt-14 pb-14 min-h-[60vh] section-gradient-primary"
       aria-label="360 degree media services offered by BSR Films"
     >
       {/* Crossfading background images — skip on mobile for perf */}
@@ -58,8 +57,7 @@ export default function Services() {
           alt=""
           aria-hidden="true"
           loading="lazy"
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
-          style={{ opacity: activeBg === i ? 0.3 : 0, transition: "opacity 0.7s ease", zIndex: 0 }}
+          className={`absolute inset-0 w-full h-full object-cover pointer-events-none select-none transition-opacity duration-700 ${activeBg === i ? "opacity-30" : "opacity-0"}`}
           draggable={false}
         />
       ))}
@@ -67,24 +65,23 @@ export default function Services() {
       {/* Twilight overlay */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: "linear-gradient(160deg, rgba(5,6,8,0.88) 0%, rgba(8,10,14,0.78) 50%, rgba(5,6,8,0.85) 100%)", zIndex: 1 }}
+        className="absolute inset-0 pointer-events-none z-[1] services-overlay"
       />
 
       {/* Content */}
-      <div className="relative max-w-screen-xl mx-auto px-4 sm:px-5 md:px-14 lg:px-20 xl:px-28" style={{ zIndex: 2 }}>
+      <div className="relative max-w-screen-xl mx-auto px-4 sm:px-5 md:px-14 lg:px-20 xl:px-28 z-[2]">
 
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 32 }}
+          initial={isMobile ? { opacity: 0, y: 12 } : { opacity: 0, y: 32 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+          transition={isMobile ? { duration: 0.35, ease: [0.22, 1, 0.36, 1] } : { duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
           className="mb-8 sm:mb-10 md:mb-16"
         >
           <p className="label-line justify-start">What We Do</p>
           <h2 className="text-[clamp(1.6rem,5.5vw,4rem)] font-extrabold text-white leading-tight tracking-tight mt-1.5 sm:mt-2 text-cinema">
             360°{" "}
-            <span style={{ color: "#E3A652" }}>Media Services</span>
+            <span className="gold-text">Media Services</span>
           </h2>
           <p className="text-white/45 text-xs sm:text-sm md:text-base max-w-xl mt-2 sm:mt-3 md:mt-4 leading-relaxed">
             From script to screen, from jingle to campaign — tap a category to explore.
@@ -97,7 +94,7 @@ export default function Services() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.3, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          transition={isMobile ? { duration: 0.3, ease: [0.22, 1, 0.36, 1] } : { delay: 0.3, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="flex flex-col gap-2 sm:gap-3 md:gap-4"
         >
           {services.map((svc, i) => {
@@ -107,45 +104,23 @@ export default function Services() {
                 key={svc.title}
                 layout
                 onMouseEnter={() => setHoveredBg(i)}
-                className="rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-500"
-                style={{
-                  background: isOpen
-                    ? 'linear-gradient(135deg, rgba(227,166,82,0.06) 0%, rgba(255,255,255,0.03) 100%)'
-                    : 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)',
-                  border: isOpen ? '1px solid rgba(227,166,82,0.2)' : '1px solid rgba(255,255,255,0.06)',
-                  ...(isMobile ? {} : { backdropFilter: 'blur(12px)' }),
-                  boxShadow: isOpen
-                    ? '0 8px 32px rgba(227,166,82,0.08), 0 0 0 1px rgba(227,166,82,0.05), inset 0 1px 0 rgba(255,255,255,0.04)'
-                    : '0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.03)',
-                }}
+                className={`rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-500 ${isOpen ? 'accordion-card-open' : 'accordion-card'} ${!isMobile ? 'backdrop-blur-[12px]' : ''}`}
               >
                 {/* Row trigger — 44px min height for touch */}
                 <button
                   onClick={() => toggle(i)}
-                  className="w-full flex items-center justify-between px-3 sm:px-5 md:px-8 py-4 sm:py-5 md:py-8 gap-3 sm:gap-4 md:gap-6 group text-left cursor-pointer"
-                  aria-expanded={isOpen}
-                  style={{ minHeight: '48px' }}
+                  className="w-full flex items-center justify-between px-3 sm:px-5 md:px-8 py-4 sm:py-5 md:py-8 gap-3 sm:gap-4 md:gap-6 group text-left cursor-pointer min-h-[48px]"
+                  {...(isOpen ? { "aria-expanded": "true" } : {})}
                 >
                   {/* Index + title */}
                   <div className="flex items-center gap-2 sm:gap-3 md:gap-6">
                     <span
-                      className="text-[0.6rem] sm:text-[0.65rem] md:text-xs font-bold tracking-[0.15em] sm:tracking-[0.2em] flex-shrink-0 transition-all duration-300 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-md sm:rounded-lg flex items-center justify-center"
-                      style={{
-                        color: isOpen ? '#050608' : 'rgba(255,255,255,0.35)',
-                        background: isOpen
-                          ? 'linear-gradient(135deg, #E3A652 0%, #D4913E 100%)'
-                          : 'rgba(255,255,255,0.04)',
-                        boxShadow: isOpen ? '0 2px 8px rgba(227,166,82,0.3)' : 'none',
-                      }}
+                      className={`text-[0.6rem] sm:text-[0.65rem] md:text-xs font-bold tracking-[0.15em] sm:tracking-[0.2em] flex-shrink-0 transition-all duration-300 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-md sm:rounded-lg flex items-center justify-center ${isOpen ? 'accordion-idx-open' : 'accordion-idx'}`}
                     >
                       0{i + 1}
                     </span>
                     <h3
-                      className="font-extrabold tracking-tight transition-colors duration-300"
-                      style={{
-                        fontSize: "clamp(1.1rem, 3.2vw, 2.4rem)",
-                        color: isOpen ? "#E3A652" : "rgba(255,255,255,0.88)",
-                      }}
+                      className={`font-extrabold tracking-tight transition-colors duration-300 text-[clamp(1.1rem,3.2vw,2.4rem)] ${isOpen ? 'gold-text' : 'text-white/[0.88]'}`}
                     >
                       {svc.title}
                     </h3>
@@ -153,18 +128,7 @@ export default function Services() {
 
                   {/* Animated arrow icon */}
                   <div
-                    className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-all duration-400"
-                    style={{
-                      border: `1px solid ${isOpen ? '#E3A652' : 'rgba(255,255,255,0.12)'}`,
-                      background: isOpen
-                        ? 'linear-gradient(135deg, rgba(227,166,82,0.2) 0%, rgba(227,166,82,0.08) 100%)'
-                        : 'linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
-                      boxShadow: isOpen
-                        ? '0 4px 16px rgba(227,166,82,0.2), inset 0 1px 0 rgba(255,255,255,0.1)'
-                        : '0 2px 8px rgba(0,0,0,0.2)',
-                      transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                      transition: 'all 0.4s cubic-bezier(0.22, 1, 0.36, 1)',
-                    }}
+                    className={`flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center transition-all duration-400 ${isOpen ? 'accordion-arrow-open rotate-180' : 'accordion-arrow'}`}
                   >
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                       <path d="M3 5l4 4 4-4" stroke={isOpen ? "#E3A652" : "rgba(255,255,255,0.5)"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -184,7 +148,7 @@ export default function Services() {
                       style={{ overflow: "hidden" }}
                     >
                       <div className="px-3 sm:px-5 md:px-8 pb-4 sm:pb-5 md:pb-7 pt-1">
-                        <div className="h-px w-full mb-3 sm:mb-4 md:mb-6" style={{ background: 'linear-gradient(90deg, rgba(227,166,82,0.3) 0%, rgba(227,166,82,0.05) 100%)' }} />
+                        <div className="h-px w-full mb-3 sm:mb-4 md:mb-6 gold-divider-subtle" />
                         <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 sm:gap-x-6 md:gap-x-8 gap-y-1.5 sm:gap-y-2 md:gap-y-3">
                           {svc.items.map((item, idx) => (
                             <motion.li
@@ -194,7 +158,7 @@ export default function Services() {
                               transition={{ delay: idx * 0.06, duration: 0.35 }}
                               className="flex items-center gap-2 sm:gap-2.5 md:gap-3 text-white/70 text-xs sm:text-sm md:text-base font-medium py-1.5 sm:py-2 px-1.5 sm:px-2 md:px-3 rounded-lg transition-colors duration-200 hover:bg-white/[0.03] hover:text-white/90 active:bg-white/[0.05]"
                             >
-                              <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "#E3A652", boxShadow: '0 0 6px rgba(227,166,82,0.4)' }} />
+                              <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 dot-gold" />
                               {item}
                             </motion.li>
                           ))}

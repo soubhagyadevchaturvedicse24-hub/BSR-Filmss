@@ -3,6 +3,7 @@
 import { useRef, useState, useCallback, FormEvent } from "react";
 import { motion, useInView } from "framer-motion";
 import { Mail, Phone, MapPin, Send, ArrowRight } from "lucide-react";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const projectTypes = [
   "Documentary",
@@ -38,7 +39,7 @@ const initialForm: FormState = {
 type FieldErrors = Partial<Record<keyof FormState, string>>;
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-const PHONE_REGEX = /^\+?[0-9\s\-()]{10,15}$/;
+const PHONE_REGEX = /^\+?[0-9]{1,4}[\s\-()0-9]{6,14}$/;
 const COOLDOWN_MS = 30_000; // 30-second rate limit after submission
 
 function validateForm(form: FormState): FieldErrors {
@@ -62,6 +63,7 @@ function validateForm(form: FormState): FieldErrors {
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
   const inView = useInView(sectionRef, { once: true, margin: "-80px" });
+  const isMobile = useIsMobile();
 
   const [form, setForm] = useState<FormState>(initialForm);
   const [submitted, setSubmitted] = useState(false);
@@ -143,28 +145,27 @@ export default function Contact() {
     <section
       id="contact"
       ref={sectionRef}
-      className="section-padding relative overflow-hidden"
-      style={{ background: "linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-primary) 100%)" }}
+      className="section-padding relative overflow-hidden section-gradient-primary"
       aria-label="Contact BSR Films for your project"
     >
       {/* Decorative reel-dot pattern */}
       <div className="absolute inset-0 reel-dots opacity-30 pointer-events-none" aria-hidden="true" />
       {/* Ambient gold glow */}
-      <div aria-hidden="true" className="absolute top-0 right-0 w-[200px] sm:w-[300px] md:w-[500px] h-[200px] sm:h-[300px] md:h-[500px] pointer-events-none" style={{ background: "radial-gradient(circle, rgba(227,166,82,0.03) 0%, transparent 70%)" }} />
+      <div aria-hidden="true" className="absolute top-0 right-0 w-[200px] sm:w-[300px] md:w-[500px] h-[200px] sm:h-[300px] md:h-[500px] pointer-events-none radial-glow-gold-subtle" />
 
       <div className="relative max-w-screen-xl mx-auto">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={isMobile ? { opacity: 0, y: 12 } : { opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: isMobile ? 0.35 : 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-8 sm:mb-10 md:mb-16"
         >
           <p className="text-[#E3A652] text-[0.65rem] sm:text-xs md:text-sm font-semibold tracking-[0.18em] sm:tracking-[0.2em] uppercase mb-1.5 sm:mb-2 md:mb-3">
             Let&apos;s Create Together
           </p>
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-white gold-underline mx-auto inline-block mb-3 sm:mb-4 md:mb-6 text-cinema">
-            Start Your <span style={{ color: "#E3A652" }}>Project</span>
+            Start Your <span className="gold-text">Project</span>
           </h2>
           <p className="text-white/50 text-xs sm:text-sm md:text-lg max-w-xl mx-auto mt-3 sm:mt-5 md:mt-8 leading-relaxed px-2">
             Have a story to tell? Let&apos;s talk. Brief us about your project and
@@ -176,9 +177,9 @@ export default function Contact() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 xl:gap-20">
           {/* ── Left: Contact Info ─────────────────────────────────── */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            initial={isMobile ? { opacity: 0, y: 12 } : { opacity: 0, x: -40 }}
+            animate={inView ? { opacity: 1, x: 0, y: 0 } : {}}
+            transition={{ duration: isMobile ? 0.35 : 0.9, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col justify-between gap-6 sm:gap-8 md:gap-10"
           >
             <div>
@@ -255,9 +256,9 @@ export default function Contact() {
 
           {/* ── Right: Contact Form ────────────────────────────────── */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            initial={isMobile ? { opacity: 0, y: 12 } : { opacity: 0, x: 40 }}
+            animate={inView ? { opacity: 1, x: 0, y: 0 } : {}}
+            transition={{ duration: isMobile ? 0.35 : 0.9, delay: isMobile ? 0 : 0.15, ease: [0.22, 1, 0.36, 1] }}
           >
             {submitted ? (
               <div className="flex flex-col items-center justify-center h-full min-h-[350px] sm:min-h-[400px] text-center px-4">
@@ -305,7 +306,7 @@ export default function Contact() {
                       onChange={handleChange}
                       className={`form-input ${fieldErrors.name ? 'border-red-400/50' : ''}`}
                       aria-required="true"
-                      aria-invalid={!!fieldErrors.name}
+                      {...(fieldErrors.name ? { "aria-invalid": "true" } : {})}
                     />
                     {fieldErrors.name && <p className="text-red-400 text-xs mt-1">{fieldErrors.name}</p>}
                   </div>
@@ -349,7 +350,7 @@ export default function Contact() {
                       onChange={handleChange}
                       className={`form-input ${fieldErrors.email ? 'border-red-400/50' : ''}`}
                       aria-required="true"
-                      aria-invalid={!!fieldErrors.email}
+                      {...(fieldErrors.email ? { "aria-invalid": "true" } : {})}
                     />
                     {fieldErrors.email && <p className="text-red-400 text-xs mt-1">{fieldErrors.email}</p>}
                   </div>
@@ -370,7 +371,7 @@ export default function Contact() {
                       value={form.phone}
                       onChange={handleChange}
                       className={`form-input ${fieldErrors.phone ? 'border-red-400/50' : ''}`}
-                      aria-invalid={!!fieldErrors.phone}
+                      {...(fieldErrors.phone ? { "aria-invalid": "true" } : {})}
                     />
                     {fieldErrors.phone && <p className="text-red-400 text-xs mt-1">{fieldErrors.phone}</p>}
                   </div>
@@ -420,7 +421,7 @@ export default function Contact() {
                     onChange={handleChange}
                     className={`form-input resize-none ${fieldErrors.message ? 'border-red-400/50' : ''}`}
                     aria-required="true"
-                    aria-invalid={!!fieldErrors.message}
+                    {...(fieldErrors.message ? { "aria-invalid": "true" } : {})}
                   />
                   {fieldErrors.message && <p className="text-red-400 text-xs mt-1">{fieldErrors.message}</p>}
                   <p className="text-white/20 text-xs mt-1 text-right">{form.message.length} / 2000</p>
@@ -435,13 +436,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={sending || cooldown}
-                  className="self-start inline-flex items-center gap-2 sm:gap-3 text-[#050608] font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-full hover:scale-105 active:scale-[0.98] transition-all duration-300 text-xs sm:text-sm cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
-                  style={{
-                    background: "linear-gradient(135deg, #E3A652 0%, #D4913E 50%, #EDB96A 100%)",
-                    boxShadow: "0 6px 20px rgba(227,166,82,0.35), 0 2px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.25)",
-                    textShadow: "0 1px 0 rgba(255,255,255,0.2)",
-                    minHeight: "44px",
-                  }}
+                  className="self-start inline-flex items-center gap-2 sm:gap-3 text-[#050608] font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-full hover:scale-105 active:scale-[0.98] transition-all duration-300 text-xs sm:text-sm cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 btn-gold-gradient min-h-[44px]"
                   aria-label="Submit your project brief"
                 >
                   <Send size={14} className={sending ? "animate-pulse" : ""} />
@@ -465,8 +460,7 @@ export default function Contact() {
               href="https://www.youtube.com/@bsrfilmsoriginal2461"
               target="_blank"
               rel="noopener noreferrer"
-              className="group w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-300 hover:-translate-y-1 active:scale-95"
-              style={{ background: "linear-gradient(135deg, rgba(255,0,0,0.12) 0%, rgba(255,0,0,0.04) 100%)", border: "1px solid rgba(255,0,0,0.15)", boxShadow: "0 2px 10px rgba(0,0,0,0.2)" }}
+              className="group w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-300 hover:-translate-y-1 active:scale-95 icon-bg-youtube"
               aria-label="BSR Films on YouTube"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="transition-transform duration-300 group-hover:scale-110 sm:w-5 sm:h-5">
@@ -479,8 +473,7 @@ export default function Contact() {
               href="https://www.facebook.com/people/BSR-Films/100064075840334/"
               target="_blank"
               rel="noopener noreferrer"
-              className="group w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-300 hover:-translate-y-1 active:scale-95"
-              style={{ background: "linear-gradient(135deg, rgba(24,119,242,0.12) 0%, rgba(24,119,242,0.04) 100%)", border: "1px solid rgba(24,119,242,0.15)", boxShadow: "0 2px 10px rgba(0,0,0,0.2)" }}
+              className="group w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-300 hover:-translate-y-1 active:scale-95 icon-bg-facebook"
               aria-label="BSR Films on Facebook"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="transition-transform duration-300 group-hover:scale-110 sm:w-5 sm:h-5">
@@ -492,8 +485,7 @@ export default function Contact() {
               href="https://www.instagram.com/bsrfilms"
               target="_blank"
               rel="noopener noreferrer"
-              className="group w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-300 hover:-translate-y-1 active:scale-95"
-              style={{ background: "linear-gradient(135deg, rgba(225,48,108,0.12) 0%, rgba(252,175,69,0.04) 100%)", border: "1px solid rgba(225,48,108,0.15)", boxShadow: "0 2px 10px rgba(0,0,0,0.2)" }}
+              className="group w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-300 hover:-translate-y-1 active:scale-95 icon-bg-instagram"
               aria-label="BSR Films on Instagram"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="transition-transform duration-300 group-hover:scale-110 sm:w-5 sm:h-5">

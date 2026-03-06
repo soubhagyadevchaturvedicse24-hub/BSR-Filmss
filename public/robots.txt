@@ -1,0 +1,7 @@
+# BSR Films — robots.txt
+User-agent: *
+Allow: /
+Disallow: /_next/
+Disallow: /api/
+
+Sitemap: https://bsrfilms.com/sitemap.xml
