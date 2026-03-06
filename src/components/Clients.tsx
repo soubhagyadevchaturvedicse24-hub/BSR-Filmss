@@ -53,32 +53,14 @@ export default function Clients() {
   const [isMobile, setIsMobile] = useState(false);
   const [isDesktop, setIsDesktop] = useState(true);
 
-  // ── Detect mobile and lazy-load video ──────────────────────────
+  // ── Detect mobile & desktop breakpoints ──────────────────────────
   useEffect(() => {
-    const mobile = window.innerWidth < 768 || window.matchMedia("(pointer: coarse)").matches;
-    setIsMobile(mobile);
-    // Match the HeroCanvas breakpoint: ≥1024px = desktop (has sticky hero → needs -100vh)
+    setIsMobile(window.innerWidth < 768 || window.matchMedia("(pointer: coarse)").matches);
     setIsDesktop(window.innerWidth >= 1024);
 
     const mqList = window.matchMedia("(min-width: 1024px)");
     const syncDesktop = () => setIsDesktop(mqList.matches);
     mqList.addEventListener("change", syncDesktop);
-
-    // On mobile, only play video when section is visible (saves battery)
-    if (mobile && videoRef.current) {
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            videoRef.current?.play().catch(() => { });
-          } else {
-            videoRef.current?.pause();
-          }
-        },
-        { threshold: 0.1 }
-      );
-      observer.observe(sectionRef.current!);
-      return () => { observer.disconnect(); mqList.removeEventListener("change", syncDesktop); };
-    }
     return () => mqList.removeEventListener("change", syncDesktop);
   }, []);
 
@@ -89,19 +71,29 @@ export default function Clients() {
       className={`relative overflow-hidden min-h-[60vh] z-10 ${isDesktop ? '-mt-[100vh]' : ''}`}
       aria-label="Organizations and government departments that trust BSR Films"
     >
-      {/* Full-bleed logo video — lazy on mobile */}
-      <video
-        ref={videoRef}
-        src="/hero-bg.mp4"
-        autoPlay={!isMobile}
-        muted
-        loop
-        playsInline
-        preload={isMobile ? "none" : "auto"}
-        poster="/bsr-brand.png"
-        className="absolute inset-0 w-full h-full object-cover"
-        aria-hidden="true"
-      />
+      {/* Full-bleed background — static poster on mobile, video on desktop */}
+      {isMobile ? (
+        <img
+          src="/bsr-brand.png"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="lazy"
+        />
+      ) : (
+        <video
+          ref={videoRef}
+          src="/hero-bg.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster="/bsr-brand.png"
+          className="absolute inset-0 w-full h-full object-cover"
+          aria-hidden="true"
+        />
+      )}
 
       {/* Heavy overlay */}
       <div
