@@ -5,8 +5,18 @@
 @tailwind utilities;
 
 /* ═══════════════════════════════════════════════════════════════════
-   PRELOADER — cinematic splash while assets load
+   PRELOADER — gates content until all assets are ready
    ═══════════════════════════════════════════════════════════════════ */
+
+/* While loading: hide page content, lock scroll, prevent GPU work */
+body.loading {
+  overflow: hidden !important;
+}
+body.loading #main-content {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 .preloader {
   position: fixed;
   inset: 0;

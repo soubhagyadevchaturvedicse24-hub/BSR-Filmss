@@ -1,59 +1,78 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 export default function Preloader() {
   const [progress, setProgress] = useState(0);
-  const [loaded, setLoaded] = useState(false);
-  const [hidden, setHidden] = useState(false);
+  const [phase, setPhase] = useState<"loading" | "revealing" | "gone">("loading");
+  const rafRef = useRef<number>(0);
 
-  const finish = useCallback(() => {
+  /* ── Reveal: unhide content, remove scroll lock, fade preloader ── */
+  const reveal = useCallback(() => {
     setProgress(100);
-    /* Let the bar fill visually, then fade out */
-    setTimeout(() => setLoaded(true), 400);
-    /* Remove from DOM after exit animation */
-    setTimeout(() => setHidden(true), 1200);
+    /* Small delay so the bar visually fills to 100% */
+    setTimeout(() => {
+      /* Unhide main content + unlock scroll */
+      document.body.classList.remove("loading");
+      setPhase("revealing");
+      /* Remove preloader from DOM after CSS fade-out finishes */
+      setTimeout(() => setPhase("gone"), 800);
+    }, 300);
   }, []);
 
   useEffect(() => {
-    /* Synthetic progress ramp — feels alive while real assets load */
-    let frame: number;
-    let start = Date.now();
+    /* Ensure body has loading class (safety net if SSR missed it) */
+    document.body.classList.add("loading");
+
+    /* ── Synthetic progress ramp ── */
+    const start = Date.now();
     const tick = () => {
       const elapsed = Date.now() - start;
-      /* Fast to 30%, cruise to 70%, then hold at 85% until real load */
       let target: number;
-      if (elapsed < 600) target = (elapsed / 600) * 30;
-      else if (elapsed < 1800) target = 30 + ((elapsed - 600) / 1200) * 40;
-      else target = Math.min(85, 70 + ((elapsed - 1800) / 4000) * 15);
-
+      if (elapsed < 500) target = (elapsed / 500) * 25;
+      else if (elapsed < 1500) target = 25 + ((elapsed - 500) / 1000) * 35;
+      else target = Math.min(85, 60 + ((elapsed - 1500) / 5000) * 25);
       setProgress((p) => Math.max(p, target));
-      if (target < 85) frame = requestAnimationFrame(tick);
+      if (target < 85) rafRef.current = requestAnimationFrame(tick);
     };
-    frame = requestAnimationFrame(tick);
+    rafRef.current = requestAnimationFrame(tick);
 
-    /* Real completion trigger */
-    const onReady = () => finish();
+    /* ── Real completion: window.load + fonts ready ── */
+    const waitForLoad = () => {
+      Promise.all([
+        /* Wait for all sub-resources (images, scripts, iframes) */
+        new Promise<void>((res) => {
+          if (document.readyState === "complete") res();
+          else window.addEventListener("load", () => res(), { once: true });
+        }),
+        /* Wait for web fonts so text doesn't reflow after reveal */
+        document.fonts.ready,
+      ]).then(() => {
+        cancelAnimationFrame(rafRef.current);
+        reveal();
+      });
+    };
 
-    if (document.readyState === "complete") {
-      /* Already loaded (cached visit) — quick flash then go */
-      setTimeout(finish, 800);
-    } else {
-      window.addEventListener("load", onReady);
-    }
+    waitForLoad();
+
+    /* Safety cap: never block longer than 8s even on very slow networks */
+    const safety = setTimeout(() => {
+      cancelAnimationFrame(rafRef.current);
+      reveal();
+    }, 8000);
 
     return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("load", onReady);
+      cancelAnimationFrame(rafRef.current);
+      clearTimeout(safety);
     };
-  }, [finish]);
+  }, [reveal]);
 
-  if (hidden) return null;
+  if (phase === "gone") return null;
 
   return (
     <div
-      className={`preloader ${loaded ? "preloader--done" : ""}`}
-      aria-hidden={loaded}
+      className={`preloader ${phase === "revealing" ? "preloader--done" : ""}`}
+      aria-hidden={phase === "revealing"}
       role="progressbar"
       aria-valuenow={Math.round(progress)}
       aria-valuemin={0}
