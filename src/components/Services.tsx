@@ -149,7 +149,7 @@ export default function Services() {
                     >
                       <div className="px-3 sm:px-5 md:px-8 pb-4 sm:pb-5 md:pb-7 pt-1">
                         <div className="h-px w-full mb-3 sm:mb-4 md:mb-6 gold-divider-subtle" />
-                        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 sm:gap-x-6 md:gap-x-8 gap-y-1.5 sm:gap-y-2 md:gap-y-3">
+                        <ul className="grid grid-cols-2 md:grid-cols-3 gap-x-3 sm:gap-x-6 md:gap-x-8 gap-y-1.5 sm:gap-y-2 md:gap-y-3">
                           {svc.items.map((item, idx) => (
                             <motion.li
                               key={item}
