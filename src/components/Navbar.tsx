@@ -124,9 +124,11 @@ export default function Navbar() {
             </a>
           </div>
 
-          {/* Hamburger — larger tap target */}
-          <button
-            className="md:hidden flex flex-col gap-[5px] p-3 -mr-1 min-w-[44px] min-h-[44px] items-center justify-center"
+          {/* Mobile: theme toggle + hamburger */}
+          <div className="md:hidden flex items-center gap-1">
+            <ThemeToggle />
+            <button
+              className="flex flex-col gap-[5px] p-3 -mr-1 min-w-[44px] min-h-[44px] items-center justify-center"
             onClick={() => setOpen(p => !p)}
             aria-label={open ? "Close menu" : "Open menu"}
             {...(open ? { "aria-expanded": "true" } : {})}
@@ -134,7 +136,8 @@ export default function Navbar() {
             <span className={`block h-[1.5px] transition-all duration-300 ${isDark ? 'bg-white' : 'bg-[#1A1714]'} ${open ? "w-6 rotate-45 translate-y-[6.5px]" : "w-6"}`} />
             <span className={`block h-[1.5px] transition-all duration-300 ${isDark ? 'bg-white' : 'bg-[#1A1714]'} ${open ? "w-0 opacity-0" : "w-4"}`} />
             <span className={`block h-[1.5px] transition-all duration-300 ${isDark ? 'bg-white' : 'bg-[#1A1714]'} ${open ? "w-6 -rotate-45 -translate-y-[6.5px]" : "w-6"}`} />
-          </button>
+            </button>
+          </div>
         </div>
       </motion.header>
 
@@ -174,9 +177,6 @@ export default function Navbar() {
               Start a Project
               <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l5 4-5 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </a>
-            <div className="mt-2">
-              <ThemeToggle />
-            </div>
           </motion.div>
         )}
       </AnimatePresence>
