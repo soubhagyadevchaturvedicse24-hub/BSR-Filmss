@@ -46,6 +46,23 @@ function FullWidthMarquee({ items, direction }: { items: string[]; direction: "l
   );
 }
 
+/* Static wrapped grid for mobile — no animation, no duplicated track */
+function StaticBadgeGrid({ items }: { items: string[] }) {
+  return (
+    <div className="flex flex-wrap justify-center gap-2 px-3">
+      {items.map((label) => (
+        <span
+          key={label}
+          className="px-4 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap flex items-center marquee-badge-styled"
+        >
+          <span className="w-1.5 h-1.5 rounded-full mr-2 flex-shrink-0 dot-gold-glow" />
+          {label}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export default function Clients() {
   const sectionRef = useRef<HTMLElement>(null);
   const inView = useInView(sectionRef, { once: true, margin: "-80px" });
@@ -71,16 +88,8 @@ export default function Clients() {
       className={`relative overflow-hidden min-h-[60vh] z-10 ${isDesktop ? '-mt-[100vh]' : ''}`}
       aria-label="Organizations and government departments that trust BSR Films"
     >
-      {/* Full-bleed background — static poster on mobile, video on desktop */}
-      {isMobile ? (
-        <img
-          src="/bsr-brand.png"
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover"
-          loading="lazy"
-        />
-      ) : (
+      {/* Full-bleed background — nothing on mobile, video on desktop */}
+      {!isMobile && (
         <video
           ref={videoRef}
           src="/hero-bg.mp4"
@@ -95,7 +104,7 @@ export default function Clients() {
         />
       )}
 
-      {/* Heavy overlay */}
+      {/* Overlay — solid on mobile, blurred on desktop */}
       <div
         className={`absolute inset-0 z-0 transition-colors duration-700 clients-overlay ${!isMobile ? 'backdrop-blur-[4px]' : ''}`}
         aria-hidden="true"
@@ -122,20 +131,7 @@ export default function Clients() {
               <FullWidthMarquee items={govtDepts} direction="left" />
             </>
           ) : (
-            <>
-              <div>
-                <p className="text-[0.55rem] sm:text-[0.65rem] font-bold tracking-widest uppercase mb-2 sm:mb-3 text-center transition-colors duration-500 color-gold">
-                  International &amp; National Organizations
-                </p>
-                <FullWidthMarquee items={majorOrgs} direction="left" />
-              </div>
-              <div>
-                <p className="text-[0.55rem] sm:text-[0.65rem] font-bold tracking-widest uppercase mb-2 sm:mb-3 text-center opacity-65 transition-colors duration-500 color-gold">
-                  Chhattisgarh Government Departments
-                </p>
-                <FullWidthMarquee items={govtDepts} direction="right" />
-              </div>
-            </>
+            <StaticBadgeGrid items={[...majorOrgs, ...govtDepts]} />
           )}
         </motion.div>
 
