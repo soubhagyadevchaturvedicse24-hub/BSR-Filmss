@@ -332,7 +332,7 @@ export default function HeroCanvas() {
             {/* Top-right kicker */}
             <div
               ref={kickerRef}
-              className="absolute top-[72px] sm:top-[88px] md:top-[120px] right-[3%] sm:right-[4%] md:right-[5%] z-30 text-right pointer-events-auto"
+              className="absolute bottom-[18%] left-1/2 -translate-x-1/2 sm:bottom-auto sm:left-auto sm:translate-x-0 sm:top-[88px] sm:right-[4%] md:top-[120px] md:right-[5%] z-30 text-center sm:text-right pointer-events-auto"
             >
               <motion.div
                 initial={{ opacity: 0, y: -12 }}
