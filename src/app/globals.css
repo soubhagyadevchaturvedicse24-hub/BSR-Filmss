@@ -1692,6 +1692,10 @@ html.light #hero .hero-scrim {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
     background: rgba(0,0,0,0.55);
+    --text-heading: #fff;
+    --text-primary: rgba(255,255,255,0.85);
+    --text-muted: rgba(255,255,255,0.5);
+    --gold: #e3a652;
   }
 }
 
