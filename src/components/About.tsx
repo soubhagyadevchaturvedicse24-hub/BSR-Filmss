@@ -145,6 +145,7 @@ export default function About() {
                           alt={member.name}
                           className="w-full h-full object-cover object-top"
                           draggable={false}
+                          loading="lazy"
                         />
                       ) : (
                         <div className="w-full h-full bg-[#0a0c10] flex items-center justify-center" role="img" aria-label={`Placeholder for ${member.name}`}>

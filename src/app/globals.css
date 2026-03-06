@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -1687,6 +1687,13 @@ html.light #hero .hero-scrim {
   border-left: 4px solid var(--gold);
   box-shadow: 0 4px 24px rgba(0,0,0,0.15);
 }
+@media (max-width: 768px) {
+  .glass-card-var {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(0,0,0,0.55);
+  }
+}
 
 /*
  * Inside #hero these panels sit on a dark canvas, so the dark-locked
@@ -1834,9 +1841,13 @@ html.light #hero .hero-scrim {
 .play-btn-active {
   background: linear-gradient(135deg, #E3A652 0%, #D4913E 50%, #EDB96A 100%);
   border: none;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
   box-shadow: 0 0 28px rgba(227,166,82,0.45), 0 6px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.25);
+}
+@media (min-width: 769px) {
+  .play-btn-active {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
 }
 .showreel-btn {
   background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);

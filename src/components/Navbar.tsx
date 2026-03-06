@@ -84,7 +84,7 @@ export default function Navbar() {
               alt="BSR Films"
               width={110}
               height={72}
-              className="h-8 sm:h-10 md:h-16 w-auto object-contain drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)]"
+              className="h-8 sm:h-10 md:h-16 w-auto object-contain md:drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)]"
               priority
             />
             <span className="text-[var(--text-muted)] font-light text-xs tracking-[.22em] uppercase hidden sm:inline">Films</span>

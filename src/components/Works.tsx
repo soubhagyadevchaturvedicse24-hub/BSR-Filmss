@@ -121,14 +121,17 @@ interface SlideCardProps {
   project: Project;
   isActive: boolean;
   isPlaying: boolean;
+  isMobile: boolean;
   onPlay: () => void;
   onClose: () => void;
   onSlideToMe: () => void;
 }
 
-function SlideCard({ project: p, isActive, isPlaying, onPlay, onClose, onSlideToMe }: SlideCardProps) {
+function SlideCard({ project: p, isActive, isPlaying, isMobile, onPlay, onClose, onSlideToMe }: SlideCardProps) {
   const videoId = ytId(p.yt);
-  const thumbUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+  const thumbUrl = isMobile
+    ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
+    : `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
   const ts = TAG_STYLE[p.tag];
 
   const handleCardClick = () => {
@@ -393,6 +396,7 @@ export default function Works() {
                     project={p}
                     isActive={isActive}
                     isPlaying={playingId === p.id}
+                    isMobile={isMobile}
                     onPlay={() => startVideo(p.id)}
                     onClose={stopVideo}
                     onSlideToMe={() => swiperRef.current?.slideToLoop(idx)}

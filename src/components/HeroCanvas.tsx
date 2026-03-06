@@ -339,7 +339,7 @@ export default function HeroCanvas() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.8 }}
               >
-                <p className="text-[#E3A652] font-bold tracking-[0.1em] sm:tracking-[0.12em] md:tracking-[0.15em] text-[0.6rem] sm:text-xs md:text-lg uppercase drop-shadow-[0_2px_10px_rgba(0,0,0,1)] bg-black/30 px-3 sm:px-3.5 md:px-5 py-1 sm:py-1.5 md:py-2.5 rounded-full sm:backdrop-blur-sm">
+                <p className="text-[#E3A652] font-bold tracking-[0.1em] sm:tracking-[0.12em] md:tracking-[0.15em] text-[0.6rem] sm:text-xs md:text-lg uppercase drop-shadow-[0_2px_10px_rgba(0,0,0,1)] bg-black/30 px-3 sm:px-3.5 md:px-5 py-1 sm:py-1.5 md:py-2.5 rounded-full md:backdrop-blur-sm">
                   Raipur, Chhattisgarh<br />
                   <span className="text-white">Est. 25+ Years</span>
                 </p>

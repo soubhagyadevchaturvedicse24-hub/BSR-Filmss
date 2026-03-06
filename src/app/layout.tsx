@@ -52,6 +52,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://img.youtube.com" />
+        {/* Non-blocking font load */}
+        <link
+          rel="preload"
+          as="style"
+          href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap"
+        />
         {/* JSON-LD structured data for SEO */}
         <script
           type="application/ld+json"
