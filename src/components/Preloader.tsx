@@ -2,70 +2,188 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 
+/*
+ * ─── Asset manifest ────────────────────────────────────────────────
+ * Everything preloaded here lands in the browser cache so that
+ * when the actual components mount they get instant cache hits.
+ */
+const TOTAL_FRAMES = 120;
+const frameUrl = (i: number) =>
+  `/frames/ezgif-frame-${String(i + 1).padStart(3, "0")}.webp`;
+
+const SERVICE_IMAGES = [
+  "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=1600&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=1600&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=1600&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1600&auto=format&fit=crop",
+];
+
+/* Weight each asset group for the 0→100 % display */
+const W_FRAMES = 0.65;
+const W_IMAGES = 0.10;
+const W_VIDEO  = 0.15;
+const W_FONTS  = 0.10;
+
 export default function Preloader() {
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState<"loading" | "revealing" | "gone">("loading");
-  const rafRef = useRef<number>(0);
+  const buckets = useRef({ frames: 0, images: 0, video: 0, fonts: 0 });
+
+  /* Recalculate composite progress from individual buckets */
+  const sync = useCallback(() => {
+    const b = buckets.current;
+    const next = Math.min(
+      Math.round(
+        b.frames * W_FRAMES +
+        b.images * W_IMAGES +
+        b.video  * W_VIDEO  +
+        b.fonts  * W_FONTS
+      ),
+      100,
+    );
+    setProgress((p) => Math.max(p, next));
+  }, []);
 
   /* ── Reveal: unhide content, remove scroll lock, fade preloader ── */
   const reveal = useCallback(() => {
     setProgress(100);
-    /* Small delay so the bar visually fills to 100% */
     setTimeout(() => {
-      /* Unhide main content + unlock scroll */
       document.body.classList.remove("loading");
       setPhase("revealing");
-      /* Remove preloader from DOM after CSS fade-out finishes */
       setTimeout(() => setPhase("gone"), 800);
     }, 300);
   }, []);
 
   useEffect(() => {
-    /* Ensure body has loading class (safety net if SSR missed it) */
     document.body.classList.add("loading");
-
-    /* ── Synthetic progress ramp ── */
-    const start = Date.now();
-    const tick = () => {
-      const elapsed = Date.now() - start;
-      let target: number;
-      if (elapsed < 500) target = (elapsed / 500) * 25;
-      else if (elapsed < 1500) target = 25 + ((elapsed - 500) / 1000) * 35;
-      else target = Math.min(85, 60 + ((elapsed - 1500) / 5000) * 25);
-      setProgress((p) => Math.max(p, target));
-      if (target < 85) rafRef.current = requestAnimationFrame(tick);
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+    let revealed = false;
+    const tryReveal = () => {
+      if (revealed) return;
+      revealed = true;
+      reveal();
     };
-    rafRef.current = requestAnimationFrame(tick);
 
-    /* ── Real completion: window.load + fonts ready ── */
-    const waitForLoad = () => {
+    /* Safety cap — never block longer than 12 s */
+    const safety = setTimeout(tryReveal, 12000);
+    const tasks: Promise<void>[] = [];
+
+    /* ── 1. Hero canvas frames ──────────────────────────────────────── */
+    if (isDesktop) {
+      tasks.push(
+        new Promise<void>((resolve) => {
+          let loaded = 0;
+          const BATCH = 10;
+          const loadBatch = async (start: number) => {
+            const batch: Promise<void>[] = [];
+            for (let i = start; i < Math.min(start + BATCH, TOTAL_FRAMES); i++) {
+              batch.push(
+                new Promise<void>((res) => {
+                  const img = new Image();
+                  img.decoding = "async";
+                  img.src = frameUrl(i);
+                  img.onload = img.onerror = () => {
+                    loaded++;
+                    buckets.current.frames = (loaded / TOTAL_FRAMES) * 100;
+                    sync();
+                    res();
+                  };
+                }),
+              );
+            }
+            await Promise.all(batch);
+            if (start + BATCH < TOTAL_FRAMES) await loadBatch(start + BATCH);
+          };
+          loadBatch(0).then(resolve);
+        }),
+      );
+    } else {
+      /* Mobile — only first frame needed */
+      tasks.push(
+        new Promise<void>((res) => {
+          const img = new Image();
+          img.src = frameUrl(0);
+          img.onload = img.onerror = () => {
+            buckets.current.frames = 100;
+            sync();
+            res();
+          };
+        }),
+      );
+    }
+
+    /* ── 2. Service background images (desktop only) ────────────────── */
+    if (isDesktop) {
+      tasks.push(
+        new Promise<void>((resolve) => {
+          let loaded = 0;
+          SERVICE_IMAGES.forEach((src) => {
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.src = src;
+            img.onload = img.onerror = () => {
+              loaded++;
+              buckets.current.images = (loaded / SERVICE_IMAGES.length) * 100;
+              sync();
+              if (loaded >= SERVICE_IMAGES.length) resolve();
+            };
+          });
+        }),
+      );
+    } else {
+      buckets.current.images = 100;
+      sync();
+    }
+
+    /* ── 3. Clients background video (desktop only) ─────────────────── */
+    if (isDesktop) {
+      tasks.push(
+        new Promise<void>((resolve) => {
+          let done = false;
+          const finish = () => {
+            if (done) return;
+            done = true;
+            buckets.current.video = 100;
+            sync();
+            resolve();
+          };
+          const v = document.createElement("video");
+          v.preload = "auto";
+          v.muted = true;
+          v.addEventListener("canplaythrough", finish, { once: true });
+          v.addEventListener("error", finish, { once: true });
+          v.src = v.canPlayType("video/webm") ? "/clients-bg.webm" : "/clients-bg.mp4";
+          v.load();
+          setTimeout(finish, 6000);
+        }),
+      );
+    } else {
+      buckets.current.video = 100;
+      sync();
+    }
+
+    /* ── 4. Fonts + document ready ──────────────────────────────────── */
+    tasks.push(
       Promise.all([
-        /* Wait for all sub-resources (images, scripts, iframes) */
+        document.fonts.ready,
         new Promise<void>((res) => {
           if (document.readyState === "complete") res();
           else window.addEventListener("load", () => res(), { once: true });
         }),
-        /* Wait for web fonts so text doesn't reflow after reveal */
-        document.fonts.ready,
       ]).then(() => {
-        cancelAnimationFrame(rafRef.current);
-        reveal();
-      });
-    };
+        buckets.current.fonts = 100;
+        sync();
+      }),
+    );
 
-    waitForLoad();
-
-    /* Safety cap: never block longer than 8s even on very slow networks */
-    const safety = setTimeout(() => {
-      cancelAnimationFrame(rafRef.current);
-      reveal();
-    }, 8000);
-
-    return () => {
-      cancelAnimationFrame(rafRef.current);
+    /* All assets loaded → reveal */
+    Promise.all(tasks).then(() => {
       clearTimeout(safety);
-    };
-  }, [reveal]);
+      tryReveal();
+    });
+
+    return () => clearTimeout(safety);
+  }, [reveal, sync]);
 
   if (phase === "gone") return null;
 

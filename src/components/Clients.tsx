@@ -126,7 +126,7 @@ export default function Clients() {
 
       {/* Overlay — solid on mobile, blurred on desktop */}
       <div
-        className={`absolute inset-0 z-0 clients-overlay ${!isMobile ? 'backdrop-blur-[4px] transition-colors duration-700' : ''}`}
+        className={`absolute inset-0 z-0 clients-overlay ${!isMobile ? 'transition-colors duration-700' : ''}`}
         aria-hidden="true"
       />
 

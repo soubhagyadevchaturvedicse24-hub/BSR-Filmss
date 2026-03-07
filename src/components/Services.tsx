@@ -103,7 +103,7 @@ export default function Services() {
               <div
                 key={svc.title}
                 onMouseEnter={() => !isMobile && setHoveredBg(i)}
-                className={`rounded-xl sm:rounded-2xl overflow-hidden transition-colors duration-300 ${isOpen ? 'accordion-card-open' : 'accordion-card'} ${!isMobile ? 'backdrop-blur-[12px]' : ''}`}
+                className={`rounded-xl sm:rounded-2xl overflow-hidden transition-colors duration-300 ${isOpen ? 'accordion-card-open' : 'accordion-card'}`}
               >
                 {/* Row trigger — 44px min height for touch */}
                 <button
