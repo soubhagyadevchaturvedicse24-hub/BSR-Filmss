@@ -57,7 +57,7 @@ export default function Services() {
 
         {/* Header */}
         <div
-          className={`mb-8 sm:mb-10 md:mb-16 transition-all duration-700 ease-out ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+          className={`mb-8 sm:mb-10 md:mb-16 services-fade-in ${visible ? 'services-fade-in--visible' : ''}`}
         >
           <p className="label-line justify-start">What We Do</p>
           <h2 className="text-[clamp(1.6rem,5.5vw,4rem)] font-extrabold text-white leading-tight tracking-tight mt-1.5 sm:mt-2 text-cinema">
@@ -73,8 +73,7 @@ export default function Services() {
 
         {/* Accordion rows — pure CSS grid-rows animation, zero JS layout thrash */}
         <div
-          className={`flex flex-col gap-2 sm:gap-3 md:gap-4 transition-opacity duration-500 ${visible ? 'opacity-100' : 'opacity-0'}`}
-          style={{ transitionDelay: visible ? '200ms' : '0ms' }}
+          className={`flex flex-col gap-2 sm:gap-3 md:gap-4 services-fade-in services-fade-in--delay ${visible ? 'services-fade-in--visible' : ''}`}
         >
           {services.map((svc, i) => {
             const isOpen = openIndex === i;

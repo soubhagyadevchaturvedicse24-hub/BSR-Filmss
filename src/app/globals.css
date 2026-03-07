@@ -804,6 +804,9 @@ body {
 .text-cinema {
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6), 0 0 40px rgba(227, 166, 82, 0.08);
 }
+html.light .text-cinema {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 20px rgba(26, 23, 20, 0.06);
+}
 
 /* --- Stagger fade-in for list items ------------------------------- */
 .stagger-fade>* {
@@ -1306,6 +1309,17 @@ html.light header {
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
+/* Flip text-gray-XXX (Facilities etc.) */
+html.light [class*="text-gray-"] {
+  color: var(--text-muted) !important;
+}
+
+/* Give ALL light-mode headings a subtle warm shadow for depth */
+html.light h2,
+html.light h3 {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 2px 12px rgba(26, 23, 20, 0.04);
+}
+
 /* ═══════════════════════════════════════════════════════════════════
    MOBILE RESPONSIVE SECTION OVERRIDES
    ═══════════════════════════════════════════════════════════════════ */
@@ -1585,7 +1599,8 @@ html.light header {
 }
 
 /* --- Gold accent elements ----------------------------------------- */
-.gold-text { color: #E3A652; }
+/* Gold accent text — theme-aware */
+.gold-text { color: var(--gold, #E3A652); }
 .gold-bg { background: #E3A652; }
 .gold-divider {
   background: linear-gradient(90deg, #E3A652, transparent);
@@ -1814,7 +1829,7 @@ html.light #hero .hero-scrim {
 .accordion-body {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: grid-template-rows 0.3s ease-out;
 }
 .accordion-body--open {
   grid-template-rows: 1fr;
@@ -1825,10 +1840,41 @@ html.light #hero .hero-scrim {
 
 /* Chevron rotation */
 .accordion-chevron {
-  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.25s ease-out;
 }
 .accordion-chevron--open {
   transform: rotate(180deg);
+}
+
+/* On old/slow devices: skip the grid-rows animation entirely */
+@media (max-width: 768px) {
+  .accordion-body {
+    transition: none;
+  }
+  .accordion-chevron {
+    transition: none;
+  }
+}
+
+/* --- Services section entrance fade (skipped on mobile) ----------- */
+.services-fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.services-fade-in--delay {
+  transition-delay: 200ms;
+}
+.services-fade-in--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (max-width: 768px) {
+  .services-fade-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 /* --- Works / SlideCard -------------------------------------------- */
@@ -1969,6 +2015,9 @@ html.light #clients {
 .heading-text-shadow {
   color: var(--text-heading);
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+html.light .heading-text-shadow {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 .border-top-subtle {
   border-top: 1px solid var(--border-subtle);
