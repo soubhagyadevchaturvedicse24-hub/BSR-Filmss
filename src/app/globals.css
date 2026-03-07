@@ -1142,11 +1142,6 @@ html.light #services {
   background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 50%, var(--bg-secondary) 100%) !important;
 }
 
-/* Hide background images in light mode (they're dark/cinematic) */
-html.light #services>img {
-  opacity: 0 !important;
-}
-
 /* Replace the dark overlay with a light frosted one */
 html.light #services>div[aria-hidden="true"] {
   background: linear-gradient(160deg, rgba(245, 240, 232, 0.92) 0%, rgba(237, 231, 219, 0.88) 50%, rgba(245, 240, 232, 0.9) 100%) !important;
@@ -1165,13 +1160,11 @@ html.light #services p {
   color: var(--text-muted) !important;
 }
 
-/* Accordion panels — glassmorphism on light */
+/* Accordion panels — solid light bg, no backdrop-filter */
 html.light #services [class*="rounded-2xl"] {
-  background: rgba(255, 255, 255, 0.6) !important;
+  background: rgba(255, 255, 255, 0.75) !important;
   border-color: rgba(0, 0, 0, 0.08) !important;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-  backdrop-filter: blur(10px) !important;
 }
 
 /* Accordion title text */
@@ -1815,6 +1808,27 @@ html.light #hero .hero-scrim {
 .dot-gold {
   background: #E3A652;
   box-shadow: 0 0 6px rgba(227,166,82,0.4);
+}
+
+/* --- Accordion body — CSS grid-rows transition (zero JS layout) --- */
+.accordion-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.accordion-body--open {
+  grid-template-rows: 1fr;
+}
+.accordion-body__inner {
+  overflow: hidden;
+}
+
+/* Chevron rotation */
+.accordion-chevron {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.accordion-chevron--open {
+  transform: rotate(180deg);
 }
 
 /* --- Works / SlideCard -------------------------------------------- */

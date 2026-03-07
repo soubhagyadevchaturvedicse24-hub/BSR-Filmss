@@ -11,23 +11,15 @@ const TOTAL_FRAMES = 120;
 const frameUrl = (i: number) =>
   `/frames/ezgif-frame-${String(i + 1).padStart(3, "0")}.webp`;
 
-const SERVICE_IMAGES = [
-  "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=1600&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=1600&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=1600&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1600&auto=format&fit=crop",
-];
-
 /* Weight each asset group for the 0→100 % display */
-const W_FRAMES = 0.65;
-const W_IMAGES = 0.10;
-const W_VIDEO  = 0.15;
-const W_FONTS  = 0.10;
+const W_FRAMES = 0.70;
+const W_VIDEO  = 0.18;
+const W_FONTS  = 0.12;
 
 export default function Preloader() {
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState<"loading" | "revealing" | "gone">("loading");
-  const buckets = useRef({ frames: 0, images: 0, video: 0, fonts: 0 });
+  const buckets = useRef({ frames: 0, video: 0, fonts: 0 });
 
   /* Recalculate composite progress from individual buckets */
   const sync = useCallback(() => {
@@ -35,7 +27,6 @@ export default function Preloader() {
     const next = Math.min(
       Math.round(
         b.frames * W_FRAMES +
-        b.images * W_IMAGES +
         b.video  * W_VIDEO  +
         b.fonts  * W_FONTS
       ),
@@ -112,30 +103,7 @@ export default function Preloader() {
       );
     }
 
-    /* ── 2. Service background images (desktop only) ────────────────── */
-    if (isDesktop) {
-      tasks.push(
-        new Promise<void>((resolve) => {
-          let loaded = 0;
-          SERVICE_IMAGES.forEach((src) => {
-            const img = new Image();
-            img.crossOrigin = "anonymous";
-            img.src = src;
-            img.onload = img.onerror = () => {
-              loaded++;
-              buckets.current.images = (loaded / SERVICE_IMAGES.length) * 100;
-              sync();
-              if (loaded >= SERVICE_IMAGES.length) resolve();
-            };
-          });
-        }),
-      );
-    } else {
-      buckets.current.images = 100;
-      sync();
-    }
-
-    /* ── 3. Clients background video (desktop only) ─────────────────── */
+    /* ── 2. Clients background video (desktop only) ─────────────────── */
     if (isDesktop) {
       tasks.push(
         new Promise<void>((resolve) => {
