@@ -1,51 +1,64 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
 const team = [
   {
     name: "Bishmdev Chaturvedi",
     role: "Director & Founder",
-    img: "/team/bhishma.png",
+    img: "/team/bhishma.png",          // hero — large card, left column
     bio: "Visionary storyteller with 25+ years of shaping Chhattisgarh's media landscape through purposeful cinema.",
+    hero: true,
+  },
+  {
+    name: "Ayush Dev Chaturvedi",
+    role: "Production Head",
+    img: "",                              // ← drop image path here when ready
+    bio: "Driving end-to-end production with a sharp eye for detail and seamless project delivery.",
+    hero: false,
+  },
+  {
+    name: "Anthony",
+    role: "Technical Director",
+    img: "",                              // ← drop image path here when ready
+    bio: "Engineering the technical backbone of every shoot — from gear to post-production pipelines.",
+    hero: false,
   },
   {
     name: "Tukesh Sahu",
     role: "Creative Team",
-    img: "",
+    img: "",                              // ← drop image path here when ready
     bio: "Creative force behind BSR Films' visual identity, campaigns, and motion graphics output.",
+    hero: false,
   },
   {
     name: "Homesh Sahu",
     role: "Director of Photography",
-    img: "/team/homesh.png",
+    img: "/team/homesh.png",             // ← update image path when ready
     bio: "Master of light and lens, bringing cinematic richness to every frame across documentaries and ad films.",
+    hero: false,
   },
 ];
 
-const CARD_VARIANTS = {
-  enter: (dir: number) => ({ y: dir > 0 ? 60 : -60, opacity: 0 }),
-  center: { y: 0, opacity: 1 },
-  exit: (dir: number) => ({ y: dir > 0 ? -60 : 60, opacity: 0 }),
+/* 3D perspective tilt — sets CSS custom props on mousemove, CSS handles rotation */
+const handleTilt = (e: React.MouseEvent<HTMLElement>) => {
+  const r = e.currentTarget.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width - 0.5;
+  const y = (e.clientY - r.top) / r.height - 0.5;
+  e.currentTarget.style.setProperty("--rx", `${(-y * 12).toFixed(1)}deg`);
+  e.currentTarget.style.setProperty("--ry", `${(x * 12).toFixed(1)}deg`);
+};
+const resetTilt = (e: React.MouseEvent<HTMLElement>) => {
+  e.currentTarget.style.setProperty("--rx", "0deg");
+  e.currentTarget.style.setProperty("--ry", "0deg");
 };
 
 export default function About() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [teamIdx, setTeamIdx] = useState(0);
-  const [dir, setDir] = useState(1);
-  const [tapped, setTapped] = useState(false);
   const isMobile = useIsMobile();
-
-  const navigate = (delta: number) => {
-    setDir(delta);
-    setTapped(false);
-    setTeamIdx((prev) => (prev + delta + team.length) % team.length);
-  };
-
-  const member = team[teamIdx];
 
   return (
     <section id="about" ref={ref} className="section-padding relative overflow-hidden section-gradient-primary" aria-label="About BSR Films">
@@ -99,112 +112,68 @@ export default function About() {
 
           </motion.div>
 
-          {/* Right: vertical team carousel */}
-          <motion.div
-            initial={isMobile ? { opacity: 0, y: 12 } : { opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={isMobile ? { duration: 0.35, ease: [0.22, 1, 0.36, 1] } : { duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-col"
-          >
+          {/* Right: team showcase — cinematic bento with 3D tilt & spotlight */}
+          <div className={`flex flex-col team-section ${inView ? 'team-section--active' : ''}`}>
             <p className="label-line gold-text">
               <span className="w-6 h-px block gold-bg" />The Team
             </p>
-            <h3 className="text-lg sm:text-xl md:text-2xl font-extrabold text-white mb-4 sm:mb-6 md:mb-8 tracking-tight">
+            <h3 className="text-lg sm:text-xl md:text-2xl font-extrabold text-white mb-4 sm:mb-6 md:mb-8 tracking-tight team-heading">
               The people behind the lens.
             </h3>
 
-            {/* Card */}
-            <div className="relative">
-              <AnimatePresence custom={dir} mode="wait">
-                <motion.div
-                  key={teamIdx}
-                  custom={dir}
-                  variants={CARD_VARIANTS}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            <div className="team-bento">
+              {team.map((m, i) => (
+                <article
+                  key={m.name}
+                  className={`team-card ${m.hero ? 'team-card--hero' : 'team-card--side'}`}
+                  style={{ '--stagger': `${i * 180 + 200}ms` } as React.CSSProperties}
+                  onMouseMove={!isMobile ? handleTilt : undefined}
+                  onMouseLeave={!isMobile ? resetTilt : undefined}
                 >
-                  {/* Slide-up hover card — tap to reveal on touch */}
-                  <div
-                    onClick={() => setTapped((t) => !t)}
-                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTapped((t) => !t); } }}
-                    role="button"
-                    tabIndex={0}
-                    aria-expanded={tapped}
-                    aria-label={`${member.name} — ${tapped ? 'hide' : 'show'} details`}
-                    className={`relative w-full max-w-[240px] sm:max-w-[280px] md:max-w-[320px] h-[300px] sm:h-[350px] md:h-[380px] lg:h-[420px] group rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden bg-black mx-auto hover-lift border border-white/[0.06] cursor-pointer shadow-card-gold${tapped ? " tapped" : ""}`}
-                  >
+                  <div className="team-card__frame">
+                    {m.img ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={m.img}
+                        alt={m.name}
+                        className="team-card__img"
+                        draggable={false}
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="team-card__placeholder" role="img" aria-label={`Placeholder for ${m.name}`}>
+                        <span className="team-card__initials" aria-hidden="true">
+                          {m.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                        </span>
+                      </div>
+                    )}
 
-                    {/* Image */}
-                    <div className="absolute inset-0 w-full h-full transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[0.96] group-hover:-translate-y-4 group-hover:rounded-3xl overflow-hidden">
-                      {member.img ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={member.img}
-                          alt={member.name}
-                          className="w-full h-full object-cover object-top"
-                          draggable={false}
-                          loading="lazy"
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-[#0a0c10] flex items-center justify-center" role="img" aria-label={`Placeholder for ${member.name}`}>
-                          <span className="text-5xl sm:text-6xl font-extrabold text-[#E3A652]/40 select-none" aria-hidden="true">
-                            {member.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
-                          </span>
-                        </div>
-                      )}
+                    {/* Cinematic spotlight sweep on entry */}
+                    <div className="team-card__spotlight" aria-hidden="true" />
+
+                    {/* Bottom gradient */}
+                    <div className="team-card__gradient" aria-hidden="true" />
+
+                    {/* Name + role (default state) */}
+                    <div className="team-card__info">
+                      <h4 className="team-card__name">{m.name}</h4>
+                      <p className="team-card__role">{m.role}</p>
                     </div>
 
-                    {/* Default: bottom name overlay */}
-                    <div className="absolute bottom-0 w-full p-3 sm:p-4 md:p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent transition-opacity duration-300 group-hover:opacity-0 z-10">
-                      <h3 className="text-white text-lg sm:text-xl md:text-2xl font-bold leading-tight">{member.name}</h3>
-                    </div>
-
-                    {/* Hover: info panel */}
-                    <div className="absolute bottom-0 left-0 w-full bg-[#0a0c10] rounded-t-xl sm:rounded-t-2xl md:rounded-t-3xl p-3 sm:p-4 md:p-6 transform translate-y-[101%] transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:translate-y-0 z-20 flex flex-col justify-center min-h-[42%]">
-                      <h3 className="text-white text-base sm:text-lg md:text-xl font-bold mb-0.5 sm:mb-1 leading-tight">{member.name}</h3>
-                      <p className="text-[#E3A652] text-[0.6rem] sm:text-[0.65rem] md:text-xs font-bold uppercase tracking-wider mb-1.5 sm:mb-2 md:mb-3">{member.role}</p>
-                      <p className="text-white/50 text-[0.68rem] sm:text-xs md:text-sm leading-relaxed">{member.bio}</p>
+                    {/* Hover detail overlay (desktop, CSS-driven) */}
+                    <div className="team-card__detail" aria-hidden="true">
+                      <h4 className="team-card__name">{m.name}</h4>
+                      <p className="team-card__role">{m.role}</p>
+                      <p className="team-card__bio">{m.bio}</p>
                     </div>
                   </div>
-                </motion.div>
-              </AnimatePresence>
 
-              {/* Navigation arrows + dots */}
-              <div className="flex items-center gap-2 sm:gap-3 mt-3 sm:mt-4 md:mt-5 max-w-[240px] sm:max-w-[280px] md:max-w-[320px] mx-auto">
-                <button
-                  onClick={() => navigate(-1)}
-                  className="w-10 h-10 flex items-center justify-center transition-all duration-300 group rounded-full hover:-translate-y-0.5 active:scale-95 btn-frosted-glass"
-                  aria-label="Previous team member"
-                >
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M8 2L4 6l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/40 group-hover:text-[#E3A652] transition-colors" />
-                  </svg>
-                </button>
-                <div className="flex gap-2 flex-1">
-                  {team.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => { setDir(i > teamIdx ? 1 : -1); setTapped(false); setTeamIdx(i); }}
-                      className={`transition-all duration-300 h-1.5 rounded-full ${i === teamIdx ? "w-6 bg-[#E3A652]" : "w-1.5 bg-white/15"}`}
-                      aria-label={`Go to team member ${i + 1}`}
-                    />
-                  ))}
-                </div>
-                <button
-                  onClick={() => navigate(1)}
-                  className="w-10 h-10 flex items-center justify-center transition-all duration-300 group rounded-full hover:-translate-y-0.5 active:scale-95 btn-frosted-glass"
-                  aria-label="Next team member"
-                >
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M4 2l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/40 group-hover:text-[#E3A652] transition-colors" />
-                  </svg>
-                </button>
-                <span className="text-white/30 text-xs ml-1">{teamIdx + 1} / {team.length}</span>
-              </div>
+                  {/* Mobile: bio always visible below card */}
+                  <p className="team-card__mobile-bio">{m.bio}</p>
+                </article>
+              ))}
             </div>
-          </motion.div>
+          </div>
         </div>
 
       </div>
