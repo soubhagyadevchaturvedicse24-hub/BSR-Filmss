@@ -9,7 +9,6 @@ const Works = dynamic(() => import("@/components/Works"), { ssr: true });
 const About = dynamic(() => import("@/components/About"), { ssr: true });
 const Services = dynamic(() => import("@/components/Services"), { ssr: true });
 const Clients = dynamic(() => import("@/components/Clients"), { ssr: true });
-const Facilities = dynamic(() => import("@/components/Facilities"), { ssr: true });
 const Contact = dynamic(() => import("@/components/Contact"), { ssr: true });
 
 /**
@@ -17,12 +16,11 @@ const Contact = dynamic(() => import("@/components/Contact"), { ssr: true });
  *
  * Section Order:
  *  1. Hero (Canvas scroll-driven frame sequence)
- *  2. Selected Works / Showreel
- *  3. About Us & Vision
- *  4. State-of-the-Art Facilities
+ *  2. Clients & Partners (liquid glass over logo video)
+ *  3. Selected Works / Showreel
+ *  4. About Us & Team
  *  5. 360° Media Services
- *  6. Clients & Partners (liquid glass over logo video)
- *  7. Contact / Project Brief + Footer
+ *  6. Contact / Project Brief + Footer
  *
  * Note: "Why Choose BSR Films" liquid glass cards are embedded in the
  * Hero end-overlay — they appear over the final waterfall frame as a hook.
@@ -52,10 +50,7 @@ export default function Home() {
       {/* ── 4. About Us & Team ──────────────────────────────────────────────────── */}
       <About />
 
-      {/* ── 5. State-of-the-Art Facilities ────────────────────────────── */}
-      <Facilities />
-
-      {/* ── 6. 360° Media Services ─────────────────────────────────────────────── */}
+      {/* ── 5. 360° Media Services ─────────────────────────────────────────────── */}
       <Services />
 
       {/* ── 7. Contact + Footer ─────────────────────────────────────────── */}
