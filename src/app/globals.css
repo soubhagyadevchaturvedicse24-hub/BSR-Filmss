@@ -2957,13 +2957,28 @@ html.light a[href*="mailto:"]:hover {
   .bg-white\/\[0\.04\],
   .bg-white\/\[0\.05\],
   .bg-black\/40 {
-    background-color: #fbfaf8 !important;
+    background-color: #fcfbf9 !important;
     border: 1px solid #d5cec2 !important;
     box-shadow: none !important;
   }
 
+  /* Executive badges and pills for print */
+  .bg-\[\#E3A652\]\/10,
+  .bg-\[\#E3A652\]\/15,
+  .bg-\[\#E3A652\]\/20 {
+    background-color: #FAF4E8 !important;
+    border: 1px solid #D4A359 !important;
+    color: #6B3A00 !important;
+  }
+
+  .bg-\[\#E3A652\] {
+    background-color: #8C4E00 !important;
+    color: #FFFFFF !important;
+  }
+
   /* Avoid breaking cards awkwardly across pages */
   article,
+  section,
   .break-inside-avoid,
   .rounded-xl,
   .rounded-2xl,
