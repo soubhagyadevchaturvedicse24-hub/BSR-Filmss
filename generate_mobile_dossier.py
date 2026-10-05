@@ -31,8 +31,8 @@ mobile_html = f"""<!DOCTYPE html>
       font-family: 'Noto Sans Devanagari', 'Nirmala UI', sans-serif;
       background: #E5E0D8;
       color: #111111;
-      line-height: 1.38;
-      font-size: 9.5pt;
+      line-height: 1.36;
+      font-size: 10.5pt;
     }}
     .page {{
       width: 108mm;
@@ -41,7 +41,7 @@ mobile_html = f"""<!DOCTYPE html>
       max-height: 192mm;
       margin: 0 auto;
       background: #FFFFFF;
-      padding: 6mm 7mm 5mm 7mm;
+      padding: 5mm 6.5mm 4.5mm 6.5mm;
       position: relative;
       page-break-after: always;
       page-break-inside: avoid;
@@ -61,9 +61,9 @@ mobile_html = f"""<!DOCTYPE html>
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1.5px solid #8C4E00;
-      padding-bottom: 4px;
-      margin-bottom: 5px;
+      border-bottom: 1.8px solid #8C4E00;
+      padding-bottom: 3.5px;
+      margin-bottom: 4.5px;
     }}
     .header-logo-group {{
       display: flex;
@@ -71,18 +71,18 @@ mobile_html = f"""<!DOCTYPE html>
       gap: 7px;
     }}
     .header-logo {{
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       object-fit: contain;
     }}
     .header-title {{
-      font-size: 12pt;
+      font-size: 13pt;
       font-weight: 900;
       color: #0A0A0A;
       line-height: 1.1;
     }}
     .header-sub {{
-      font-size: 6.2pt;
+      font-size: 7pt;
       font-weight: 800;
       color: #8C4E00;
       letter-spacing: 0.6px;
@@ -90,7 +90,7 @@ mobile_html = f"""<!DOCTYPE html>
     }}
     .header-meta {{
       text-align: right;
-      font-size: 6.8pt;
+      font-size: 7.5pt;
       color: #333333;
       font-weight: 700;
       line-height: 1.25;
@@ -99,14 +99,14 @@ mobile_html = f"""<!DOCTYPE html>
     /* Compact Mobile Footer */
     .footer {{
       border-top: 1.2px solid #D5A04A;
-      padding-top: 3px;
+      padding-top: 2.5px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 6.8pt;
+      font-size: 7.2pt;
       color: #444444;
       font-weight: 700;
-      margin-top: 3px;
+      margin-top: 2.5px;
     }}
     .footer strong {{
       color: #8C4E00;
@@ -114,18 +114,18 @@ mobile_html = f"""<!DOCTYPE html>
 
     /* Section Titles */
     .section-title {{
-      font-size: 11pt;
+      font-size: 12pt;
       font-weight: 900;
       color: #0A0A0A;
       border-bottom: 1.5px solid #8C4E00;
       padding-bottom: 2px;
-      margin-bottom: 5px;
+      margin-bottom: 4.5px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }}
     .section-sub {{
-      font-size: 6.8pt;
+      font-size: 7.5pt;
       font-weight: 800;
       color: #8C4E00;
     }}
@@ -135,15 +135,15 @@ mobile_html = f"""<!DOCTYPE html>
       background: #FDFBF7;
       border: 1.2px solid #D8CDB8;
       border-radius: 6px;
-      padding: 5.5px 7.5px;
-      margin-bottom: 4.5px;
+      padding: 5px 7px;
+      margin-bottom: 4px;
     }}
     .card-highlight {{
       background: #FFFDF8;
       border: 1.5px solid #8C4E00;
     }}
     .card-tag {{
-      font-size: 6.5pt;
+      font-size: 7.2pt;
       font-weight: 800;
       color: #8C4E00;
       text-transform: uppercase;
@@ -153,54 +153,54 @@ mobile_html = f"""<!DOCTYPE html>
       background: #FAF2E3;
       border: 1px solid #C89038;
       color: #663300;
-      font-size: 6.2pt;
+      font-size: 7pt;
       font-weight: 800;
       padding: 1px 5px;
       border-radius: 3px;
     }}
     .card-title-bold {{
-      font-size: 9.5pt;
+      font-size: 10.5pt;
       font-weight: 800;
       color: #0A0A0A;
       line-height: 1.28;
       margin-top: 1.5px;
     }}
     .card-desc {{
-      font-size: 8pt;
+      font-size: 8.8pt;
       font-weight: 500;
       color: #2D2822;
       line-height: 1.34;
-      margin-top: 2px;
+      margin-top: 1.5px;
     }}
 
     /* Grid Layouts for Mobile */
     .grid-2 {{
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 5px;
-      margin-bottom: 4.5px;
+      gap: 4.5px;
+      margin-bottom: 4px;
     }}
     .stat-box {{
       background: #FDFBF7;
       border: 1.2px solid #D5A04A;
       border-radius: 6px;
-      padding: 5px 6px;
+      padding: 4.5px 5.5px;
       text-align: center;
     }}
     .stat-num {{
-      font-size: 14.5pt;
+      font-size: 16pt;
       font-weight: 900;
       color: #8C4E00;
       line-height: 1.1;
     }}
     .stat-label {{
-      font-size: 7.8pt;
+      font-size: 8.8pt;
       font-weight: 800;
       color: #0A0A0A;
-      margin-top: 1.5px;
+      margin-top: 1px;
     }}
     .stat-sub {{
-      font-size: 6.2pt;
+      font-size: 7pt;
       color: #555555;
       font-weight: 500;
       line-height: 1.2;
@@ -211,15 +211,15 @@ mobile_html = f"""<!DOCTYPE html>
       display: flex;
       flex-wrap: wrap;
       gap: 3.5px;
-      margin: 3.5px 0;
+      margin: 3px 0;
     }}
     .pill {{
       background: #FAF2E3;
       border: 1px solid #C89038;
       color: #5A2D00;
-      font-size: 7.2pt;
+      font-size: 8pt;
       font-weight: 800;
-      padding: 2px 6.5px;
+      padding: 2px 7px;
       border-radius: 4px;
     }}
   </style>
@@ -248,8 +248,8 @@ mobile_html = f"""<!DOCTYPE html>
       <!-- Large Center Portrait -->
       <div style="text-align: center; margin: 3px 0 5px 0;">
         <div style="display: inline-block; position: relative;">
-          <img src="data:image/png;base64,{bhishma_b64}" style="width: 112px; height: 138px; object-fit: cover; object-position: top center; border-radius: 10px; border: 2.2px solid #8C4E00; box-shadow: 0 4px 10px rgba(0,0,0,0.14); display: block;" alt="भीष्मदेव चतुर्वेदी">
-          <div style="background: #8C4E00; color: #FFFFFF; font-size: 6.8pt; font-weight: 800; padding: 2.5px 8px; border-radius: 10px; margin-top: 3px; display: inline-block;">
+          <img src="data:image/png;base64,{bhishma_b64}" style="width: 114px; height: 140px; object-fit: cover; object-position: top center; border-radius: 10px; border: 2.2px solid #8C4E00; box-shadow: 0 4px 10px rgba(0,0,0,0.14); display: block;" alt="भीष्मदेव चतुर्वेदी">
+          <div style="background: #8C4E00; color: #FFFFFF; font-size: 7.5pt; font-weight: 800; padding: 2.5px 9px; border-radius: 10px; margin-top: 3px; display: inline-block;">
             संस्थापक एवं निर्देशक (BSR Films)
           </div>
         </div>
@@ -257,23 +257,23 @@ mobile_html = f"""<!DOCTYPE html>
 
       <!-- Founder Name -->
       <div style="text-align: center; margin-bottom: 3px;">
-        <div style="font-size: 18pt; font-weight: 900; color: #0A0A0A; line-height: 1.1;">
+        <div style="font-size: 20pt; font-weight: 900; color: #0A0A0A; line-height: 1.1;">
           भीष्मदेव चतुर्वेदी
         </div>
       </div>
 
       <!-- Lineage Box -->
       <div style="background: #F8F4EC; border-left: 3.5px solid #8C4E00; padding: 4.5px 7px; border-radius: 0 6px 6px 0; margin-bottom: 5px;">
-        <div style="font-size: 9.5pt; font-weight: 800; color: #0A0A0A;">
+        <div style="font-size: 10.5pt; font-weight: 800; color: #0A0A0A;">
           पिता - स्व.श्री दीनानाथ चतुर्वेदी
         </div>
-        <div style="font-size: 7.5pt; font-weight: 600; color: #333333; margin-top: 1.5px; line-height: 1.25;">
+        <div style="font-size: 8.2pt; font-weight: 600; color: #333333; margin-top: 1.5px; line-height: 1.25;">
           ( स्वयं सेवक RSS, सेवा निवृत शिक्षक, रामायणविद, पूर्व मंडल अध्यक्ष भाजपा )
         </div>
       </div>
 
       <!-- Roles Pills -->
-      <div class="pill-wrap" style="justify-content: center; margin-bottom: 4px;">
+      <div class="pill-wrap" style="justify-content: center; margin-bottom: 3px;">
         <span class="pill">लेखक</span>
         <span class="pill">निर्देशक (डायरेक्टर)</span>
         <span class="pill">निर्माता (प्रोडयूसर)</span>
@@ -309,11 +309,11 @@ mobile_html = f"""<!DOCTYPE html>
       </div>
 
       <!-- Contact Box -->
-      <div class="card card-highlight" style="margin-bottom: 6px; padding: 6px 8px;">
+      <div class="card card-highlight" style="margin-bottom: 5px; padding: 5px 8px;">
         <div class="card-tag">त्वरित संपर्क विवरण</div>
-        <div style="font-size: 8pt; color: #111111; line-height: 1.4; margin-top: 2px;">
+        <div style="font-size: 8.8pt; color: #111111; line-height: 1.38; margin-top: 2px;">
           <strong>पता:</strong> राजकुमार कॉलेज के पीछे, सोनकर बड़ी, अश्वनी नगर रायपुर, पोस्ट सुंदर नगर , पिन - 4920013 ( छ ग)<br>
-          <strong>मोबाइल:</strong> <span style="font-size: 9.5pt; font-weight: 800; color: #0A0A0A;">7000866323, 9826167533</span><br>
+          <strong>मोबाइल:</strong> <span style="font-size: 10.5pt; font-weight: 800; color: #0A0A0A;">7000866323, 9826167533</span><br>
           <strong>मेल:</strong> bsrfilms2017@gmail.com • <strong>Web:</strong> www.bsrfilms.com
         </div>
       </div>
@@ -360,9 +360,9 @@ mobile_html = f"""<!DOCTYPE html>
         </div>
       </div>
 
-      <div class="card" style="margin-top: 3px;">
+      <div class="card" style="margin-top: 2px;">
         <div class="card-tag">संस्थापक संकल्प</div>
-        <div class="card-title-bold" style="font-size: 7.8pt; color: #8C4E00; margin-top: 1.5px; line-height: 1.3;">
+        <div class="card-title-bold" style="font-size: 8.5pt; color: #8C4E00; margin-top: 1px; line-height: 1.3;">
           भारतीय कला, संस्कृति, साहित्य, अध्यात्म, राजनीति में विशेष रुचि। छत्तीसगढ़ी भाषा , लोक कला, संस्कृति, संस्कार का आजीवन विद्यार्थी।
         </div>
       </div>
@@ -426,10 +426,10 @@ mobile_html = f"""<!DOCTYPE html>
 
       <div class="card">
         <div class="card-tag">कार्यक्षेत्र भाषाएं एवं बोलियां</div>
-        <div class="card-title-bold" style="font-size: 8.5pt; margin-top: 1.5px;">
+        <div class="card-title-bold" style="font-size: 9.2pt; margin-top: 1.5px;">
           हिंदी, छत्तीसगढ़ी, गोंडी, हल्बी, सरगुजिहा और अंग्रेजी भाषा/बोलियों में कार्य
         </div>
-        <div class="pill-wrap" style="margin-top: 3.5px;">
+        <div class="pill-wrap" style="margin-top: 3px;">
           <span class="pill">हिंदी</span>
           <span class="pill">छत्तीसगढ़ी</span>
           <span class="pill">गोंडी</span>
@@ -613,7 +613,7 @@ mobile_html = f"""<!DOCTYPE html>
           <span class="card-tag">विधान सभा चुनाव 2013</span>
           <span class="card-badge">06 आकाशवाणी केंद्र</span>
         </div>
-        <div class="card-desc" style="font-size: 7.8pt; color: #111111; font-weight: 600; margin-top: 1px;">
+        <div class="card-desc" style="font-size: 8.5pt; color: #111111; font-weight: 600; margin-top: 1px;">
           विधान सभा चुनाव सन् 2013 में रेडियो के माध्यम से प्रदेश के 06 आकाशवाणी केन्द्रों से भारतीय जनता पार्टी के चुनाव प्रचार हेतु रेडियो जिंगल निर्माण व प्रसारण हेतु अनुबंधित एजेंसी ।
         </div>
       </div>
@@ -623,7 +623,7 @@ mobile_html = f"""<!DOCTYPE html>
           <span class="card-tag">लोक सभा चुनाव 2014</span>
           <span class="card-badge">06 आकाशवाणी केंद्र</span>
         </div>
-        <div class="card-desc" style="font-size: 7.8pt; color: #111111; font-weight: 600; margin-top: 1px;">
+        <div class="card-desc" style="font-size: 8.5pt; color: #111111; font-weight: 600; margin-top: 1px;">
           लोक सभा चुनाव सन् 2014 में रेडियो के माध्यम से प्रदेश के 06 आकाशवाणी केन्द्रों से भारतीय जनता पार्टी के चुनाव प्रचार हेतु रेडियो जिंगल निर्माण व प्रसारण हेतु अनुबंधित एजेंसी ।
         </div>
       </div>
@@ -633,21 +633,21 @@ mobile_html = f"""<!DOCTYPE html>
           <span class="card-tag">सामाजिक अभियान</span>
           <span class="card-badge">जन जागरूकता</span>
         </div>
-        <div class="card-desc" style="font-size: 7.8pt; color: #111111; font-weight: 600; margin-top: 1px;">
+        <div class="card-desc" style="font-size: 8.5pt; color: #111111; font-weight: 600; margin-top: 1px;">
           विभिन्न एनजीओ के साथ प्रचार - प्रसार फिल्म और रेडियो कार्यक्रम निर्माण का अनुभव। जन जागरूकता यात्रा में संयोजन।
         </div>
       </div>
 
       <div class="card">
         <div class="card-tag">अंतरराष्ट्रीय संगठन (UNICEF)</div>
-        <div class="card-title-bold" style="font-size: 8.5pt; color: #8C4E00;">
+        <div class="card-title-bold" style="font-size: 9.2pt; color: #8C4E00;">
           यूनिसेफ के लिए वीडियो स्पॉट निर्माण
         </div>
       </div>
 
       <div class="card">
         <div class="card-tag">विश्व बैंक वित्तपोषण (WORLD BANK)</div>
-        <div class="card-title-bold" style="font-size: 8.5pt; color: #8C4E00;">
+        <div class="card-title-bold" style="font-size: 9.2pt; color: #8C4E00;">
           वर्ल्ड बैंक वित्तपोषित योजनाओं के प्रचार प्रसार के लिए फिल्म व रेडियो सीरियल निर्माण
         </div>
       </div>
@@ -752,43 +752,43 @@ mobile_html = f"""<!DOCTYPE html>
         <span class="section-sub">राजधानी रायपुर (छ.ग.)</span>
       </div>
 
-      <div class="card card-highlight" style="padding: 7px 9px; margin-bottom: 5px;">
-        <div style="font-size: 8pt; line-height: 1.45; color: #111111;">
+      <div class="card card-highlight" style="padding: 7px 9px; margin-bottom: 4px;">
+        <div style="font-size: 8.8pt; line-height: 1.45; color: #111111;">
           <p style="margin-bottom: 3.5px;">
             <strong style="color: #8C4E00;">पता:</strong><br>
             राजकुमार कॉलेज के पीछे, सोनकर बड़ी, अश्वनी नगर रायपुर, पोस्ट सुंदर नगर , पिन - 4920013 ( छ ग)
           </p>
           <p style="margin-bottom: 3.5px;">
             <strong style="color: #8C4E00;">मोबाइल:</strong><br>
-            <span style="font-size: 9.5pt; font-weight: 800; color: #0A0A0A;">7000866323, 9826167533</span>
+            <span style="font-size: 10.5pt; font-weight: 800; color: #0A0A0A;">7000866323, 9826167533</span>
           </p>
           <p style="margin-bottom: 3.5px;">
             <strong style="color: #8C4E00;">मेल:</strong><br>
-            <span style="font-size: 8.5pt; font-weight: 700; color: #0A0A0A;">bsrfilms2017@gmail.com</span>
+            <span style="font-size: 9.2pt; font-weight: 700; color: #0A0A0A;">bsrfilms2017@gmail.com</span>
           </p>
           <p>
             <strong style="color: #8C4E00;">Web:</strong><br>
-            <span style="font-size: 8.5pt; font-weight: 700; color: #0A0A0A;">www.bsrfilms.com</span>
+            <span style="font-size: 9.2pt; font-weight: 700; color: #0A0A0A;">www.bsrfilms.com</span>
           </p>
         </div>
       </div>
 
-      <div class="card" style="margin-bottom: 6px;">
+      <div class="card" style="margin-bottom: 5px;">
         <div class="card-tag">सांस्कृतिक संकल्प</div>
-        <div style="font-size: 7.8pt; color: #0A0A0A; font-weight: 700; line-height: 1.35; margin-top: 2px;">
+        <div style="font-size: 8.5pt; color: #0A0A0A; font-weight: 700; line-height: 1.35; margin-top: 1.5px;">
           भारतीय कला, संस्कृति, साहित्य, अध्यात्म, राजनीति में विशेष रुचि। छत्तीसगढ़ी भाषा , लोक कला, संस्कृति, संस्कार का आजीवन विद्यार्थी।
         </div>
       </div>
 
       <!-- Official Authorization Stamp -->
-      <div style="border-top: 1px dashed #D5A04A; padding-top: 5px; text-align: right;">
-        <div style="font-size: 6.8pt; color: #555555; text-align: left; margin-bottom: 3px;">
+      <div style="border-top: 1px dashed #D5A04A; padding-top: 4.5px; text-align: right;">
+        <div style="font-size: 7.2pt; color: #555555; text-align: left; margin-bottom: 2.5px;">
           प्रमाणित: परिचय संचिका में अंकित समस्त विवरण अधिकृत अभिलेखों एवं अनुबंधों पर आधारित हैं।
         </div>
-        <div style="font-size: 9.5pt; font-weight: 900; color: #8C4E00;">
+        <div style="font-size: 10.5pt; font-weight: 900; color: #8C4E00;">
           ( भीष्मदेव चतुर्वेदी )
         </div>
-        <div style="font-size: 7.5pt; font-weight: 700; color: #444444;">
+        <div style="font-size: 8pt; font-weight: 700; color: #444444;">
           संस्थापक एवं निर्देशक • बी.एस.आर. फिल्म्स रायपुर
         </div>
       </div>
@@ -807,4 +807,4 @@ mobile_html = f"""<!DOCTYPE html>
 with open('public/founder_mobile_dossier.html', 'w', encoding='utf-8') as f:
     f.write(mobile_html)
 
-print("Updated public/founder_mobile_dossier.html with boosted font sizes!")
+print("Updated public/founder_mobile_dossier.html with FINAL extra-boosted font sizes!")
