@@ -131,17 +131,21 @@ html.dark {
 html.light {
   --bg-primary: #F5F0E8;
   --bg-secondary: #EDE7DB;
-  --bg-card: rgba(0, 0, 0, 0.03);
-  --text-primary: #2C2A25;
-  --text-heading: #1A1714;
-  --text-muted: rgba(0, 0, 0, 0.45);
-  --border-subtle: rgba(0, 0, 0, 0.08);
-  --gold: #C48A30;
-  --gold-soft: rgba(196, 138, 48, 0.12);
-  --nav-bg: rgba(245, 240, 232, 0.92);
+  --bg-card: rgba(255, 255, 255, 0.7);
+  --text-primary: #1F1D19;
+  --text-heading: #0D0C0A;
+  --text-muted: rgba(26, 23, 20, 0.65);
+  --border-subtle: rgba(160, 95, 0, 0.16);
+  --gold: #8C4E00;
+  --gold-text: #7D4400;
+  --gold-bright: #BF7805;
+  --gold-soft: rgba(160, 90, 0, 0.10);
+  --gold-border: rgba(160, 90, 0, 0.32);
+  --gold-glow: 0 2px 12px rgba(160, 90, 0, 0.22);
+  --nav-bg: rgba(245, 240, 232, 0.94);
   --scrollbar-bg: #F5F0E8;
-  --form-text: #2C2A25;
-  --form-placeholder: rgba(0, 0, 0, 0.3);
+  --form-text: #1F1D19;
+  --form-placeholder: rgba(26, 23, 20, 0.4);
   --form-option-bg: #ffffff;
   --grain-opacity: 0.015;
 }
@@ -2421,4 +2425,156 @@ html.light .heading-text-shadow {
 
 .works-swiper .swiper-wrapper {
   -webkit-transform: translate3d(0, 0, 0);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   LIGHT MODE: HIGH-CONTRAST FLOURISHING GOLD SYSTEM
+   Eliminates camouflaging on white/cream backgrounds.
+   Uses rich amber-bronze metallic gradient, warm emboss, and high depth.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* 1. Flourishing Metallic Text for Headings & Spans */
+html.light .gold-text,
+html.light .color-gold,
+html.light span.gold-text,
+html.light h1 .gold-text,
+html.light h2 .gold-text,
+html.light h3 .gold-text {
+  background: linear-gradient(135deg, #613300 0%, #995700 35%, #D48806 60%, #753E00 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: #7D4400 !important;
+  font-weight: 800 !important;
+  filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.95)) drop-shadow(0 2px 5px rgba(130, 70, 0, 0.2)) !important;
+  display: inline-block;
+}
+
+/* 2. Stat Numbers & Big Metrics (25+, 30+, 500+, 600+) */
+html.light [class*="text-[#E3A652]"]:is(p, h1, h2, h3, h4),
+html.light .stat-number,
+html.light .team-card p[class*="text-[#E3A652]"] {
+  background: linear-gradient(135deg, #613300 0%, #995700 35%, #BF7805 65%, #753E00 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: #7D4400 !important;
+  font-weight: 800 !important;
+  filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.95)) drop-shadow(0 2px 6px rgba(130, 70, 0, 0.22)) !important;
+}
+
+/* 3. Inline Spans with text-[#E3A652] (e.g. labels, lineage 'पिता:', roles) */
+html.light span[class*="text-[#E3A652]"],
+html.light .text-\[\#E3A652\] {
+  color: #753E00 !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* 4. Labels with Lines (.label-line) */
+html.light .label-line {
+  color: #753E00 !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.22em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+html.light .label-line::before,
+html.light .label-line span,
+html.light .gold-bg,
+html.light .gold-divider {
+  background: linear-gradient(90deg, #8C4E00 0%, #D48806 50%, transparent 100%) !important;
+  box-shadow: 0 1px 2px rgba(255, 255, 255, 0.85);
+}
+
+html.light .gold-divider-subtle {
+  background: linear-gradient(90deg, rgba(140, 78, 0, 0.35) 0%, rgba(140, 78, 0, 0.1) 80%, transparent 100%) !important;
+}
+
+/* 5. Gold Patches, Badges, Pills & Icon Containers (e.g. bg-[#E3A652]/...) */
+html.light [class*="bg-[#E3A652]/"],
+html.light .gold-patch,
+html.light [class*="bg-[#E3A652]"][class*="/"] {
+  background: linear-gradient(135deg, rgba(210, 130, 10, 0.18) 0%, rgba(165, 95, 0, 0.11) 100%) !important;
+  border: 1px solid rgba(145, 80, 0, 0.38) !important;
+  color: #613300 !important;
+  box-shadow: 0 2px 8px rgba(145, 80, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.75) !important;
+  font-weight: 700 !important;
+}
+
+html.light [class*="bg-[#E3A652]/"] * {
+  color: #613300 !important;
+}
+
+/* 6. Solid Gold Buttons & Badges (e.g. cta-primary, save vcard, active tab) */
+html.light [class*="bg-[#E3A652]"]:not([class*="/"]),
+html.light .cta-primary {
+  background: linear-gradient(135deg, #B57008 0%, #854900 50%, #A36200 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(105, 55, 0, 0.4) !important;
+  box-shadow: 0 4px 14px rgba(133, 73, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+html.light [class*="bg-[#E3A652]"]:not([class*="/"]) * {
+  color: #FFFFFF !important;
+}
+
+html.light .cta-primary:hover {
+  background: linear-gradient(135deg, #C77D0B 0%, #995400 50%, #B57008 100%) !important;
+  box-shadow: 0 6px 20px rgba(133, 73, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+/* 7. Gold Borders and Rings */
+html.light [class*="border-[#E3A652]"],
+html.light [class*="border-\[\#E3A652\]"] {
+  border-color: rgba(145, 80, 0, 0.45) !important;
+}
+
+/* 8. SVG Icons with Gold Stroke / Fill */
+html.light svg[stroke="#E3A652"],
+html.light svg [stroke="#E3A652"],
+html.light svg.text-\[\#E3A652\],
+html.light [class*="text-[#E3A652]"] > svg {
+  stroke: #8C4E00 !important;
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.9));
+}
+
+html.light svg[fill="#E3A652"],
+html.light svg [fill="#E3A652"] {
+  fill: #8C4E00 !important;
+}
+
+/* 9. Dots & Bullet Accents */
+html.light .dot-gold,
+html.light .dot-gold-glow,
+html.light .dot-gold-static {
+  background: #8C4E00 !important;
+  box-shadow: 0 0 8px rgba(140, 78, 0, 0.7) !important;
+}
+
+/* 10. Navbar Active Elements in Light Mode */
+html.light nav a.text-\[\#E3A652\],
+html.light nav a[class*="text-[#E3A652]"] {
+  color: #753E00 !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+html.light nav span.bg-\[\#E3A652\] {
+  background-color: #8C4E00 !important;
+  box-shadow: 0 0 10px rgba(140, 78, 0, 0.6) !important;
+}
+
+/* 11. Founder Page Specific Highlights in Light Mode */
+html.light .founder-gold-hero {
+  background: linear-gradient(135deg, #613300 0%, #995700 40%, #D48806 70%, #753E00 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+html.light a[href*="tel:"],
+html.light a[href*="mailto:"] {
+  color: #1F1D19;
+}
+html.light a[href*="tel:"]:hover,
+html.light a[href*="mailto:"]:hover {
+  color: #8C4E00;
 }
