@@ -107,7 +107,7 @@ export default function About() {
               {[["25+", "Years"], ["500+", "Projects"], ["20+", "Govt. Bodies"]].map(([v, l]) => (
                 <div key={l} className="group">
                   <p className="text-lg sm:text-xl md:text-3xl font-extrabold text-[#E3A652] leading-none transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(227,166,82,0.5)]">{v}</p>
-                  <p className="text-white/35 text-[.5rem] sm:text-[.55rem] md:text-[.68rem] tracking-[.12em] sm:tracking-[.15em] uppercase mt-0.5 sm:mt-1">{l}</p>
+                  <p className="text-white/50 text-[0.62rem] sm:text-xs tracking-[0.12em] uppercase mt-1">{l}</p>
                 </div>
               ))}
             </div>

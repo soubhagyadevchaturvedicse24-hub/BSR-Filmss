@@ -126,6 +126,19 @@ html.dark {
   --form-placeholder: rgba(230, 230, 230, 0.25);
   --form-option-bg: #0a0c10;
   --grain-opacity: 0.035;
+
+  /* Skeleton Loading Tokens (Dark Mode) */
+  --skeleton-base: #1a1a1a;
+  --skeleton-shimmer: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.04) 30%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.04) 70%,
+    transparent 100%
+  );
+  --skeleton-speed: 1.8s;
+  --skeleton-radius: 8px;
 }
 
 html.light {
@@ -148,6 +161,19 @@ html.light {
   --form-placeholder: rgba(26, 23, 20, 0.4);
   --form-option-bg: #ffffff;
   --grain-opacity: 0.015;
+
+  /* Skeleton Loading Tokens (Light Mode Override) */
+  --skeleton-base: #e6e0d5;
+  --skeleton-shimmer: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 30%,
+    rgba(255, 255, 255, 0.7) 50%,
+    rgba(255, 255, 255, 0.4) 70%,
+    transparent 100%
+  );
+  --skeleton-speed: 1.8s;
+  --skeleton-radius: 8px;
 }
 
 /* --- Base --------------------------------------------------------- */
@@ -161,7 +187,13 @@ html.light {
 
 html {
   scroll-behavior: smooth;
-  font-size: 80%;
+  font-size: 100%; /* Full native 16px baseline for crisp mobile ergonomics */
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 85%; /* Preserved compact desktop proportions on wide displays */
+  }
 }
 
 /* Only hide default cursor when custom cursor is active */
@@ -1419,10 +1451,6 @@ html.light h3 {
 
 /* ── Works section mobile ─────────────────────────────────────────── */
 @media (max-width: 380px) {
-  .works-swiper .swiper-slide {
-    width: 240px !important;
-  }
-
   .works-swiper {
     padding-bottom: 36px !important;
   }
@@ -2375,15 +2403,14 @@ html.light .heading-text-shadow {
    WORKS SWIPER OVERRIDES (moved from inline <style>)
    ═══════════════════════════════════════════════════════════════════ */
 .works-swiper .swiper-slide {
-  width: 260px;
+  width: 85vw !important;
+  max-width: 360px !important;
   transform-origin: center;
-  transition: transform 0.5s cubic-bezier(0.25,1,0.5,1);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
-@media (min-width: 380px)  { .works-swiper .swiper-slide { width: 280px; } }
-@media (min-width: 480px)  { .works-swiper .swiper-slide { width: 340px; } }
-@media (min-width: 640px)  { .works-swiper .swiper-slide { width: 420px; } }
-@media (min-width: 768px)  { .works-swiper .swiper-slide { width: 560px; } }
-@media (min-width: 1024px) { .works-swiper .swiper-slide { width: 640px; } }
+@media (min-width: 640px)  { .works-swiper .swiper-slide { width: 420px !important; max-width: none !important; } }
+@media (min-width: 768px)  { .works-swiper .swiper-slide { width: 560px !important; } }
+@media (min-width: 1024px) { .works-swiper .swiper-slide { width: 640px !important; } }
 
 .works-swiper .swiper-slide-active {
   transform: scale(1.02);
@@ -2577,4 +2604,249 @@ html.light a[href*="mailto:"] {
 html.light a[href*="tel:"]:hover,
 html.light a[href*="mailto:"]:hover {
   color: #8C4E00;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SKELETON SHIMMER LOADING SYSTEM (Pure CSS, Accessible, Zero JS)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.skeleton {
+  position: relative;
+  background-color: var(--skeleton-base, #1a1a1a);
+  border-radius: var(--skeleton-radius, 8px);
+  overflow: hidden;
+  border: none !important;
+  display: block;
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--skeleton-shimmer);
+  background-size: 200% 100%;
+  animation: skeletonShimmer var(--skeleton-speed, 1.8s) ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes skeletonShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Accessibility: Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after {
+    animation: none;
+    display: none;
+  }
+}
+
+/* Shape Modifiers */
+.skeleton--circle {
+  border-radius: 50% !important;
+  flex-shrink: 0;
+}
+
+.skeleton--text {
+  height: 14px;
+  border-radius: 6px;
+}
+
+.skeleton--text-sm {
+  height: 11px;
+  border-radius: 5px;
+}
+
+.skeleton--image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--skeleton-radius, 8px);
+}
+
+/* Skeleton Layout Pattern 1: Profile Header */
+.pattern-profile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+}
+
+.pattern-profile__avatar {
+  width: 56px;
+  height: 56px;
+}
+
+.pattern-profile__lines {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+/* Skeleton Layout Pattern 2: Card Grid (3-column responsive) */
+.pattern-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.skeleton-card {
+  background-color: var(--card-bg, #121212);
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.06));
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.skeleton-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Skeleton Layout Pattern 3: Content List (4 rows with 40px avatar) */
+.pattern-list {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--card-bg, #121212);
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.06));
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.pattern-list__row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.06));
+}
+
+.pattern-list__row:last-child {
+  border-bottom: none;
+}
+
+.pattern-list__avatar {
+  width: 40px;
+  height: 40px;
+}
+
+.pattern-list__lines {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+@media (max-width: 640px) {
+  .pattern-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   EXECUTIVE PDF & PRINT ENGINE FOR FOUNDER PROFILE
+   ═══════════════════════════════════════════════════════════════════ */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm 14mm 12mm 14mm;
+  }
+
+  /* Reset layout for clean paper printing */
+  html, body, #__next, main {
+    background: #ffffff !important;
+    color: #111111 !important;
+    font-size: 11pt !important;
+    line-height: 1.45 !important;
+    height: auto !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide interactive web UI chrome */
+  header,
+  nav,
+  .no-print,
+  .cursor-dot,
+  .cursor-ring,
+  .theme-toggle,
+  .preloader,
+  button:not(.allow-print),
+  .fixed.bottom-0 {
+    display: none !important;
+  }
+
+  /* Force show all profile tab sections */
+  .hidden.print\:block,
+  .print\:block {
+    display: block !important;
+  }
+
+  .print\:flex {
+    display: flex !important;
+  }
+
+  /* High-contrast typography for crisp PDF export */
+  .text-white,
+  .text-white\/90,
+  .text-white\/85,
+  .text-white\/80,
+  .text-white\/75,
+  .text-white\/70,
+  .text-white\/60,
+  .text-white\/50 {
+    color: #1a1a1a !important;
+  }
+
+  .text-\[\#E3A652\],
+  .gold-text,
+  .color-gold {
+    color: #8C4E00 !important;
+    font-weight: 700 !important;
+  }
+
+  /* Ensure card backgrounds print cleanly with crisp borders */
+  .bg-white\/\[0\.02\],
+  .bg-white\/\[0\.03\],
+  .bg-white\/\[0\.04\],
+  .bg-white\/\[0\.05\],
+  .bg-black\/40 {
+    background-color: #fbfaf8 !important;
+    border: 1px solid #d5cec2 !important;
+    box-shadow: none !important;
+  }
+
+  /* Avoid breaking cards awkwardly across pages */
+  article,
+  .break-inside-avoid,
+  .rounded-xl,
+  .rounded-2xl,
+  .rounded-3xl,
+  blockquote {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Keep headings with their next content */
+  h1, h2, h3, h4 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+    color: #0d0c0a !important;
+  }
+
+  /* Clean up links */
+  a {
+    text-decoration: none !important;
+    color: inherit !important;
+  }
 }

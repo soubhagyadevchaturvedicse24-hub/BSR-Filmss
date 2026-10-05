@@ -113,15 +113,12 @@ export default function Clients() {
           <source src="/clients-bg.mp4" type="video/mp4" />
         </video>
       ) : (
-        <img
-          src="/bsr-brand.webp"
-          alt=""
+        <div
+          className="absolute inset-0 bg-gradient-to-b from-[var(--bg-primary)] via-[#0a0c10] to-[var(--bg-primary)]"
           aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-contain object-bottom"
-          style={{ background: 'var(--bg-primary)' }}
-          loading="lazy"
-          decoding="async"
-        />
+        >
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] bg-[#E3A652]/[0.06] rounded-full blur-3xl pointer-events-none" />
+        </div>
       )}
 
       {/* Overlay — solid on mobile, blurred on desktop */}

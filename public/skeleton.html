@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BSR Films — Skeleton Loading Screen</title>
+  <style>
+    /* ==========================================================================
+       CSS Custom Properties (Theme Switchable via 2-3 variables)
+       ========================================================================== */
+    :root {
+      --bg-surface: #0a0a0a;
+      --card-bg: #121212;
+      --card-border: rgba(255, 255, 255, 0.06);
+      --separator: rgba(255, 255, 255, 0.06);
+
+      /* Skeleton Tokens */
+      --skeleton-base: #1a1a1a;
+      --skeleton-shimmer: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.04) 30%,
+        rgba(255, 255, 255, 0.08) 50%,
+        rgba(255, 255, 255, 0.04) 70%,
+        transparent 100%
+      );
+      --skeleton-speed: 1.8s;
+      --skeleton-radius: 8px;
+    }
+
+    /* Light Theme Override (Instant 3-value switch) */
+    [data-theme="light"] {
+      --bg-surface: #f5f0e8;
+      --card-bg: #ffffff;
+      --card-border: rgba(0, 0, 0, 0.08);
+      --separator: rgba(0, 0, 0, 0.08);
+      --skeleton-base: #e6e0d5;
+      --skeleton-shimmer: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.4) 30%,
+        rgba(255, 255, 255, 0.7) 50%,
+        rgba(255, 255, 255, 0.4) 70%,
+        transparent 100%
+      );
+    }
+
+    /* ==========================================================================
+       Base & Reset
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-surface);
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 32px 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .skeleton-container {
+      width: 100%;
+      max-width: 960px;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    /* ==========================================================================
+       Core Skeleton Shimmer Engine (Pure CSS, ::after pseudo-element)
+       ========================================================================== */
+    .skeleton {
+      position: relative;
+      background-color: var(--skeleton-base);
+      border-radius: var(--skeleton-radius);
+      overflow: hidden;
+      border: none;
+      display: block;
+    }
+
+    .skeleton::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: var(--skeleton-shimmer);
+      background-size: 200% 100%;
+      animation: shimmer var(--skeleton-speed) ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -200% 0;
+      }
+      100% {
+        background-position: 200% 0;
+      }
+    }
+
+    /* Accessibility: Respect Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      .skeleton::after {
+        animation: none;
+        display: none;
+      }
+    }
+
+    /* ==========================================================================
+       Shape Modifiers
+       ========================================================================== */
+    .skeleton--circle {
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .skeleton--text {
+      height: 14px;
+      border-radius: 6px;
+    }
+
+    .skeleton--text-sm {
+      height: 11px;
+      border-radius: 5px;
+    }
+
+    .skeleton--image {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--skeleton-radius);
+    }
+
+    /* ==========================================================================
+       Layout Pattern 1: Profile Header
+       ========================================================================== */
+    .pattern-profile {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 0;
+    }
+
+    .pattern-profile__avatar {
+      width: 56px;
+      height: 56px;
+    }
+
+    .pattern-profile__lines {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    /* ==========================================================================
+       Layout Pattern 2: Card Grid (3-column responsive)
+       ========================================================================== */
+    .pattern-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .skeleton-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .skeleton-card__body {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Staggered text lines for natural feel */
+    .w-100 { width: 100%; }
+    .w-80  { width: 80%; }
+    .w-65  { width: 65%; }
+    .w-55  { width: 55%; }
+    .w-50  { width: 50%; }
+    .w-40  { width: 40%; }
+    .w-35  { width: 35%; }
+
+    /* ==========================================================================
+       Layout Pattern 3: Content List (4 rows with 40px avatar)
+       ========================================================================== */
+    .pattern-list {
+      display: flex;
+      flex-direction: column;
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .pattern-list__row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--separator);
+    }
+
+    .pattern-list__row:last-child {
+      border-bottom: none;
+    }
+
+    .pattern-list__avatar {
+      width: 40px;
+      height: 40px;
+    }
+
+    .pattern-list__lines {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    /* ==========================================================================
+       Responsive Media Queries
+       ========================================================================== */
+    @media (max-width: 640px) {
+      body {
+        padding: 20px 12px;
+      }
+
+      .pattern-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .skeleton-container {
+        gap: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Skeleton Container: aria-busy communicates loading state to assistive technology -->
+  <main class="skeleton-container" aria-busy="true" aria-label="Loading content...">
+
+    <!-- 1. Profile Header Placeholder -->
+    <section class="pattern-profile" aria-label="Loading profile...">
+      <div class="skeleton skeleton--circle pattern-profile__avatar" aria-hidden="true"></div>
+      <div class="pattern-profile__lines">
+        <div class="skeleton skeleton--text w-40" aria-hidden="true"></div>
+        <div class="skeleton skeleton--text-sm w-65" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- 2. Responsive Card Grid (3-column collapses to 1 below 640px) -->
+    <section class="pattern-grid" aria-label="Loading cards...">
+      <!-- Card 1 -->
+      <article class="skeleton-card">
+        <div class="skeleton skeleton--image" aria-hidden="true"></div>
+        <div class="skeleton-card__body">
+          <div class="skeleton skeleton--text w-100" aria-hidden="true"></div>
+          <div class="skeleton skeleton--text w-80" aria-hidden="true"></div>
+          <div class="skeleton skeleton--text w-50" aria-hidden="true"></div>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="skeleton-card">
+        <div class="skeleton skeleton--image" aria-hidden="true"></div>
+        <div class="skeleton-card__body">
+          <div class="skeleton skeleton--text w-100" aria-hidden="true"></div>
+          <div class="skeleton skeleton--text w-80" aria-hidden="true"></div>
+          <div class="skeleton skeleton--text w-50" aria-hidden="true"></div>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="skeleton-card">
+        <div class="skeleton skeleton--image" aria-hidden="true"></div>
+        <div class="skeleton-card__body">
+          <div class="skeleton skeleton--text w-100" aria-hidden="true"></div>
+          <div class="skeleton skeleton--text w-80" aria-hidden="true"></div>
+          <div class="skeleton skeleton--text w-50" aria-hidden="true"></div>
+        </div>
+      </article>
+    </section>
+
+    <!-- 3. Content List (4 rows with 40px circular avatars) -->
+    <section class="pattern-list" aria-label="Loading list...">
+      <!-- Row 1 -->
+      <div class="pattern-list__row">
+        <div class="skeleton skeleton--circle pattern-list__avatar" aria-hidden="true"></div>
+        <div class="pattern-list__lines">
+          <div class="skeleton skeleton--text w-55" aria-hidden="true"></div>
+          <div class="skeleton skeleton--text-sm w-35" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="pattern-list__row">
+        <div class="skeleton skeleton--circle pattern-list__avatar" aria-hidden="true"></div>
+        <div class="pattern-list__lines">
+          <div class="skeleton skeleton--text w-55" aria-hidden="true"></div>
+          <div class="skeleton skeleton--text-sm w-35" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="pattern-list__row">
+        <div class="skeleton skeleton--circle pattern-list__avatar" aria-hidden="true"></div>
+        <div class="pattern-list__lines">
+          <div class="skeleton skeleton--text w-55" aria-hidden="true"></div>
+          <div class="skeleton skeleton--text-sm w-35" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="pattern-list__row">
+        <div class="skeleton skeleton--circle pattern-list__avatar" aria-hidden="true"></div>
+        <div class="pattern-list__lines">
+          <div class="skeleton skeleton--text w-55" aria-hidden="true"></div>
+          <div class="skeleton skeleton--text-sm w-35" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

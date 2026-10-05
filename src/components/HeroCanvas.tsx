@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
@@ -274,166 +274,244 @@ export default function HeroCanvas() {
       <div
         ref={containerRef}
         id="hero"
-        className={`relative w-full ${isDesktop === true ? "h-[250vh]" : "h-screen"}`}
+        className={`relative w-full ${isDesktop === true ? "h-[250vh]" : "min-h-[100dvh]"}`}
         aria-label="Hero: BSR Films cinematic scroll experience"
       >
-        {/* ── Pinned viewport (sticky on desktop, relative on mobile) ── */}
-        <div className={isDesktop === true ? "sticky top-0 w-full h-screen overflow-hidden" : "relative w-full h-full overflow-hidden"}>
-
-          {/* Canvas — always in DOM so GSAP matchMedia can grab the ref.
-              On mobile no frames are loaded so it's an empty, invisible element. */}
-          <canvas
-            ref={canvasRef}
-            id="hero-canvas"
-            aria-hidden="true"
-            className={`absolute inset-0 w-full h-full object-cover will-change-transform ${isDesktop === false ? "hidden" : ""}`}
-          />
-
-          {/* Mobile: static background image (frame 1) — only after hydration */}
-          {isDesktop === false && (
-            // eslint-disable-next-line @next/next/no-img-element
+        {isDesktop === false ? (
+          /* ═════════════════════════════════════════════════════════════
+             MOBILE VIEW (<1024px) — Pure Native Mobile-First Layout
+             ═════════════════════════════════════════════════════════════ */
+          <div className="relative w-full min-h-[100dvh] flex flex-col justify-end px-5 sm:px-8 pb-10 sm:pb-12 pt-24 overflow-hidden">
+            {/* Background static image */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={frameUrl(0)}
-              alt=""
+              alt="BSR Films studio preview"
               aria-hidden="true"
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover -z-20 pointer-events-none"
               draggable={false}
             />
-          )}
 
-          {/* Fallback gradient */}
-          <div
-            className="absolute inset-0 bg-gradient-to-br from-[#050608] via-[#101218] to-[#1a2a1a] -z-10"
-            aria-hidden="true"
-          />
-
-          {/* Theme-aware scrim (GSAP-controlled on desktop, hidden on mobile) */}
-          <div
-            ref={canvasOverlayRef}
-            aria-hidden="true"
-            className={`absolute inset-0 canvas-scrim pointer-events-none z-[5] transition-colors duration-700 ${isDesktop !== true ? "opacity-0" : ""}`}
-          />
-
-          {/* Left gradient */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-r from-[#050608]/90 via-[#050608]/50 to-transparent w-[70%] sm:w-[60%] z-10 pointer-events-none"
-          />
-
-          {/* Bottom vignette */}
-          <div
-            className="absolute bottom-0 left-0 right-0 h-32 sm:h-48 bg-gradient-to-t from-[#050608] to-transparent pointer-events-none"
-            aria-hidden="true"
-          />
-
-          {/* ── Hero content overlay ─────────────────────────────────── */}
-          <div className="absolute inset-0 z-20 pointer-events-none flex items-center">
-
-            {/* Top-right kicker */}
+            {/* Mobile dark cinematic scrim for contrast */}
             <div
-              ref={kickerRef}
-              className="absolute bottom-[18%] left-1/2 -translate-x-1/2 sm:bottom-auto sm:left-auto sm:translate-x-0 sm:top-[88px] sm:right-[4%] md:top-[120px] md:right-[5%] z-30 text-center sm:text-right pointer-events-auto"
-            >
-              <motion.div
-                initial={{ opacity: 0, y: -12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.8 }}
-              >
-                <p className="text-[#E3A652] font-bold tracking-[0.1em] sm:tracking-[0.12em] md:tracking-[0.15em] text-[0.6rem] sm:text-xs md:text-lg uppercase drop-shadow-[0_2px_10px_rgba(0,0,0,1)] bg-black/30 px-3 sm:px-3.5 md:px-5 py-1 sm:py-1.5 md:py-2.5 rounded-full md:backdrop-blur-sm">
-                  Raipur, Chhattisgarh<br />
-                  <span className="text-white">Est. 25+ Years</span>
-                </p>
-              </motion.div>
-            </div>
-
-            {/* Hero text block */}
+              className="absolute inset-0 bg-gradient-to-t from-[#050608] via-[#050608]/85 to-[#050608]/35 -z-10 pointer-events-none"
+              aria-hidden="true"
+            />
+            {/* Ambient gold glow */}
             <div
-              ref={heroTextRef}
-              className="w-full max-w-[300px] sm:max-w-[380px] md:max-w-[480px] lg:max-w-[520px] pl-3 sm:pl-5 md:pl-16 lg:pl-24 pointer-events-auto flex flex-col justify-center"
-            >
-              <motion.div
-                initial={{ opacity: 0, x: -24 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                className="flex flex-col justify-center"
-              >
-                {/* H1 */}
-                <motion.h1
-                  initial={{ opacity: 0, y: 32 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.52, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                  className="font-extrabold leading-[1.05] tracking-tight mb-2 sm:mb-3 md:mb-6 drop-shadow-2xl flex flex-col items-start"
-                >
-                  <span className="text-lg sm:text-xl md:text-4xl lg:text-5xl text-white/90">
-                    Stories from
-                  </span>
-                  <span className="text-xl sm:text-2xl md:text-5xl lg:text-6xl text-[#E3A652] my-0.5 sm:my-1 md:my-2">
-                    the heart of
-                  </span>
-                  <span className="text-2xl sm:text-3xl md:text-6xl lg:text-[4.5rem] text-white">
-                    Chhattisgarh
-                  </span>
-                </motion.h1>
+              className="absolute -bottom-16 -left-16 w-72 h-72 bg-[#E3A652]/15 rounded-full blur-3xl -z-10 pointer-events-none"
+              aria-hidden="true"
+            />
 
-                {/* Subtitle */}
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.72, duration: 0.85 }}
-                  className="text-[0.7rem] sm:text-xs md:text-base lg:text-lg text-white/80 leading-relaxed mb-3 sm:mb-5 md:mb-8 lg:mb-10 max-w-[400px] drop-shadow-md"
-                >
-                  Documentaries, ad films and social campaigns &mdash; crafted with
-                  cinematic precision from the heart of India.
-                </motion.p>
+            {/* Mobile Content */}
+            <div className="w-full max-w-lg z-20">
+              {/* Location & Legacy Pill Tag */}
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-[#E3A652]/40 mb-3.5 shadow-lg">
+                <span className="w-2 h-2 rounded-full bg-[#E3A652] animate-pulse" />
+                <span className="text-[#E3A652] font-bold text-xs tracking-wider uppercase">
+                  Raipur, Chhattisgarh <span className="text-white/40 mx-1">•</span> <span className="text-white">Est. 25+ Years</span>
+                </span>
+              </div>
 
-                {/* CTAs */}
-                <motion.div
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.88, duration: 0.75 }}
-                  className="flex flex-wrap items-center gap-1.5 sm:gap-2 md:gap-4 mb-3 sm:mb-5 md:mb-8 lg:mb-10"
-                >
-                  <a
-                    href="#work"
-                    onClick={(e) => { e.preventDefault(); document.querySelector("#work")?.scrollIntoView({ behavior: "smooth" }); }}
-                    className="cta-primary"
-                    aria-label="View our work"
-                  >
-                    View Our Work
-                    <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
-                      <path d="M1 5h12M8 1l5 4-5 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </a>
-                  <a
-                    href="#contact"
-                    onClick={(e) => { e.preventDefault(); document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" }); }}
-                    className="cta-ghost"
-                    aria-label="Contact us for a project"
-                  >
-                    Start a Project
-                  </a>
-                </motion.div>
+              {/* H1 Headline */}
+              <h1 className="font-extrabold leading-[1.08] tracking-tight mb-2.5 drop-shadow-2xl text-[2.2rem] sm:text-4xl text-left">
+                <span className="text-white/90 block">Stories from</span>
+                <span className="text-[#E3A652] block my-0.5">the heart of</span>
+                <span className="text-white block">Chhattisgarh</span>
+              </h1>
 
-                {/* Stat strip */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.15, duration: 1 }}
-                  className="pt-2 sm:pt-3 md:pt-6 border-t border-white/10 flex flex-wrap gap-3 sm:gap-4 md:gap-8"
+              {/* Subtitle */}
+              <p className="text-xs sm:text-sm text-white/80 leading-relaxed mb-5 max-w-sm drop-shadow-md">
+                Documentaries, ad films and social campaigns &mdash; crafted with
+                cinematic precision from the heart of India.
+              </p>
+
+              {/* Thumb-friendly Mobile CTAs */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 mb-5 w-full max-w-sm">
+                <a
+                  href="#work"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.querySelector("#work")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="cta-primary text-center justify-center py-3.5 px-6 text-sm font-bold min-h-[48px]"
+                  aria-label="View our work"
                 >
-                  {[["25+", "Years of Experience"], ["500+", "Projects Delivered"], ["20+", "Govt. Bodies"]].map(([n, l]) => (
-                    <div key={l}>
-                      <p className="text-lg sm:text-xl md:text-3xl font-extrabold text-white leading-none">{n}</p>
-                      <p className="text-white/35 text-[.5rem] sm:text-[.6rem] tracking-[.12em] sm:tracking-[.15em] uppercase mt-0.5 sm:mt-1">{l}</p>
-                    </div>
-                  ))}
-                </motion.div>
-              </motion.div>
+                  View Our Work
+                  <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true" className="ml-1.5 inline">
+                    <path d="M1 5h12M8 1l5 4-5 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </a>
+                <a
+                  href="#contact"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="cta-ghost text-center justify-center py-3.5 px-6 text-sm font-bold min-h-[48px]"
+                  aria-label="Contact us for a project"
+                >
+                  Start a Project
+                </a>
+              </div>
+
+              {/* Mobile Stat strip */}
+              <div className="grid grid-cols-3 gap-2 pt-3.5 border-t border-white/10 w-full max-w-sm text-left">
+                {[["25+", "Years Exp"], ["500+", "Delivered"], ["20+", "Govt. Bodies"]].map(([n, l]) => (
+                  <div key={l}>
+                    <p className="text-xl sm:text-2xl font-extrabold text-[#E3A652] leading-none">{n}</p>
+                    <p className="text-white/40 text-[0.62rem] tracking-wider uppercase mt-1 leading-tight">{l}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
+        ) : (
+          /* ═════════════════════════════════════════════════════════════
+             DESKTOP VIEW (≥1024px or SSR) — GSAP Scroll-Driven Canvas
+             ═════════════════════════════════════════════════════════════ */
+          <div className="sticky top-0 w-full h-screen overflow-hidden">
+            {/* Canvas */}
+            <canvas
+              ref={canvasRef}
+              id="hero-canvas"
+              aria-hidden="true"
+              className="absolute inset-0 w-full h-full object-cover will-change-transform"
+            />
 
-          {/* Scroll indicator — desktop only */}
-          {isDesktop === true && (
+            {/* Fallback gradient */}
+            <div
+              className="absolute inset-0 bg-gradient-to-br from-[#050608] via-[#101218] to-[#1a2a1a] -z-10"
+              aria-hidden="true"
+            />
+
+            {/* Theme-aware scrim */}
+            <div
+              ref={canvasOverlayRef}
+              aria-hidden="true"
+              className="absolute inset-0 canvas-scrim pointer-events-none z-[5] transition-colors duration-700"
+            />
+
+            {/* Left gradient */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-r from-[#050608]/90 via-[#050608]/50 to-transparent w-[70%] sm:w-[60%] z-10 pointer-events-none"
+            />
+
+            {/* Bottom vignette */}
+            <div
+              className="absolute bottom-0 left-0 right-0 h-32 sm:h-48 bg-gradient-to-t from-[#050608] to-transparent pointer-events-none"
+              aria-hidden="true"
+            />
+
+            {/* Desktop Hero content overlay */}
+            <div className="absolute inset-0 z-20 pointer-events-none flex items-center">
+              {/* Top-right kicker */}
+              <div
+                ref={kickerRef}
+                className="absolute top-[88px] right-[4%] md:top-[120px] md:right-[5%] z-30 text-right pointer-events-auto"
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: -12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.8 }}
+                >
+                  <p className="text-[#E3A652] font-bold tracking-[0.12em] md:tracking-[0.15em] text-xs md:text-lg uppercase drop-shadow-[0_2px_10px_rgba(0,0,0,1)] bg-black/30 px-3.5 md:px-5 py-1.5 md:py-2.5 rounded-full md:backdrop-blur-sm">
+                    Raipur, Chhattisgarh<br />
+                    <span className="text-white">Est. 25+ Years</span>
+                  </p>
+                </motion.div>
+              </div>
+
+              {/* Desktop Hero text block */}
+              <div
+                ref={heroTextRef}
+                className="w-full max-w-[480px] lg:max-w-[520px] pl-16 lg:pl-24 pointer-events-auto flex flex-col justify-center"
+              >
+                <motion.div
+                  initial={{ opacity: 0, x: -24 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                  className="flex flex-col justify-center"
+                >
+                  <motion.h1
+                    initial={{ opacity: 0, y: 32 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.52, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                    className="font-extrabold leading-[1.05] tracking-tight mb-4 md:mb-6 drop-shadow-2xl flex flex-col items-start"
+                  >
+                    <span className="text-3xl md:text-4xl lg:text-5xl text-white/90">
+                      Stories from
+                    </span>
+                    <span className="text-4xl md:text-5xl lg:text-6xl text-[#E3A652] my-1 md:my-2">
+                      the heart of
+                    </span>
+                    <span className="text-5xl md:text-6xl lg:text-[4.5rem] text-white">
+                      Chhattisgarh
+                    </span>
+                  </motion.h1>
+
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.72, duration: 0.85 }}
+                    className="text-base lg:text-lg text-white/80 leading-relaxed mb-6 md:mb-8 lg:mb-10 max-w-[400px] drop-shadow-md"
+                  >
+                    Documentaries, ad films and social campaigns &mdash; crafted with
+                    cinematic precision from the heart of India.
+                  </motion.p>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.88, duration: 0.75 }}
+                    className="flex flex-wrap items-center gap-2 md:gap-4 mb-6 md:mb-8 lg:mb-10"
+                  >
+                    <a
+                      href="#work"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        document.querySelector("#work")?.scrollIntoView({ behavior: "smooth" });
+                      }}
+                      className="cta-primary"
+                      aria-label="View our work"
+                    >
+                      View Our Work
+                      <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
+                        <path d="M1 5h12M8 1l5 4-5 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </a>
+                    <a
+                      href="#contact"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
+                      }}
+                      className="cta-ghost"
+                      aria-label="Contact us for a project"
+                    >
+                      Start a Project
+                    </a>
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.15, duration: 1 }}
+                    className="pt-4 md:pt-6 border-t border-white/10 flex flex-wrap gap-4 md:gap-8"
+                  >
+                    {[["25+", "Years of Experience"], ["500+", "Projects Delivered"], ["20+", "Govt. Bodies"]].map(([n, l]) => (
+                      <div key={l}>
+                        <p className="text-xl md:text-3xl font-extrabold text-white leading-none">{n}</p>
+                        <p className="text-white/35 text-[.6rem] md:text-[.68rem] tracking-[.15em] uppercase mt-1">{l}</p>
+                      </div>
+                    ))}
+                  </motion.div>
+                </motion.div>
+              </div>
+            </div>
+
+            {/* Scroll indicator — desktop only */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -444,7 +522,6 @@ export default function HeroCanvas() {
               <span className="text-white/25 text-[.6rem] tracking-[.3em] uppercase">scroll</span>
               <div className="w-px h-8 sm:h-10 bg-gradient-to-b from-[#E3A652]/60 to-transparent" />
             </motion.div>
-          )}
 
           {/* ── End-of-hero overlay — DESKTOP ONLY ───────────────────── */}
           {isDesktop === true && (
@@ -515,6 +592,7 @@ export default function HeroCanvas() {
             </div>
           )}
         </div>
+        )}
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════

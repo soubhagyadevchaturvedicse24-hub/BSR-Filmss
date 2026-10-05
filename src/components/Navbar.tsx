@@ -272,7 +272,7 @@ export default function Navbar() {
                 e.preventDefault();
                 handleNavClick("#contact", false);
               }}
-              className="cta-primary mt-2 sm:mt-4"
+              className="cta-primary mt-4 py-3.5 px-6 text-sm font-bold w-full max-w-xs text-center justify-center min-h-[48px]"
             >
               {lang === "hi" ? "प्रोजेक्ट शुरू करें" : "Start a Project"}
               <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
