@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * CustomCursor
@@ -11,10 +11,14 @@ import { useEffect, useRef } from "react";
 export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
+  const [isTouch, setIsTouch] = useState(false);
 
   useEffect(() => {
-    // Only run on non-touch devices
-    if (window.matchMedia("(pointer: coarse)").matches) return;
+    setIsTouch(window.matchMedia("(pointer: coarse)").matches);
+  }, []);
+
+  useEffect(() => {
+    if (isTouch) return;
 
     const dot = dotRef.current!;
     const ring = ringRef.current!;
@@ -82,7 +86,9 @@ export default function CustomCursor() {
       document.removeEventListener("mouseout", onOut);
       cancelAnimationFrame(rafId);
     };
-  }, []);
+  }, [isTouch]);
+
+  if (isTouch) return null;
 
   return (
     <>

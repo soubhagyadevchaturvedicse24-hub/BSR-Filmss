@@ -71,6 +71,7 @@ export default function Contact() {
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [cooldown, setCooldown] = useState(false);
+  const [honeypot, setHoneypot] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -88,6 +89,7 @@ export default function Contact() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
+    if (honeypot) return;
 
     // Client-side validation
     const errors = validateForm(form);
@@ -286,6 +288,16 @@ export default function Contact() {
                 noValidate
                 aria-label="Project brief contact form"
               >
+                <input
+                  type="text"
+                  name="_honeypot"
+                  style={{ position: 'absolute', left: '-9999px' }}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 md:gap-7">
                   <div>
                     <label

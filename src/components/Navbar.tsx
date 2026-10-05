@@ -24,6 +24,26 @@ export default function Navbar() {
   const { isDark } = useTheme();
   const scrollYRef = useRef(0);
   const menuFirstLinkRef = useRef<HTMLAnchorElement>(null);
+  const [activeSection, setActiveSection] = useState("");
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: "-50% 0px -50% 0px", threshold: 0 }
+    );
+    const sections = ["hero", "work", "about", "services", "clients", "contact"];
+    sections.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 50);
@@ -80,7 +100,7 @@ export default function Navbar() {
             aria-label="BSR Films — home"
           >
             <Image
-              src="/bsr-icon.png"
+              src="/bsr-icon.webp"
               alt="BSR Films"
               width={110}
               height={72}
@@ -98,10 +118,10 @@ export default function Navbar() {
                   <a
                     href={l.href}
                     onClick={e => { e.preventDefault(); smooth(l.href); }}
-                    className="relative text-[var(--text-muted)] text-xs tracking-widest uppercase font-bold transition-all duration-300 hover:text-[var(--text-heading)] hover:drop-shadow-[0_0_12px_rgba(227,166,82,0.8)] group"
+                    className={`relative text-xs tracking-widest uppercase font-bold transition-all duration-300 hover:text-[var(--text-heading)] hover:drop-shadow-[0_0_12px_rgba(227,166,82,0.8)] group ${activeSection === l.href.slice(1) ? "text-[#E3A652]" : "text-[var(--text-muted)]"}`}
                   >
                     {l.label}
-                    <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-[#E3A652] transition-all duration-300 ease-out group-hover:w-full shadow-[0_0_8px_#E3A652]" />
+                    <span className={`absolute -bottom-1 left-0 h-[2px] bg-[#E3A652] transition-all duration-300 ease-out shadow-[0_0_8px_#E3A652] ${activeSection === l.href.slice(1) ? "w-full" : "w-0 group-hover:w-full"}`} />
                   </a>
                 </li>
               ))}

@@ -49,71 +49,6 @@ const TAG_STYLE: Record<string, { bg: string; border: string; text: string }> = 
 };
 
 /* ═══════════════════════════════════════════════════════════════════
-   CSS — injected once via <style>
-   ═══════════════════════════════════════════════════════════════════ */
-
-const SWIPER_CSS = `
-  /* ── Slide sizing (responsive) ── */
-  .works-swiper .swiper-slide {
-    width: 260px;
-    transform-origin: center;
-    transition: transform 0.5s cubic-bezier(0.25,1,0.5,1);
-  }
-  @media (min-width: 380px)  { .works-swiper .swiper-slide { width: 280px; } }
-  @media (min-width: 480px)  { .works-swiper .swiper-slide { width: 340px; } }
-  @media (min-width: 640px)  { .works-swiper .swiper-slide { width: 420px; } }
-  @media (min-width: 768px)  { .works-swiper .swiper-slide { width: 560px; } }
-  @media (min-width: 1024px) { .works-swiper .swiper-slide { width: 640px; } }
-
-  /* ── Active slide lift ── */
-  .works-swiper .swiper-slide-active {
-    transform: scale(1.02);
-  }
-
-  /* ── Dark overlay for non-active slides (CSS-only) ── */
-  .works-swiper .swiper-slide .slide-overlay {
-    opacity: 0.6;
-    transition: opacity 0.5s ease;
-  }
-  .works-swiper .swiper-slide-active .slide-overlay {
-    opacity: 0 !important;
-  }
-
-  /* ── Pagination ── */
-  .works-swiper .swiper-pagination-bullet {
-    background: rgba(255,255,255,0.25);
-    width: 5px; height: 5px;
-    opacity: 1;
-    transition: background 0.3s, width 0.3s;
-  }
-  .works-swiper .swiper-pagination-bullet-active {
-    background: #E3A652;
-    width: 20px;
-    border-radius: 3px;
-  }
-  .works-swiper { padding-bottom: 40px !important; }
-
-  @media (min-width: 640px) {
-    .works-swiper .swiper-pagination-bullet {
-      width: 6px; height: 6px;
-    }
-    .works-swiper .swiper-pagination-bullet-active {
-      width: 24px;
-    }
-    .works-swiper { padding-bottom: 48px !important; }
-  }
-
-  /* Hide default nav arrows (we use custom) */
-  .works-swiper .swiper-button-next,
-  .works-swiper .swiper-button-prev { display: none; }
-
-  /* Smoother touch scrolling */
-  .works-swiper .swiper-wrapper {
-    -webkit-transform: translate3d(0, 0, 0);
-  }
-`;
-
-/* ═══════════════════════════════════════════════════════════════════
    SLIDE CARD
    ═══════════════════════════════════════════════════════════════════ */
 
@@ -289,8 +224,6 @@ export default function Works() {
       className="relative z-10 pt-10 pb-12 bg-[var(--bg-primary)]"
       aria-label="Selected Works"
     >
-      <style>{SWIPER_CSS}</style>
-
       {/* Top edge gradient fade */}
       <div
         aria-hidden="true"

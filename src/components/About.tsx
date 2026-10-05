@@ -8,7 +8,7 @@ const team = [
   {
     name: "Bishmdev Chaturvedi",
     role: "Director & Founder",
-    img: "/team/bhishma.png",          // hero — large card, left column
+    img: "/team/bhishma.webp",          // hero — large card, left column
     bio: "Visionary storyteller with 25+ years of shaping Chhattisgarh's media landscape through purposeful cinema.",
     hero: true,
   },
@@ -36,7 +36,7 @@ const team = [
   {
     name: "Homesh Sahu",
     role: "Director of Photography",
-    img: "/team/homesh.png",             // ← update image path when ready
+    img: "/team/homesh.webp",             // ← update image path when ready
     bio: "Master of light and lens, bringing cinematic richness to every frame across documentaries and ad films.",
     hero: false,
   },

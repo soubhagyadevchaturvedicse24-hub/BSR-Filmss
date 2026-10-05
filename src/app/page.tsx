@@ -9,6 +9,7 @@ const Works = dynamic(() => import("@/components/Works"), { ssr: true });
 const About = dynamic(() => import("@/components/About"), { ssr: true });
 const Services = dynamic(() => import("@/components/Services"), { ssr: true });
 const Clients = dynamic(() => import("@/components/Clients"), { ssr: true });
+const Facilities = dynamic(() => import("@/components/Facilities"), { ssr: true });
 const Contact = dynamic(() => import("@/components/Contact"), { ssr: true });
 
 /**
@@ -51,7 +52,10 @@ export default function Home() {
       {/* ── 4. About Us & Team ──────────────────────────────────────────────────── */}
       <About />
 
-      {/* ── 5. 360° Media Services ─────────────────────────────────────────────── */}
+      {/* ── 5. State-of-the-Art Facilities ────────────────────────────── */}
+      <Facilities />
+
+      {/* ── 6. 360° Media Services ─────────────────────────────────────────────── */}
       <Services />
 
       {/* ── 7. Contact + Footer ─────────────────────────────────────────── */}

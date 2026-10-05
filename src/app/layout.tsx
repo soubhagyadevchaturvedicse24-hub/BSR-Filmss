@@ -33,6 +33,8 @@ export const metadata: Metadata = {
     description:
       "Stories from the heart of Chhattisgarh. Documentaries, ad films and campaigns that bring real places and people to the screen.",
     type: "website",
+    url: "https://bsr-filmss.vercel.app",
+    siteName: "BSR Films",
     locale: "en_IN",
     images: [{ url: "/bsr-brand.png", width: 1366, height: 768, alt: "BSR Films" }],
   },
@@ -54,8 +56,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://img.youtube.com" />
         {/* Non-blocking font load */}
         <link
-          rel="preload"
-          as="style"
+          rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap"
         />
         {/* JSON-LD structured data for SEO */}
