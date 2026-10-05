@@ -4,6 +4,7 @@ import React, { useRef } from "react";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { useLanguage } from "@/context/LanguageContext";
 
 const team = [
   {
@@ -60,6 +61,7 @@ export default function About() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const isMobile = useIsMobile();
+  const { isHindi } = useLanguage();
 
   return (
     <section id="about" ref={ref} className="section-padding relative overflow-hidden section-gradient-primary" aria-label="About BSR Films">
@@ -168,7 +170,7 @@ export default function About() {
                       <p className="team-card__bio">{m.bio}</p>
                       {m.hero && (
                         <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-[#E3A652] tracking-wide bg-[#E3A652]/15 px-2.5 py-1 rounded-md border border-[#E3A652]/30 w-fit">
-                          विस्तृत जीवन यात्रा पढ़ें →
+                          {isHindi ? "विस्तृत जीवन यात्रा पढ़ें →" : "View Founder Profile →"}
                         </span>
                       )}
                     </div>
@@ -190,7 +192,7 @@ export default function About() {
                       href="/founder"
                       className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-[#E3A652] hover:underline"
                     >
-                      संस्थापक परिचय एवं संपूर्ण कृतित्व देखें →
+                      {isHindi ? "संस्थापक परिचय एवं संपूर्ण कृतित्व देखें →" : "Read Founder Profile & Career Journey →"}
                     </Link>
                   )}
                 </article>

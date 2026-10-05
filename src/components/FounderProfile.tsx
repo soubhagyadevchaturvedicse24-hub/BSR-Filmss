@@ -16,61 +16,97 @@ import {
   Globe,
   Share2,
   Check,
-  Copy,
   MapPin,
   Sparkles,
   Download,
   ArrowLeft,
   MessageSquare,
   Building2,
-  Calendar,
   Languages,
   CheckCircle2,
-  ChevronRight,
   ExternalLink,
 } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
+import LanguageToggle from "./LanguageToggle";
+import CustomCursor from "./CustomCursor";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface StatItem {
   number: string;
-  label: string;
-  sub: string;
+  label: { hi: string; en: string };
+  sub: { hi: string; en: string };
 }
 
 const stats: StatItem[] = [
-  { number: "30+", label: "वर्षों का अनुभव", sub: "आकाशवाणी एवं मीडिया सेवा" },
-  { number: "600+", label: "वीडियो स्पॉट्स", sub: "विज्ञापन एवं जनहित संदेश" },
-  { number: "300+", label: "वृत्तचित्र व फिल्में", sub: "डॉक्यूमेंट्री व लघु फिल्में" },
-  { number: "500+", label: "रेडियो एपिसोड्स", sub: "हिंदी एवं छत्तीसगढ़ी धारावाहिक" },
-  { number: "80+", label: "दूरदर्शन स्पॉट्स", sub: "प्रथम वीडियो स्पॉट सहित" },
-  { number: "06", label: "भाषाएं एवं बोलियां", sub: "हिंदी, छत्तीसगढ़ी, गोंडी, हल्बी..." },
+  {
+    number: "30+",
+    label: { hi: "वर्षों का अनुभव", en: "Years Experience" },
+    sub: { hi: "आकाशवाणी एवं मीडिया सेवा", en: "AIR & Media Service" },
+  },
+  {
+    number: "600+",
+    label: { hi: "वीडियो स्पॉट्स", en: "Video Spots" },
+    sub: { hi: "विज्ञापन एवं जनहित संदेश", en: "Commercials & Public TVCs" },
+  },
+  {
+    number: "300+",
+    label: { hi: "वृत्तचित्र व फिल्में", en: "Documentaries" },
+    sub: { hi: "डॉक्यूमेंट्री व लघु फिल्में", en: "Docudramas & Short Films" },
+  },
+  {
+    number: "500+",
+    label: { hi: "रेडियो एपिसोड्स", en: "Radio Episodes" },
+    sub: { hi: "हिंदी एवं छत्तीसगढ़ी धारावाहिक", en: "Hindi & Chhattisgarhi Serials" },
+  },
+  {
+    number: "80+",
+    label: { hi: "दूरदर्शन स्पॉट्स", en: "Doordarshan Spots" },
+    sub: { hi: "प्रथम वीडियो स्पॉट सहित", en: "Incl. 1st DD Raipur Spot" },
+  },
+  {
+    number: "06",
+    label: { hi: "भाषाएं एवं बोलियां", en: "Dialects & Languages" },
+    sub: { hi: "हिंदी, छत्तीसगढ़ी, गोंडी, हल्बी...", en: "Hindi, Chhattisgarhi, Gondi..." },
+  },
 ];
 
-const roles = [
-  "लेखक (Writer)",
-  "निर्देशक (Director)",
-  "निर्माता (Producer)",
-  "गीतकार (Lyricist)",
-  "कवि (Poet)",
-  "मंच संचालक (Compère)",
-  "सांस्कृतिक एवं सामाजिक सेवक",
-];
+const rolesData = {
+  hi: [
+    "लेखक (Writer)",
+    "निर्देशक (Director)",
+    "निर्माता (Producer)",
+    "गीतकार (Lyricist)",
+    "कवि (Poet)",
+    "मंच संचालक (Compère)",
+    "सांस्कृतिक एवं सामाजिक सेवक",
+  ],
+  en: [
+    "Author & Screenwriter",
+    "Film Director",
+    "Creative Producer",
+    "Lyricist & Poet",
+    "TV / Radio Anchor",
+    "Cultural Steward",
+    "Social Worker",
+  ],
+};
 
-const tabs = [
-  { id: "overview", label: "समग्र परिचय", icon: Sparkles },
-  { id: "air", label: "आकाशवाणी यात्रा", icon: Radio },
-  { id: "dd", label: "दूरदर्शन कृतित्व", icon: Tv },
-  { id: "bsr", label: "बी.एस.आर. फिल्म्स व अभियान", icon: Film },
-  { id: "culture", label: "शिक्षा, लोकसंस्कृति व दायित्व", icon: BookOpen },
+const tabsData = [
+  { id: "overview", label: { hi: "समग्र परिचय", en: "Overview" }, icon: Sparkles },
+  { id: "air", label: { hi: "आकाशवाणी यात्रा", en: "AIR Raipur Legacy" }, icon: Radio },
+  { id: "dd", label: { hi: "दूरदर्शन कृतित्व", en: "Doordarshan" }, icon: Tv },
+  { id: "bsr", label: { hi: "बी.एस.आर. फिल्म्स व अभियान", en: "BSR Films & Campaigns" }, icon: Film },
+  { id: "culture", label: { hi: "शिक्षा, लोकसंस्कृति व दायित्व", en: "Education & Leadership" }, icon: BookOpen },
 ];
 
 export default function FounderProfile() {
+  const { lang, isHindi } = useLanguage();
   const [activeTab, setActiveTab] = useState("overview");
   const [copied, setCopied] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
   useEffect(() => {
-    // Ensure loading class is cleared if navigated directly
+    // Clear initial loading class to guarantee instant display on direct URL load
     document.body.classList.remove("loading");
   }, []);
 
@@ -81,16 +117,19 @@ export default function FounderProfile() {
 
   const handleShare = async () => {
     const shareData = {
-      title: "भीष्मदेव चतुर्वेदी | संस्थापक एवं निर्देशक — BSR Films",
-      text: "श्री भीष्मदेव चतुर्वेदी — लेखक, निर्देशक, निर्माता एवं 30+ वर्षों की आकाशवाणी, दूरदर्शन व छत्तीसगढ़ी मीडिया यात्रा। विस्तृत प्रोफ़ाइल देखें:",
+      title: isHindi
+        ? "भीष्मदेव चतुर्वेदी | संस्थापक एवं निर्देशक — BSR Films"
+        : "Bhishmdev Chaturvedi | Founder & Director — BSR Films Raipur",
+      text: isHindi
+        ? "श्री भीष्मदेव चतुर्वेदी — लेखक, निर्देशक, निर्माता एवं 30+ वर्षों की आकाशवाणी, दूरदर्शन व मीडिया यात्रा। विस्तृत प्रोफ़ाइल देखें:"
+        : "Bhishmdev Chaturvedi — Senior Media Producer, Director & Author with 30+ years of All India Radio & Doordarshan legacy. View executive profile:",
       url: window.location.href,
     };
 
     if (navigator.share) {
       try {
         await navigator.share(shareData);
-      } catch (err) {
-        // User cancelled or share failed, fallback to copy
+      } catch {
         copyToClipboard();
       }
     } else {
@@ -101,7 +140,7 @@ export default function FounderProfile() {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(window.location.href);
     setCopied(true);
-    showToast("प्रोफ़ाइल लिंक कॉपी हो गया! आप इसे कहीं भी साझा कर सकते हैं।");
+    showToast(isHindi ? "प्रोफ़ाइल लिंक कॉपी हो गया!" : "Profile link copied to clipboard!");
     setTimeout(() => setCopied(false), 2500);
   };
 
@@ -127,11 +166,14 @@ END:VCARD`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    showToast("डिजिटल संपर्क (vCard) डाउनलोड हो गया!");
+    showToast(isHindi ? "डिजिटल संपर्क (vCard) डाउनलोड हो गया!" : "Digital Contact (.vcf) downloaded!");
   };
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-500 pb-24 md:pb-16 selection:bg-[#E3A652]/30 selection:text-white">
+      {/* Luxury Custom Cursor for Desktop */}
+      <CustomCursor />
+
       {/* Toast Notification */}
       <AnimatePresence>
         {toastMessage && (
@@ -147,7 +189,7 @@ END:VCARD`;
         )}
       </AnimatePresence>
 
-      {/* Top Floating Navigation */}
+      {/* Top Floating Navigation Bar */}
       <header className="sticky top-0 z-40 bg-[var(--bg-primary)]/90 backdrop-blur-xl border-b border-white/10 transition-colors">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between">
           <Link
@@ -155,25 +197,31 @@ END:VCARD`;
             className="flex items-center gap-2 text-xs sm:text-sm font-bold tracking-wide text-white/80 hover:text-[#E3A652] transition-colors group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            <span>बी.एस.आर. फिल्म्स मुख्य पृष्ठ</span>
+            <span>{isHindi ? "बी.एस.आर. फिल्म्स मुख्य पृष्ठ" : "BSR Films Home"}</span>
           </Link>
 
-          <div className="flex items-center gap-2.5 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Bilingual Switcher */}
+            <LanguageToggle />
+
+            {/* Dark / Light Theme Switcher */}
             <ThemeToggle />
+
+            {/* Share Profile Button */}
             <button
               onClick={handleShare}
-              className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full text-xs font-semibold bg-[#E3A652]/15 hover:bg-[#E3A652]/25 text-[#E3A652] border border-[#E3A652]/30 transition-all active:scale-95"
-              title="प्रोफ़ाइल शेयर करें"
+              className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full text-xs font-semibold bg-[#E3A652]/15 hover:bg-[#E3A652]/25 text-[#E3A652] border border-[#E3A652]/30 transition-all active:scale-95 cursor-pointer"
+              title={isHindi ? "प्रोफ़ाइल साझा करें" : "Share Profile"}
             >
               {copied ? (
                 <>
                   <Check className="w-3.5 h-3.5" />
-                  <span>कॉपी हुआ</span>
+                  <span>{isHindi ? "कॉपी हुआ" : "Copied"}</span>
                 </>
               ) : (
                 <>
                   <Share2 className="w-3.5 h-3.5" />
-                  <span>साझा करें</span>
+                  <span>{isHindi ? "साझा करें" : "Share"}</span>
                 </>
               )}
             </button>
@@ -201,11 +249,11 @@ END:VCARD`;
               <div className="relative group">
                 {/* Golden Animated Rim */}
                 <div className="absolute -inset-1.5 bg-gradient-to-tr from-[#E3A652] via-[#F4D090] to-[#E3A652]/40 rounded-3xl blur-sm opacity-70 group-hover:opacity-100 transition duration-700" />
-                
+
                 <div className="relative w-56 sm:w-64 md:w-72 aspect-[4/5] rounded-2xl overflow-hidden bg-[#0A0C10] border border-[#E3A652]/40 shadow-2xl">
                   <Image
                     src="/team/bhishma.webp"
-                    alt="भीष्मदेव चतुर्वेदी - संस्थापक, बी.एस.आर. फिल्म्स"
+                    alt={isHindi ? "भीष्मदेव चतुर्वेदी - संस्थापक, बी.एस.आर. फिल्म्स" : "Bhishmdev Chaturvedi - Founder, BSR Films"}
                     fill
                     sizes="(max-width: 768px) 256px, 288px"
                     priority
@@ -216,7 +264,7 @@ END:VCARD`;
                   {/* Badge over photo */}
                   <div className="absolute bottom-3 inset-x-3 text-center">
                     <span className="inline-block px-3 py-1 rounded-full text-[0.65rem] sm:text-xs font-bold uppercase tracking-wider bg-[#E3A652] text-[#050608] shadow-md">
-                      संस्थापक एवं निर्देशक (Founder)
+                      {isHindi ? "संस्थापक एवं निर्देशक (Founder)" : "Founder & Managing Director"}
                     </span>
                   </div>
                 </div>
@@ -232,21 +280,25 @@ END:VCARD`;
                   <span>7000866323</span>
                 </a>
                 <a
-                  href="https://wa.me/917000866323?text=नमस्ते%20भीष्मदेव%20जी,%20मैं%20आपकी%20प्रोफ़ाइल%20देखकर%20संपर्क%20कर%20रहा%20हूँ।"
+                  href={`https://wa.me/917000866323?text=${encodeURIComponent(
+                    isHindi
+                      ? "नमस्ते भीष्मदेव जी, मैं आपकी प्रोफ़ाइल देखकर संपर्क कर रहा हूँ।"
+                      : "Hello Bhishmdev Sir, I am reaching out after viewing your executive portfolio."
+                  )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-[#25D366]/15 hover:bg-[#25D366]/25 text-[#25D366] border border-[#25D366]/30 transition-all active:scale-95"
                 >
                   <MessageSquare className="w-3.5 h-3.5" />
-                  <span>व्हाट्सएप</span>
+                  <span>{isHindi ? "व्हाट्सएप" : "WhatsApp"}</span>
                 </a>
                 <button
                   onClick={downloadVCard}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-[#E3A652]/10 hover:bg-[#E3A652]/20 text-[#E3A652] border border-[#E3A652]/30 transition-all active:scale-95"
-                  title="संपर्क सहेजें (.vcf)"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-[#E3A652]/10 hover:bg-[#E3A652]/20 text-[#E3A652] border border-[#E3A652]/30 transition-all active:scale-95 cursor-pointer"
+                  title={isHindi ? "संपर्क सहेजें (.vcf)" : "Save Contact (.vcf)"}
                 >
                   <Download className="w-3.5 h-3.5" />
-                  <span>vCard सहेजें</span>
+                  <span>{isHindi ? "vCard सहेजें" : "Save vCard"}</span>
                 </button>
               </div>
             </motion.div>
@@ -261,31 +313,36 @@ END:VCARD`;
               {/* Institution Tag */}
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[0.7rem] font-semibold tracking-wider uppercase bg-[#E3A652]/10 text-[#E3A652] border border-[#E3A652]/20 w-fit mb-3">
                 <Building2 className="w-3.5 h-3.5" />
-                <span>बी.एस.आर. फिल्म्स रायपुर (स्थापना 2000)</span>
+                <span>{isHindi ? "बी.एस.आर. फिल्म्स रायपुर (स्थापना 2000)" : "BSR Films Raipur (Est. 2000)"}</span>
               </div>
 
               {/* Name */}
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white mb-2 font-serif leading-tight">
-                भीष्मदेव चतुर्वेदी
+                {isHindi ? "भीष्मदेव चतुर्वेदी" : "Bhishmdev Chaturvedi"}
               </h1>
               <p className="text-sm sm:text-base text-[#E3A652] font-semibold tracking-wide mb-4">
-                Bhishmdev Chaturvedi — Senior Media Producer, Director & Author
+                {isHindi
+                  ? "वरिष्ठ लेखक, निर्देशक, निर्माता, गीतकार एवं उद्घोषक"
+                  : "Senior Media Producer, Film Director, Screenwriter & Cultural Steward"}
               </p>
 
-              {/* पितृ-स्मृति एवं संस्कार (Lineage & Heritage Card) */}
+              {/* Lineage & Heritage Card */}
               <div className="p-3.5 sm:p-4 rounded-xl bg-white/[0.03] border border-white/10 mb-5 relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-1 h-full bg-[#E3A652]" />
                 <p className="text-xs sm:text-sm text-white/90 leading-relaxed font-medium">
-                  <span className="text-[#E3A652] font-bold">पिता:</span> स्व. श्री दीनानाथ चतुर्वेदी
+                  <span className="text-[#E3A652] font-bold">{isHindi ? "पिता:" : "Father:"}</span>{" "}
+                  {isHindi ? "स्व. श्री दीनानाथ चतुर्वेदी" : "Late Shri Dinanath Chaturvedi"}
                 </p>
                 <p className="text-xs text-white/60 mt-1 leading-relaxed">
-                  (राष्ट्रसेवी स्वयंसेवक - RSS, सेवानिवृत्त शिक्षक, प्रख्यात रामायणविद, पूर्व मंडल अध्यक्ष - भारतीय जनता पार्टी)
+                  {isHindi
+                    ? "(राष्ट्रसेवी स्वयंसेवक - RSS, सेवानिवृत्त शिक्षक, प्रख्यात रामायणविद, पूर्व मंडल अध्यक्ष - भारतीय जनता पार्टी)"
+                    : "(Social Worker - RSS, Retired Educator, Scholar of Ramayana, Former BJP Mandal President)"}
                 </p>
               </div>
 
-              {/* बहुआयामी भूमिकाएं (Roles Pills) */}
+              {/* Roles Pills */}
               <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-5">
-                {roles.map((r) => (
+                {(rolesData[lang] || rolesData.en).map((r) => (
                   <span
                     key={r}
                     className="px-2.5 py-1 rounded-md text-[0.7rem] sm:text-xs font-medium bg-white/[0.05] text-white/80 border border-white/10 hover:border-[#E3A652]/40 transition-colors"
@@ -297,7 +354,9 @@ END:VCARD`;
 
               {/* Philosophy Quote */}
               <blockquote className="border-l-2 border-[#E3A652] pl-3.5 py-1 text-xs sm:text-sm italic text-white/75 leading-relaxed bg-[#E3A652]/[0.02] rounded-r-lg">
-                &quot;भारतीय कला, संस्कृति, साहित्य और लोक संस्कारों की अविरल धारा — हमर छत्तीसगढ़ की माटी, बोली और अस्मिता के प्रति आजीवन समर्पित।&quot;
+                {isHindi
+                  ? '“भारतीय कला, संस्कृति, साहित्य और लोक संस्कारों की अविरल धारा — हमर छत्तीसगढ़ की माटी, बोली और अस्मिता के प्रति आजीवन समर्पित।”'
+                  : '“Dedicated for life to the soil, folklore, languages and living cultural soul of Chhattisgarh — bringing regional stories to the national stage.”'}
               </blockquote>
             </motion.div>
           </div>
@@ -310,7 +369,7 @@ END:VCARD`;
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
             {stats.map((s, idx) => (
               <motion.div
-                key={s.label}
+                key={s.number}
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: idx * 0.05 }}
@@ -320,10 +379,10 @@ END:VCARD`;
                   {s.number}
                 </span>
                 <span className="text-xs sm:text-sm font-bold text-white leading-tight">
-                  {s.label}
+                  {s.label[lang] || s.label.en}
                 </span>
                 <span className="text-[0.65rem] text-white/50 mt-1 leading-snug">
-                  {s.sub}
+                  {s.sub[lang] || s.sub.en}
                 </span>
               </motion.div>
             ))}
@@ -335,9 +394,11 @@ END:VCARD`;
       <section className="sticky top-14 sm:top-16 z-30 bg-[var(--bg-primary)]/95 backdrop-blur-md border-y border-white/10 py-2 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto overflow-x-auto no-scrollbar">
           <div className="flex items-center gap-1.5 sm:gap-2 min-w-max">
-            {tabs.map((tab) => {
+            {tabsData.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
+              const labelText = tab.label[lang] || tab.label.en;
+
               return (
                 <button
                   key={tab.id}
@@ -349,7 +410,7 @@ END:VCARD`;
                   }`}
                 >
                   <Icon className="w-4 h-4" />
-                  <span>{tab.label}</span>
+                  <span>{labelText}</span>
                 </button>
               );
             })}
@@ -357,13 +418,13 @@ END:VCARD`;
         </div>
       </section>
 
-      {/* Main Content Area based on Tabs */}
+      {/* Main Tabbed Content Area */}
       <main className="max-w-5xl mx-auto px-4 sm:px-6 pt-8">
         <AnimatePresence mode="wait">
-          {/* TAB 1: OVERVIEW & SUMMARY */}
+          {/* TAB 1: OVERVIEW */}
           {activeTab === "overview" && (
             <motion.div
-              key="overview"
+              key={`overview-${lang}`}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -377,41 +438,71 @@ END:VCARD`;
                     <Sparkles className="w-5 h-5" />
                   </div>
                   <h2 className="text-xl sm:text-2xl font-bold text-white font-serif">
-                    सांस्कृतिक एवं मीडिया यात्रा का संक्षिप्त परिचय
+                    {isHindi ? "सांस्कृतिक एवं मीडिया यात्रा का संक्षिप्त परिचय" : "Executive Overview & Career Journey"}
                   </h2>
                 </div>
                 <div className="space-y-4 text-xs sm:text-sm text-white/80 leading-relaxed">
-                  <p>
-                    <strong className="text-white">श्री भीष्मदेव चतुर्वेदी</strong> छत्तीसगढ़ के कला, साहित्य, दूरदर्शन एवं प्रसारण जगत के एक अत्यंत सम्मानित और वरिष्ठ हस्ताक्षर हैं। पिछले तीन दशकों से अधिक समय से उन्होंने राज्य की माटी, लोकसंस्कृति और सामाजिक सरोकारों को अपनी लेखनी, वाणी और निर्देशन के माध्यम से राष्ट्रीय क्षितिज पर स्थापित किया है।
-                  </p>
-                  <p>
-                    सन् 2000 में उन्होंने <strong className="text-[#E3A652]">बी.एस.आर. फिल्म्स (BSR Films)</strong> की स्थापना रायपुर में की, जो आज राष्ट्रीय फिल्म विकास निगम (NFDC), छत्तीसगढ़ संवाद (&apos;ब&apos; श्रेणी) तथा प्रसार भारती के केंद्रीय विक्रय एकांश में पंजीकृत छत्तीसगढ़ की एक प्रमुख एवं विश्वसनीय प्रोडक्शन संस्था है।
-                  </p>
-                  <p>
-                    आकाशवाणी रायपुर में 30 वर्षों तक नैमेत्तिक कंपियर (चौपाल एवं श्रमिक जगत) के रूप में कार्य करने, &apos;बी हाई-ग्रेड&apos; नाट्य कलाकार होने और दूरदर्शन केंद्र रायपुर के लिए प्रथम वीडियो स्पॉट सहित 15 टेलीफिल्म्स व 5 धारावाहिकों के लेखन-निर्देशन का अनूठा कीर्तिमान उनके नाम है।
-                  </p>
+                  {isHindi ? (
+                    <>
+                      <p>
+                        <strong className="text-white">श्री भीष्मदेव चतुर्वेदी</strong> छत्तीसगढ़ के कला, साहित्य, दूरदर्शन एवं प्रसारण जगत के एक अत्यंत सम्मानित और वरिष्ठ हस्ताक्षर हैं। पिछले तीन दशकों से अधिक समय से उन्होंने राज्य की माटी, लोकसंस्कृति और सामाजिक सरोकारों को अपनी लेखनी, वाणी और निर्देशन के माध्यम से राष्ट्रीय क्षितिज पर स्थापित किया है।
+                      </p>
+                      <p>
+                        सन् 2000 में उन्होंने <strong className="text-[#E3A652]">बी.एस.आर. फिल्म्स (BSR Films)</strong> की स्थापना रायपुर में की, जो आज राष्ट्रीय फिल्म विकास निगम (NFDC), छत्तीसगढ़ संवाद (&apos;ब&apos; श्रेणी) तथा प्रसार भारती के केंद्रीय विक्रय एकांश में पंजीकृत छत्तीसगढ़ की एक प्रमुख एवं विश्वसनीय प्रोडक्शन संस्था है।
+                      </p>
+                      <p>
+                        आकाशवाणी रायपुर में 30 वर्षों तक नैमेत्तिक कंपियर (चौपाल एवं श्रमिक जगत) के रूप में कार्य करने, &apos;बी हाई-ग्रेड&apos; नाट्य कलाकार होने और दूरदर्शन केंद्र रायपुर के लिए प्रथम वीडियो स्पॉट सहित 15 टेलीफिल्म्स व 5 धारावाहिकों के लेखन-निर्देशन का अनूठा कीर्तिमान उनके नाम है।
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p>
+                        <strong className="text-white">Bhishmdev Chaturvedi</strong> is one of the most venerated figures in Chhattisgarh’s media, television, literature, and broadcasting landscapes. For over three decades, he has been instrumental in elevating regional narratives, tribal folklore, and public awareness campaigns onto premier national stages.
+                      </p>
+                      <p>
+                        In the year 2000, he founded <strong className="text-[#E3A652]">BSR Films Raipur</strong>, which has grown into a premier media production house empanelled in Category &apos;B&apos; with Chhattisgarh Samvad since 2008, enlisted with the National Film Development Corporation (NFDC, New Delhi), and registered with Prasar Bharati’s Central Sales Unit.
+                      </p>
+                      <p>
+                        With 30 years as an empanelled compère for All India Radio Raipur (&apos;Chaupal&apos; & &apos;Shramik Jagat&apos;), an official &apos;B-High Grade&apos; drama artist, and writer-director of 15 telefilms and 5 television serials for Doordarshan Raipur, his career encompasses the pinnacle of regional audio-visual storytelling.
+                      </p>
+                    </>
+                  )}
                 </div>
               </div>
 
-              {/* Quick Glance Bento Highlights */}
+              {/* Quick Glance Highlights */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="p-5 sm:p-6 rounded-2xl bg-white/[0.02] border border-white/10">
                   <div className="flex items-center gap-3 mb-3 text-[#E3A652]">
                     <Radio className="w-5 h-5" />
-                    <h3 className="text-base sm:text-lg font-bold text-white">प्रसारण एवं मीडिया प्रभुत्व</h3>
+                    <h3 className="text-base sm:text-lg font-bold text-white">
+                      {isHindi ? "प्रसारण एवं मीडिया प्रभुत्व" : "Broadcasting & Television"}
+                    </h3>
                   </div>
                   <ul className="space-y-2.5 text-xs sm:text-sm text-white/70">
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-[#E3A652] flex-shrink-0 mt-0.5" />
-                      <span>आकाशवाणी रायपुर: 30 वर्ष कंपियर, 50 रूपक, 10 नाटक, 6 सीरियल्स अनुबंध।</span>
+                      <span>
+                        {isHindi
+                          ? "आकाशवाणी रायपुर: 30 वर्ष कंपियर, 50 रूपक, 10 नाटक, 6 सीरियल्स अनुबंध।"
+                          : "AIR Raipur: 30-year compère, 50 radio features, 10 dramas, 6 serial contracts."}
+                      </span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-[#E3A652] flex-shrink-0 mt-0.5" />
-                      <span>दूरदर्शन रायपुर: प्रथम वीडियो स्पॉट, 80+ स्पॉट्स, 15 टेलीफिल्म्स, 5 धारावाहिक।</span>
+                      <span>
+                        {isHindi
+                          ? "दूरदर्शन रायपुर: प्रथम वीडियो स्पॉट, 80+ स्पॉट्स, 15 टेलीफिल्म्स, 5 धारावाहिक।"
+                          : "DD Raipur: 1st video spot, 80+ spots, 15 telefilms written & directed, 5 serials."}
+                      </span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-[#E3A652] flex-shrink-0 mt-0.5" />
-                      <span>प्रसिद्ध एंकर: परिक्रमा, हमर गांव, भुइयां के गोठ, कृषि दर्शन।</span>
+                      <span>
+                        {isHindi
+                          ? "प्रमुख एंकर: परिक्रमा, हमर गांव, भुइयां के गोठ, कृषि दर्शन।"
+                          : "Anchor of landmark shows: Parikrama, Hamar Gaon, Bhuiyan Ke Goth, Krishi Darshan."}
+                      </span>
                     </li>
                   </ul>
                 </div>
@@ -419,20 +510,34 @@ END:VCARD`;
                 <div className="p-5 sm:p-6 rounded-2xl bg-white/[0.02] border border-white/10">
                   <div className="flex items-center gap-3 mb-3 text-[#E3A652]">
                     <Award className="w-5 h-5" />
-                    <h3 className="text-base sm:text-lg font-bold text-white">राष्ट्रीय अभियान एवं मान्यताएं</h3>
+                    <h3 className="text-base sm:text-lg font-bold text-white">
+                      {isHindi ? "राष्ट्रीय अभियान एवं मान्यताएं" : "National Campaigns & Institutional Trust"}
+                    </h3>
                   </div>
                   <ul className="space-y-2.5 text-xs sm:text-sm text-white/70">
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-[#E3A652] flex-shrink-0 mt-0.5" />
-                      <span>NFDC नई दिल्ली में अनुसूचित (Enlisted) फिल्म प्रोडक्शन फर्म।</span>
+                      <span>
+                        {isHindi
+                          ? "NFDC नई दिल्ली में अनुसूचित (Enlisted) एवं छत्तीसगढ़ संवाद 'ब' श्रेणी पंजीकृत।"
+                          : "Enlisted with NFDC New Delhi; Category 'B' empanelled with CG Samvad since 2008."}
+                      </span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-[#E3A652] flex-shrink-0 mt-0.5" />
-                      <span>विधान सभा 2013 एवं लोक सभा 2014 चुनाव में 6 आकाशवाणी केन्द्रों से आधिकारिक रेडियो जिंगल प्रसारण।</span>
+                      <span>
+                        {isHindi
+                          ? "विधान सभा 2013 एवं लोक सभा 2014 चुनाव: 6 आकाशवाणी केन्द्रों से रेडियो प्रचार एजेंसी।"
+                          : "2013 Assembly & 2014 Lok Sabha Elections: Lead agency across 6 AIR stations."}
+                      </span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="w-4 h-4 text-[#E3A652] flex-shrink-0 mt-0.5" />
-                      <span>यूनिसेफ (UNICEF) एवं वर्ल्ड बैंक (World Bank) योजनाओं के लिए वृत्तचित्र व रेडियो निर्माण।</span>
+                      <span>
+                        {isHindi
+                          ? "यूनिसेफ (UNICEF) एवं वर्ल्ड बैंक (World Bank) योजनाओं हेतु वृत्तचित्र व धारावाहिक।"
+                          : "Produced public health & social campaigns for UNICEF & World Bank funded missions."}
+                      </span>
                     </li>
                   </ul>
                 </div>
@@ -440,10 +545,10 @@ END:VCARD`;
             </motion.div>
           )}
 
-          {/* TAB 2: ALL INDIA RADIO (आकाशवाणी रायपुर) */}
+          {/* TAB 2: ALL INDIA RADIO */}
           {activeTab === "air" && (
             <motion.div
-              key="air"
+              key={`air-${lang}`}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -457,47 +562,71 @@ END:VCARD`;
                   </div>
                   <div>
                     <h2 className="text-xl sm:text-2xl font-bold text-white font-serif">
-                      आकाशवाणी रायपुर (All India Radio) — तीन दशकों की विरासत
+                      {isHindi
+                        ? "आकाशवाणी रायपुर (All India Radio) — तीन दशकों की विरासत"
+                        : "All India Radio (AIR Raipur) — Three Decades of Broadcasting"}
                     </h2>
                     <p className="text-xs sm:text-sm text-[#E3A652] font-medium">
-                      नैमेत्तिक कंपियर, नाटककार, रूपक लेखक एवं &apos;बी हाई-ग्रेड&apos; कलाकार
+                      {isHindi
+                        ? "नैमेत्तिक कंपियर, नाटककार, रूपक लेखक एवं 'बी हाई-ग्रेड' कलाकार"
+                        : "Compère, Dramatist, Feature Writer & 'B-High Grade' Radio Artist"}
                     </p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-2">
-                    <span className="text-xs font-bold uppercase tracking-wider text-[#E3A652]">नैमेत्तिक कंपियर (लगभग 30 वर्ष)</span>
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#E3A652]">
+                      {isHindi ? "नैमेत्तिक कंपियर (लगभग 30 वर्ष)" : "Casual Compère (~30 Years)"}
+                    </span>
                     <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
-                      आकाशवाणी रायपुर के सर्वाधिक लोकप्रिय कार्यक्रमों <strong className="text-white">&apos;चौपाल&apos;</strong> और <strong className="text-white">&apos;श्रमिक जगत&apos;</strong> में तीन दशकों तक अनुबंधित उद्घोषक व कंपियर के रूप में जन-जन की आवाज बने रहे।
+                      {isHindi
+                        ? "आकाशवाणी रायपुर के सर्वाधिक लोकप्रिय कार्यक्रमों 'चौपाल' और 'श्रमिक जगत' में तीन दशकों तक अनुबंधित उद्घोषक व कंपियर के रूप में जन-जन की आवाज बने रहे।"
+                        : "Empanelled compère for nearly 30 years hosting flagships 'Chaupal' and 'Shramik Jagat', connecting rural and working communities with cultural discourse."}
                     </p>
                   </div>
 
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-2">
-                    <span className="text-xs font-bold uppercase tracking-wider text-[#E3A652]">&apos;बी हाई-ग्रेड&apos; कलाकार (B-High Grade)</span>
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#E3A652]">
+                      {isHindi ? "'बी हाई-ग्रेड' कलाकार (B-High Grade)" : "Officially Graded 'B-High' Artist"}
+                    </span>
                     <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
-                      आकाशवाणी से नाटकों में आधिकारिक रूप से प्रतिष्ठित &apos;बी हाई-ग्रेड&apos; कलाकार के रूप में वर्गीकृत, अनगिनत रेडियो नाटकों में जीवंत अभिनय का परिचय दिया।
+                      {isHindi
+                        ? "आकाशवाणी से नाटकों में आधिकारिक रूप से प्रतिष्ठित 'बी हाई-ग्रेड' कलाकार के रूप में वर्गीकृत, अनगिनत रेडियो नाटकों में जीवंत अभिनय का परिचय दिया।"
+                        : "Graded 'B-High' Radio Drama Artist by All India Radio, performing lead character roles in dozens of historic radio plays."}
                     </p>
                   </div>
 
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-2">
-                    <span className="text-xs font-bold uppercase tracking-wider text-[#E3A652]">50 रेडियो रूपक (Radio Features)</span>
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#E3A652]">
+                      {isHindi ? "50 रेडियो रूपक (Radio Features)" : "50 Radio Features Authored"}
+                    </span>
                     <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
-                      आकाशवाणी रायपुर के लिए 50 रेडियो रूपकों का विशिष्ट शोध, आलेखन एवं निर्माण अनुबंध सफलता पूर्वक संपन्न किया।
+                      {isHindi
+                        ? "आकाशवाणी रायपुर के लिए 50 रेडियो रूपकों का विशिष्ट शोध, आलेखन एवं निर्माण अनुबंध सफलतापूर्वक संपन्न किया।"
+                        : "Researched, scripted and produced 50 comprehensive radio documentaries and feature specials on tribal history and folklore."}
                     </p>
                   </div>
 
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-2">
-                    <span className="text-xs font-bold uppercase tracking-wider text-[#E3A652]">10 नाटकों का लेखन व निर्माण</span>
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#E3A652]">
+                      {isHindi ? "10 नाटकों का लेखन व निर्माण" : "10 Full-Length Radio Dramas"}
+                    </span>
                     <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
-                      सामाजिक, ऐतिहासिक और सांस्कृतिक विषयों पर आधारित 10 संपूर्ण रेडियो नाटकों का लेखन एवं निर्माण।
+                      {isHindi
+                        ? "सामाजिक, ऐतिहासिक और सांस्कृतिक विषयों पर आधारित 10 संपूर्ण रेडियो नाटकों का लेखन एवं निर्माण।"
+                        : "Contracted writer and director for 10 complete radio plays broadcasting across regional All India Radio networks."}
                     </p>
                   </div>
 
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 md:col-span-2 space-y-2">
-                    <span className="text-xs font-bold uppercase tracking-wider text-[#E3A652]">ऐतिहासिक रेडियो धारावाहिक (Radio Serials)</span>
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#E3A652]">
+                      {isHindi ? "ऐतिहासिक रेडियो धारावाहिक (Radio Serials)" : "Pioneering Radio Serials (500+ Episodes)"}
+                    </span>
                     <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
-                      आकाशवाणी रायपुर के इतिहास का <strong className="text-white">प्रथम रेडियो सीरियल</strong> सहित कुल 6 धारावाहिकों (हिंदी एवं छत्तीसगढ़ी) का लेखन अनुबंध तथा 500 से अधिक कड़ियों (Episodes) का विशाल प्रसारण।
+                      {isHindi
+                        ? "आकाशवाणी रायपुर के इतिहास का प्रथम रेडियो सीरियल सहित कुल 6 धारावाहिकों (हिंदी एवं छत्तीसगढ़ी) का लेखन अनुबंध तथा 500 से अधिक कड़ियों (Episodes) का विशाल प्रसारण।"
+                        : "Authored and directed the historic very first radio serial broadcast by AIR Raipur, among 6 total serials encompassing over 500 broadcast episodes in Hindi and Chhattisgarhi."}
                     </p>
                   </div>
                 </div>
@@ -505,10 +634,10 @@ END:VCARD`;
             </motion.div>
           )}
 
-          {/* TAB 3: DOORDARSHAN (दूरदर्शन केंद्र रायपुर) */}
+          {/* TAB 3: DOORDARSHAN */}
           {activeTab === "dd" && (
             <motion.div
-              key="dd"
+              key={`dd-${lang}`}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -522,10 +651,14 @@ END:VCARD`;
                   </div>
                   <div>
                     <h2 className="text-xl sm:text-2xl font-bold text-white font-serif">
-                      दूरदर्शन केंद्र रायपुर — टेलीफिल्म्स, धारावाहिक एवं एंकरिंग
+                      {isHindi
+                        ? "दूरदर्शन केंद्र रायपुर — टेलीफिल्म्स, धारावाहिक एवं एंकरिंग"
+                        : "Doordarshan Kendra Raipur — Telefilms, Serials & Anchoring"}
                     </h2>
                     <p className="text-xs sm:text-sm text-[#E3A652] font-medium">
-                      टेलीफिल्म लेखक-निर्देशक एवं प्रतिष्ठित मुख्य एंकर
+                      {isHindi
+                        ? "टेलीफिल्म लेखक-निर्देशक एवं प्रतिष्ठित मुख्य एंकर"
+                        : "Telefilm Director, Screenwriter & Lead Television Anchor"}
                     </p>
                   </div>
                 </div>
@@ -533,34 +666,55 @@ END:VCARD`;
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6">
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 text-center">
                     <p className="text-3xl font-extrabold text-[#E3A652] font-mono">15</p>
-                    <p className="text-xs sm:text-sm font-bold text-white mt-1">टेलीफिल्म्स</p>
-                    <p className="text-[0.7rem] text-white/50 mt-0.5">संपूर्ण लेखन व निर्देशन</p>
+                    <p className="text-xs sm:text-sm font-bold text-white mt-1">
+                      {isHindi ? "टेलीफिल्म्स" : "Telefilms"}
+                    </p>
+                    <p className="text-[0.7rem] text-white/50 mt-0.5">
+                      {isHindi ? "संपूर्ण लेखन व निर्देशन" : "Written & Directed"}
+                    </p>
                   </div>
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 text-center">
                     <p className="text-3xl font-extrabold text-[#E3A652] font-mono">05</p>
-                    <p className="text-xs sm:text-sm font-bold text-white mt-1">धारावाहिक (Serials)</p>
-                    <p className="text-[0.7rem] text-white/50 mt-0.5">लेखन, निर्देशन व संचालन</p>
+                    <p className="text-xs sm:text-sm font-bold text-white mt-1">
+                      {isHindi ? "धारावाहिक (Serials)" : "TV Serials"}
+                    </p>
+                    <p className="text-[0.7rem] text-white/50 mt-0.5">
+                      {isHindi ? "लेखन, निर्देशन व संचालन" : "Directed & Produced"}
+                    </p>
                   </div>
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 text-center">
                     <p className="text-3xl font-extrabold text-[#E3A652] font-mono">80+</p>
-                    <p className="text-xs sm:text-sm font-bold text-white mt-1">वीडियो स्पॉट्स</p>
-                    <p className="text-[0.7rem] text-white/50 mt-0.5">डीडी रायपुर का प्रथम स्पॉट सहित</p>
+                    <p className="text-xs sm:text-sm font-bold text-white mt-1">
+                      {isHindi ? "वीडियो स्पॉट्स" : "Video Spots"}
+                    </p>
+                    <p className="text-[0.7rem] text-white/50 mt-0.5">
+                      {isHindi ? "डीडी रायपुर का प्रथम स्पॉट सहित" : "Incl. 1st DD Raipur spot"}
+                    </p>
                   </div>
                 </div>
 
                 {/* Iconic Anchor Shows */}
                 <div className="mt-6 pt-6 border-t border-white/10">
                   <h3 className="text-sm sm:text-base font-bold text-white mb-3">
-                    दूरदर्शन रायपुर के प्रमुख कार्यक्रम, जिनका आपने मुख्य संचालन/एंकरिंग किया:
+                    {isHindi
+                      ? "दूरदर्शन रायपुर के प्रमुख कार्यक्रम, जिनका आपने मुख्य संचालन/एंकरिंग किया:"
+                      : "Landmark television shows anchored and hosted on Doordarshan:"}
                   </h3>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                    {["परिक्रमा", "हमर गांव", "भुइयां के गोठ", "कृषि दर्शन", "नववर्ष विशेष कार्यक्रम", "राष्ट्रीय/क्षेत्रीय विशेष आयोजन"].map((show) => (
+                    {[
+                      { hi: "परिक्रमा", en: "Parikrama" },
+                      { hi: "हमर गांव", en: "Hamar Gaon" },
+                      { hi: "भुइयां के गोठ", en: "Bhuiyan Ke Goth" },
+                      { hi: "कृषि दर्शन", en: "Krishi Darshan" },
+                      { hi: "नववर्ष विशेष कार्यक्रम", en: "New Year Specials" },
+                      { hi: "राष्ट्रीय/क्षेत्रीय विशेष आयोजन", en: "National & State Events" },
+                    ].map((show) => (
                       <div
-                        key={show}
+                        key={show.en}
                         className="px-3 py-2 rounded-lg bg-white/[0.04] border border-white/5 text-xs font-semibold text-white/90 flex items-center gap-2"
                       >
                         <span className="w-1.5 h-1.5 rounded-full bg-[#E3A652]" />
-                        <span>{show}</span>
+                        <span>{show[lang] || show.en}</span>
                       </div>
                     ))}
                   </div>
@@ -572,7 +726,7 @@ END:VCARD`;
           {/* TAB 4: BSR FILMS & CAMPAIGNS */}
           {activeTab === "bsr" && (
             <motion.div
-              key="bsr"
+              key={`bsr-${lang}`}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -586,10 +740,14 @@ END:VCARD`;
                   </div>
                   <div>
                     <h2 className="text-xl sm:text-2xl font-bold text-white font-serif">
-                      बी.एस.आर. फिल्म्स — संस्थागत मान्यताएं एवं ऐतिहासिक अभियान
+                      {isHindi
+                        ? "बी.एस.आर. फिल्म्स — संस्थागत मान्यताएं एवं ऐतिहासिक अभियान"
+                        : "BSR Films — Institutional Accreditations & Landmark Campaigns"}
                     </h2>
                     <p className="text-xs sm:text-sm text-[#E3A652] font-medium">
-                      वर्ष 2000 से निरंतर कार्यरत | NFDC एवं छत्तीसगढ़ संवाद पंजीकृत
+                      {isHindi
+                        ? "वर्ष 2000 से निरंतर कार्यरत | NFDC एवं छत्तीसगढ़ संवाद पंजीकृत"
+                        : "Active Since 2000 | Enlisted with NFDC & Empanelled with CG Samvad"}
                     </p>
                   </div>
                 </div>
@@ -597,53 +755,97 @@ END:VCARD`;
                 {/* Institutional Empanelment */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 my-6">
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5">
-                    <p className="text-xs font-bold text-[#E3A652] uppercase">छत्तीसगढ़ संवाद</p>
-                    <p className="text-sm font-bold text-white mt-1">&apos;ब&apos; श्रेणी में इम्पेनल्ड</p>
-                    <p className="text-xs text-white/60 mt-1">2008 से आज पर्यंत ऑडियो-वीडियो निर्माण हेतु पंजीकृत फर्म।</p>
+                    <p className="text-xs font-bold text-[#E3A652] uppercase">
+                      {isHindi ? "छत्तीसगढ़ संवाद" : "CG Samvad"}
+                    </p>
+                    <p className="text-sm font-bold text-white mt-1">
+                      {isHindi ? "'ब' श्रेणी में इम्पेनल्ड" : "Category 'B' Empanelled"}
+                    </p>
+                    <p className="text-xs text-white/60 mt-1">
+                      {isHindi
+                        ? "2008 से आज पर्यंत ऑडियो-वीडियो निर्माण हेतु पंजीकृत फर्म।"
+                        : "Registered for audio-visual media production since 2008."}
+                    </p>
                   </div>
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5">
-                    <p className="text-xs font-bold text-[#E3A652] uppercase">NFDC नई दिल्ली</p>
-                    <p className="text-sm font-bold text-white mt-1">अनुसूचित (Enlisted) एजेंसी</p>
-                    <p className="text-xs text-white/60 mt-1">नेशनल फिल्म डेवलपमेंट कॉर्पोरेशन, नई दिल्ली में सूचीबद्ध।</p>
+                    <p className="text-xs font-bold text-[#E3A652] uppercase">
+                      {isHindi ? "NFDC नई दिल्ली" : "NFDC New Delhi"}
+                    </p>
+                    <p className="text-sm font-bold text-white mt-1">
+                      {isHindi ? "अनुसूचित (Enlisted) एजेंसी" : "Enlisted Media House"}
+                    </p>
+                    <p className="text-xs text-white/60 mt-1">
+                      {isHindi
+                        ? "नेशनल फिल्म डेवलपमेंट कॉर्पोरेशन, नई दिल्ली में सूचीबद्ध।"
+                        : "Enlisted with National Film Development Corporation of India."}
+                    </p>
                   </div>
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5">
-                    <p className="text-xs font-bold text-[#E3A652] uppercase">प्रसार भारती</p>
-                    <p className="text-sm font-bold text-white mt-1">केंद्रीय विक्रय एकांश</p>
-                    <p className="text-xs text-white/60 mt-1">प्रसार भारती सेंट्रल सेल्स यूनिट में अधिकृत पंजीकृत एजेंसी।</p>
+                    <p className="text-xs font-bold text-[#E3A652] uppercase">
+                      {isHindi ? "प्रसार भारती" : "Prasar Bharati"}
+                    </p>
+                    <p className="text-sm font-bold text-white mt-1">
+                      {isHindi ? "केंद्रीय विक्रय एकांश" : "Central Sales Unit"}
+                    </p>
+                    <p className="text-xs text-white/60 mt-1">
+                      {isHindi
+                        ? "प्रसार भारती सेंट्रल सेल्स यूनिट में अधिकृत पंजीकृत एजेंसी।"
+                        : "Officially registered agency with Prasar Bharati CSU."}
+                    </p>
                   </div>
                 </div>
 
                 {/* Election Campaigns */}
                 <div className="space-y-4 pt-4 border-t border-white/10">
-                  <h3 className="text-sm sm:text-base font-bold text-white">ऐतिहासिक चुनावी व सामाजिक अभियान:</h3>
+                  <h3 className="text-sm sm:text-base font-bold text-white">
+                    {isHindi ? "ऐतिहासिक चुनावी व सामाजिक अभियान:" : "Historic Election & Social Campaigns:"}
+                  </h3>
 
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-bold text-[#E3A652]">विधान सभा चुनाव 2013</span>
-                      <span className="text-[0.65rem] px-2 py-0.5 rounded bg-[#E3A652]/20 text-[#E3A652]">रेडियो अभियान</span>
+                      <span className="text-xs font-bold text-[#E3A652]">
+                        {isHindi ? "विधान सभा चुनाव 2013" : "2013 Chhattisgarh Assembly Election"}
+                      </span>
+                      <span className="text-[0.65rem] px-2 py-0.5 rounded bg-[#E3A652]/20 text-[#E3A652]">
+                        {isHindi ? "रेडियो अभियान" : "AIR Radio Campaign"}
+                      </span>
                     </div>
                     <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
-                      प्रदेश के <strong className="text-white">06 आकाशवाणी केन्द्रों</strong> से भारतीय जनता पार्टी के आधिकारिक चुनाव प्रचार हेतु रेडियो जिंगल निर्माण एवं प्रसारण की अनुबंधित एजेंसी।
+                      {isHindi
+                        ? "प्रदेश के 06 आकाशवाणी केन्द्रों से भारतीय जनता पार्टी के आधिकारिक चुनाव प्रचार हेतु रेडियो जिंगल निर्माण एवं प्रसारण की अनुबंधित एजेंसी।"
+                        : "Sole contracted agency for producing and broadcasting official radio campaign jingles across all 6 All India Radio stations in Chhattisgarh."}
                     </p>
                   </div>
 
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-bold text-[#E3A652]">लोक सभा चुनाव 2014</span>
-                      <span className="text-[0.65rem] px-2 py-0.5 rounded bg-[#E3A652]/20 text-[#E3A652]">रेडियो अभियान</span>
+                      <span className="text-xs font-bold text-[#E3A652]">
+                        {isHindi ? "लोक सभा चुनाव 2014" : "2014 National Parliamentary Election"}
+                      </span>
+                      <span className="text-[0.65rem] px-2 py-0.5 rounded bg-[#E3A652]/20 text-[#E3A652]">
+                        {isHindi ? "रेडियो अभियान" : "AIR Radio Campaign"}
+                      </span>
                     </div>
                     <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
-                      प्रदेश के 06 आकाशवाणी केन्द्रों से भारतीय जनता पार्टी के राष्ट्रीय प्रचार अभियान हेतु रेडियो जिंगल निर्माण व व्यापक प्रसारण।
+                      {isHindi
+                        ? "प्रदेश के 06 आकाशवाणी केन्द्रों से भारतीय जनता पार्टी के राष्ट्रीय प्रचार अभियान हेतु रेडियो जिंगल निर्माण व व्यापक प्रसारण।"
+                        : "Lead creative agency for producing BJP's election broadcast jingles across 6 AIR stations during the 2014 national elections."}
                     </p>
                   </div>
 
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-bold text-[#E3A652]">अंतरराष्ट्रीय एवं एनजीओ प्रोजेक्ट्स</span>
-                      <span className="text-[0.65rem] px-2 py-0.5 rounded bg-white/10 text-white/80">वैश्विक सहयोग</span>
+                      <span className="text-xs font-bold text-[#E3A652]">
+                        {isHindi ? "अंतरराष्ट्रीय एवं एनजीओ प्रोजेक्ट्स" : "Global Organizations (UNICEF & World Bank)"}
+                      </span>
+                      <span className="text-[0.65rem] px-2 py-0.5 rounded bg-white/10 text-white/80">
+                        {isHindi ? "वैश्विक सहयोग" : "Global Impact"}
+                      </span>
                     </div>
                     <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
-                      <strong className="text-white">यूनिसेफ (UNICEF)</strong> हेतु वीडियो स्पॉट्स एवं <strong className="text-white">वर्ल्ड बैंक (World Bank)</strong> वित्तपोषित योजनाओं के प्रचार-प्रसार के लिए वृत्तचित्र एवं रेडियो सीरियल निर्माण। विभिन्न एनजीओ के साथ जन-जागरूकता यात्राओं का कुशल संयोजन।
+                      {isHindi
+                        ? "यूनिसेफ (UNICEF) हेतु वीडियो स्पॉट्स एवं वर्ल्ड बैंक (World Bank) वित्तपोषित योजनाओं के प्रचार-प्रसार के लिए वृत्तचित्र एवं रेडियो सीरियल निर्माण। विभिन्न एनजीओ के साथ जन-जागरूकता यात्राओं का कुशल संयोजन।"
+                        : "Video spot creation for UNICEF; documentary and radio serial production for World Bank-funded missions; leadership of mass public awareness travel campaigns across tribal districts."}
                     </p>
                   </div>
                 </div>
@@ -651,11 +853,21 @@ END:VCARD`;
                 {/* Multilingual Expertise */}
                 <div className="mt-6 pt-4 border-t border-white/10 flex flex-wrap items-center gap-2">
                   <span className="text-xs font-bold text-[#E3A652] mr-2 flex items-center gap-1.5">
-                    <Languages className="w-4 h-4" /> कार्यक्षेत्र भाषाएं:
+                    <Languages className="w-4 h-4" /> {isHindi ? "कार्यक्षेत्र भाषाएं:" : "Production Languages:"}
                   </span>
-                  {["हिंदी", "छत्तीसगढ़ी", "गोंडी", "हल्बी", "सरगुजिहा", "अंग्रेजी"].map((lang) => (
-                    <span key={lang} className="px-2.5 py-1 rounded-md text-xs bg-white/5 text-white/80 border border-white/10">
-                      {lang}
+                  {[
+                    { hi: "हिंदी", en: "Hindi" },
+                    { hi: "छत्तीसगढ़ी", en: "Chhattisgarhi" },
+                    { hi: "गोंडी", en: "Gondi" },
+                    { hi: "हल्बी", en: "Halbi" },
+                    { hi: "सरगुजिहा", en: "Surgujia" },
+                    { hi: "अंग्रेजी", en: "English" },
+                  ].map((item) => (
+                    <span
+                      key={item.en}
+                      className="px-2.5 py-1 rounded-md text-xs bg-white/5 text-white/80 border border-white/10"
+                    >
+                      {item[lang] || item.en}
                     </span>
                   ))}
                 </div>
@@ -666,7 +878,7 @@ END:VCARD`;
           {/* TAB 5: CULTURE, EDUCATION & LEADERSHIP */}
           {activeTab === "culture" && (
             <motion.div
-              key="culture"
+              key={`culture-${lang}`}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -681,43 +893,69 @@ END:VCARD`;
                   </div>
                   <div>
                     <h2 className="text-xl sm:text-2xl font-bold text-white font-serif">
-                      शिक्षा, संगीत दीक्षा एवं संगठनात्मक नेतृत्व
+                      {isHindi ? "शिक्षा, संगीत दीक्षा एवं संगठनात्मक नेतृत्व" : "Academic Credentials, Music & Cultural Leadership"}
                     </h2>
                     <p className="text-xs sm:text-sm text-[#E3A652] font-medium">
-                      शैक्षणिक योग्यता, सांस्कृतिक दायित्व एवं सामाजिक सरोकार
+                      {isHindi ? "शैक्षणिक योग्यता एवं सामाजिक दायित्व" : "Degrees, Classical Folk Music Training & Associations"}
                     </p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5">
-                    <p className="text-xs font-bold text-[#E3A652] uppercase">एम.ए. राजनीति शास्त्र</p>
-                    <p className="text-sm font-bold text-white mt-0.5">M.A. Political Science</p>
-                    <p className="text-xs text-white/60 mt-1">राजनीतिक, प्रशासनिक एवं सामाजिक संरचना की सूक्ष्म समझ।</p>
+                    <p className="text-xs font-bold text-[#E3A652] uppercase">
+                      {isHindi ? "एम.ए. राजनीति शास्त्र" : "M.A. Political Science"}
+                    </p>
+                    <p className="text-sm font-bold text-white mt-0.5">Postgraduate Degree</p>
+                    <p className="text-xs text-white/60 mt-1">
+                      {isHindi
+                        ? "राजनीतिक, प्रशासनिक एवं सामाजिक संरचना की सूक्ष्म समझ।"
+                        : "Deep foundational study of governance, public policy, and socio-political dynamics."}
+                    </p>
                   </div>
 
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5">
-                    <p className="text-xs font-bold text-[#E3A652] uppercase">बी.जे.एम.सी. (BJMC)</p>
-                    <p className="text-sm font-bold text-white mt-0.5">पं. रविशंकर शुक्ल विश्वविद्यालय, रायपुर</p>
-                    <p className="text-xs text-white/60 mt-1">पत्रकारिता एवं जनसंचार में स्नातक उपाधि।</p>
+                    <p className="text-xs font-bold text-[#E3A652] uppercase">
+                      {isHindi ? "बी.जे.एम.सी. (BJMC)" : "Bachelor of Journalism (BJMC)"}
+                    </p>
+                    <p className="text-sm font-bold text-white mt-0.5">Pt. Ravishankar Shukla Univ., Raipur</p>
+                    <p className="text-xs text-white/60 mt-1">
+                      {isHindi
+                        ? "पत्रकारिता एवं जनसंचार में प्रतिष्ठित स्नातक उपाधि।"
+                        : "Formal graduation in journalism and mass communication."}
+                    </p>
                   </div>
 
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5">
-                    <p className="text-xs font-bold text-[#E3A652] uppercase">डिप्लोमा इन लोक संगीत</p>
-                    <p className="text-sm font-bold text-white mt-0.5">इंदिरा कला संगीत विश्वविद्यालय, खैरागढ़</p>
-                    <p className="text-xs text-white/60 mt-1">एशिया के विख्यात कला विश्वविद्यालय से पारंपरिक लोक संगीत में विशेष योग्यता।</p>
+                    <p className="text-xs font-bold text-[#E3A652] uppercase">
+                      {isHindi ? "डिप्लोमा इन लोक संगीत" : "Diploma in Folk Music"}
+                    </p>
+                    <p className="text-sm font-bold text-white mt-0.5">Indira Kala Sangeet Vishwavidyalaya, Khairagarh</p>
+                    <p className="text-xs text-white/60 mt-1">
+                      {isHindi
+                        ? "एशिया के विख्यात कला विश्वविद्यालय से पारंपरिक लोक संगीत में विशेष योग्यता।"
+                        : "Specialized qualification in indigenous folk traditions from Asia's premier music university."}
+                    </p>
                   </div>
 
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5">
-                    <p className="text-xs font-bold text-[#E3A652] uppercase">वाणी पाठ्यक्रम (Vani Course)</p>
-                    <p className="text-sm font-bold text-white mt-0.5">प्रसार भारती, नई दिल्ली</p>
-                    <p className="text-xs text-white/60 mt-1">प्रसारण, वाचन एवं उच्चार प्रामाणिकता का आधिकारिक प्रशिक्षण।</p>
+                    <p className="text-xs font-bold text-[#E3A652] uppercase">
+                      {isHindi ? "वाणी पाठ्यक्रम (Vani Course)" : "Vani Broadcasting Certification"}
+                    </p>
+                    <p className="text-sm font-bold text-white mt-0.5">Prasar Bharati, New Delhi</p>
+                    <p className="text-xs text-white/60 mt-1">
+                      {isHindi
+                        ? "प्रसारण, वाचन एवं उच्चार प्रामाणिकता का आधिकारिक प्रशिक्षण।"
+                        : "Official high-level training in vocal delivery, pronunciation, and broadcast production."}
+                    </p>
                   </div>
                 </div>
 
                 {/* Cultural & Social Leadership */}
                 <div className="mt-8 pt-6 border-t border-white/10 space-y-4">
-                  <h3 className="text-base font-bold text-white">सामाजिक एवं सांस्कृतिक दायित्व:</h3>
+                  <h3 className="text-base font-bold text-white">
+                    {isHindi ? "सामाजिक एवं सांस्कृतिक दायित्व:" : "Organizational & Cultural Leadership Roles:"}
+                  </h3>
 
                   <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 flex items-start gap-3">
                     <div className="p-2 rounded-lg bg-[#E3A652]/10 text-[#E3A652] mt-0.5">
@@ -728,7 +966,9 @@ END:VCARD`;
                         CCTPA (Chhattisgarh Cine And Television Producers Association)
                       </p>
                       <p className="text-xs text-white/70 mt-0.5">
-                        संस्थापक सदस्य (Founder Member) — प्रदेश के सिने व टेलीविजन उत्पादकों के सशक्तिकरण में महत्वपूर्ण भूमिका।
+                        {isHindi
+                          ? "संस्थापक सदस्य (Founder Member) — प्रदेश के सिने व टेलीविजन उत्पादकों के सशक्तिकरण में महत्वपूर्ण भूमिका।"
+                          : "Founder Member — playing a pivotal role in organizing and advancing the regional film & TV industry."}
                       </p>
                     </div>
                   </div>
@@ -739,10 +979,12 @@ END:VCARD`;
                     </div>
                     <div>
                       <p className="text-sm font-bold text-white">
-                        प्रबंध समिति &quot;कैलाश धाम&quot; भरदा — अध्यक्ष
+                        {isHindi ? "प्रबंध समिति 'कैलाश धाम' भरदा — अध्यक्ष" : "President — Kailash Dham Managing Committee, Bharda"}
                       </p>
                       <p className="text-xs text-white/70 mt-0.5">
-                        अखिल भारतीय विद्यार्थी परिषद (ABVP) द्वारा निर्मित भगवान शिव मंदिर समिति के अध्यक्ष पद का निष्ठापूर्वक निर्वहन।
+                        {isHindi
+                          ? "अखिल भारतीय विद्यार्थी परिषद (ABVP) द्वारा निर्मित भगवान शिव मंदिर समिति के अध्यक्ष पद का निष्ठापूर्वक निर्वहन।"
+                          : "President of the historic Lord Shiva temple managing committee initiated by ABVP."}
                       </p>
                     </div>
                   </div>
@@ -753,10 +995,12 @@ END:VCARD`;
                     </div>
                     <div>
                       <p className="text-sm font-bold text-white">
-                        सनातन संस्कृति व लोकसंस्कार के आजीवन विद्यार्थी
+                        {isHindi ? "सनातन संस्कृति व लोकसंस्कार के आजीवन विद्यार्थी" : "Lifelong Student of Indic Heritage & Living Traditions"}
                       </p>
                       <p className="text-xs text-white/70 mt-0.5">
-                        भारतीय कला, संस्कृति, साहित्य, अध्यात्म, दर्शन एवं राजनीति में विशेष अभिरुचि। छत्तीसगढ़ी लोक कला और जीवन मूल्यों के सतत संवाहक।
+                        {isHindi
+                          ? "भारतीय कला, संस्कृति, साहित्य, अध्यात्म, दर्शन एवं राजनीति में विशेष अभिरुचि। छत्तीसगढ़ी लोक कला और जीवन मूल्यों के सतत संवाहक।"
+                          : "Committed to preserving the philosophy, poetry, and indigenous ethos of Central India for upcoming generations."}
                       </p>
                     </div>
                   </div>
@@ -766,7 +1010,7 @@ END:VCARD`;
           )}
         </AnimatePresence>
 
-        {/* Digital Visiting Card & Direct Contact Details */}
+        {/* Digital Business Card & Direct Contact Details */}
         <section className="mt-12 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white/[0.04] to-white/[0.01] border border-[#E3A652]/30 relative overflow-hidden shadow-2xl">
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#E3A652]/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -774,19 +1018,19 @@ END:VCARD`;
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
               <div>
                 <span className="text-[0.65rem] sm:text-xs font-bold tracking-widest uppercase text-[#E3A652]">
-                  आधिकारिक संपर्क विवरण
+                  {isHindi ? "आधिकारिक संपर्क विवरण" : "Official Executive Contact"}
                 </span>
                 <h3 className="text-2xl sm:text-3xl font-extrabold text-white font-serif mt-1">
-                  संपर्क एवं संवाद
+                  {isHindi ? "संपर्क एवं संवाद" : "Direct Connect & Studio Office"}
                 </h3>
               </div>
 
               <button
                 onClick={downloadVCard}
-                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-xs sm:text-sm font-bold bg-[#E3A652] hover:bg-[#F4D090] text-[#050608] shadow-lg shadow-[#E3A652]/20 transition-all active:scale-95 w-fit"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-xs sm:text-sm font-bold bg-[#E3A652] hover:bg-[#F4D090] text-[#050608] shadow-lg shadow-[#E3A652]/20 transition-all active:scale-95 w-fit cursor-pointer"
               >
                 <Download className="w-4 h-4" />
-                <span>फोन में संपर्क सहेजें (Save Contact)</span>
+                <span>{isHindi ? "फोन में संपर्क सहेजें (Save vCard)" : "Download Contact (vCard)"}</span>
               </button>
             </div>
 
@@ -795,10 +1039,12 @@ END:VCARD`;
               <div className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-1">
                 <div className="flex items-center gap-2 text-[#E3A652] mb-1">
                   <MapPin className="w-4 h-4" />
-                  <span className="text-xs font-bold uppercase">स्थाई पता</span>
+                  <span className="text-xs font-bold uppercase">{isHindi ? "स्थाई पता" : "Studio Address"}</span>
                 </div>
                 <p className="text-xs text-white/80 leading-relaxed">
-                  राजकुमार कॉलेज के पीछे, सोनकर बड़ी, अश्वनी नगर, रायपुर, पोस्ट: सुंदर नगर, पिन - 492013 (छ.ग.)
+                  {isHindi
+                    ? "राजकुमार कॉलेज के पीछे, सोनकर बड़ी, अश्वनी नगर, रायपुर, पोस्ट: सुंदर नगर, पिन - 492013 (छ.ग.)"
+                    : "Behind Rajkumar College, Sonkar Badi, Ashwani Nagar, Raipur, Post: Sunder Nagar, PIN - 492013 (C.G.)"}
                 </p>
               </div>
 
@@ -806,7 +1052,7 @@ END:VCARD`;
               <div className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-1">
                 <div className="flex items-center gap-2 text-[#E3A652] mb-1">
                   <Phone className="w-4 h-4" />
-                  <span className="text-xs font-bold uppercase">दूरभाष / मोबाइल</span>
+                  <span className="text-xs font-bold uppercase">{isHindi ? "दूरभाष / मोबाइल" : "Mobile Phone"}</span>
                 </div>
                 <p className="text-xs text-white/90 font-mono font-medium">
                   <a href="tel:7000866323" className="hover:text-[#E3A652] transition-colors block">
@@ -822,7 +1068,7 @@ END:VCARD`;
               <div className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-1">
                 <div className="flex items-center gap-2 text-[#E3A652] mb-1">
                   <Mail className="w-4 h-4" />
-                  <span className="text-xs font-bold uppercase">ईमेल</span>
+                  <span className="text-xs font-bold uppercase">{isHindi ? "ईमेल" : "Email Address"}</span>
                 </div>
                 <p className="text-xs text-white/90 font-mono break-all font-medium">
                   <a href="mailto:bsrfilms2017@gmail.com" className="hover:text-[#E3A652] transition-colors">
@@ -835,7 +1081,7 @@ END:VCARD`;
               <div className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-1">
                 <div className="flex items-center gap-2 text-[#E3A652] mb-1">
                   <Globe className="w-4 h-4" />
-                  <span className="text-xs font-bold uppercase">वेबसाइट</span>
+                  <span className="text-xs font-bold uppercase">{isHindi ? "वेबसाइट" : "Website"}</span>
                 </div>
                 <p className="text-xs text-white/90 font-medium">
                   <Link href="/" className="hover:text-[#E3A652] transition-colors flex items-center gap-1">
@@ -849,40 +1095,44 @@ END:VCARD`;
         </section>
       </main>
 
-      {/* Sticky Mobile Quick Action Bar (Thumb-Accessible Bottom Bar) */}
+      {/* Sticky Mobile Quick Action Bar */}
       <div className="fixed bottom-0 inset-x-0 z-40 bg-[#0A0C10]/95 backdrop-blur-xl border-t border-white/10 px-4 py-2.5 md:hidden flex items-center justify-around gap-2 shadow-[0_-10px_30px_rgba(0,0,0,0.8)]">
         <a
           href="tel:7000866323"
           className="flex-1 flex flex-col items-center justify-center py-1 text-white hover:text-[#E3A652] transition-colors"
         >
           <Phone className="w-4 h-4 text-[#E3A652] mb-0.5" />
-          <span className="text-[0.65rem] font-bold">कॉल करें</span>
+          <span className="text-[0.65rem] font-bold">{isHindi ? "कॉल करें" : "Call"}</span>
         </a>
 
         <a
-          href="https://wa.me/917000866323?text=नमस्ते%20भीष्मदेव%20जी,%20मैं%20आपकी%20प्रोफ़ाइल%20देखकर%20संपर्क%20कर%20रहा%20हूँ।"
+          href={`https://wa.me/917000866323?text=${encodeURIComponent(
+            isHindi
+              ? "नमस्ते भीष्मदेव जी, मैं आपकी प्रोफ़ाइल देखकर संपर्क कर रहा हूँ।"
+              : "Hello Bhishmdev Sir, I am reaching out after viewing your executive portfolio."
+          )}`}
           target="_blank"
           rel="noopener noreferrer"
           className="flex-1 flex flex-col items-center justify-center py-1 text-white hover:text-[#25D366] transition-colors"
         >
           <MessageSquare className="w-4 h-4 text-[#25D366] mb-0.5" />
-          <span className="text-[0.65rem] font-bold">व्हाट्सएप</span>
+          <span className="text-[0.65rem] font-bold">{isHindi ? "व्हाट्सएप" : "WhatsApp"}</span>
         </a>
 
         <button
           onClick={handleShare}
-          className="flex-1 flex flex-col items-center justify-center py-1 text-white hover:text-[#E3A652] transition-colors"
+          className="flex-1 flex flex-col items-center justify-center py-1 text-white hover:text-[#E3A652] transition-colors cursor-pointer"
         >
           <Share2 className="w-4 h-4 text-[#E3A652] mb-0.5" />
-          <span className="text-[0.65rem] font-bold">शेयर करें</span>
+          <span className="text-[0.65rem] font-bold">{isHindi ? "शेयर करें" : "Share"}</span>
         </button>
 
         <button
           onClick={downloadVCard}
-          className="flex-1 flex flex-col items-center justify-center py-1 text-white hover:text-[#E3A652] transition-colors"
+          className="flex-1 flex flex-col items-center justify-center py-1 text-white hover:text-[#E3A652] transition-colors cursor-pointer"
         >
           <Download className="w-4 h-4 text-[#E3A652] mb-0.5" />
-          <span className="text-[0.65rem] font-bold">सहेजें</span>
+          <span className="text-[0.65rem] font-bold">{isHindi ? "सहेजें" : "Save"}</span>
         </button>
       </div>
     </div>

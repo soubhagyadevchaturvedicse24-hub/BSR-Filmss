@@ -160,10 +160,9 @@ html {
   font-size: 80%;
 }
 
-@media (pointer: fine) {
-  html {
-    cursor: none;
-  }
+/* Only hide default cursor when custom cursor is active */
+html.has-custom-cursor, html.has-custom-cursor * {
+  cursor: none !important;
 }
 
 body {
@@ -210,44 +209,49 @@ body {
 
 /* --- Custom Cursor ------------------------------------------------ */
 .cursor-dot {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   background: #E3A652;
   border-radius: 50%;
   position: fixed;
   top: 0;
   left: 0;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 999999;
   transform: translate(-50%, -50%);
-  transition: width .15s, height .15s;
+  transition: width 0.15s ease, height 0.15s ease, opacity 0.2s ease, background-color 0.2s ease;
+  box-shadow: 0 0 10px rgba(227, 166, 82, 0.8);
   will-change: left, top;
 }
 
 .cursor-ring {
-  width: 32px;
-  height: 32px;
-  border: 1px solid rgba(227, 166, 82, .5);
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid rgba(227, 166, 82, 0.75);
   border-radius: 50%;
   position: fixed;
   top: 0;
   left: 0;
   pointer-events: none;
-  z-index: 9998;
+  z-index: 999998;
   transform: translate(-50%, -50%);
-  transition: width .3s, height .3s, border-color .3s;
+  transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  box-shadow: 0 0 16px rgba(227, 166, 82, 0.25);
   will-change: left, top;
 }
 
 .cursor-dot.expanded {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
+  background: #FFFFFF;
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.9);
 }
 
 .cursor-ring.expanded {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   border-color: #E3A652;
+  background: rgba(227, 166, 82, 0.08);
 }
 
 /* Hide cursor on touch devices */
