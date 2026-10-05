@@ -144,21 +144,21 @@ html.dark {
 html.light {
   --bg-primary: #F5F0E8;
   --bg-secondary: #EDE7DB;
-  --bg-card: rgba(255, 255, 255, 0.7);
-  --text-primary: #1F1D19;
-  --text-heading: #0D0C0A;
-  --text-muted: rgba(26, 23, 20, 0.65);
-  --border-subtle: rgba(160, 95, 0, 0.16);
-  --gold: #8C4E00;
-  --gold-text: #7D4400;
-  --gold-bright: #BF7805;
-  --gold-soft: rgba(160, 90, 0, 0.10);
-  --gold-border: rgba(160, 90, 0, 0.32);
-  --gold-glow: 0 2px 12px rgba(160, 90, 0, 0.22);
-  --nav-bg: rgba(245, 240, 232, 0.94);
+  --bg-card: #FFFFFF;
+  --text-primary: #181613;
+  --text-heading: #080705;
+  --text-muted: #474036;
+  --border-subtle: rgba(80, 50, 10, 0.20);
+  --gold: #703800;
+  --gold-text: #613300;
+  --gold-bright: #8C4E00;
+  --gold-soft: rgba(140, 75, 0, 0.12);
+  --gold-border: rgba(130, 70, 0, 0.35);
+  --gold-glow: 0 2px 10px rgba(120, 60, 0, 0.25);
+  --nav-bg: rgba(245, 240, 232, 0.96);
   --scrollbar-bg: #F5F0E8;
-  --form-text: #1F1D19;
-  --form-placeholder: rgba(26, 23, 20, 0.4);
+  --form-text: #080705;
+  --form-placeholder: #5C5449;
   --form-option-bg: #ffffff;
   --grain-opacity: 0.015;
 
@@ -1241,107 +1241,169 @@ html.light #services .section-divider {
   background: var(--gold) !important;
 }
 
-/* --- Background colour flips (covers hardcoded Tailwind utilities) --- */
+/* ═══════════════════════════════════════════════════════════════════
+   LIGHT / DAY MODE COMPREHENSIVE TEXT & CARD RECTIFICATION ENGINE
+   Guarantees 100% crisp, dark readability and zero camouflage
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* 1. Background colour flips (covers hardcoded Tailwind utilities) */
 html.light [class*="bg-[#050608]"],
 html.light [class*="bg-[#0a0c10]"],
-html.light [class*="bg-[#030306]"] {
+html.light [class*="bg-[#030306]"],
+html.light [class*="bg-[#0A0C10]"] {
   background-color: var(--bg-primary) !important;
 }
 
-html.light [class*="bg-[#050608]/"] {
-  background-color: rgba(245, 240, 232, 0.92) !important;
+html.light [class*="bg-[#050608]/"],
+html.light [class*="bg-[#0a0c10]/"],
+html.light [class*="bg-[#0A0C10]/"] {
+  background-color: rgba(245, 240, 232, 0.95) !important;
 }
 
-/* Text colour flips — skip sections with dark backgrounds (#hero, #services, #clients, #why) */
-html.light [class*="text-white/"]:not(.theme-toggle *):not(#hero *):not(#services *):not(#clients *):not(#why *) {
-  color: var(--text-muted) !important;
+/* 2. Global Text Inversion for Day Mode */
+html.light body,
+html.light main {
+  color: #181613;
 }
 
-html.light [class*="text-white"]:not([class*="text-white/"]):not(.theme-toggle *):not(#hero *):not(#services *):not(#clients *):not(#why *) {
-  color: var(--text-heading) !important;
+/* 3. Pure White Headings and Titles -> Deep Bold Black */
+html.light h1,
+html.light h2,
+html.light h3,
+html.light h4,
+html.light h5,
+html.light h6,
+html.light .color-heading,
+html.light [class*="text-white"]:not([class*="text-white/"]):not(.theme-toggle *):not(.cta-primary *):not([class*="bg-[#E3A652]"]:not([class*="/"]) *):not(#hero .relative:not(.glass-panel-var) h1 *) {
+  color: #080705 !important;
 }
 
-html.light .text-\[\#E3A652\],
-html.light [class*="text-[#E3A652]"] {
-  color: var(--gold) !important;
+/* 4. High-Priority Body & Paragraphs (80% to 95% opacity) -> Rich Dark Graphite */
+html.light [class*="text-white/95"],
+html.light [class*="text-white/90"],
+html.light [class*="text-white/88"],
+html.light [class*="text-white/85"],
+html.light [class*="text-white/80"],
+html.light [class*="text-white/[0.88]"],
+html.light [class*="text-white/[0.85]"] {
+  color: #1A1815 !important;
 }
 
-/* Border flips */
+/* 5. Medium Body Text & Descriptions (60% to 75% opacity) -> Solid Dark Charcoal */
+html.light [class*="text-white/75"],
+html.light [class*="text-white/70"],
+html.light [class*="text-white/65"],
+html.light [class*="text-white/60"] {
+  color: #2D2822 !important;
+}
+
+/* 6. Subtext, Captions & Meta (40% to 55% opacity) -> Crisp Espresso Stone */
+html.light [class*="text-white/55"],
+html.light [class*="text-white/50"],
+html.light [class*="text-white/45"],
+html.light [class*="text-white/40"] {
+  color: #4A4237 !important;
+}
+
+/* 7. Form Labels, Badges & Micro-Text (20% to 35% opacity) -> Highly Visible Dark Slate */
+html.light [class*="text-white/35"],
+html.light [class*="text-white/30"],
+html.light [class*="text-white/25"],
+html.light [class*="text-white/20"] {
+  color: #574F43 !important;
+  font-weight: 600;
+}
+
+/* Ensure strong & b tags inside any text are dark and bold */
+html.light strong,
+html.light b,
+html.light strong[class*="text-white"] {
+  color: #080705 !important;
+  font-weight: 800 !important;
+}
+
+/* Ensure text inside paragraphs doesn't get washed out by opacity classes */
+html.light p[class*="opacity-"],
+html.light span[class*="opacity-"],
+html.light div[class*="opacity-"]:not(.radial-glow-gold):not(.radial-glow-gold-subtle):not(.reel-dots) {
+  opacity: 1 !important;
+}
+html.light .color-primary {
+  color: #1A1815 !important;
+}
+html.light .color-muted {
+  color: #4A4237 !important;
+}
+
+/* 8. Border flips — clean, visible warm borders */
 html.light [class*="border-white/"] {
-  border-color: var(--border-subtle) !important;
+  border-color: rgba(80, 50, 10, 0.16) !important;
 }
 
-/* Cards and panels */
+/* 9. Cards and panels — solid crisp white on cream canvas */
 html.light [class*="bg-white/"] {
-  background-color: rgba(255, 255, 255, 0.85) !important;
+  background-color: #FFFFFF !important;
+  border-color: rgba(80, 50, 10, 0.16) !important;
+  box-shadow: 0 4px 18px rgba(40, 25, 5, 0.05) !important;
 }
 
+/* 10. Black translucent cards (e.g. bg-black/40 in Founder & Contact) */
 html.light [class*="bg-black/"] {
-  background-color: rgba(0, 0, 0, 0.04) !important;
+  background-color: #FFFFFF !important;
+  border: 1px solid rgba(80, 50, 10, 0.16) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
 }
 
-/* Label lines & dividers */
-html.light .label-line {
-  color: var(--gold);
+/* 11. Founder Profile specific cards & badges */
+html.light #founder-lineage,
+html.light [class*="border-l-"][class*="bg-white/"] {
+  background-color: #FFFFFF !important;
+  border-color: rgba(80, 50, 10, 0.18) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+}
+html.light button:not([class*="bg-[#E3A652]"])[class*="bg-white/"] {
+  background-color: #FFFFFF !important;
+  color: #2D2822 !important;
+  border: 1px solid rgba(80, 50, 10, 0.18) !important;
+  font-weight: 700 !important;
+}
+html.light button:not([class*="bg-[#E3A652]"])[class*="bg-white/"]:hover {
+  background-color: #F8F4EC !important;
+  color: #080705 !important;
 }
 
-html.light .label-line::before {
-  background: var(--gold);
-}
-
-html.light .divider {
-  background: var(--gold);
-}
-
-/* Marquee client pills */
-html.light [class*="marquee"] [class*="border-white/"] {
-  border-color: rgba(0, 0, 0, 0.12) !important;
-  background-color: rgba(0, 0, 0, 0.03) !important;
-}
-
-/* Facilities section */
+/* 12. Facilities section */
 html.light [class*="bg-[#101218]"] {
   background-color: var(--bg-secondary) !important;
 }
-
 html.light [class*="bg-[#1A1C23]"] {
-  background-color: rgba(255, 255, 255, 0.6) !important;
+  background-color: #FFFFFF !important;
+  border: 1px solid rgba(80, 50, 10, 0.16) !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04) !important;
 }
 
-/* About team cards */
-html.light [class*="bg-[#0a0c10]"] {
-  background-color: var(--bg-secondary) !important;
-}
-
-/* Works section */
-html.light [class*="bg-[#050608]"] {
-  background-color: var(--bg-primary) !important;
-}
-
-/* Inline-style gradient sections (Contact, etc) */
+/* 13. Inline-style gradient sections (Contact, etc.) */
 html.light [style*="background: linear-gradient"][style*="#050608"],
 html.light [style*="background: linear-gradient"][style*="#080a0e"] {
   background: var(--bg-secondary) !important;
 }
 
-/* Clients overlay — handled by .clients-overlay class directly */
-
-/* Smooth transitions for theme change */
+/* 14. Smooth transitions for theme change */
 html.light section,
 html.light footer,
 html.light header {
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-/* Flip text-gray-XXX (Facilities etc.) */
+/* 15. Flip text-gray-XXX (Facilities etc.) */
 html.light [class*="text-gray-"] {
   color: var(--text-muted) !important;
 }
 
-/* Give ALL light-mode headings a subtle warm shadow for depth */
+/* 16. Subtle warm shadow for light-mode headings */
 html.light h2,
 html.light h3 {
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 2px 12px rgba(26, 23, 20, 0.04);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -2136,12 +2198,44 @@ html.light #hero .hero-scrim {
   .team-card__bio { font-size: 0.72rem; }
 }
 
-/* --- Light mode: card internals stay dark (photos have dark overlay) --- */
-html.light .team-card__name { color: #ffffff !important; }
-html.light .team-card__role { color: #E3A652 !important; }
-html.light .team-card__bio { color: rgba(255,255,255,0.6) !important; }
-html.light .team-card__frame { background: #1a1c20; }
-html.light .team-card__mobile-bio { color: var(--text-muted); }
+/* --- Light mode: team card frame --- */
+html.light .team-card--hero .team-card__frame {
+  background: #1a1c20;
+}
+html.light .team-card--hero .team-card__name {
+  color: #ffffff !important;
+}
+html.light .team-card--hero .team-card__role {
+  color: #E3A652 !important;
+}
+
+/* Side placeholder cards in light mode: elegant light cards */
+html.light .team-card--side .team-card__frame {
+  background: #FFFFFF !important;
+  border: 1.5px solid rgba(120, 70, 0, 0.20) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+}
+html.light .team-card--side .team-card__placeholder {
+  background: #F8F4EC !important;
+}
+html.light .team-card--side .team-card__initials {
+  color: #703800 !important;
+  font-weight: 900 !important;
+}
+html.light .team-card--side .team-card__name {
+  color: #080705 !important;
+  font-weight: 800 !important;
+}
+html.light .team-card--side .team-card__role {
+  color: #703800 !important;
+  font-weight: 700 !important;
+}
+html.light .team-card--side .team-card__bio {
+  color: #2D2822 !important;
+}
+html.light .team-card--side .team-card__gradient {
+  background: linear-gradient(180deg, transparent 40%, rgba(245, 240, 232, 0.95) 100%) !important;
+}
 
 /* --- Services accordion ------------------------------------------- */
 .services-overlay {
@@ -2157,6 +2251,29 @@ html.light .team-card__mobile-bio { color: var(--text-muted); }
   border: 1px solid rgba(227,166,82,0.2);
   box-shadow: 0 8px 32px rgba(227,166,82,0.08), 0 0 0 1px rgba(227,166,82,0.05), inset 0 1px 0 rgba(255,255,255,0.04);
 }
+
+/* Services accordion in Day Mode */
+html.light .accordion-card {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(100, 65, 15, 0.18) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
+}
+html.light .accordion-card-open {
+  background: #FFFFFF !important;
+  border: 1.5px solid #8C4E00 !important;
+  box-shadow: 0 8px 30px rgba(140, 78, 0, 0.12) !important;
+}
+html.light .accordion-idx {
+  color: #703800 !important;
+  background: rgba(140, 78, 0, 0.08) !important;
+  font-weight: 800 !important;
+}
+html.light .accordion-arrow {
+  border: 1px solid rgba(100, 65, 15, 0.22) !important;
+  background: #FFFFFF !important;
+  color: #703800 !important;
+}
+
 .accordion-idx {
   color: rgba(255,255,255,0.35);
   background: rgba(255,255,255,0.04);
@@ -2399,6 +2516,17 @@ html.light .heading-text-shadow {
     inset 0 0.5px 0 rgba(255, 255, 255, 0.08);
 }
 
+html.light .clients-card-mobile,
+html.light .clients-card-desktop {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border: 1.5px solid rgba(140, 78, 0, 0.24) !important;
+  box-shadow: 0 10px 40px rgba(40, 25, 5, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+}
+html.light .clients-card-mobile *,
+html.light .clients-card-desktop * {
+  text-shadow: none !important;
+}
+
 /* ═══════════════════════════════════════════════════════════════════
    WORKS SWIPER OVERRIDES (moved from inline <style>)
    ═══════════════════════════════════════════════════════════════════ */
@@ -2455,50 +2583,59 @@ html.light .heading-text-shadow {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   LIGHT MODE: HIGH-CONTRAST FLOURISHING GOLD SYSTEM
+   LIGHT MODE: HIGH-CONTRAST FLOURISHING ROYAL GOLD SYSTEM
    Eliminates camouflaging on white/cream backgrounds.
    Uses rich amber-bronze metallic gradient, warm emboss, and high depth.
    ═══════════════════════════════════════════════════════════════════ */
 
-/* 1. Flourishing Metallic Text for Headings & Spans */
+/* 1. Flourishing Metallic Text for Headings (h1, h2, h3 .gold-text) */
 html.light .gold-text,
 html.light .color-gold,
 html.light span.gold-text,
 html.light h1 .gold-text,
 html.light h2 .gold-text,
 html.light h3 .gold-text {
-  background: linear-gradient(135deg, #613300 0%, #995700 35%, #D48806 60%, #753E00 100%) !important;
+  background: linear-gradient(135deg, #4A2400 0%, #703800 35%, #994F00 70%, #572A00 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
-  color: #7D4400 !important;
+  color: #663300 !important;
   font-weight: 800 !important;
-  filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.95)) drop-shadow(0 2px 5px rgba(130, 70, 0, 0.2)) !important;
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.9)) !important;
   display: inline-block;
 }
 
 /* 2. Stat Numbers & Big Metrics (25+, 30+, 500+, 600+) */
-html.light [class*="text-[#E3A652]"]:is(p, h1, h2, h3, h4),
 html.light .stat-number,
-html.light .team-card p[class*="text-[#E3A652]"] {
-  background: linear-gradient(135deg, #613300 0%, #995700 35%, #BF7805 65%, #753E00 100%) !important;
+html.light .team-card p[class*="text-[#E3A652]"],
+html.light p[class*="text-3xl"][class*="text-[#E3A652]"],
+html.light p[class*="text-4xl"][class*="text-[#E3A652]"],
+html.light span[class*="text-3xl"][class*="text-[#E3A652]"],
+html.light span[class*="text-4xl"][class*="text-[#E3A652]"],
+html.light span[class*="text-5xl"][class*="text-[#E3A652]"] {
+  background: linear-gradient(135deg, #4A2400 0%, #703800 40%, #994F00 75%, #572A00 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
-  color: #7D4400 !important;
-  font-weight: 800 !important;
-  filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.95)) drop-shadow(0 2px 6px rgba(130, 70, 0, 0.22)) !important;
+  color: #663300 !important;
+  font-weight: 900 !important;
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.9)) !important;
 }
 
-/* 3. Inline Spans with text-[#E3A652] (e.g. labels, lineage 'पिता:', roles) */
-html.light span[class*="text-[#E3A652]"],
-html.light .text-\[\#E3A652\] {
-  color: #753E00 !important;
-  font-weight: 700 !important;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+/* 3. Subtitles, labels, lineage, and inline text with text-[#E3A652] — SOLID, NEVER TRANSPARENT */
+html.light p[class*="text-[#E3A652]"]:not([class*="text-3xl"]):not([class*="text-4xl"]):not([class*="text-5xl"]),
+html.light span[class*="text-[#E3A652]"]:not([class*="text-3xl"]):not([class*="text-4xl"]):not([class*="text-5xl"]),
+html.light .text-\[\#E3A652\]:not([class*="text-3xl"]):not([class*="text-4xl"]):not([class*="text-5xl"]) {
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: #663300 !important;
+  color: #663300 !important;
+  font-weight: 800 !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  filter: none !important;
 }
 
 /* 4. Labels with Lines (.label-line) */
 html.light .label-line {
-  color: #753E00 !important;
+  color: #613300 !important;
   font-weight: 800 !important;
   letter-spacing: 0.22em;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95);
@@ -2508,36 +2645,36 @@ html.light .label-line::before,
 html.light .label-line span,
 html.light .gold-bg,
 html.light .gold-divider {
-  background: linear-gradient(90deg, #8C4E00 0%, #D48806 50%, transparent 100%) !important;
+  background: linear-gradient(90deg, #703800 0%, #9E5400 60%, transparent 100%) !important;
   box-shadow: 0 1px 2px rgba(255, 255, 255, 0.85);
 }
 
 html.light .gold-divider-subtle {
-  background: linear-gradient(90deg, rgba(140, 78, 0, 0.35) 0%, rgba(140, 78, 0, 0.1) 80%, transparent 100%) !important;
+  background: linear-gradient(90deg, rgba(112, 56, 0, 0.45) 0%, rgba(112, 56, 0, 0.15) 80%, transparent 100%) !important;
 }
 
 /* 5. Gold Patches, Badges, Pills & Icon Containers (e.g. bg-[#E3A652]/...) */
 html.light [class*="bg-[#E3A652]/"],
 html.light .gold-patch,
 html.light [class*="bg-[#E3A652]"][class*="/"] {
-  background: linear-gradient(135deg, rgba(210, 130, 10, 0.18) 0%, rgba(165, 95, 0, 0.11) 100%) !important;
-  border: 1px solid rgba(145, 80, 0, 0.38) !important;
-  color: #613300 !important;
-  box-shadow: 0 2px 8px rgba(145, 80, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.75) !important;
-  font-weight: 700 !important;
+  background: linear-gradient(135deg, rgba(200, 115, 0, 0.16) 0%, rgba(150, 80, 0, 0.10) 100%) !important;
+  border: 1.5px solid rgba(120, 60, 0, 0.35) !important;
+  color: #5C2E00 !important;
+  box-shadow: 0 2px 8px rgba(120, 60, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  font-weight: 800 !important;
 }
 
 html.light [class*="bg-[#E3A652]/"] * {
-  color: #613300 !important;
+  color: #5C2E00 !important;
 }
 
 /* 6. Solid Gold Buttons & Badges (e.g. cta-primary, save vcard, active tab) */
 html.light [class*="bg-[#E3A652]"]:not([class*="/"]),
 html.light .cta-primary {
-  background: linear-gradient(135deg, #B57008 0%, #854900 50%, #A36200 100%) !important;
+  background: linear-gradient(135deg, #A85A00 0%, #753E00 50%, #8C4E00 100%) !important;
   color: #FFFFFF !important;
-  border: 1px solid rgba(105, 55, 0, 0.4) !important;
-  box-shadow: 0 4px 14px rgba(133, 73, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
+  border: 1px solid rgba(80, 40, 0, 0.4) !important;
+  box-shadow: 0 4px 14px rgba(117, 62, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
@@ -2546,14 +2683,14 @@ html.light [class*="bg-[#E3A652]"]:not([class*="/"]) * {
 }
 
 html.light .cta-primary:hover {
-  background: linear-gradient(135deg, #C77D0B 0%, #995400 50%, #B57008 100%) !important;
-  box-shadow: 0 6px 20px rgba(133, 73, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+  background: linear-gradient(135deg, #B86500 0%, #854900 50%, #9E5700 100%) !important;
+  box-shadow: 0 6px 20px rgba(117, 62, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
 }
 
 /* 7. Gold Borders and Rings */
 html.light [class*="border-[#E3A652]"],
 html.light [class*="border-\[\#E3A652\]"] {
-  border-color: rgba(145, 80, 0, 0.45) !important;
+  border-color: rgba(120, 60, 0, 0.40) !important;
 }
 
 /* 8. SVG Icons with Gold Stroke / Fill */
@@ -2561,49 +2698,48 @@ html.light svg[stroke="#E3A652"],
 html.light svg [stroke="#E3A652"],
 html.light svg.text-\[\#E3A652\],
 html.light [class*="text-[#E3A652]"] > svg {
-  stroke: #8C4E00 !important;
-  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.9));
+  stroke: #703800 !important;
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.8));
 }
 
 html.light svg[fill="#E3A652"],
 html.light svg [fill="#E3A652"] {
-  fill: #8C4E00 !important;
+  fill: #703800 !important;
 }
 
 /* 9. Dots & Bullet Accents */
 html.light .dot-gold,
 html.light .dot-gold-glow,
 html.light .dot-gold-static {
-  background: #8C4E00 !important;
-  box-shadow: 0 0 8px rgba(140, 78, 0, 0.7) !important;
+  background: #703800 !important;
+  box-shadow: 0 0 8px rgba(112, 56, 0, 0.6) !important;
 }
 
 /* 10. Navbar Active Elements in Light Mode */
 html.light nav a.text-\[\#E3A652\],
 html.light nav a[class*="text-[#E3A652]"] {
-  color: #753E00 !important;
+  color: #663300 !important;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95);
 }
 
 html.light nav span.bg-\[\#E3A652\] {
-  background-color: #8C4E00 !important;
-  box-shadow: 0 0 10px rgba(140, 78, 0, 0.6) !important;
+  background-color: #703800 !important;
+  box-shadow: 0 0 10px rgba(112, 56, 0, 0.6) !important;
 }
 
 /* 11. Founder Page Specific Highlights in Light Mode */
 html.light .founder-gold-hero {
-  background: linear-gradient(135deg, #613300 0%, #995700 40%, #D48806 70%, #753E00 100%) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
+  color: #663300 !important;
+  font-weight: 800 !important;
 }
 
 html.light a[href*="tel:"],
 html.light a[href*="mailto:"] {
-  color: #1F1D19;
+  color: #181613;
 }
 html.light a[href*="tel:"]:hover,
 html.light a[href*="mailto:"]:hover {
-  color: #8C4E00;
+  color: #703800;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
