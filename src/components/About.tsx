@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
+import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
@@ -165,11 +166,33 @@ export default function About() {
                       <h4 className="team-card__name">{m.name}</h4>
                       <p className="team-card__role">{m.role}</p>
                       <p className="team-card__bio">{m.bio}</p>
+                      {m.hero && (
+                        <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-[#E3A652] tracking-wide bg-[#E3A652]/15 px-2.5 py-1 rounded-md border border-[#E3A652]/30 w-fit">
+                          विस्तृत जीवन यात्रा पढ़ें →
+                        </span>
+                      )}
                     </div>
+
+                    {/* Clickable link overlay for Founder */}
+                    {m.hero && (
+                      <Link
+                        href="/founder"
+                        className="absolute inset-0 z-20 cursor-pointer"
+                        aria-label="भीष्मदेव चतुर्वेदी - संस्थापक प्रोफ़ाइल देखें"
+                      />
+                    )}
                   </div>
 
                   {/* Mobile: bio always visible below card */}
                   <p className="team-card__mobile-bio">{m.bio}</p>
+                  {m.hero && (
+                    <Link
+                      href="/founder"
+                      className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-[#E3A652] hover:underline"
+                    >
+                      संस्थापक परिचय एवं संपूर्ण कृतित्व देखें →
+                    </Link>
+                  )}
                 </article>
               ))}
             </div>
