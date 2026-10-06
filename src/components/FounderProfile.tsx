@@ -93,6 +93,12 @@ const SvgSeal = () => (
   </svg>
 );
 
+const HL = ({ children }: { children: React.ReactNode }) => (
+  <strong className="font-black text-[#0A0A0A] border-b-[1.5px] border-[#D5A04A]/70 pb-[0.5px] drop-shadow-[0_0.5px_1px_rgba(0,0,0,0.15)]">
+    {children}
+  </strong>
+);
+
 export default function FounderProfile() {
   const [copied, setCopied] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
@@ -477,7 +483,7 @@ END:VCARD`;
             <SvgCrest />
             <div className="text-xs sm:text-sm text-[#333333] leading-relaxed font-semibold">
               <strong className="text-sm font-black text-[#8C4E00] block mb-0.5">शैक्षणिक गरिमा एवं सांस्कृतिक निष्ठा:</strong>
-              राजनीति शास्त्र में स्नातकोत्तर, पत्रकारिता (BJMC), खैरागढ़ विश्वविद्यालय से शास्त्रीय लोक संगीत दीक्षा एवं प्रसार भारती से वाणी प्रमाणन का दुर्लभ व प्रतिष्ठित समन्वय।
+              <HL>राजनीति शास्त्र में स्नातकोत्तर</HL>, <HL>पत्रकारिता (BJMC)</HL>, <HL>खैरागढ़ विश्वविद्यालय</HL> से <HL>शास्त्रीय लोक संगीत दीक्षा</HL> एवं <HL>प्रसार भारती</HL> से <HL>वाणी प्रमाणन</HL> का दुर्लभ व प्रतिष्ठित समन्वय।
             </div>
           </div>
 
@@ -561,7 +567,7 @@ END:VCARD`;
             <SvgCamera />
             <div className="text-xs sm:text-sm text-[#333333] leading-relaxed font-semibold">
               <strong className="text-sm font-black text-[#8C4E00] block mb-0.5">25+ वर्षों की संस्थागत विश्वसनीयता:</strong>
-              छत्तीसगढ़ संवाद (&apos;ब&apos; श्रेणी), NFDC एवं प्रसार भारती से मान्यता प्राप्त। 6 प्रमुख भाषाओं व बोलियों में 650+ विज्ञापन स्पॉट्स एवं 350+ वृत्तचित्रों के निर्माण का ऐतिहासिक कीर्तिमान।
+              <HL>छत्तीसगढ़ संवाद (&apos;ब&apos; श्रेणी)</HL>, <HL>NFDC</HL> एवं <HL>प्रसार भारती</HL> से मान्यता प्राप्त। <HL>6 प्रमुख भाषाओं व बोलियों</HL> में <HL>650+ विज्ञापन स्पॉट्स</HL> एवं <HL>350+ वृत्तचित्रों</HL> के निर्माण का ऐतिहासिक कीर्तिमान।
             </div>
           </div>
 
@@ -653,7 +659,7 @@ END:VCARD`;
             <SvgMic />
             <div className="text-xs sm:text-sm text-[#333333] leading-relaxed font-semibold">
               <strong className="text-sm font-black text-[#8C4E00] block mb-0.5">रेडियो प्रसारण की अविस्मरणीय आवाज:</strong>
-              तीन दशकों तक आकाशवाणी रायपुर के सर्वाधिक लोकप्रिय कार्यक्रमों &apos;चौपाल&apos; व &apos;श्रमिक जगत&apos; की पहचान। 50 रूपक, 10 नाटक एवं 6 धारावाहिकों का सफल निर्माण।
+              <HL>तीन दशकों तक</HL> <HL>आकाशवाणी रायपुर</HL> के सर्वाधिक लोकप्रिय कार्यक्रमों <HL>&apos;चौपाल&apos;</HL> व <HL>&apos;श्रमिक जगत&apos;</HL> की पहचान। <HL>50 रूपक</HL>, <HL>10 नाटक</HL> एवं <HL>6 धारावाहिकों</HL> का सफल निर्माण।
             </div>
           </div>
 
@@ -739,7 +745,7 @@ END:VCARD`;
             <SvgTv />
             <div className="text-xs sm:text-sm text-[#333333] leading-relaxed font-semibold">
               <strong className="text-sm font-black text-[#8C4E00] block mb-0.5">दूरदर्शन केंद्र रायपुर का गौरव:</strong>
-              छत्तीसगढ़ के टेलीविजन इतिहास के प्रथम वीडियो स्पॉट से लेकर &apos;परिक्रमा&apos;, &apos;हमर गांव&apos; व &apos;कृषि दर्शन&apos; जैसे प्रमुख कार्यक्रमों के मुख्य संचालक एवं 15 टेलीफिल्म्स के निर्देशक।
+              छत्तीसगढ़ के <HL>टेलीविजन इतिहास के प्रथम वीडियो स्पॉट</HL> से लेकर <HL>&apos;परिक्रमा&apos;</HL>, <HL>&apos;हमर गांव&apos;</HL> व <HL>&apos;कृषि दर्शन&apos;</HL> जैसे प्रमुख कार्यक्रमों के <HL>मुख्य संचालक</HL> एवं <HL>15 टेलीफिल्म्स के निर्देशक</HL>।
             </div>
           </div>
 
@@ -821,7 +827,7 @@ END:VCARD`;
             <SvgAward />
             <div className="text-xs sm:text-sm text-[#333333] leading-relaxed font-semibold">
               <strong className="text-sm font-black text-[#8C4E00] block mb-0.5">राष्ट्रीय एवं वैश्विक अभियानों का सशक्त संचार:</strong>
-              2013 विधानसभा एवं 2014 लोकसभा चुनावों में 6 आकाशवाणी केंद्रों से व्यापक चुनावी प्रचार, तथा UNICEF एवं World Bank की जनहितकारी योजनाओं का व्यापक प्रसारण।
+              <HL>2013 विधानसभा</HL> एवं <HL>2014 लोकसभा चुनावों</HL> में <HL>6 आकाशवाणी केंद्रों</HL> से व्यापक चुनावी प्रचार, तथा <HL>UNICEF</HL> एवं <HL>World Bank</HL> की जनहितकारी योजनाओं का <HL>व्यापक प्रसारण</HL>।
             </div>
           </div>
 
@@ -898,7 +904,7 @@ END:VCARD`;
             <SvgSeal />
             <div className="text-right flex-1 pl-3.5">
               <p className="text-[10px] text-[#555555] mb-1">
-                प्रमाणित: परिचय संचिका में अंकित समस्त विवरण अधिकृत अभिलेखों एवं अनुबंधों पर आधारित हैं।
+                <HL>प्रमाणित:</HL> परिचय संचिका में अंकित समस्त विवरण <HL>अधिकृत अभिलेखों एवं अनुबंधों</HL> पर आधारित हैं।
               </p>
               <p className="text-lg sm:text-xl font-black text-[#8C4E00] leading-tight">
                 ( भीष्मदेव चतुर्वेदी )

@@ -322,9 +322,9 @@ html_content = f"""<!DOCTYPE html>
     }}
     .big-banner-text {{
       font-size: 9pt;
-      color: #333333;
+      color: #383838;
       line-height: 1.38;
-      font-weight: 600;
+      font-weight: 500;
     }}
     .big-banner-text strong {{
       color: #8C4E00;
@@ -332,6 +332,13 @@ html_content = f"""<!DOCTYPE html>
       font-size: 9.8pt;
       display: block;
       margin-bottom: 2.5px;
+    }}
+    .hl {{
+      color: #080808;
+      font-weight: 900;
+      text-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.15);
+      border-bottom: 1.5px solid rgba(200, 144, 56, 0.55);
+      padding-bottom: 0.5px;
     }}
   </style>
 </head>
@@ -538,7 +545,7 @@ html_content = f"""<!DOCTYPE html>
         <div class="big-banner-icon">{svg_crest_big}</div>
         <div class="big-banner-text">
           <strong>शैक्षणिक गरिमा एवं सांस्कृतिक निष्ठा:</strong>
-          राजनीति शास्त्र में स्नातकोत्तर, पत्रकारिता (BJMC), खैरागढ़ विश्वविद्यालय से शास्त्रीय लोक संगीत दीक्षा एवं प्रसार भारती से वाणी प्रमाणन का दुर्लभ व प्रतिष्ठित समन्वय।
+          <b class="hl">राजनीति शास्त्र में स्नातकोत्तर</b>, <b class="hl">पत्रकारिता (BJMC)</b>, <b class="hl">खैरागढ़ विश्वविद्यालय</b> से <b class="hl">शास्त्रीय लोक संगीत दीक्षा</b> एवं <b class="hl">प्रसार भारती</b> से <b class="hl">वाणी प्रमाणन</b> का दुर्लभ व प्रतिष्ठित समन्वय।
         </div>
       </div>
     </div>
@@ -622,7 +629,7 @@ html_content = f"""<!DOCTYPE html>
         <div class="big-banner-icon">{svg_camera_big}</div>
         <div class="big-banner-text">
           <strong>25+ वर्षों की संस्थागत विश्वसनीयता:</strong>
-          छत्तीसगढ़ संवाद ('ब' श्रेणी), NFDC एवं प्रसार भारती से मान्यता प्राप्त। 6 प्रमुख भाषाओं व बोलियों में 650+ विज्ञापन स्पॉट्स एवं 350+ वृत्तचित्रों के निर्माण का ऐतिहासिक कीर्तिमान।
+          <b class="hl">छत्तीसगढ़ संवाद ('ब' श्रेणी)</b>, <b class="hl">NFDC</b> एवं <b class="hl">प्रसार भारती</b> से मान्यता प्राप्त। <b class="hl">6 प्रमुख भाषाओं व बोलियों</b> में <b class="hl">650+ विज्ञापन स्पॉट्स</b> एवं <b class="hl">350+ वृत्तचित्रों</b> के निर्माण का ऐतिहासिक कीर्तिमान।
         </div>
       </div>
     </div>
@@ -711,7 +718,7 @@ html_content = f"""<!DOCTYPE html>
         <div class="big-banner-icon">{svg_mic_big}</div>
         <div class="big-banner-text">
           <strong>रेडियो प्रसारण की अविस्मरणीय आवाज:</strong>
-          तीन दशकों तक आकाशवाणी रायपुर के सर्वाधिक लोकप्रिय कार्यक्रमों 'चौपाल' व 'श्रमिक जगत' की पहचान। 50 रूपक, 10 नाटक एवं 6 धारावाहिकों का सफल निर्माण।
+          <b class="hl">तीन दशकों तक</b> <b class="hl">आकाशवाणी रायपुर</b> के सर्वाधिक लोकप्रिय कार्यक्रमों <b class="hl">'चौपाल'</b> व <b class="hl">'श्रमिक जगत'</b> की पहचान। <b class="hl">50 रूपक</b>, <b class="hl">10 नाटक</b> एवं <b class="hl">6 धारावाहिकों</b> का सफल निर्माण।
         </div>
       </div>
     </div>
@@ -788,7 +795,7 @@ html_content = f"""<!DOCTYPE html>
         <div class="big-banner-icon">{svg_tv_big}</div>
         <div class="big-banner-text">
           <strong>दूरदर्शन केंद्र रायपुर का गौरव:</strong>
-          छत्तीसगढ़ के टेलीविजन इतिहास के प्रथम वीडियो स्पॉट से लेकर 'परिक्रमा', 'हमर गांव' व 'कृषि दर्शन' जैसे प्रमुख कार्यक्रमों के मुख्य संचालक एवं 15 टेलीफिल्म्स के निर्देशक।
+          छत्तीसगढ़ के <b class="hl">टेलीविजन इतिहास के प्रथम वीडियो स्पॉट</b> से लेकर <b class="hl">'परिक्रमा'</b>, <b class="hl">'हमर गांव'</b> व <b class="hl">'कृषि दर्शन'</b> जैसे प्रमुख कार्यक्रमों के <b class="hl">मुख्य संचालक</b> एवं <b class="hl">15 टेलीफिल्म्स के निर्देशक</b>।
         </div>
       </div>
     </div>
@@ -876,7 +883,7 @@ html_content = f"""<!DOCTYPE html>
         <div class="big-banner-icon">{svg_award_big}</div>
         <div class="big-banner-text">
           <strong>राष्ट्रीय एवं वैश्विक अभियानों का सशक्त संचार:</strong>
-          2013 विधानसभा एवं 2014 लोकसभा चुनावों में 6 आकाशवाणी केंद्रों से व्यापक चुनावी प्रचार, तथा UNICEF एवं World Bank की जनहितकारी योजनाओं का व्यापक प्रसारण।
+          <b class="hl">2013 विधानसभा</b> एवं <b class="hl">2014 लोकसभा चुनावों</b> में <b class="hl">6 आकाशवाणी केंद्रों</b> से व्यापक चुनावी प्रचार, तथा <b class="hl">UNICEF</b> एवं <b class="hl">World Bank</b> की जनहितकारी योजनाओं का <b class="hl">व्यापक प्रसारण</b>।
         </div>
       </div>
     </div>
@@ -948,7 +955,7 @@ html_content = f"""<!DOCTYPE html>
         </div>
         <div style="text-align: right; flex: 1; padding-left: 14px;">
           <div style="font-size: 8.2pt; color: #555555; margin-bottom: 4px;">
-            प्रमाणित: परिचय संचिका में अंकित समस्त विवरण अधिकृत अभिलेखों एवं अनुबंधों पर आधारित हैं।
+            <b class="hl">प्रमाणित:</b> परिचय संचिका में अंकित समस्त विवरण <b class="hl">अधिकृत अभिलेखों एवं अनुबंधों</b> पर आधारित हैं।
           </div>
           <div style="font-size: 14.5pt; font-weight: 900; color: #8C4E00; line-height: 1.15;">
             ( भीष्मदेव चतुर्वेदी )
