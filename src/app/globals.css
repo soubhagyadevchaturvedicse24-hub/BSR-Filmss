@@ -342,23 +342,24 @@ body {
   display: inline-flex;
   align-items: center;
   gap: .65rem;
-  background: linear-gradient(135deg, #E3A652 0%, #D4913E 50%, #EDB96A 100%);
-  color: #050608;
-  font-size: .72rem;
-  font-weight: 800;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  padding: .9rem 2rem;
+  background: linear-gradient(135deg, #FFE29A 0%, #F5BE58 35%, #E3A652 70%, #D4913E 100%) !important;
+  color: #080705 !important;
+  -webkit-text-fill-color: #080705 !important;
+  font-size: .95rem !important;
+  font-weight: 900 !important;
+  letter-spacing: .03em;
+  padding: .85rem 1.85rem;
   cursor: pointer;
   transition: all .3s cubic-bezier(0.25, 1, 0.5, 1);
   text-decoration: none;
   white-space: nowrap;
-  border: none;
+  border-radius: 9999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.75) !important;
   position: relative;
-  box-shadow: 0 4px 15px rgba(227, 166, 82, 0.3), 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 20px rgba(227, 166, 82, 0.5), 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
   /* Better mobile tap targets */
-  min-height: 44px;
+  min-height: 46px;
 }
 
 .cta-primary svg {
@@ -414,24 +415,23 @@ body {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Mobile CTA sizing */
+/* Mobile CTA sizing — large and easily readable */
 @media (max-width: 480px) {
-
   .cta-primary,
   .cta-ghost {
-    padding: .7rem 1.25rem;
-    font-size: .62rem;
-    letter-spacing: .14em;
+    padding: .75rem 1.4rem;
+    font-size: .88rem !important;
+    letter-spacing: .02em;
+    min-height: 44px;
   }
 }
 
 @media (max-width: 360px) {
-
   .cta-primary,
   .cta-ghost {
-    padding: .6rem 1rem;
-    font-size: .58rem;
-    min-height: 40px;
+    padding: .7rem 1.15rem;
+    font-size: .82rem !important;
+    min-height: 42px;
   }
 }
 
@@ -1121,7 +1121,9 @@ html.light ::-webkit-scrollbar-thumb:hover {
 }
 
 html.light .cta-primary {
-  background: linear-gradient(135deg, #C48A30 0%, #A87428 50%, #D4A040 100%);
+  background: linear-gradient(135deg, #FFE49E 0%, #F5BE58 35%, #E3A652 70%, #D4913E 100%) !important;
+  color: #080705 !important;
+  -webkit-text-fill-color: #080705 !important;
 }
 
 html.light .cta-ghost {
@@ -1138,8 +1140,9 @@ html.light .cta-ghost:hover {
 
 /* Hero CTA buttons stay visible on dark canvas in light mode */
 html.light #hero .cta-primary {
-  background: linear-gradient(135deg, #C48A30 0%, #A87428 50%, #D4A040 100%);
-  color: #fff;
+  background: linear-gradient(135deg, #FFE49E 0%, #F5BE58 35%, #E3A652 70%, #D4913E 100%) !important;
+  color: #080705 !important;
+  -webkit-text-fill-color: #080705 !important;
 }
 
 html.light #hero .cta-ghost {
@@ -1720,18 +1723,18 @@ html.light h3 {
   background: linear-gradient(105deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.42) 45%, rgba(0,0,0,0.28) 100%);
 }
 
-/* --- Theme-aware canvas & hero scrims ----------------------------- */
+/* --- Theme-aware canvas & hero scrims (transparent so waterfall frames are never obscured) --- */
 .canvas-scrim {
-  background-color: #000000;
+  background-color: transparent !important;
 }
 .hero-scrim {
-  background: linear-gradient(105deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.4) 100%);
+  background: transparent !important;
 }
 html.light .canvas-scrim {
-  background-color: #F5F0E8;
+  background-color: transparent !important;
 }
 html.light .hero-scrim {
-  background: linear-gradient(105deg, rgba(245,240,232,0.95) 0%, rgba(245,240,232,0.9) 50%, rgba(245,240,232,0.4) 100%);
+  background: transparent !important;
 }
 
 /*
@@ -2664,23 +2667,65 @@ html.light [class*="bg-[#E3A652]/"] * {
   color: #5C2E00 !important;
 }
 
-/* 6. Solid Gold Buttons & Badges (e.g. cta-primary, save vcard, active tab) */
+/* 6. Solid Gold Buttons & Badges (e.g. cta-primary, nav-gold-cta, active tab) */
 html.light [class*="bg-[#E3A652]"]:not([class*="/"]),
-html.light .cta-primary {
-  background: linear-gradient(135deg, #A85A00 0%, #753E00 50%, #8C4E00 100%) !important;
-  color: #FFFFFF !important;
-  border: 1px solid rgba(80, 40, 0, 0.4) !important;
-  box-shadow: 0 4px 14px rgba(117, 62, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+html.light .cta-primary,
+html.light .nav-gold-cta {
+  background: linear-gradient(135deg, #FFE49E 0%, #F5BE58 35%, #E3A652 70%, #D4913E 100%) !important;
+  color: #080705 !important;
+  -webkit-text-fill-color: #080705 !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 4px 20px rgba(227, 166, 82, 0.55), 0 2px 6px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
-html.light [class*="bg-[#E3A652]"]:not([class*="/"]) * {
-  color: #FFFFFF !important;
+html.light [class*="bg-[#E3A652]"]:not([class*="/"]) *,
+html.light .cta-primary *,
+html.light .nav-gold-cta * {
+  color: #080705 !important;
+  -webkit-text-fill-color: #080705 !important;
 }
 
-html.light .cta-primary:hover {
-  background: linear-gradient(135deg, #B86500 0%, #854900 50%, #9E5700 100%) !important;
-  box-shadow: 0 6px 20px rgba(117, 62, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+html.light .cta-primary:hover,
+html.light .nav-gold-cta:hover {
+  background: linear-gradient(135deg, #FFF0BA 0%, #FFD278 35%, #F4B85E 70%, #E3A652 100%) !important;
+  box-shadow: 0 8px 30px rgba(227, 166, 82, 0.75), 0 4px 10px rgba(0, 0, 0, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.95) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SIGNATURE ROYAL GOLD CTA BUTTON (.nav-gold-cta)
+   High-depth 3D gold gradient, radiant glow, bold dark text
+   Preserved in BOTH dark mode and day/light mode.
+   ═══════════════════════════════════════════════════════════════════ */
+.nav-gold-cta {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.65rem !important;
+  background: linear-gradient(135deg, #FFF0BA 0%, #FAD16B 25%, #F0B849 55%, #DE982A 85%, #CF841A 100%) !important;
+  color: #080705 !important;
+  -webkit-text-fill-color: #080705 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.02em !important;
+  border-radius: 9999px !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 0 4px 22px rgba(230, 165, 60, 0.55), 0 2px 8px rgba(0, 0, 0, 0.35), inset 0 1.5px 1.5px rgba(255, 255, 255, 0.9) !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45) !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+.nav-gold-cta:hover {
+  background: linear-gradient(135deg, #FFFFD0 0%, #FFE085 25%, #F8C35A 55%, #ECA836 85%, #DE9022 100%) !important;
+  box-shadow: 0 8px 32px rgba(230, 165, 60, 0.75), 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 2px 2px rgba(255, 255, 255, 0.95) !important;
+  transform: scale(1.05) translateY(-1px) !important;
+}
+
+.nav-gold-cta:active {
+  transform: scale(0.97) translateY(1px) !important;
+  box-shadow: 0 2px 10px rgba(230, 165, 60, 0.45), inset 0 2px 4px rgba(0, 0, 0, 0.2) !important;
 }
 
 /* 7. Gold Borders and Rings */

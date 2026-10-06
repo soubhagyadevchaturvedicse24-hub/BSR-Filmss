@@ -39,6 +39,7 @@ export default function HeroCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const heroTextRef = useRef<HTMLDivElement>(null);
   const kickerRef = useRef<HTMLDivElement>(null);
+  const leftGradientRef = useRef<HTMLDivElement>(null);
   const canvasOverlayRef = useRef<HTMLDivElement>(null);
   const endOverlayRef = useRef<HTMLDivElement>(null);
 
@@ -119,6 +120,7 @@ export default function HeroCanvas() {
         gsap.set(canvasOverlayRef.current, { opacity: 0 });
         gsap.set(heroTextRef.current, { x: 0, opacity: 1, filter: "none" });
         gsap.set(kickerRef.current, { y: 0, opacity: 1, filter: "none" });
+        gsap.set(leftGradientRef.current, { opacity: 1 });
 
         const frameProxy = { frame: 0 };
 
@@ -168,14 +170,14 @@ export default function HeroCanvas() {
           duration: 0.35,
         }, 0);
 
-        // Track 3: Dark scrim
-        tl.to(canvasOverlayRef.current, {
-          opacity: 0.55,
-          ease: "none",
-          duration: 0.1,
-        }, 0.65);
+        // Track 2c: Left gradient fade out so waterfall canvas is completely uncovered
+        tl.to(leftGradientRef.current, {
+          opacity: 0,
+          ease: "power2.in",
+          duration: 0.35,
+        }, 0);
 
-        // Track 4: End overlay cards
+        // Track 4: End overlay cards (waterfall frame on canvas is 100% visible behind them)
         tl.fromTo(
           endOverlayRef.current,
           { opacity: 0, y: 30 },
@@ -389,12 +391,14 @@ export default function HeroCanvas() {
                     e.preventDefault();
                     document.querySelector("#work")?.scrollIntoView({ behavior: "smooth" });
                   }}
-                  className="cta-primary text-center justify-center py-3.5 px-6 text-sm font-bold min-h-[48px] bg-gradient-to-r from-[#F4D090] via-[#E3A652] to-[#D5A04A] text-[#050608] shadow-[0_4px_20px_rgba(227,166,82,0.4)]"
+                  className={`nav-gold-cta text-center justify-center py-3.5 px-6 min-h-[48px] ${
+                    isHindi ? "text-lg font-black" : "text-base font-black"
+                  }`}
                   aria-label="View our work"
                 >
-                  {ctaWork}
+                  <span>{ctaWork}</span>
                   <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true" className="ml-1.5 inline">
-                    <path d="M1 5h12M8 1l5 4-5 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M1 5h12M8 1l5 4-5 4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </a>
                 <a
@@ -403,7 +407,9 @@ export default function HeroCanvas() {
                     e.preventDefault();
                     document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
                   }}
-                  className="cta-ghost text-center justify-center py-3.5 px-6 text-sm font-bold min-h-[48px] border border-[#F4D090]/60 bg-black/50 backdrop-blur-md text-[#FFF5DC]"
+                  className={`cta-ghost text-center justify-center py-3.5 px-6 min-h-[48px] border border-[#F4D090]/60 bg-black/50 backdrop-blur-md text-[#FFF5DC] ${
+                    isHindi ? "text-base font-bold" : "text-sm font-bold"
+                  }`}
                   aria-label="Contact us for a project"
                 >
                   {ctaContact}
@@ -447,8 +453,9 @@ export default function HeroCanvas() {
               className="absolute inset-0 canvas-scrim pointer-events-none z-[5] transition-colors duration-700"
             />
 
-            {/* Left gradient */}
+            {/* Left gradient — fades out cleanly on scroll via GSAP */}
             <div
+              ref={leftGradientRef}
               aria-hidden="true"
               className="absolute inset-0 bg-gradient-to-r from-[#050608]/90 via-[#050608]/50 to-transparent w-[70%] sm:w-[60%] z-10 pointer-events-none"
             />
@@ -518,7 +525,7 @@ export default function HeroCanvas() {
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.88, duration: 0.75 }}
-                    className="flex flex-wrap items-center gap-2 md:gap-4 mb-6 md:mb-8 lg:mb-10"
+                    className="flex flex-wrap items-center gap-3 md:gap-4 mb-6 md:mb-8 lg:mb-10"
                   >
                     <a
                       href="#work"
@@ -526,12 +533,14 @@ export default function HeroCanvas() {
                         e.preventDefault();
                         document.querySelector("#work")?.scrollIntoView({ behavior: "smooth" });
                       }}
-                      className="cta-primary bg-gradient-to-r from-[#F4D090] via-[#E3A652] to-[#D5A04A] text-[#050608] font-black shadow-[0_4px_20px_rgba(227,166,82,0.4)] px-6 py-3.5 rounded-full hover:scale-105 transition-all text-sm md:text-base"
+                      className={`nav-gold-cta px-7 py-3.5 rounded-full cursor-pointer transition-all ${
+                        isHindi ? "text-lg md:text-xl font-black" : "text-base md:text-lg font-black"
+                      }`}
                       aria-label="View our work"
                     >
-                      {ctaWork}
-                      <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
-                        <path d="M1 5h12M8 1l5 4-5 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <span>{ctaWork}</span>
+                      <svg width="15" height="11" viewBox="0 0 14 10" fill="none" aria-hidden="true" className="ml-1">
+                        <path d="M1 5h12M8 1l5 4-5 4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </a>
                     <a
@@ -540,7 +549,9 @@ export default function HeroCanvas() {
                         e.preventDefault();
                         document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
                       }}
-                      className="cta-ghost border border-[#F4D090]/60 bg-black/50 backdrop-blur-md text-[#FFF5DC] font-bold px-6 py-3.5 rounded-full hover:bg-[#F4D090] hover:text-[#050608] transition-all text-sm md:text-base"
+                      className={`cta-ghost border border-[#F4D090]/60 bg-black/50 backdrop-blur-md text-[#FFF5DC] font-bold px-7 py-3.5 rounded-full hover:bg-[#F4D090] hover:text-[#050608] transition-all cursor-pointer ${
+                        isHindi ? "text-lg md:text-xl font-black" : "text-base md:text-lg font-bold"
+                      }`}
                       aria-label="Contact us for a project"
                     >
                       {ctaContact}
@@ -583,68 +594,63 @@ export default function HeroCanvas() {
               aria-hidden="true"
               className="absolute inset-0 overflow-hidden z-30 hero-end-overlay"
             >
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 pointer-events-none bg-black/60 backdrop-blur-[2px]"
-              />
-
-              {/* 2-col layout */}
+              {/* 2-col layout over pristine canvas waterfall */}
               <div className="relative h-full flex items-center py-4 sm:py-6 md:py-10 px-3 sm:px-5 md:px-14 lg:px-20 xl:px-28">
                 <div className="w-full max-w-screen-xl mx-auto">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
 
-                    {/* Left: dark glass text panel */}
+                    {/* Left: translucent glass text panel letting waterfall shine through */}
                     <div
-                      className="relative rounded-2xl p-8 md:p-10 shadow-2xl overflow-hidden bg-[#07090D]/85 backdrop-blur-xl border border-[#F4D090]/35 text-left"
+                      className="relative rounded-2xl p-7 md:p-9 shadow-2xl overflow-hidden bg-black/35 backdrop-blur-[3px] border border-white/20 sm:border-[#FFE29A]/40 text-left"
                     >
-                      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#F4D090]/50 to-transparent" />
-                      <p className="text-[0.72rem] md:text-xs font-black tracking-[0.25em] uppercase mb-4 text-[#F4D090] drop-shadow-sm">
+                      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#FFE29A]/60 to-transparent" />
+                      <p className="text-[0.72rem] md:text-xs font-black tracking-[0.25em] uppercase mb-4 text-[#FFE29A] drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
                         {isHindi ? "बी.एस.आर. की विशिष्ट पहचान" : "The BSR Difference"}
                       </p>
-                      <h2 className="text-[clamp(1.8rem,3.2vw,2.8rem)] font-black leading-[1.08] tracking-tight mb-5 text-white drop-shadow-md">
+                      <h2 className="text-[clamp(1.8rem,3.2vw,2.8rem)] font-black leading-[1.08] tracking-tight mb-5 text-white drop-shadow-[0_4px_16px_rgba(0,0,0,1)]">
                         {isHindi ? (
-                          <>बी.एस.आर. फिल्म्स ही <span className="text-[#F4D090]">क्यों?</span></>
+                          <>बी.एस.आर. फिल्म्स ही <span className="text-[#FFE29A] drop-shadow-[0_4px_16px_rgba(0,0,0,1)]">क्यों?</span></>
                         ) : (
-                          <>Why Choose <span className="text-[#F4D090]">BSR Films?</span></>
+                          <>Why Choose <span className="text-[#FFE29A] drop-shadow-[0_4px_16px_rgba(0,0,0,1)]">BSR Films?</span></>
                         )}
                       </h2>
-                      <p className="text-base md:text-lg leading-relaxed mb-7 text-[#F0E6D2] font-medium drop-shadow-sm">
+                      <p className="text-base md:text-lg leading-relaxed mb-7 text-white font-semibold drop-shadow-[0_2px_10px_rgba(0,0,0,1)]">
                         {isHindi
                           ? "हम स्थानीय जनजीवन व संस्कृति की गहरी समझ को विश्वस्तरीय स्टूडियो के तकनीकी अनुशासन के साथ जोड़ते हैं — ऐसा सिनेमा जो जन-जन के दिल को छूए और अंतरराष्ट्रीय पटल पर प्रभाव छोड़े।"
                           : "We combine the intimacy of regional storytelling with the discipline of a professional studio — producing content that resonates locally and competes globally."}
                       </p>
-                      <div aria-hidden="true" className="w-12 h-[2px] mb-7 bg-gradient-to-r from-[#F4D090] to-transparent" />
-                      <blockquote className="pl-5 py-1 border-l-2 border-[#F4D090]">
-                        <p className="text-base md:text-lg italic leading-relaxed text-[#FFF8E7] drop-shadow-sm">
+                      <div aria-hidden="true" className="w-12 h-[2px] mb-7 bg-gradient-to-r from-[#FFE29A] to-transparent" />
+                      <blockquote className="pl-5 py-1 border-l-2 border-[#FFE29A]">
+                        <p className="text-base md:text-lg italic font-bold leading-relaxed text-[#FFF8E7] drop-shadow-[0_2px_10px_rgba(0,0,0,1)]">
                           {isHindi
                             ? "«हम बी.एस.आर. फिल्म्स के नजरिए से छत्तीसगढ़ को देखते हैं।»"
                             : "“We see Chhattisgarh through the lens of BSR Films.”"}
                         </p>
-                        <footer className="text-xs md:text-sm mt-2 font-semibold text-[#F4D090]/90 tracking-wide">
+                        <footer className="text-xs md:text-sm mt-2 font-black text-[#FFE29A] tracking-wide drop-shadow-[0_2px_6px_rgba(0,0,0,1)]">
                           {isHindi ? "— हमारा मार्गदर्शक दर्शन" : "— Our guiding philosophy"}
                         </footer>
                       </blockquote>
                     </div>
 
-                    {/* Right: reason cards */}
+                    {/* Right: translucent reason cards */}
                     <div className="flex flex-col gap-3">
                       {reasonCards.map((r) => (
                         <div
                           key={r.title}
-                          className="relative rounded-2xl overflow-hidden bg-[#0B0D12]/85 backdrop-blur-md border border-[#F4D090]/25 shadow-lg p-4 md:p-5 hover:border-[#F4D090]/50 transition-all text-left"
+                          className="relative rounded-2xl overflow-hidden bg-black/35 backdrop-blur-[3px] border border-white/20 sm:border-[#FFE29A]/35 shadow-xl p-4 md:p-5 hover:bg-black/45 hover:border-[#FFE29A]/60 transition-all text-left"
                         >
-                          <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#F4D090]/30 to-transparent" />
+                          <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#FFE29A]/40 to-transparent" />
                           <div className="flex gap-3.5 items-start">
-                            <div className="flex-shrink-0 mt-0.5 w-7 h-7 rounded-full bg-[#F4D090]/15 border border-[#F4D090]/50 flex items-center justify-center">
+                            <div className="flex-shrink-0 mt-0.5 w-7 h-7 rounded-full bg-[#FFE29A]/20 border border-[#FFE29A]/60 flex items-center justify-center text-[#FFE29A]">
                               <svg width="14" height="14" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-                                <path d="M6.5 11.2l3.2 3.2 5.8-6" stroke="#F4D090" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+                                <path d="M6.5 11.2l3.2 3.2 5.8-6" stroke="#FFE29A" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
                               </svg>
                             </div>
                             <div>
-                              <h3 className="font-black text-sm md:text-base text-[#F4D090] leading-snug drop-shadow-sm">
+                              <h3 className="font-black text-sm md:text-base text-[#FFE29A] leading-snug drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
                                 {r.title}
                               </h3>
-                              <p className="text-xs md:text-sm leading-relaxed font-semibold text-[#F7F3EB] mt-1.5 opacity-95">
+                              <p className="text-xs md:text-sm leading-relaxed font-semibold text-white mt-1.5 drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
                                 {r.body}
                               </p>
                             </div>
@@ -664,39 +670,53 @@ export default function HeroCanvas() {
 
       {/* ═══════════════════════════════════════════════════════════════
            MOBILE INLINE: "Why Choose BSR Films" — rendered below hero
-           Only visible on <1024px where no scroll overlay exists
+           With Chitrakote Waterfall background
            ═══════════════════════════════════════════════════════════════ */}
       {isDesktop === false && (
         <section
-          className="relative py-12 px-4 sm:px-6 transition-colors duration-500 bg-[var(--bg-secondary)]"
+          className="relative py-14 px-4 sm:px-6 overflow-hidden"
           aria-label="Why Choose BSR Films"
         >
-          <div className="max-w-screen-xl mx-auto text-left">
+          {/* Waterfall Background Image — Chitrakote Waterfall */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={frameUrl(TOTAL_FRAMES - 1)}
+            alt="Chitrakote Waterfall - BSR Films"
+            className="absolute inset-0 w-full h-full object-cover -z-20 pointer-events-none"
+            draggable={false}
+          />
+          {/* Subtle non-obscuring gradient so waterfall is vivid while text is crisp */}
+          <div
+            className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/65 -z-10 pointer-events-none"
+            aria-hidden="true"
+          />
+
+          <div className="max-w-screen-xl mx-auto text-left relative z-10">
             {/* Header */}
-            <div className="mb-8">
-              <p className="text-xs font-bold tracking-[0.25em] uppercase mb-2 text-[#E3A652] dark:text-[#E3A652] light:text-[#703800]">
+            <div className="mb-8 p-5 sm:p-6 rounded-2xl bg-black/35 backdrop-blur-[3px] border border-white/20 sm:border-[#FFE29A]/40 shadow-xl">
+              <p className="text-xs font-black tracking-[0.25em] uppercase mb-2 text-[#FFE29A] drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
                 {isHindi ? "बी.एस.आर. की विशिष्ट पहचान" : "The BSR Difference"}
               </p>
-              <h2 className="text-2xl sm:text-3xl font-extrabold leading-[1.08] tracking-tight mb-3 text-[var(--text-heading)]">
+              <h2 className="text-2xl sm:text-3xl font-black leading-[1.08] tracking-tight mb-3 text-white drop-shadow-[0_4px_16px_rgba(0,0,0,1)]">
                 {isHindi ? (
-                  <>बी.एस.आर. फिल्म्स ही <span className="text-[#E3A652] dark:text-[#E3A652] light:text-[#703800]">क्यों?</span></>
+                  <>बी.एस.आर. फिल्म्स ही <span className="text-[#FFE29A] drop-shadow-[0_4px_16px_rgba(0,0,0,1)]">क्यों?</span></>
                 ) : (
-                  <>Why Choose <span className="text-[#E3A652] dark:text-[#E3A652] light:text-[#703800]">BSR Films?</span></>
+                  <>Why Choose <span className="text-[#FFE29A] drop-shadow-[0_4px_16px_rgba(0,0,0,1)]">BSR Films?</span></>
                 )}
               </h2>
-              <p className="text-sm sm:text-base leading-relaxed mb-4 text-[var(--text-primary)] opacity-90">
+              <p className="text-sm sm:text-base leading-relaxed mb-4 text-white font-semibold drop-shadow-[0_2px_10px_rgba(0,0,0,1)]">
                 {isHindi
                   ? "हम स्थानीय जनजीवन व संस्कृति की गहरी समझ को विश्वस्तरीय स्टूडियो के तकनीकी अनुशासन के साथ जोड़ते हैं — ऐसा सिनेमा जो जन-जन के दिल को छूए और अंतरराष्ट्रीय पटल पर प्रभाव छोड़े।"
                   : "We combine the intimacy of regional storytelling with the discipline of a professional studio — producing content that resonates locally and competes globally."}
               </p>
-              <div className="w-12 h-[2px] mb-4 bg-gradient-to-r from-[#E3A652] to-transparent" />
-              <blockquote className="pl-4 py-1 border-l-2 border-[#E3A652]">
-                <p className="text-sm italic leading-relaxed text-[var(--text-primary)]">
+              <div className="w-12 h-[2px] mb-4 bg-gradient-to-r from-[#FFE29A] to-transparent" />
+              <blockquote className="pl-4 py-1 border-l-2 border-[#FFE29A]">
+                <p className="text-sm italic font-bold leading-relaxed text-[#FFF8E7] drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
                   {isHindi
                     ? "«हम बी.एस.आर. फिल्म्स के नजरिए से छत्तीसगढ़ को देखते हैं।»"
                     : "“We see Chhattisgarh through the lens of BSR Films.”"}
                 </p>
-                <footer className="text-xs mt-1.5 text-[var(--text-muted)] font-medium">
+                <footer className="text-xs mt-1.5 text-[#FFE29A] font-black drop-shadow-[0_2px_6px_rgba(0,0,0,1)]">
                   {isHindi ? "— हमारा मार्गदर्शक दर्शन" : "— Our guiding philosophy"}
                 </footer>
               </blockquote>
@@ -707,17 +727,17 @@ export default function HeroCanvas() {
               {reasonCards.map((r) => (
                 <div
                   key={r.title}
-                  className="relative rounded-xl overflow-hidden p-3.5 sm:p-4 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-sm"
+                  className="relative rounded-xl overflow-hidden p-3.5 sm:p-4 bg-black/35 backdrop-blur-[3px] border border-white/20 sm:border-[#FFE29A]/35 shadow-lg"
                 >
                   <div className="flex gap-3 items-start">
-                    <div className="flex-shrink-0 mt-0.5 w-6 h-6 rounded-full bg-[#E3A652]/15 border border-[#E3A652]/40 flex items-center justify-center">
+                    <div className="flex-shrink-0 mt-0.5 w-6 h-6 rounded-full bg-[#FFE29A]/20 border border-[#FFE29A]/60 flex items-center justify-center text-[#FFE29A]">
                       <svg width="12" height="12" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-                        <path d="M6.5 11.2l3.2 3.2 5.8-6" stroke="#E3A652" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M6.5 11.2l3.2 3.2 5.8-6" stroke="#FFE29A" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                     <div>
-                      <h3 className="font-bold text-sm leading-snug text-[var(--text-heading)]">{r.title}</h3>
-                      <p className="text-xs leading-relaxed font-medium mt-1 text-[var(--text-primary)] opacity-85">{r.body}</p>
+                      <h3 className="font-black text-sm leading-snug text-[#FFE29A] drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">{r.title}</h3>
+                      <p className="text-xs leading-relaxed font-semibold mt-1 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">{r.body}</p>
                     </div>
                   </div>
                 </div>

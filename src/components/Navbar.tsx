@@ -172,15 +172,17 @@ export default function Navbar() {
                 e.preventDefault();
                 smooth("#contact");
               }}
-              className="inline-flex items-center gap-2 font-black shadow-[0_4px_16px_rgba(227,166,82,0.35)] hover:shadow-[0_6px_24px_rgba(227,166,82,0.5)] hover:scale-105 active:scale-95 transition-all duration-300 rounded-full bg-gradient-to-r from-[#F4D090] via-[#E3A652] to-[#D5A04A] text-[#050608] text-sm md:text-base py-2.5 sm:py-3 px-5 sm:px-6 whitespace-nowrap cursor-pointer"
+              className={`nav-gold-cta py-3 px-6 lg:py-3.5 lg:px-8 font-black tracking-wide cursor-pointer ${
+                lang === "hi" ? "text-lg lg:text-xl" : "text-base lg:text-lg"
+              }`}
               aria-label="Start a project with BSR Films"
             >
               <span>{lang === "hi" ? "प्रोजेक्ट शुरू करें" : "Start a Project"}</span>
-              <svg width="15" height="11" viewBox="0 0 14 10" fill="none" aria-hidden="true" className="flex-shrink-0">
+              <svg width="16" height="12" viewBox="0 0 14 10" fill="none" aria-hidden="true" className="flex-shrink-0 ml-1">
                 <path
                   d="M1 5h12M8 1l5 4-5 4"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth="2.2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
@@ -188,10 +190,23 @@ export default function Navbar() {
             </a>
           </div>
 
-          {/* Mobile: Language + Theme + Hamburger */}
-          <div className="md:hidden flex items-center gap-1.5">
+          {/* Mobile/Tablet: Language + Theme + CTA + Hamburger */}
+          <div className="md:hidden flex items-center gap-1.5 sm:gap-2">
             <LanguageToggle />
             <ThemeToggle />
+            <a
+              href="#contact"
+              onClick={(e) => {
+                e.preventDefault();
+                smooth("#contact");
+              }}
+              className={`hidden sm:inline-flex nav-gold-cta py-2 px-3.5 font-black cursor-pointer mr-1 ${
+                lang === "hi" ? "text-sm font-black" : "text-xs font-black"
+              }`}
+              aria-label="Start a project with BSR Films"
+            >
+              <span>{lang === "hi" ? "प्रोजेक्ट शुरू करें" : "Start a Project"}</span>
+            </a>
             <button
               className="flex flex-col gap-[5px] p-2.5 -mr-1 min-w-[40px] min-h-[40px] items-center justify-center cursor-pointer"
               onClick={() => setOpen((p) => !p)}
@@ -272,14 +287,16 @@ export default function Navbar() {
                 e.preventDefault();
                 handleNavClick("#contact", false);
               }}
-              className="mt-4 py-3.5 px-6 text-base font-black w-full max-w-xs text-center justify-center min-h-[50px] inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#F4D090] via-[#E3A652] to-[#D5A04A] text-[#050608] shadow-[0_4px_16px_rgba(227,166,82,0.35)]"
+              className={`nav-gold-cta mt-4 py-4 px-8 font-black w-full max-w-xs text-center justify-center min-h-[52px] ${
+                lang === "hi" ? "text-xl sm:text-2xl" : "text-lg sm:text-xl"
+              }`}
             >
               <span>{lang === "hi" ? "प्रोजेक्ट शुरू करें" : "Start a Project"}</span>
-              <svg width="15" height="11" viewBox="0 0 14 10" fill="none" className="flex-shrink-0">
+              <svg width="16" height="12" viewBox="0 0 14 10" fill="none" className="flex-shrink-0 ml-1">
                 <path
                   d="M1 5h12M8 1l5 4-5 4"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth="2.2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
