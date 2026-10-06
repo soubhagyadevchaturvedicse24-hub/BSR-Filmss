@@ -1,8 +1,9 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
-const services = [
+const servicesEn = [
   {
     title: "Films & Videos",
     items: ["Documentaries", "Corporate Films", "Ad Films", "Feature Films", "TVCs", "Web Content"],
@@ -21,10 +22,31 @@ const services = [
   },
 ];
 
+const servicesHi = [
+  {
+    title: "फिल्म एवं वीडियो निर्माण",
+    items: ["वृत्तचित्र (डॉक्यूमेंट्री)", "कॉर्पोरेट फिल्में", "विज्ञापन फिल्में (TVC)", "फीचर फिल्में", "टेलीविजन धारावाहिक", "डिजिटल वेब कंटेंट"],
+  },
+  {
+    title: "ऑडियो प्रोडक्शन एवं संगीत",
+    items: ["रेडियो जिंगल्स", "रेडियो धारावाहिक", "गीत व संगीत एलबम", "म्यूजिक वीडियो", "पॉडकास्ट प्रोडक्शन", "वॉयस ओवर एवं डबिंग"],
+  },
+  {
+    title: "क्रिएटिव एवं डिजिटल मीडिया",
+    items: ["2D / 3D एनिमेशन", "VFX एवं कंपोजिटिंग", "ग्राफिक डिजाइनिंग", "सोशल मीडिया प्रबंधन", "डिजिटल प्रचार-प्रसार", "मोशन ग्राफिक्स"],
+  },
+  {
+    title: "अभियान एवं जन-संपर्क",
+    items: ["राजनीतिक व चुनावी अभियान", "पीआर (PR) अभियान", "सार्वजनिक जागरूकता फिल्में", "इवेंट कवरेज एवं आउटरीच", "कार्यशाला एवं सेमिनार", "प्रदर्शनी व एक्सपो मीडिया"],
+  },
+];
+
 export default function Services() {
   const ref = useRef<HTMLElement>(null);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [visible, setVisible] = useState(false);
+  const { isHindi } = useLanguage();
+  const services = isHindi ? servicesHi : servicesEn;
 
   useEffect(() => {
     const el = ref.current;
@@ -57,15 +79,21 @@ export default function Services() {
 
         {/* Header */}
         <div
-          className={`mb-8 sm:mb-10 md:mb-16 services-fade-in ${visible ? 'services-fade-in--visible' : ''}`}
+          className={`mb-8 sm:mb-10 md:mb-16 text-left services-fade-in ${visible ? 'services-fade-in--visible' : ''}`}
         >
-          <p className="label-line justify-start">What We Do</p>
-          <h2 className="text-[clamp(1.6rem,5.5vw,4rem)] font-extrabold text-white leading-tight tracking-tight mt-1.5 sm:mt-2 text-cinema">
+          <p className="label-line justify-start">
+            {isHindi ? "हमारी सेवाएं" : "What We Do"}
+          </p>
+          <h2 className="text-[clamp(1.6rem,5.5vw,4rem)] font-extrabold text-[var(--text-heading)] leading-tight tracking-tight mt-1.5 sm:mt-2">
             360°{" "}
-            <span className="gold-text">Media Services</span>
+            <span className="gold-text">
+              {isHindi ? "मीडिया सेवाएं" : "Media Services"}
+            </span>
           </h2>
-          <p className="text-white/45 text-xs sm:text-sm md:text-base max-w-xl mt-2 sm:mt-3 md:mt-4 leading-relaxed">
-            From script to screen, from jingle to campaign — tap a category to explore.
+          <p className="text-[var(--text-muted)] text-xs sm:text-sm md:text-base max-w-xl mt-2 sm:mt-3 md:mt-4 leading-relaxed font-normal">
+            {isHindi
+              ? "पटकथा से पर्दे तक, जिंगल से जन-अभियान तक — हर श्रेणी को विस्तार से देखें।"
+              : "From script to screen, from jingle to campaign — tap a category to explore."}
           </p>
           {/* Cinematic divider */}
           <div className="section-divider mt-4 sm:mt-6 md:mt-8 max-w-xs" />
@@ -96,7 +124,7 @@ export default function Services() {
                       0{i + 1}
                     </span>
                     <h3
-                      className={`font-extrabold tracking-tight text-[clamp(1.1rem,3.2vw,2.4rem)] ${isOpen ? 'gold-text' : 'text-white/[0.88]'}`}
+                      className={`font-extrabold tracking-tight text-[clamp(1.1rem,3.2vw,2.4rem)] ${isOpen ? 'gold-text' : 'text-[var(--text-heading)]'}`}
                     >
                       {svc.title}
                     </h3>
@@ -107,7 +135,7 @@ export default function Services() {
                     className={`flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center accordion-chevron ${isOpen ? 'accordion-arrow-open accordion-chevron--open' : 'accordion-arrow'}`}
                   >
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path d="M3 5l4 4 4-4" stroke={isOpen ? "#E3A652" : "rgba(255,255,255,0.5)"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M3 5l4 4 4-4" stroke={isOpen ? "#E3A652" : "currentColor"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </div>
                 </button>
@@ -120,7 +148,7 @@ export default function Services() {
                       {svc.items.map((item) => (
                         <li
                           key={item}
-                          className="flex items-center gap-2 sm:gap-2.5 md:gap-3 text-white/70 text-xs sm:text-sm md:text-base font-medium py-1.5 sm:py-2 px-1.5 sm:px-2 md:px-3 rounded-lg"
+                          className="flex items-center gap-2 sm:gap-2.5 md:gap-3 text-[var(--text-primary)] opacity-90 text-xs sm:text-sm md:text-base font-medium py-1.5 sm:py-2 px-1.5 sm:px-2 md:px-3 rounded-lg"
                         >
                           <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 dot-gold" />
                           {item}

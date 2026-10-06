@@ -92,7 +92,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="antialiased film-grain loading">
+      <body className="antialiased film-grain">
         <ThemeProvider>
           <LanguageProvider>{children}</LanguageProvider>
         </ThemeProvider>

@@ -172,15 +172,15 @@ export default function Navbar() {
                 e.preventDefault();
                 smooth("#contact");
               }}
-              className="inline-flex cta-primary hover:shadow-[0_0_20px_rgba(227,166,82,0.4)] hover:scale-105 transition-all duration-300 text-xs py-2 px-4"
+              className="inline-flex items-center gap-2 font-black shadow-[0_4px_16px_rgba(227,166,82,0.35)] hover:shadow-[0_6px_24px_rgba(227,166,82,0.5)] hover:scale-105 active:scale-95 transition-all duration-300 rounded-full bg-gradient-to-r from-[#F4D090] via-[#E3A652] to-[#D5A04A] text-[#050608] text-sm md:text-base py-2.5 sm:py-3 px-5 sm:px-6 whitespace-nowrap cursor-pointer"
               aria-label="Start a project with BSR Films"
             >
-              {lang === "hi" ? "प्रोजेक्ट शुरू करें" : "Start a Project"}
-              <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
+              <span>{lang === "hi" ? "प्रोजेक्ट शुरू करें" : "Start a Project"}</span>
+              <svg width="15" height="11" viewBox="0 0 14 10" fill="none" aria-hidden="true" className="flex-shrink-0">
                 <path
                   d="M1 5h12M8 1l5 4-5 4"
                   stroke="currentColor"
-                  strokeWidth="1.5"
+                  strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
@@ -272,14 +272,14 @@ export default function Navbar() {
                 e.preventDefault();
                 handleNavClick("#contact", false);
               }}
-              className="cta-primary mt-4 py-3.5 px-6 text-sm font-bold w-full max-w-xs text-center justify-center min-h-[48px]"
+              className="mt-4 py-3.5 px-6 text-base font-black w-full max-w-xs text-center justify-center min-h-[50px] inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#F4D090] via-[#E3A652] to-[#D5A04A] text-[#050608] shadow-[0_4px_16px_rgba(227,166,82,0.35)]"
             >
-              {lang === "hi" ? "प्रोजेक्ट शुरू करें" : "Start a Project"}
-              <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
+              <span>{lang === "hi" ? "प्रोजेक्ट शुरू करें" : "Start a Project"}</span>
+              <svg width="15" height="11" viewBox="0 0 14 10" fill="none" className="flex-shrink-0">
                 <path
                   d="M1 5h12M8 1l5 4-5 4"
                   stroke="currentColor"
-                  strokeWidth="1.5"
+                  strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />

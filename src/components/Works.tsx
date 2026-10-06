@@ -9,6 +9,8 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 
+import { useLanguage } from "@/context/LanguageContext";
+
 /* ═══════════════════════════════════════════════════════════════════
    DATA
    ═══════════════════════════════════════════════════════════════════ */
@@ -28,7 +30,7 @@ interface Project {
   accent: string;
 }
 
-const projects: Project[] = [
+const projectsEn: Project[] = [
   { id: 1, tag: "Documentary", title: "DOCUMENTARY FILMS", desc: "Telling real stories from the soul of Chhattisgarh.", yt: "https://youtu.be/bg0PxI6_QZI?si=Wrwnp5ZfK5rsW1-x", accent: "#34d399" },
   { id: 2, tag: "Corporate", title: "CORPORATE FILMS", desc: "Cinematic storytelling for global brands.", yt: "https://youtu.be/pyAS6rpfw0Y?si=k0cS-UyAKMb3rUj1", accent: "#60a5fa" },
   { id: 3, tag: "Ad Film", title: "AD FILMS & JINGLES", desc: "Creative TVCs that capture hearts at first frame.", yt: "https://youtu.be/WxsYGECivmQ?si=Pzujhxe-bRQ_rkkN", accent: "#E3A652" },
@@ -36,6 +38,16 @@ const projects: Project[] = [
   { id: 5, tag: "Animation", title: "ANIMATION & VFX", desc: "Bringing imagination to life with cutting-edge tech.", yt: "https://youtu.be/g4OJZP6sa18", accent: "#c084fc" },
   { id: 6, tag: "Event", title: "EVENT COVERAGE", desc: "Impactful event films across 27 districts.", yt: "https://youtu.be/HlEgtE828N4?si=v_3aFWU1DYFj0kiu", accent: "#38bdf8" },
   { id: 7, tag: "Short Film", title: "SHORT FILMS", desc: "Compact cinematic narratives with lasting impact.", yt: "https://youtu.be/nBjr3Qgd0LY?si=7WUdVlRymjHjfQ8L", accent: "#fb923c" },
+];
+
+const projectsHi: Project[] = [
+  { id: 1, tag: "वृत्तचित्र", title: "वृत्तचित्र फिल्में (डॉक्यूमेंट्री)", desc: "छत्तीसगढ़ की माटी और आत्मा से उपजी सच्ची कहानियां।", yt: "https://youtu.be/bg0PxI6_QZI?si=Wrwnp5ZfK5rsW1-x", accent: "#34d399" },
+  { id: 2, tag: "कॉर्पोरेट", title: "कॉर्पोरेट एवं औद्योगिक फिल्में", desc: "वैश्विक ब्रांड्स और औद्योगिक घरानों के लिए सिनेमाई प्रस्तुति।", yt: "https://youtu.be/pyAS6rpfw0Y?si=k0cS-UyAKMb3rUj1", accent: "#60a5fa" },
+  { id: 3, tag: "विज्ञापन", title: "विज्ञापन फिल्में एवं जिंगल्स", desc: "क्रिएटिव टीवीसी जो पहले ही फ्रेम में दर्शकों का दिल जीत लें।", yt: "https://youtu.be/WxsYGECivmQ?si=Pzujhxe-bRQ_rkkN", accent: "#E3A652" },
+  { id: 4, tag: "ऑडियो", title: "ऑडियो प्रोडक्शन एवं संगीत", desc: "मनभावन संगीत और कर्णप्रिय धुनें जो सदैव दिल में बसी रहें।", yt: "https://youtu.be/up7w3WY_dvI?si=2DrbR25LBJv8lcBG", accent: "#f472b6" },
+  { id: 5, tag: "एनिमेशन", title: "3D एनिमेशन एवं वीएफएक्स", desc: "अत्याधुनिक तकनीक से कल्पनाओं को जीवंत रूप देना।", yt: "https://youtu.be/g4OJZP6sa18", accent: "#c084fc" },
+  { id: 6, tag: "इवेंट", title: "भव्य इवेंट कवरेज", desc: "27+ जिलों में विशाल शासकीय व सांस्कृतिक आयोजनों की भव्य कवरेज।", yt: "https://youtu.be/HlEgtE828N4?si=v_3aFWU1DYFj0kiu", accent: "#38bdf8" },
+  { id: 7, tag: "लघु फिल्म", title: "लघु फिल्में (शॉर्ट फिल्म्स)", desc: "गहन संदेश देने वाली संक्षिप्त और प्रभावशाली सिनेमाई कथाएं।", yt: "https://youtu.be/nBjr3Qgd0LY?si=7WUdVlRymjHjfQ8L", accent: "#fb923c" },
 ];
 
 const TAG_STYLE: Record<string, { bg: string; border: string; text: string }> = {
@@ -46,6 +58,14 @@ const TAG_STYLE: Record<string, { bg: string; border: string; text: string }> = 
   Animation: { bg: "rgba(192,132,252,0.15)", border: "rgba(192,132,252,0.4)", text: "#c084fc" },
   Event: { bg: "rgba(56,189,248,0.15)", border: "rgba(56,189,248,0.4)", text: "#38bdf8" },
   "Short Film": { bg: "rgba(251,146,60,0.15)", border: "rgba(251,146,60,0.4)", text: "#fb923c" },
+  // Hindi keys
+  वृत्तचित्र: { bg: "rgba(52,211,153,0.15)", border: "rgba(52,211,153,0.4)", text: "#34d399" },
+  कॉर्पोरेट: { bg: "rgba(96,165,250,0.15)", border: "rgba(96,165,250,0.4)", text: "#60a5fa" },
+  विज्ञापन: { bg: "rgba(227,166,82,0.15)", border: "rgba(227,166,82,0.4)", text: "#E3A652" },
+  ऑडियो: { bg: "rgba(244,114,182,0.15)", border: "rgba(244,114,182,0.4)", text: "#f472b6" },
+  एनिमेशन: { bg: "rgba(192,132,252,0.15)", border: "rgba(192,132,252,0.4)", text: "#c084fc" },
+  इवेंट: { bg: "rgba(56,189,248,0.15)", border: "rgba(56,189,248,0.4)", text: "#38bdf8" },
+  "लघु फिल्म": { bg: "rgba(251,146,60,0.15)", border: "rgba(251,146,60,0.4)", text: "#fb923c" },
 };
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -151,14 +171,14 @@ function SlideCard({ project: p, isActive, isPlaying, isMobile, onPlay, onClose,
           </div>
 
           {/* Bottom text content */}
-          <div className="absolute bottom-0 inset-x-0 p-3 sm:p-4 md:p-5 lg:p-7 z-[6]">
+          <div className="absolute bottom-0 inset-x-0 p-3 sm:p-4 md:p-5 lg:p-7 z-[6] text-left">
             <h3
-              className={`font-extrabold uppercase leading-tight tracking-wide text-[clamp(0.75rem,2.2vw,1.3rem)] transition-colors duration-400 ${isActive ? 'gold-text' : 'text-white'}`}
+              className={`font-black uppercase leading-tight tracking-wide text-[clamp(0.8rem,2.2vw,1.3rem)] transition-colors duration-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] ${isActive ? 'text-[#F4D090]' : 'text-white'}`}
             >
               {p.title}
             </h3>
             <p
-              className={`mt-1 leading-snug text-[clamp(0.62rem,1.4vw,0.85rem)] transition-colors duration-400 ${isActive ? 'text-white/60' : 'text-white/45'}`}
+              className={`mt-1 leading-snug text-[clamp(0.65rem,1.4vw,0.88rem)] font-medium transition-colors duration-400 drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)] ${isActive ? 'text-[#FFF8E7]' : 'text-[#E2D9C8]'}`}
             >
               {p.desc}
             </p>
@@ -178,6 +198,8 @@ export default function Works() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const swiperRef = useRef<SwiperType | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const { isHindi } = useLanguage();
+  const projects = isHindi ? projectsHi : projectsEn;
 
   const [reel, setReel] = useState(false);
   const [playingId, setPlayingId] = useState<number | null>(null);
@@ -239,15 +261,21 @@ export default function Works() {
           className="mb-6 sm:mb-8 md:mb-14"
         >
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 sm:gap-6">
-            <div className="lens-flare">
+            <div className="lens-flare text-left">
               <p className="label-line justify-start mb-3 sm:mb-4">
-                <span className="w-6 h-px block gold-bg" />Portfolio
+                {isHindi ? "चयनित कृतियां" : "Portfolio"}
               </p>
-              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold text-white leading-none tracking-tight text-cinema">
-                SELECTED <span className="gold-text">WORKS</span>
+              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold text-[var(--text-heading)] leading-none tracking-tight">
+                {isHindi ? (
+                  <>प्रमुख <span className="gold-text">सिनेमाई कृतियां</span></>
+                ) : (
+                  <>SELECTED <span className="gold-text">WORKS</span></>
+                )}
               </h2>
-              <p className="text-xs sm:text-sm md:text-lg lg:text-xl text-white/50 mt-1.5 sm:mt-2 md:mt-3 font-light tracking-wide">
-                Craft that moves people &amp; markets.
+              <p className="text-xs sm:text-sm md:text-lg lg:text-xl text-[var(--text-muted)] mt-1.5 sm:mt-2 md:mt-3 font-medium tracking-wide">
+                {isHindi
+                  ? "ऐसी कृतियां जो जनमानस और बाजार दोनों को गहराई से प्रभावित करें।"
+                  : "Craft that moves people & markets."}
               </p>
               <div className="mt-4 sm:mt-5"><div className="fade-line" /></div>
             </div>
@@ -256,20 +284,24 @@ export default function Works() {
             <div className="flex items-center gap-4 flex-shrink-0">
               <button
                 onClick={() => { setReel(true); swiperRef.current?.autoplay?.stop(); }}
-                className={`group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 md:p-5 transition-all duration-300 hover-lift cursor-pointer rounded-xl sm:rounded-2xl showreel-btn ${!isMobile ? 'backdrop-blur-[12px]' : 'bg-black/40'}`}
+                className={`group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 md:p-5 transition-all duration-300 hover-lift cursor-pointer rounded-xl sm:rounded-2xl showreel-btn ${!isMobile ? 'backdrop-blur-[12px]' : 'bg-black/60'} border border-[#F4D090]/30 shadow-lg`}
                 aria-label="Watch full showreel"
               >
                 <div className="relative w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 flex-shrink-0">
-                  <div className="absolute inset-0 rounded-full border border-[#E3A652]/40 group-hover:scale-110 transition-transform duration-500" />
-                  <div className="absolute inset-[4px] sm:inset-[5px] md:inset-[6px] rounded-full bg-[#E3A652] flex items-center justify-center">
+                  <div className="absolute inset-0 rounded-full border border-[#E3A652]/50 group-hover:scale-110 transition-transform duration-500" />
+                  <div className="absolute inset-[4px] sm:inset-[5px] md:inset-[6px] rounded-full bg-gradient-to-r from-[#F4D090] to-[#E3A652] flex items-center justify-center">
                     <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
                       <path d="M1 1l8 5-8 5V1z" fill="#050608" />
                     </svg>
                   </div>
                 </div>
                 <div className="text-left">
-                  <p className="text-white font-bold text-xs sm:text-sm leading-tight">Watch Full Showreel</p>
-                  <p className="text-white/35 text-[0.6rem] sm:text-xs mt-0.5 tracking-wide">1 min · HD</p>
+                  <p className="text-white font-extrabold text-xs sm:text-sm leading-tight drop-shadow-sm">
+                    {isHindi ? "फुल शूरिल देखें" : "Watch Full Showreel"}
+                  </p>
+                  <p className="text-[#F4D090] text-[0.6rem] sm:text-xs mt-0.5 tracking-wide font-medium">
+                    {isHindi ? "1 मिनट · HD" : "1 min · HD"}
+                  </p>
                 </div>
               </button>
             </div>

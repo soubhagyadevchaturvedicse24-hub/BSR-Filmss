@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
 
 const majorOrgs = [
   "World Bank", "NABARD", "UNICEF", "SHRC", "CHRI",
@@ -77,6 +78,7 @@ export default function Clients() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [isDesktop, setIsDesktop] = useState(true);
+  const { isHindi } = useLanguage();
 
   // ── Detect mobile & desktop breakpoints ──────────────────────────
   useEffect(() => {
@@ -88,6 +90,12 @@ export default function Clients() {
     mqList.addEventListener("change", syncDesktop);
     return () => mqList.removeEventListener("change", syncDesktop);
   }, []);
+
+  const statsClients = [
+    ["29+", isHindi ? "प्रमुख क्लाइंट्स" : "Clients"],
+    ["20+", isHindi ? "शासकीय विभाग" : "Govt. Depts"],
+    ["500+", isHindi ? "सफल अभियान" : "Campaigns"]
+  ];
 
   return (
     <section
@@ -139,18 +147,18 @@ export default function Clients() {
           <>
             {/* Card at top */}
             <div className="mx-auto text-center px-5 py-4 rounded-2xl max-w-[420px] w-[calc(100%-2rem)] clients-card-mobile mb-5">
-              <p className="label-line justify-center text-[0.6rem] mb-1.5">Trusted By</p>
+              <p className="label-line justify-center text-[0.6rem] mb-1.5">{isHindi ? "अटूट विश्वास" : "Trusted By"}</p>
               <h2 className="text-2xl font-extrabold leading-tight tracking-tight heading-text-shadow">
-                Clients &amp; <span className="color-gold">Partners</span>
+                {isHindi ? <>हमारे <span className="color-gold">क्लाइंट्स व सहयोगी</span></> : <>Clients &amp; <span className="color-gold">Partners</span></>}
               </h2>
               <p className="text-xs mt-1.5 leading-relaxed opacity-60 color-primary">
-                Global bodies and state authorities that trust BSR Films.
+                {isHindi ? "राष्ट्रीय, अंतरराष्ट्रीय संस्थाएं एवं शासन के प्रतिष्ठित विभाग।" : "Global bodies and state authorities that trust BSR Films."}
               </p>
               <div className="flex justify-center gap-5 mt-3 pt-3 border-top-subtle">
-                {[["29+", "Clients"], ["20+", "Govt. Depts"], ["500+", "Campaigns"]].map(([n, l]) => (
+                {statsClients.map(([n, l]) => (
                   <div key={l} className="text-center">
                     <p className="text-lg font-extrabold leading-none color-gold">{n}</p>
-                    <p className="text-[0.5rem] tracking-[0.12em] uppercase mt-1 opacity-50 color-primary">{l}</p>
+                    <p className="text-[0.5rem] tracking-[0.12em] uppercase mt-1 opacity-60 color-primary font-bold">{l}</p>
                   </div>
                 ))}
               </div>
@@ -183,18 +191,18 @@ export default function Clients() {
             transition={{ duration: 0.85, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="mx-auto text-center px-6 sm:px-8 md:px-12 py-5 sm:py-6 md:py-8 rounded-2xl sm:rounded-3xl border-glow transition-colors duration-500 max-w-[520px] w-[calc(100%-2rem)] mt-8 md:mt-10 clients-card-desktop"
           >
-            <p className="label-line justify-center text-[0.6rem] mb-2">Trusted By</p>
+            <p className="label-line justify-center text-[0.6rem] mb-2">{isHindi ? "अटूट विश्वास" : "Trusted By"}</p>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight tracking-tight transition-colors duration-500 heading-text-shadow">
-              Clients &amp; <span className="color-gold">Partners</span>
+              {isHindi ? <>हमारे <span className="color-gold">क्लाइंट्स व सहयोगी</span></> : <>Clients &amp; <span className="color-gold">Partners</span></>}
             </h2>
             <p className="text-sm sm:text-base mt-2 sm:mt-3 leading-relaxed opacity-60 transition-colors duration-500 color-primary">
-              Global bodies and state authorities that place their trust in BSR Films.
+              {isHindi ? "राष्ट्रीय, अंतरराष्ट्रीय संस्थाएं एवं शासन के प्रतिष्ठित विभाग जो बी.एस.आर. पर भरोसा करते हैं।" : "Global bodies and state authorities that place their trust in BSR Films."}
             </p>
             <div className="flex justify-center gap-6 sm:gap-8 md:gap-12 mt-4 sm:mt-5 md:mt-6 pt-4 sm:pt-5 md:pt-6 transition-colors duration-500 border-top-subtle">
-              {[["29+", "Clients"], ["20+", "Govt. Depts"], ["500+", "Campaigns"]].map(([n, l]) => (
+              {statsClients.map(([n, l]) => (
                 <div key={l} className="text-center">
                   <p className="text-xl sm:text-2xl md:text-3xl font-extrabold leading-none transition-colors duration-500 color-gold">{n}</p>
-                  <p className="text-[0.55rem] sm:text-xs tracking-[0.12em] sm:tracking-[0.15em] uppercase mt-1 opacity-50 transition-colors duration-500 color-primary">{l}</p>
+                  <p className="text-[0.55rem] sm:text-xs tracking-[0.12em] sm:tracking-[0.15em] uppercase mt-1 opacity-60 transition-colors duration-500 color-primary font-bold">{l}</p>
                 </div>
               ))}
             </div>

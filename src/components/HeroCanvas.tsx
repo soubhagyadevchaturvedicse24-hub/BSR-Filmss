@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLanguage } from "@/context/LanguageContext";
 
 /**
  * ─── FRAME CONFIGURATION ──────────────────────────────────────────────────────
@@ -42,6 +43,7 @@ export default function HeroCanvas() {
   const endOverlayRef = useRef<HTMLDivElement>(null);
 
   const [isDesktop, setIsDesktop] = useState<boolean | null>(null); // null = SSR / not yet hydrated
+  const { isHindi } = useLanguage();
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -255,13 +257,67 @@ export default function HeroCanvas() {
     };
   }, []);
 
-  // ── Reason cards data (shared between desktop overlay and mobile inline) ──
-  const reasonCards = [
-    { title: "25+ Years of Proven Excellence", body: "Over two decades of cinematic media production and storytelling across Chhattisgarh." },
-    { title: "Trusted by Govts & Global Bodies", body: "Empanelled with NFDC & AIR. Partnered with World Bank, UNICEF & 20+ Govt Depts." },
-    { title: "Technical Excellence", body: "Master storytellers and post-production artists delivering flawless cinematic content." },
-    { title: "Full-Facility In-House", body: "Audio/Video suites, multi-cam & green screen. Everything under one roof for total control." },
-    { title: "Social Responsibility", body: "Crafting purpose-driven narratives that give a powerful voice to causes that matter." },
+  // ── Bilingual data & reason cards ──
+  const reasonCards = isHindi
+    ? [
+        {
+          title: "25+ वर्षों का सिद्ध अनुभव एवं प्रतिष्ठा",
+          body: "दो दशकों से अधिक समय से छत्तीसगढ़ में सिनेमाई मीडिया निर्माण, जन-सरोकार और संवेदनशील कथा-कथन का निर्बाध नेतृत्व।",
+        },
+        {
+          title: "शासन व अंतरराष्ट्रीय संस्थानों का अटूट भरोसा",
+          body: "NFDC और आकाशवाणी द्वारा विधिवत सूचीबद्ध। विश्व बैंक, यूनिसेफ और 20+ सरकारी विभागों के साथ सफल दीर्घकालिक साझेदारी।",
+        },
+        {
+          title: "विश्वस्तरीय तकनीकी एवं सिनेमाई उत्कृष्टता",
+          body: "मास्टर स्टोरीटेलर्स, 4K/6K सिनेमा सिनेमैटोग्राफी और अत्याधुनिक पोस्ट-प्रोडक्शन द्वारा त्रुटिहीन प्रस्तुति।",
+        },
+        {
+          title: "संपूर्ण इन-हाउस सुविधाएं एक ही छत के नीचे",
+          body: "एडवांस्ड ऑडियो/वीडियो एडिटिंग सूट्स, मल्टी-कैमरा प्रोडक्शन और क्रोमा स्टूडियो — हर फ्रेम पर पूर्ण गुणवत्ता नियंत्रण।",
+        },
+        {
+          title: "सजग सामाजिक सरोकार और उत्तरदायित्व",
+          body: "जन-जागरूकता, लोक-संस्कृति और संवेदनशील मुद्दों को प्रभावी रचनात्मक अभिव्यक्ति देने वाली उद्देश्यपूर्ण फिल्में।",
+        },
+      ]
+    : [
+        {
+          title: "25+ Years of Proven Excellence",
+          body: "Over two decades of cinematic media production and storytelling across Chhattisgarh.",
+        },
+        {
+          title: "Trusted by Govts & Global Bodies",
+          body: "Empanelled with NFDC & AIR. Partnered with World Bank, UNICEF & 20+ Govt Depts.",
+        },
+        {
+          title: "Technical Excellence",
+          body: "Master storytellers and post-production artists delivering flawless cinematic content.",
+        },
+        {
+          title: "Full-Facility In-House",
+          body: "Audio/Video suites, multi-cam & green screen. Everything under one roof for total control.",
+        },
+        {
+          title: "Social Responsibility",
+          body: "Crafting purpose-driven narratives that give a powerful voice to causes that matter.",
+        },
+      ];
+
+  const kickerText = isHindi ? "रायपुर, छत्तीसगढ़ • 25+ वर्ष का गौरव" : "Raipur, Chhattisgarh • Est. 25+ Years";
+  const headline1 = isHindi ? "छत्तीसगढ़ की माटी से" : "Stories from";
+  const headline2 = isHindi ? "उपजी" : "the heart of";
+  const headline3 = isHindi ? "अविस्मरणीय कहानियां" : "Chhattisgarh";
+  const subtitle = isHindi
+    ? "वृत्तचित्र, विज्ञापन फिल्में एवं सामाजिक जन-जागरूकता अभियान — देश के हृदय स्थल से सिनेमाई भव्यता और तकनीकी उत्कृष्टता के साथ निर्मित।"
+    : "Documentaries, ad films and social campaigns — crafted with cinematic precision from the heart of India.";
+  const ctaWork = isHindi ? "हमारा काम देखें" : "View Our Work";
+  const ctaContact = isHindi ? "प्रोजेक्ट शुरू करें" : "Start a Project";
+  const statsList = [
+    ["25+", isHindi ? "वर्षों का अनुभव" : "Years of Experience"],
+    ["650+", isHindi ? "वीडियो स्पॉट्स" : "Projects Delivered"],
+    ["340+", isHindi ? "डॉक्यूमेंट्रीज" : "Documentaries"],
+    ["20+", isHindi ? "शासकीय विभाग" : "Govt. Bodies"],
   ];
 
   return (
@@ -306,24 +362,23 @@ export default function HeroCanvas() {
             {/* Mobile Content */}
             <div className="w-full max-w-lg z-20">
               {/* Location & Legacy Pill Tag */}
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-[#E3A652]/40 mb-3.5 shadow-lg">
-                <span className="w-2 h-2 rounded-full bg-[#E3A652] animate-pulse" />
-                <span className="text-[#E3A652] font-bold text-xs tracking-wider uppercase">
-                  Raipur, Chhattisgarh <span className="text-white/40 mx-1">•</span> <span className="text-white">Est. 25+ Years</span>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-[#F4D090]/50 mb-3.5 shadow-lg">
+                <span className="w-2 h-2 rounded-full bg-[#F4D090] animate-pulse" />
+                <span className="text-[#F4D090] font-extrabold text-xs tracking-wider uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+                  {kickerText}
                 </span>
               </div>
 
               {/* H1 Headline */}
               <h1 className="font-extrabold leading-[1.08] tracking-tight mb-2.5 drop-shadow-2xl text-[2.2rem] sm:text-4xl text-left">
-                <span className="text-white/90 block">Stories from</span>
-                <span className="text-[#E3A652] block my-0.5">the heart of</span>
-                <span className="text-white block">Chhattisgarh</span>
+                <span className="text-[#FFF5DC] block drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)] font-extrabold">{headline1}</span>
+                <span className="text-[#F4D090] block my-0.5 drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)] font-black">{headline2}</span>
+                <span className="text-white block drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] font-black">{headline3}</span>
               </h1>
 
               {/* Subtitle */}
-              <p className="text-xs sm:text-sm text-white/80 leading-relaxed mb-5 max-w-sm drop-shadow-md">
-                Documentaries, ad films and social campaigns &mdash; crafted with
-                cinematic precision from the heart of India.
+              <p className="text-xs sm:text-sm text-[#F3EDE2] font-medium leading-relaxed mb-5 max-w-sm drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]">
+                {subtitle}
               </p>
 
               {/* Thumb-friendly Mobile CTAs */}
@@ -334,12 +389,12 @@ export default function HeroCanvas() {
                     e.preventDefault();
                     document.querySelector("#work")?.scrollIntoView({ behavior: "smooth" });
                   }}
-                  className="cta-primary text-center justify-center py-3.5 px-6 text-sm font-bold min-h-[48px]"
+                  className="cta-primary text-center justify-center py-3.5 px-6 text-sm font-bold min-h-[48px] bg-gradient-to-r from-[#F4D090] via-[#E3A652] to-[#D5A04A] text-[#050608] shadow-[0_4px_20px_rgba(227,166,82,0.4)]"
                   aria-label="View our work"
                 >
-                  View Our Work
+                  {ctaWork}
                   <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true" className="ml-1.5 inline">
-                    <path d="M1 5h12M8 1l5 4-5 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M1 5h12M8 1l5 4-5 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </a>
                 <a
@@ -348,19 +403,19 @@ export default function HeroCanvas() {
                     e.preventDefault();
                     document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
                   }}
-                  className="cta-ghost text-center justify-center py-3.5 px-6 text-sm font-bold min-h-[48px]"
+                  className="cta-ghost text-center justify-center py-3.5 px-6 text-sm font-bold min-h-[48px] border border-[#F4D090]/60 bg-black/50 backdrop-blur-md text-[#FFF5DC]"
                   aria-label="Contact us for a project"
                 >
-                  Start a Project
+                  {ctaContact}
                 </a>
               </div>
 
               {/* Mobile Stat strip */}
-              <div className="grid grid-cols-3 gap-2 pt-3.5 border-t border-white/10 w-full max-w-sm text-left">
-                {[["25+", "Years Exp"], ["500+", "Delivered"], ["20+", "Govt. Bodies"]].map(([n, l]) => (
+              <div className="grid grid-cols-4 gap-2 pt-3.5 border-t border-white/20 w-full max-w-sm text-left">
+                {statsList.map(([n, l]) => (
                   <div key={l}>
-                    <p className="text-xl sm:text-2xl font-extrabold text-[#E3A652] leading-none">{n}</p>
-                    <p className="text-white/40 text-[0.62rem] tracking-wider uppercase mt-1 leading-tight">{l}</p>
+                    <p className="text-lg sm:text-xl font-black text-[#F4D090] leading-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">{n}</p>
+                    <p className="text-[#E8DFC8] text-[0.58rem] font-bold tracking-wider uppercase mt-1 leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">{l}</p>
                   </div>
                 ))}
               </div>
@@ -416,9 +471,8 @@ export default function HeroCanvas() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3, duration: 0.8 }}
                 >
-                  <p className="text-[#E3A652] font-bold tracking-[0.12em] md:tracking-[0.15em] text-xs md:text-lg uppercase drop-shadow-[0_2px_10px_rgba(0,0,0,1)] bg-black/30 px-3.5 md:px-5 py-1.5 md:py-2.5 rounded-full md:backdrop-blur-sm">
-                    Raipur, Chhattisgarh<br />
-                    <span className="text-white">Est. 25+ Years</span>
+                  <p className="text-[#F4D090] font-black tracking-[0.12em] md:tracking-[0.15em] text-xs md:text-base uppercase drop-shadow-[0_4px_14px_rgba(0,0,0,1)] bg-black/60 border border-[#F4D090]/50 px-4 md:px-6 py-2 md:py-3 rounded-full backdrop-blur-md">
+                    {kickerText}
                   </p>
                 </motion.div>
               </div>
@@ -426,7 +480,7 @@ export default function HeroCanvas() {
               {/* Desktop Hero text block */}
               <div
                 ref={heroTextRef}
-                className="w-full max-w-[480px] lg:max-w-[520px] pl-16 lg:pl-24 pointer-events-auto flex flex-col justify-center"
+                className="w-full max-w-[500px] lg:max-w-[560px] pl-16 lg:pl-24 pointer-events-auto flex flex-col justify-center"
               >
                 <motion.div
                   initial={{ opacity: 0, x: -24 }}
@@ -440,14 +494,14 @@ export default function HeroCanvas() {
                     transition={{ delay: 0.52, duration: 1, ease: [0.22, 1, 0.36, 1] }}
                     className="font-extrabold leading-[1.05] tracking-tight mb-4 md:mb-6 drop-shadow-2xl flex flex-col items-start"
                   >
-                    <span className="text-3xl md:text-4xl lg:text-5xl text-white/90">
-                      Stories from
+                    <span className="text-3xl md:text-4xl lg:text-5xl text-[#FFF5DC] font-extrabold drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
+                      {headline1}
                     </span>
-                    <span className="text-4xl md:text-5xl lg:text-6xl text-[#E3A652] my-1 md:my-2">
-                      the heart of
+                    <span className="text-4xl md:text-5xl lg:text-6xl text-[#F4D090] font-black my-1 md:my-2 drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
+                      {headline2}
                     </span>
-                    <span className="text-5xl md:text-6xl lg:text-[4.5rem] text-white">
-                      Chhattisgarh
+                    <span className="text-5xl md:text-6xl lg:text-[4.5rem] text-white font-black drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
+                      {headline3}
                     </span>
                   </motion.h1>
 
@@ -455,10 +509,9 @@ export default function HeroCanvas() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.72, duration: 0.85 }}
-                    className="text-base lg:text-lg text-white/80 leading-relaxed mb-6 md:mb-8 lg:mb-10 max-w-[400px] drop-shadow-md"
+                    className="text-base lg:text-lg text-[#F3EDE2] font-medium leading-relaxed mb-6 md:mb-8 lg:mb-10 max-w-[440px] drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]"
                   >
-                    Documentaries, ad films and social campaigns &mdash; crafted with
-                    cinematic precision from the heart of India.
+                    {subtitle}
                   </motion.p>
 
                   <motion.div
@@ -473,12 +526,12 @@ export default function HeroCanvas() {
                         e.preventDefault();
                         document.querySelector("#work")?.scrollIntoView({ behavior: "smooth" });
                       }}
-                      className="cta-primary"
+                      className="cta-primary bg-gradient-to-r from-[#F4D090] via-[#E3A652] to-[#D5A04A] text-[#050608] font-black shadow-[0_4px_20px_rgba(227,166,82,0.4)] px-6 py-3.5 rounded-full hover:scale-105 transition-all text-sm md:text-base"
                       aria-label="View our work"
                     >
-                      View Our Work
+                      {ctaWork}
                       <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true">
-                        <path d="M1 5h12M8 1l5 4-5 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M1 5h12M8 1l5 4-5 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </a>
                     <a
@@ -487,10 +540,10 @@ export default function HeroCanvas() {
                         e.preventDefault();
                         document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
                       }}
-                      className="cta-ghost"
+                      className="cta-ghost border border-[#F4D090]/60 bg-black/50 backdrop-blur-md text-[#FFF5DC] font-bold px-6 py-3.5 rounded-full hover:bg-[#F4D090] hover:text-[#050608] transition-all text-sm md:text-base"
                       aria-label="Contact us for a project"
                     >
-                      Start a Project
+                      {ctaContact}
                     </a>
                   </motion.div>
 
@@ -498,12 +551,12 @@ export default function HeroCanvas() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1.15, duration: 1 }}
-                    className="pt-4 md:pt-6 border-t border-white/10 flex flex-wrap gap-4 md:gap-8"
+                    className="pt-4 md:pt-6 border-t border-white/20 flex flex-wrap gap-4 md:gap-7"
                   >
-                    {[["25+", "Years of Experience"], ["500+", "Projects Delivered"], ["20+", "Govt. Bodies"]].map(([n, l]) => (
+                    {statsList.map(([n, l]) => (
                       <div key={l}>
-                        <p className="text-xl md:text-3xl font-extrabold text-white leading-none">{n}</p>
-                        <p className="text-white/35 text-[.6rem] md:text-[.68rem] tracking-[.15em] uppercase mt-1">{l}</p>
+                        <p className="text-xl md:text-3xl font-black text-[#F4D090] leading-none drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]">{n}</p>
+                        <p className="text-[#E8DFC8] text-[.62rem] md:text-[.7rem] font-bold tracking-[.12em] uppercase mt-1 drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">{l}</p>
                       </div>
                     ))}
                   </motion.div>
@@ -519,8 +572,8 @@ export default function HeroCanvas() {
               className="absolute bottom-6 sm:bottom-8 right-6 sm:right-8 md:right-14 flex flex-col items-center gap-2"
               aria-hidden="true"
             >
-              <span className="text-white/25 text-[.6rem] tracking-[.3em] uppercase">scroll</span>
-              <div className="w-px h-8 sm:h-10 bg-gradient-to-b from-[#E3A652]/60 to-transparent" />
+              <span className="text-[#F4D090]/70 font-bold text-[.65rem] tracking-[.3em] uppercase">{isHindi ? "स्क्रॉल करें" : "scroll"}</span>
+              <div className="w-px h-8 sm:h-10 bg-gradient-to-b from-[#F4D090] to-transparent" />
             </motion.div>
 
           {/* ── End-of-hero overlay — DESKTOP ONLY ───────────────────── */}
@@ -528,12 +581,11 @@ export default function HeroCanvas() {
             <div
               ref={endOverlayRef}
               aria-hidden="true"
-              className="absolute inset-0 overflow-hidden z-30"
+              className="absolute inset-0 overflow-hidden z-30 hero-end-overlay"
             >
-              {/* Dark gradient scrim - changes to light gradient in light mode via CSS classes using an inline check or just via global CSS. Wait, we don't have a way to detect light mode in React yet unless we use a class. Let's use Tailwind's arbitrary values or define a new CSS class. Let's create a class 'hero-overlay-scrim' in globals.css later, but for now we'll just use inline styles with variables if possible. But gradient stops can't use single CSS variables easily unless defined. Let's add a class 'hero-scrim' and style it in CSS. */}
               <div
                 aria-hidden="true"
-                className="absolute inset-0 pointer-events-none hero-scrim transition-colors duration-700"
+                className="absolute inset-0 pointer-events-none bg-black/60 backdrop-blur-[2px]"
               />
 
               {/* 2-col layout */}
@@ -541,26 +593,36 @@ export default function HeroCanvas() {
                 <div className="w-full max-w-screen-xl mx-auto">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
 
-                    {/* Left: glass text panel */}
+                    {/* Left: dark glass text panel */}
                     <div
-                      className="relative rounded-2xl p-8 md:p-10 shadow-2xl overflow-hidden transition-colors duration-500 glass-panel-var"
+                      className="relative rounded-2xl p-8 md:p-10 shadow-2xl overflow-hidden bg-[#07090D]/85 backdrop-blur-xl border border-[#F4D090]/35 text-left"
                     >
-                      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px transition-colors duration-500 specular-sheen-var" />
-                      <p className="text-[0.65rem] font-bold tracking-[0.28em] uppercase mb-4 transition-colors duration-500 color-gold">The BSR Difference</p>
-                      <h2 className="text-[clamp(1.8rem,3.5vw,2.9rem)] font-extrabold leading-[1.08] tracking-tight mb-5 transition-colors duration-500 color-heading">
-                        Why Choose <span className="color-gold">BSR Films?</span>
-                      </h2>
-                      <p className="text-[1rem] leading-relaxed mb-7 opacity-80 transition-colors duration-500 color-primary">
-                        We combine the intimacy of regional storytelling with the
-                        discipline of a professional studio — producing content that
-                        resonates locally and competes globally.
+                      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#F4D090]/50 to-transparent" />
+                      <p className="text-[0.72rem] md:text-xs font-black tracking-[0.25em] uppercase mb-4 text-[#F4D090] drop-shadow-sm">
+                        {isHindi ? "बी.एस.आर. की विशिष्ट पहचान" : "The BSR Difference"}
                       </p>
-                      <div aria-hidden="true" className="w-10 h-[2px] mb-7 transition-colors duration-500 gold-divider-var" />
-                      <blockquote className="pl-5 py-1 transition-colors duration-500 gold-border-left">
-                        <p className="text-base italic leading-relaxed font-light opacity-90 transition-colors duration-500 color-primary">
-                          &quot;We see Chhattisgarh through the lens of BSR Films.&quot;
+                      <h2 className="text-[clamp(1.8rem,3.2vw,2.8rem)] font-black leading-[1.08] tracking-tight mb-5 text-white drop-shadow-md">
+                        {isHindi ? (
+                          <>बी.एस.आर. फिल्म्स ही <span className="text-[#F4D090]">क्यों?</span></>
+                        ) : (
+                          <>Why Choose <span className="text-[#F4D090]">BSR Films?</span></>
+                        )}
+                      </h2>
+                      <p className="text-base md:text-lg leading-relaxed mb-7 text-[#F0E6D2] font-medium drop-shadow-sm">
+                        {isHindi
+                          ? "हम स्थानीय जनजीवन व संस्कृति की गहरी समझ को विश्वस्तरीय स्टूडियो के तकनीकी अनुशासन के साथ जोड़ते हैं — ऐसा सिनेमा जो जन-जन के दिल को छूए और अंतरराष्ट्रीय पटल पर प्रभाव छोड़े।"
+                          : "We combine the intimacy of regional storytelling with the discipline of a professional studio — producing content that resonates locally and competes globally."}
+                      </p>
+                      <div aria-hidden="true" className="w-12 h-[2px] mb-7 bg-gradient-to-r from-[#F4D090] to-transparent" />
+                      <blockquote className="pl-5 py-1 border-l-2 border-[#F4D090]">
+                        <p className="text-base md:text-lg italic leading-relaxed text-[#FFF8E7] drop-shadow-sm">
+                          {isHindi
+                            ? "«हम बी.एस.आर. फिल्म्स के नजरिए से छत्तीसगढ़ को देखते हैं।»"
+                            : "“We see Chhattisgarh through the lens of BSR Films.”"}
                         </p>
-                        <footer className="text-xs mt-2 tracking-wide transition-colors duration-500 color-muted">— Our guiding philosophy</footer>
+                        <footer className="text-xs md:text-sm mt-2 font-semibold text-[#F4D090]/90 tracking-wide">
+                          {isHindi ? "— हमारा मार्गदर्शक दर्शन" : "— Our guiding philosophy"}
+                        </footer>
                       </blockquote>
                     </div>
 
@@ -569,17 +631,22 @@ export default function HeroCanvas() {
                       {reasonCards.map((r) => (
                         <div
                           key={r.title}
-                          className="relative rounded-2xl overflow-hidden transition-colors duration-500 glass-card-var"
+                          className="relative rounded-2xl overflow-hidden bg-[#0B0D12]/85 backdrop-blur-md border border-[#F4D090]/25 shadow-lg p-4 md:p-5 hover:border-[#F4D090]/50 transition-all text-left"
                         >
-                          <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px transition-colors duration-500 specular-sheen-gold-var" />
-                          <div className="flex gap-3 items-start p-4 md:p-5">
-                            <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true" className="flex-shrink-0 mt-0.5 transition-colors duration-500">
-                              <circle cx="11" cy="11" r="10.5" stroke="var(--gold)" strokeWidth="1.2" fill="var(--gold-soft)" />
-                              <path d="M6.5 11.2l3.2 3.2 5.8-6" stroke="var(--gold)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
+                          <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#F4D090]/30 to-transparent" />
+                          <div className="flex gap-3.5 items-start">
+                            <div className="flex-shrink-0 mt-0.5 w-7 h-7 rounded-full bg-[#F4D090]/15 border border-[#F4D090]/50 flex items-center justify-center">
+                              <svg width="14" height="14" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+                                <path d="M6.5 11.2l3.2 3.2 5.8-6" stroke="#F4D090" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </div>
                             <div>
-                              <h3 className="font-bold text-[0.85rem] mb-1 leading-snug transition-colors duration-500 color-heading">{r.title}</h3>
-                              <p className="text-base md:text-lg leading-snug font-medium mt-2 opacity-80 transition-colors duration-500 color-primary">{r.body}</p>
+                              <h3 className="font-black text-sm md:text-base text-[#F4D090] leading-snug drop-shadow-sm">
+                                {r.title}
+                              </h3>
+                              <p className="text-xs md:text-sm leading-relaxed font-semibold text-[#F7F3EB] mt-1.5 opacity-95">
+                                {r.body}
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -601,45 +668,56 @@ export default function HeroCanvas() {
            ═══════════════════════════════════════════════════════════════ */}
       {isDesktop === false && (
         <section
-          className="relative py-12 px-4 sm:px-6 transition-colors duration-500 bg-secondary-var"
+          className="relative py-12 px-4 sm:px-6 transition-colors duration-500 bg-[var(--bg-secondary)]"
           aria-label="Why Choose BSR Films"
         >
-          <div className="max-w-screen-xl mx-auto">
+          <div className="max-w-screen-xl mx-auto text-left">
             {/* Header */}
             <div className="mb-8">
-              <p className="text-[0.6rem] font-bold tracking-[0.25em] uppercase mb-3 transition-colors duration-500 color-gold">The BSR Difference</p>
-              <h2 className="text-2xl sm:text-3xl font-extrabold leading-[1.08] tracking-tight mb-4 transition-colors duration-500 color-heading">
-                Why Choose <span className="color-gold">BSR Films?</span>
-              </h2>
-              <p className="text-sm sm:text-base leading-relaxed mb-5 opacity-80 transition-colors duration-500 color-primary">
-                We combine the intimacy of regional storytelling with the
-                discipline of a professional studio — producing content that
-                resonates locally and competes globally.
+              <p className="text-xs font-bold tracking-[0.25em] uppercase mb-2 text-[#E3A652] dark:text-[#E3A652] light:text-[#703800]">
+                {isHindi ? "बी.एस.आर. की विशिष्ट पहचान" : "The BSR Difference"}
               </p>
-              <div className="w-10 h-[2px] mb-5 transition-colors duration-500 gold-divider-var" />
-              <blockquote className="pl-4 py-1 transition-colors duration-500 gold-border-left">
-                <p className="text-sm italic leading-relaxed font-light opacity-90 transition-colors duration-500 color-primary">
-                  &quot;We see Chhattisgarh through the lens of BSR Films.&quot;
+              <h2 className="text-2xl sm:text-3xl font-extrabold leading-[1.08] tracking-tight mb-3 text-[var(--text-heading)]">
+                {isHindi ? (
+                  <>बी.एस.आर. फिल्म्स ही <span className="text-[#E3A652] dark:text-[#E3A652] light:text-[#703800]">क्यों?</span></>
+                ) : (
+                  <>Why Choose <span className="text-[#E3A652] dark:text-[#E3A652] light:text-[#703800]">BSR Films?</span></>
+                )}
+              </h2>
+              <p className="text-sm sm:text-base leading-relaxed mb-4 text-[var(--text-primary)] opacity-90">
+                {isHindi
+                  ? "हम स्थानीय जनजीवन व संस्कृति की गहरी समझ को विश्वस्तरीय स्टूडियो के तकनीकी अनुशासन के साथ जोड़ते हैं — ऐसा सिनेमा जो जन-जन के दिल को छूए और अंतरराष्ट्रीय पटल पर प्रभाव छोड़े।"
+                  : "We combine the intimacy of regional storytelling with the discipline of a professional studio — producing content that resonates locally and competes globally."}
+              </p>
+              <div className="w-12 h-[2px] mb-4 bg-gradient-to-r from-[#E3A652] to-transparent" />
+              <blockquote className="pl-4 py-1 border-l-2 border-[#E3A652]">
+                <p className="text-sm italic leading-relaxed text-[var(--text-primary)]">
+                  {isHindi
+                    ? "«हम बी.एस.आर. फिल्म्स के नजरिए से छत्तीसगढ़ को देखते हैं।»"
+                    : "“We see Chhattisgarh through the lens of BSR Films.”"}
                 </p>
-                <footer className="text-xs mt-2 tracking-wide transition-colors duration-500 color-muted">— Our guiding philosophy</footer>
+                <footer className="text-xs mt-1.5 text-[var(--text-muted)] font-medium">
+                  {isHindi ? "— हमारा मार्गदर्शक दर्शन" : "— Our guiding philosophy"}
+                </footer>
               </blockquote>
             </div>
 
-            {/* Reason cards — simple vertical stack */}
+            {/* Reason cards — vertical stack */}
             <div className="flex flex-col gap-3">
               {reasonCards.map((r) => (
                 <div
                   key={r.title}
-                  className="relative rounded-xl overflow-hidden transition-colors duration-500 glass-card-var"
+                  className="relative rounded-xl overflow-hidden p-3.5 sm:p-4 bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-sm"
                 >
-                  <div className="flex gap-2.5 items-start p-3 sm:p-4">
-                    <svg width="18" height="18" viewBox="0 0 22 22" fill="none" aria-hidden="true" className="flex-shrink-0 mt-0.5">
-                      <circle cx="11" cy="11" r="10.5" stroke="var(--gold)" strokeWidth="1.2" fill="var(--gold-soft)" />
-                      <path d="M6.5 11.2l3.2 3.2 5.8-6" stroke="var(--gold)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                  <div className="flex gap-3 items-start">
+                    <div className="flex-shrink-0 mt-0.5 w-6 h-6 rounded-full bg-[#E3A652]/15 border border-[#E3A652]/40 flex items-center justify-center">
+                      <svg width="12" height="12" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+                        <path d="M6.5 11.2l3.2 3.2 5.8-6" stroke="#E3A652" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
                     <div>
-                      <h3 className="font-bold text-[0.78rem] mb-0.5 leading-snug transition-colors duration-500 color-heading">{r.title}</h3>
-                      <p className="text-sm leading-snug font-medium mt-1 opacity-80 transition-colors duration-500 color-primary">{r.body}</p>
+                      <h3 className="font-bold text-sm leading-snug text-[var(--text-heading)]">{r.title}</h3>
+                      <p className="text-xs leading-relaxed font-medium mt-1 text-[var(--text-primary)] opacity-85">{r.body}</p>
                     </div>
                   </div>
                 </div>

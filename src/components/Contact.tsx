@@ -4,8 +4,9 @@ import { useRef, useState, useCallback, FormEvent } from "react";
 import { motion, useInView } from "framer-motion";
 import { Mail, Phone, MapPin, Send, ArrowRight } from "lucide-react";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { useLanguage } from "@/context/LanguageContext";
 
-const projectTypes = [
+const projectTypesEn = [
   "Documentary",
   "Corporate Film",
   "Ad Film / TVC",
@@ -14,8 +15,19 @@ const projectTypes = [
   "Radio / Audio Production",
   "Animation / VFX",
   "Social Media Campaign",
-  "Mobile Application",
   "Other",
+];
+
+const projectTypesHi = [
+  "वृत्तचित्र (डॉक्यूमेंट्री)",
+  "कॉर्पोरेट फिल्म",
+  "विज्ञापन फिल्म / टीवीसी",
+  "शासकीय जन-अभियान",
+  "फीचर फिल्म",
+  "रेडियो / ऑडियो प्रोडक्शन",
+  "3D एनिमेशन एवं VFX",
+  "सोशल मीडिया अभियान",
+  "अन्य",
 ];
 
 interface FormState {
@@ -64,6 +76,8 @@ export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
   const inView = useInView(sectionRef, { once: true, margin: "-80px" });
   const isMobile = useIsMobile();
+  const { isHindi } = useLanguage();
+  const projectTypes = isHindi ? projectTypesHi : projectTypesEn;
 
   const [form, setForm] = useState<FormState>(initialForm);
   const [submitted, setSubmitted] = useState(false);
@@ -98,13 +112,13 @@ export default function Contact() {
 
     // Rate-limit guard
     if (cooldown) {
-      setError("Please wait before submitting again.");
+      setError(isHindi ? "कृपया दोबारा भेजने से पहले थोड़ी प्रतीक्षा करें।" : "Please wait before submitting again.");
       return;
     }
 
     const apiKey = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
     if (!apiKey) {
-      setError("Form configuration error. Please contact us directly via email.");
+      setError(isHindi ? "फॉर्म विन्यास त्रुटि। कृपया सीधे ईमेल द्वारा संपर्क करें।" : "Form configuration error. Please contact us directly via email.");
       return;
     }
 
@@ -134,10 +148,10 @@ export default function Contact() {
         setFieldErrors({});
         startCooldown();
       } else {
-        throw new Error(data.message || "Submission failed");
+        throw new Error(data.message || (isHindi ? "सबमिशन विफल रहा" : "Submission failed"));
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      setError(err instanceof Error ? err.message : (isHindi ? "कुछ गलत हो गया। कृपया पुन: प्रयास करें।" : "Something went wrong. Please try again."));
     } finally {
       setSending(false);
     }
@@ -164,14 +178,19 @@ export default function Contact() {
           className="text-center mb-8 sm:mb-10 md:mb-16"
         >
           <p className="text-[#E3A652] text-[0.65rem] sm:text-xs md:text-sm font-semibold tracking-[0.18em] sm:tracking-[0.2em] uppercase mb-1.5 sm:mb-2 md:mb-3">
-            Let&apos;s Create Together
+            {isHindi ? "आइए मिलकर रचें नया इतिहास" : "Let's Create Together"}
           </p>
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-white gold-underline mx-auto inline-block mb-3 sm:mb-4 md:mb-6 text-cinema">
-            Start Your <span className="gold-text">Project</span>
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-[var(--text-heading)] gold-underline mx-auto inline-block mb-3 sm:mb-4 md:mb-6 text-cinema">
+            {isHindi ? (
+              <>प्रोजेक्ट <span className="gold-text">शुरू करें</span></>
+            ) : (
+              <>Start Your <span className="gold-text">Project</span></>
+            )}
           </h2>
-          <p className="text-white/50 text-xs sm:text-sm md:text-lg max-w-xl mx-auto mt-3 sm:mt-5 md:mt-8 leading-relaxed px-2">
-            Have a story to tell? Let&apos;s talk. Brief us about your project and
-            our team will get back within 24 hours.
+          <p className="text-[var(--text-muted)] text-xs sm:text-sm md:text-lg max-w-xl mx-auto mt-3 sm:mt-5 md:mt-8 leading-relaxed px-2">
+            {isHindi
+              ? "क्या आपके पास भी सुनाने के लिए कोई कहानी या विज़न है? हमसे संपर्क करें। 24 घंटे के भीतर हमारी टीम आपसे जुड़ेगी।"
+              : "Have a story to tell? Let's talk. Brief us about your project and our team will get back within 24 hours."}
           </p>
         </motion.div>
 
@@ -185,8 +204,8 @@ export default function Contact() {
             className="flex flex-col justify-between gap-6 sm:gap-8 md:gap-10"
           >
             <div>
-              <h3 className="text-white text-lg sm:text-xl md:text-2xl font-bold mb-4 sm:mb-6 md:mb-8">
-                Reach Us Directly
+              <h3 className="text-[var(--text-heading)] text-lg sm:text-xl md:text-2xl font-bold mb-4 sm:mb-6 md:mb-8">
+                {isHindi ? "सीधे संपर्क करें" : "Reach Us Directly"}
               </h3>
 
               <ul className="flex flex-col gap-4 sm:gap-5 md:gap-7" role="list">
@@ -195,15 +214,15 @@ export default function Contact() {
                     <Mail size={18} className="text-[#E3A652] sm:w-5 sm:h-5" />
                   </div>
                   <div>
-                    <p className="text-white/40 text-[0.6rem] sm:text-xs uppercase tracking-widest mb-1">
-                      Email
+                    <p className="text-[var(--text-muted)] text-[0.6rem] sm:text-xs uppercase tracking-widest mb-1">
+                      {isHindi ? "ईमेल" : "Email"}
                     </p>
                     <a
-                      href="mailto:info@bsrfilms.in"
-                      className="text-white text-sm sm:text-base font-semibold hover:text-[#E3A652] transition-colors active:text-[#E3A652]"
+                      href="mailto:bsrfilms2017@gmail.com"
+                      className="text-[var(--text-heading)] text-sm sm:text-base font-semibold hover:text-[#E3A652] transition-colors active:text-[#E3A652]"
                       aria-label="Send email to BSR Films"
                     >
-                      info@bsrfilms.in
+                      bsrfilms2017@gmail.com
                     </a>
                   </div>
                 </li>
@@ -213,15 +232,15 @@ export default function Contact() {
                     <Phone size={18} className="text-[#E3A652] sm:w-5 sm:h-5" />
                   </div>
                   <div>
-                    <p className="text-white/40 text-[0.6rem] sm:text-xs uppercase tracking-widest mb-1">
-                      Phone
+                    <p className="text-[var(--text-muted)] text-[0.6rem] sm:text-xs uppercase tracking-widest mb-1">
+                      {isHindi ? "फ़ोन / व्हाट्सएप" : "Phone / WhatsApp"}
                     </p>
                     <a
-                      href="tel:+917712345678"
-                      className="text-white text-sm sm:text-base font-semibold hover:text-[#E3A652] transition-colors active:text-[#E3A652]"
+                      href="tel:+917000866323"
+                      className="text-[var(--text-heading)] text-sm sm:text-base font-semibold hover:text-[#E3A652] transition-colors active:text-[#E3A652]"
                       aria-label="Call BSR Films"
                     >
-                      +91 771 234 5678
+                      +91 7000866323, 9826167533
                     </a>
                   </div>
                 </li>
@@ -231,16 +250,26 @@ export default function Contact() {
                     <MapPin size={18} className="text-[#E3A652] sm:w-5 sm:h-5" />
                   </div>
                   <div>
-                    <p className="text-white/40 text-[0.6rem] sm:text-xs uppercase tracking-widest mb-1">
-                      Address
+                    <p className="text-[var(--text-muted)] text-[0.6rem] sm:text-xs uppercase tracking-widest mb-1">
+                      {isHindi ? "कार्यालय का पता" : "Office Address"}
                     </p>
-                    <address className="text-white text-sm sm:text-base font-semibold not-italic leading-relaxed">
-                      BSR Films, Media Hub,
-                      <br />
-                      Raipur, Chhattisgarh — 492001
-                      <br />
-                      India
-                    </address>
+                    {isHindi ? (
+                      <address className="text-[var(--text-primary)] text-sm sm:text-base font-semibold not-italic leading-relaxed">
+                        बी.एस.आर. फिल्म्स, राजकुमार कॉलेज के पीछे,
+                        <br />
+                        सोनकर बाड़ी, अश्वनी नगर, पोस्ट सुंदर नगर,
+                        <br />
+                        रायपुर, छत्तीसगढ़ — 492013
+                      </address>
+                    ) : (
+                      <address className="text-[var(--text-primary)] text-sm sm:text-base font-semibold not-italic leading-relaxed">
+                        BSR Films, Behind Rajkumar College,
+                        <br />
+                        Sonkar Badi, Ashwani Nagar, Post Sundar Nagar,
+                        <br />
+                        Raipur, Chhattisgarh — 492013
+                      </address>
+                    )}
                   </div>
                 </li>
               </ul>
@@ -249,9 +278,10 @@ export default function Contact() {
             {/* Decorative bottom accent */}
             <div className="hidden lg:block">
               <div className="h-px bg-gradient-to-r from-[#E3A652]/40 to-transparent mb-6" />
-              <p className="text-white/30 text-sm leading-relaxed">
-                BSR Films — empanelled with NFDC, All India Radio Central Sales
-                Unit, and Chhattisgarh Samvad (Dept. of Public Relations).
+              <p className="text-[var(--text-muted)] text-sm leading-relaxed">
+                {isHindi
+                  ? "बी.एस.आर. फिल्म्स — एनएफडीसी (NFDC), ऑल इंडिया रेडियो सीएसयू (AIR CSU) एवं छत्तीसगढ़ संवाद से विधिवत इम्पैनल्ड।"
+                  : "BSR Films — empanelled with NFDC, All India Radio Central Sales Unit, and Chhattisgarh Samvad (Dept. of Public Relations)."}
               </p>
             </div>
           </motion.div>
@@ -267,18 +297,19 @@ export default function Contact() {
                 <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#E3A652]/15 flex items-center justify-center mb-5 sm:mb-6">
                   <ArrowRight size={24} className="text-[#E3A652] sm:w-7 sm:h-7" />
                 </div>
-                <h3 className="text-white text-xl sm:text-2xl font-bold mb-2 sm:mb-3">
-                  Message Received!
+                <h3 className="text-[var(--text-heading)] text-xl sm:text-2xl font-bold mb-2 sm:mb-3">
+                  {isHindi ? "संदेश प्राप्त हुआ!" : "Message Received!"}
                 </h3>
-                <p className="text-white/50 text-sm sm:text-base leading-relaxed max-w-sm">
-                  Thank you for reaching out. Our team will review your brief
-                  and get back to you within 24 hours.
+                <p className="text-[var(--text-muted)] text-sm sm:text-base leading-relaxed max-w-sm">
+                  {isHindi
+                    ? "हमसे संपर्क करने के लिए धन्यवाद। हमारी टीम आपकी आवश्यकता की समीक्षा कर 24 घंटे के भीतर संपर्क करेगी।"
+                    : "Thank you for reaching out. Our team will review your brief and get back to you within 24 hours."}
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
                   className="mt-6 sm:mt-8 text-[#E3A652] font-semibold text-sm hover:underline active:underline min-h-[44px]"
                 >
-                  Send another message
+                  {isHindi ? "अन्य संदेश भेजें" : "Send another message"}
                 </button>
               </div>
             ) : (
@@ -302,9 +333,9 @@ export default function Contact() {
                   <div>
                     <label
                       htmlFor="name"
-                      className="text-white/35 text-[0.6rem] sm:text-xs uppercase tracking-widest block mb-1.5 sm:mb-2"
+                      className="text-[var(--text-muted)] text-[0.6rem] sm:text-xs uppercase tracking-widest block mb-1.5 sm:mb-2 font-medium"
                     >
-                      Full Name *
+                      {isHindi ? "पूरा नाम *" : "Full Name *"}
                     </label>
                     <input
                       id="name"
@@ -313,7 +344,7 @@ export default function Contact() {
                       required
                       maxLength={100}
                       autoComplete="name"
-                      placeholder="Rajesh Kumar"
+                      placeholder={isHindi ? "भीष्मदेव चतुर्वेदी" : "Rajesh Kumar"}
                       value={form.name}
                       onChange={handleChange}
                       className={`form-input ${fieldErrors.name ? 'border-red-400/50' : ''}`}
@@ -326,16 +357,16 @@ export default function Contact() {
                   <div>
                     <label
                       htmlFor="org"
-                      className="text-white/35 text-[0.6rem] sm:text-xs uppercase tracking-widest block mb-1.5 sm:mb-2"
+                      className="text-[var(--text-muted)] text-[0.6rem] sm:text-xs uppercase tracking-widest block mb-1.5 sm:mb-2 font-medium"
                     >
-                      Organization
+                      {isHindi ? "संस्था / विभाग" : "Organization"}
                     </label>
                     <input
                       id="org"
                       name="org"
                       type="text"
                       autoComplete="organization"
-                      placeholder="Your company / dept."
+                      placeholder={isHindi ? "कंपनी, संस्था या विभाग" : "Your company / dept."}
                       value={form.org}
                       onChange={handleChange}
                       className="form-input"
@@ -347,9 +378,9 @@ export default function Contact() {
                   <div>
                     <label
                       htmlFor="email"
-                      className="text-white/35 text-[0.6rem] sm:text-xs uppercase tracking-widest block mb-1.5 sm:mb-2"
+                      className="text-[var(--text-muted)] text-[0.6rem] sm:text-xs uppercase tracking-widest block mb-1.5 sm:mb-2 font-medium"
                     >
-                      Email *
+                      {isHindi ? "ईमेल *" : "Email *"}
                     </label>
                     <input
                       id="email"
@@ -370,16 +401,16 @@ export default function Contact() {
                   <div>
                     <label
                       htmlFor="phone"
-                      className="text-white/35 text-[0.6rem] sm:text-xs uppercase tracking-widest block mb-1.5 sm:mb-2"
+                      className="text-[var(--text-muted)] text-[0.6rem] sm:text-xs uppercase tracking-widest block mb-1.5 sm:mb-2 font-medium"
                     >
-                      Phone
+                      {isHindi ? "फ़ोन नंबर" : "Phone"}
                     </label>
                     <input
                       id="phone"
                       name="phone"
                       type="tel"
                       autoComplete="tel"
-                      placeholder="+91 98765 43210"
+                      placeholder={isHindi ? "+91 70008 66323" : "+91 98765 43210"}
                       value={form.phone}
                       onChange={handleChange}
                       className={`form-input ${fieldErrors.phone ? 'border-red-400/50' : ''}`}
@@ -392,9 +423,9 @@ export default function Contact() {
                 <div>
                   <label
                     htmlFor="projectType"
-                    className="text-white/35 text-[0.6rem] sm:text-xs uppercase tracking-widest block mb-1.5 sm:mb-2"
+                    className="text-[var(--text-muted)] text-[0.6rem] sm:text-xs uppercase tracking-widest block mb-1.5 sm:mb-2 font-medium"
                   >
-                    Project Type
+                    {isHindi ? "प्रोजेक्ट का प्रकार" : "Project Type"}
                   </label>
                   <select
                     id="projectType"
@@ -405,7 +436,7 @@ export default function Contact() {
                     aria-label="Select project type"
                   >
                     <option value="" disabled>
-                      Select a category…
+                      {isHindi ? "श्रेणी चुनें…" : "Select a category…"}
                     </option>
                     {projectTypes.map((pt) => (
                       <option key={pt} value={pt}>
@@ -418,9 +449,9 @@ export default function Contact() {
                 <div>
                   <label
                     htmlFor="message"
-                    className="text-white/35 text-[0.6rem] sm:text-xs uppercase tracking-widest block mb-1.5 sm:mb-2"
+                    className="text-[var(--text-muted)] text-[0.6rem] sm:text-xs uppercase tracking-widest block mb-1.5 sm:mb-2 font-medium"
                   >
-                    Project Brief *
+                    {isHindi ? "प्रोजेक्ट का विवरण *" : "Project Brief *"}
                   </label>
                   <textarea
                     id="message"
@@ -428,7 +459,11 @@ export default function Contact() {
                     required
                     rows={4}
                     maxLength={2000}
-                    placeholder="Tell us about your project — scope, timeline, goals…"
+                    placeholder={
+                      isHindi
+                        ? "अपने प्रोजेक्ट के बारे में बताएं — उद्देश्य, समय-सीमा, लक्ष्य…"
+                        : "Tell us about your project — scope, timeline, goals…"
+                    }
                     value={form.message}
                     onChange={handleChange}
                     className={`form-input resize-none ${fieldErrors.message ? 'border-red-400/50' : ''}`}
@@ -436,7 +471,7 @@ export default function Contact() {
                     {...(fieldErrors.message ? { "aria-invalid": "true" } : {})}
                   />
                   {fieldErrors.message && <p className="text-red-400 text-xs mt-1">{fieldErrors.message}</p>}
-                  <p className="text-white/20 text-xs mt-1 text-right">{form.message.length} / 2000</p>
+                  <p className="text-[var(--text-muted)] opacity-60 text-xs mt-1 text-right">{form.message.length} / 2000</p>
                 </div>
 
                 {error && (
@@ -452,7 +487,9 @@ export default function Contact() {
                   aria-label="Submit your project brief"
                 >
                   <Send size={14} className={sending ? "animate-pulse" : ""} />
-                  {sending ? "Sending…" : cooldown ? "Please wait…" : "Send Project Brief"}
+                  {isHindi
+                    ? (sending ? "भेजा जा रहा है…" : cooldown ? "कृपया प्रतीक्षा करें…" : "प्रोजेक्ट विवरण भेजें")
+                    : (sending ? "Sending…" : cooldown ? "Please wait…" : "Send Project Brief")}
                 </button>
               </form>
             )}
@@ -466,7 +503,9 @@ export default function Contact() {
         <div className="pt-4 sm:pt-6 md:pt-8 flex flex-col items-center gap-3 sm:gap-4 md:gap-6">
           {/* Social Media */}
           <div className="flex items-center gap-2 sm:gap-3 md:gap-5 flex-wrap justify-center">
-            <p className="text-white/30 text-[0.55rem] sm:text-[0.6rem] md:text-xs tracking-[0.12em] sm:tracking-[0.15em] uppercase font-semibold mr-0.5 sm:mr-1 md:mr-2">Follow Us</p>
+            <p className="text-[var(--text-muted)] text-[0.55rem] sm:text-[0.6rem] md:text-xs tracking-[0.12em] sm:tracking-[0.15em] uppercase font-semibold mr-0.5 sm:mr-1 md:mr-2">
+              {isHindi ? "सोशल मीडिया" : "Follow Us"}
+            </p>
             {/* YouTube */}
             <a
               href="https://www.youtube.com/@bsrfilmsoriginal2461"
@@ -517,13 +556,12 @@ export default function Contact() {
             </a>
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-between w-full gap-3 sm:gap-4 text-center sm:text-left">
-            <p className="text-white/30 text-xs sm:text-sm">
-              &copy; {new Date().getFullYear()} BSR Films. All rights reserved.
-              Raipur, Chhattisgarh, India.
+            <p className="text-[var(--text-muted)] text-xs sm:text-sm">
+              &copy; {new Date().getFullYear()} BSR Films. {isHindi ? "सर्वाधिकार सुरक्षित। रायपुर, छत्तीसगढ़, भारत।" : "All rights reserved. Raipur, Chhattisgarh, India."}
             </p>
-            <p className="text-white/25 text-xs sm:text-sm">
-              Empanelled with{" "}
-              <span className="text-white/40">NFDC &middot; AIR Central Sales Unit &middot; Chhattisgarh Samvad</span>
+            <p className="text-[var(--text-muted)] text-xs sm:text-sm">
+              {isHindi ? "शासकीय मान्यता: " : "Empanelled with "}
+              <span className="text-[var(--text-primary)] font-semibold">NFDC &middot; AIR Central Sales Unit &middot; {isHindi ? "छत्तीसगढ़ संवाद" : "Chhattisgarh Samvad"}</span>
             </p>
           </div>
         </div>

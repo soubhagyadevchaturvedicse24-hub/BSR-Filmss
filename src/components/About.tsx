@@ -6,40 +6,78 @@ import { motion, useInView } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { useLanguage } from "@/context/LanguageContext";
 
-const team = [
+const teamEn = [
   {
     name: "Bishmdev Chaturvedi",
     role: "Director & Founder",
-    img: "/team/bhishma.webp",          // hero — large card, left column
+    img: "/team/bhishma.webp",
     bio: "Visionary storyteller with 25+ years of shaping Chhattisgarh's media landscape through purposeful cinema.",
     hero: true,
   },
   {
     name: "Ayush Dev Chaturvedi",
     role: "Production Head",
-    img: "",                              // ← drop image path here when ready
+    img: "",
     bio: "Driving end-to-end production with a sharp eye for detail and seamless project delivery.",
     hero: false,
   },
   {
     name: "Anthony",
     role: "Technical Director",
-    img: "",                              // ← drop image path here when ready
+    img: "",
     bio: "Engineering the technical backbone of every shoot — from gear to post-production pipelines.",
     hero: false,
   },
   {
     name: "Tukesh Sahu",
     role: "Creative Team",
-    img: "",                              // ← drop image path here when ready
+    img: "",
     bio: "Creative force behind BSR Films' visual identity, campaigns, and motion graphics output.",
     hero: false,
   },
   {
     name: "Homesh Sahu",
     role: "Director of Photography",
-    img: "/team/homesh.webp",             // ← update image path when ready
+    img: "/team/homesh.webp",
     bio: "Master of light and lens, bringing cinematic richness to every frame across documentaries and ad films.",
+    hero: false,
+  },
+];
+
+const teamHi = [
+  {
+    name: "भीष्मदेव चतुर्वेदी",
+    role: "संस्थापक एवं निर्देशक",
+    img: "/team/bhishma.webp",
+    bio: "लेखक, निर्देशक, निर्माता एवं 30+ वर्षों के समृद्ध अनुभव के साथ छत्तीसगढ़ के मीडिया परिदृश्य को सशक्त दिशा देने वाले दूरदर्शी।",
+    hero: true,
+  },
+  {
+    name: "आयुष देव चतुर्वेदी",
+    role: "प्रोडक्शन हेड",
+    img: "",
+    bio: "बारीकियों पर गहरी पकड़ और निर्बाध प्रोजेक्ट क्रियान्वयन के साथ संपूर्ण प्रोडक्शन का कुशल नेतृत्व।",
+    hero: false,
+  },
+  {
+    name: "एंथनी",
+    role: "तकनीकी निर्देशक",
+    img: "",
+    bio: "कैमरा, गियर और आधुनिक पोस्ट-प्रोडक्शन पाइपलाइन तक हर शूट की तकनीकी रीढ़।",
+    hero: false,
+  },
+  {
+    name: "तुकेश साहू",
+    role: "क्रिएटिव टीम",
+    img: "",
+    bio: "बी.एस.आर. फिल्म्स की विजुअल पहचान, अभियानों और मोशन ग्राफिक्स के पीछे की रचनात्मक शक्ति।",
+    hero: false,
+  },
+  {
+    name: "होमेश साहू",
+    role: "सिनेमैटोग्राफर (डीओपी)",
+    img: "/team/homesh.webp",
+    bio: "प्रकाश और लेंस के पारखी, वृत्तचित्रों और विज्ञापनों में सिनेमाई समृद्धि भरने वाले कलाविद्।",
     hero: false,
   },
 ];
@@ -62,6 +100,7 @@ export default function About() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const isMobile = useIsMobile();
   const { isHindi } = useLanguage();
+  const team = isHindi ? teamHi : teamEn;
 
   return (
     <section id="about" ref={ref} className="section-padding relative overflow-hidden section-gradient-primary" aria-label="About BSR Films">
@@ -80,48 +119,68 @@ export default function About() {
             initial={isMobile ? { opacity: 0, y: 12 } : { opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={isMobile ? { duration: 0.35, ease: [0.22, 1, 0.36, 1] } : { duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            className="text-left"
           >
-            <p className="label-line gold-text">
-              <span className="w-6 h-px block gold-bg" />Who We Are
+            <p className="label-line mb-3 sm:mb-4">
+              {isHindi ? "हमारा परिचय" : "Who We Are"}
             </p>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] font-extrabold text-white leading-[1.06] tracking-tight mb-3 sm:mb-4 md:mb-5 text-cinema">
-              A production house<br />rooted in <span className="gold-text">Chhattisgarh</span>.
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] font-extrabold text-[var(--text-heading)] leading-[1.06] tracking-tight mb-3 sm:mb-4 md:mb-5">
+              {isHindi ? (
+                <>छत्तीसगढ़ की माटी से जुड़ा,<br />विश्वस्तरीय <span className="gold-text">फिल्म निर्माण संस्थान</span>।</>
+              ) : (
+                <>A production house<br />rooted in <span className="gold-text">Chhattisgarh</span>.</>
+              )}
             </h2>
-            <div className="w-7 sm:w-9 h-[2px] mb-4 sm:mb-5 md:mb-7 gold-divider" />
-            <p className="text-white/60 text-xs sm:text-sm md:text-base leading-[1.75] sm:leading-[1.85] mb-3 sm:mb-4 md:mb-5">
-              BSR Films is a leading media production house based in{" "}
-              <strong className="text-white">Raipur, Chhattisgarh</strong>. Since the state&apos;s
-              formation, we have created innovative and impactful audio-visual content that bridges
-              entertainment, information and social responsibility.
+            <div className="w-10 sm:w-12 h-[2px] mb-4 sm:mb-5 md:mb-7 bg-gradient-to-r from-[#E3A652] to-transparent" />
+            <p className="text-[var(--text-primary)] opacity-90 text-xs sm:text-sm md:text-base leading-[1.75] sm:leading-[1.85] mb-3 sm:mb-4 md:mb-5 font-normal">
+              {isHindi ? (
+                "बी.एस.आर. फिल्म्स रायपुर, छत्तीसगढ़ स्थित एक अग्रणी मीडिया व फिल्म निर्माण संस्थान है। राज्य गठन के समय से ही हमने ऐसे नवोन्मेषी व प्रभावशाली ऑडियो-विजुअल कंटेंट का सृजन किया है जो मनोरंजन, जन-सूचना और सामाजिक उत्तरदायित्व का सशक्त संगम है।"
+              ) : (
+                <>
+                  BSR Films is a leading media production house based in{" "}
+                  <strong className="text-[var(--text-heading)] font-bold">Raipur, Chhattisgarh</strong>. Since the state&apos;s
+                  formation, we have created innovative and impactful audio-visual content that bridges
+                  entertainment, information and social responsibility.
+                </>
+              )}
             </p>
-            <p className="text-white/45 text-xs sm:text-sm md:text-base leading-[1.75] sm:leading-[1.85] mb-6 sm:mb-8 md:mb-10">
-              We are proud to be empanelled with{" "}
-              <strong className="text-white/70">NFDC</strong> (National Film Development Corporation),{" "}
-              <strong className="text-white/70">Central Sales Unit of All India Radio</strong>, and{" "}
-              <strong className="text-white/70">Chhattisgarh Samvad</strong> — affirming our commitment
-              to quality and credibility that has spanned 25+ years.
+            <p className="text-[var(--text-muted)] text-xs sm:text-sm md:text-base leading-[1.75] sm:leading-[1.85] mb-6 sm:mb-8 md:mb-10 font-normal">
+              {isHindi ? (
+                "हमें NFDC (राष्ट्रीय फिल्म विकास निगम), आकाशवाणी सेंट्रल सेल्स यूनिट, एवं छत्तीसगढ़ संवाद द्वारा अधिकृत रूप से सूचीबद्ध होने का गौरव प्राप्त है — जो विगत 25+ वर्षों से हमारी गुणवत्ता और विश्वसनीयता का जीवंत प्रमाण है।"
+              ) : (
+                <>
+                  We are proud to be empanelled with{" "}
+                  <strong className="text-[var(--text-heading)] font-semibold">NFDC</strong> (National Film Development Corporation),{" "}
+                  <strong className="text-[var(--text-heading)] font-semibold">Central Sales Unit of All India Radio</strong>, and{" "}
+                  <strong className="text-[var(--text-heading)] font-semibold">Chhattisgarh Samvad</strong> — affirming our commitment
+                  to quality and credibility that has spanned 25+ years.
+                </>
+              )}
             </p>
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-6 pt-3 sm:pt-4 md:pt-6">
-              {[["25+", "Years"], ["500+", "Projects"], ["20+", "Govt. Bodies"]].map(([v, l]) => (
+              {[
+                ["25+", isHindi ? "वर्षों का अनुभव" : "Years Exp"],
+                ["500+", isHindi ? "पूर्ण प्रोजेक्ट्स" : "Projects"],
+                ["20+", isHindi ? "शासकीय विभाग" : "Govt. Bodies"]
+              ].map(([v, l]) => (
                 <div key={l} className="group">
                   <p className="text-lg sm:text-xl md:text-3xl font-extrabold text-[#E3A652] leading-none transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(227,166,82,0.5)]">{v}</p>
-                  <p className="text-white/50 text-[0.62rem] sm:text-xs tracking-[0.12em] uppercase mt-1">{l}</p>
+                  <p className="text-[var(--text-muted)] text-[0.62rem] sm:text-xs tracking-[0.12em] uppercase mt-1 font-bold">{l}</p>
                 </div>
               ))}
             </div>
 
-
           </motion.div>
 
           {/* Right: team showcase — cinematic bento with 3D tilt & spotlight */}
-          <div className={`flex flex-col team-section ${inView ? 'team-section--active' : ''}`}>
-            <p className="label-line gold-text">
-              <span className="w-6 h-px block gold-bg" />The Team
+          <div className={`flex flex-col team-section text-left ${inView ? 'team-section--active' : ''}`}>
+            <p className="label-line mb-3 sm:mb-4">
+              {isHindi ? "हमारी टीम" : "The Team"}
             </p>
-            <h3 className="text-lg sm:text-xl md:text-2xl font-extrabold text-white mb-4 sm:mb-6 md:mb-8 tracking-tight team-heading">
-              The people behind the lens.
+            <h3 className="text-lg sm:text-xl md:text-2xl font-extrabold text-[var(--text-heading)] mb-4 sm:mb-6 md:mb-8 tracking-tight team-heading">
+              {isHindi ? "कैमरे के पीछे के समर्पित कलाकार।" : "The people behind the lens."}
             </h3>
 
             <div className="team-bento">

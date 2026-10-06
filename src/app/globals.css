@@ -8,13 +8,9 @@
    PRELOADER — gates content until all assets are ready
    ═══════════════════════════════════════════════════════════════════ */
 
-/* While loading: hide page content, lock scroll, prevent GPU work */
+/* Preloader removed — page content immediately visible */
 body.loading {
-  overflow: hidden !important;
-}
-body.loading #main-content {
-  visibility: hidden !important;
-  pointer-events: none !important;
+  overflow: auto;
 }
 
 .preloader {
@@ -2740,6 +2736,95 @@ html.light a[href*="mailto:"] {
 html.light a[href*="tel:"]:hover,
 html.light a[href*="mailto:"]:hover {
   color: #703800;
+}
+
+/* 12. Media Overlays Contrast Protection in Day / Light Mode */
+html.light #hero h1,
+html.light #hero h2,
+html.light #hero h3,
+html.light #hero h4,
+html.light #hero p,
+html.light #hero span,
+html.light #hero a.cta-ghost,
+html.light .hero-end-overlay h2,
+html.light .hero-end-overlay h3,
+html.light .hero-end-overlay h4,
+html.light .hero-end-overlay p,
+html.light .hero-end-overlay span,
+html.light .hero-end-overlay blockquote p,
+html.light .hero-end-overlay blockquote footer,
+html.light .slide-card h3,
+html.light .slide-card p,
+html.light .slide-card span {
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+}
+
+html.light #hero [class*="text-white"],
+html.light .hero-end-overlay [class*="text-white"],
+html.light .slide-card [class*="text-white"] {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+html.light #hero [class*="text-[#F4D090]"],
+html.light .hero-end-overlay [class*="text-[#F4D090]"],
+html.light .slide-card [class*="text-[#F4D090]"] {
+  color: #F4D090 !important;
+  -webkit-text-fill-color: #F4D090 !important;
+  background: none !important;
+}
+
+html.light #hero [class*="text-[#FFF5DC]"],
+html.light .hero-end-overlay [class*="text-[#FFF5DC]"],
+html.light .slide-card [class*="text-[#FFF5DC]"] {
+  color: #FFF5DC !important;
+  -webkit-text-fill-color: #FFF5DC !important;
+}
+
+html.light #hero [class*="text-[#FFF8E7]"],
+html.light .hero-end-overlay [class*="text-[#FFF8E7]"],
+html.light .slide-card [class*="text-[#FFF8E7]"] {
+  color: #FFF8E7 !important;
+  -webkit-text-fill-color: #FFF8E7 !important;
+}
+
+html.light #hero [class*="text-[#F3EDE2]"],
+html.light .hero-end-overlay [class*="text-[#F3EDE2]"],
+html.light .slide-card [class*="text-[#F3EDE2]"] {
+  color: #F3EDE2 !important;
+  -webkit-text-fill-color: #F3EDE2 !important;
+}
+
+html.light #hero [class*="text-[#F0E6D2]"],
+html.light .hero-end-overlay [class*="text-[#F0E6D2]"],
+html.light .slide-card [class*="text-[#F0E6D2]"] {
+  color: #F0E6D2 !important;
+  -webkit-text-fill-color: #F0E6D2 !important;
+}
+
+html.light #hero [class*="text-[#F7F3EB]"],
+html.light .hero-end-overlay [class*="text-[#F7F3EB]"],
+html.light .slide-card [class*="text-[#F7F3EB]"] {
+  color: #F7F3EB !important;
+  -webkit-text-fill-color: #F7F3EB !important;
+}
+
+html.light #hero [class*="text-[#E8DFC8]"],
+html.light .hero-end-overlay [class*="text-[#E8DFC8]"],
+html.light .slide-card [class*="text-[#E8DFC8]"] {
+  color: #E8DFC8 !important;
+  -webkit-text-fill-color: #E8DFC8 !important;
+}
+
+html.light #hero [class*="text-[#E2D9C8]"],
+html.light .hero-end-overlay [class*="text-[#E2D9C8]"],
+html.light .slide-card [class*="text-[#E2D9C8]"] {
+  color: #E2D9C8 !important;
+  -webkit-text-fill-color: #E2D9C8 !important;
+}
+
+html.light .works-top-fade {
+  background: linear-gradient(to bottom, var(--bg-primary) 0%, transparent 100%) !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
