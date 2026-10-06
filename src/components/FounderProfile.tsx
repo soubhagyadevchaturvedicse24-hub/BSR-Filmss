@@ -640,7 +640,7 @@ END:VCARD`;
             <div className="bg-[#FDFBF7] border border-[#D8CDB8] rounded-xl p-3.5">
               <div className="flex justify-between items-baseline mb-1">
                 <span className="text-[10px] font-bold text-[#8C4E00] uppercase tracking-wide">ऐतिहासिक धारावाहिक</span>
-                <span className="bg-[#FAF2E3] border border-[#C89038] text-[#5A2D00] text-[10px] font-bold px-2 py-0.5 rounded">5 धारावाहिक</span>
+                <span className="bg-[#FAF2E3] border border-[#C89038] text-[#5A2D00] text-[10px] font-bold px-2 py-0.5 rounded">6 धारावाहिक</span>
               </div>
               <p className="text-sm sm:text-base font-bold text-[#0A0A0A]">
                 आकाशवाणी रायपुर से प्रथम रेडियो सीरियल सहित 6 रेडियो सीरियल (हिंदी एवं छत्तीसगढ़ी) लेखन के लिए अनुबंध
@@ -653,7 +653,7 @@ END:VCARD`;
             <SvgMic />
             <div className="text-xs sm:text-sm text-[#333333] leading-relaxed font-semibold">
               <strong className="text-sm font-black text-[#8C4E00] block mb-0.5">रेडियो प्रसारण की अविस्मरणीय आवाज:</strong>
-              तीन दशकों तक आकाशवाणी रायपुर के सर्वाधिक लोकप्रिय कार्यक्रमों &apos;चौपाल&apos; व &apos;श्रमिक जगत&apos; की पहचान। 50 रूपक, 10 नाटक एवं 5 धारावाहिकों का सफल निर्माण।
+              तीन दशकों तक आकाशवाणी रायपुर के सर्वाधिक लोकप्रिय कार्यक्रमों &apos;चौपाल&apos; व &apos;श्रमिक जगत&apos; की पहचान। 50 रूपक, 10 नाटक एवं 6 धारावाहिकों का सफल निर्माण।
             </div>
           </div>
 

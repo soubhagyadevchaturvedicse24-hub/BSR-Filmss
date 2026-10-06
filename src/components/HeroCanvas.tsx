@@ -323,7 +323,7 @@ export default function HeroCanvas() {
   ];
 
   return (
-    <>
+    <div className="hero-night-locked dark relative w-full">
       {/* ═══════════════════════════════════════════════════════════════
            HERO CONTAINER
            Desktop: 250vh tall for scroll distance, sticky canvas inside
@@ -332,7 +332,7 @@ export default function HeroCanvas() {
       <div
         ref={containerRef}
         id="hero"
-        className={`relative w-full ${isDesktop === true ? "h-[250vh]" : "min-h-[100dvh]"}`}
+        className={`relative w-full hero-night-locked dark ${isDesktop === true ? "h-[250vh]" : "min-h-[100dvh]"}`}
         aria-label="Hero: BSR Films cinematic scroll experience"
       >
         {isDesktop === false ? (
@@ -674,7 +674,8 @@ export default function HeroCanvas() {
            ═══════════════════════════════════════════════════════════════ */}
       {isDesktop === false && (
         <section
-          className="relative py-14 px-4 sm:px-6 overflow-hidden"
+          id="why-choose-mobile"
+          className="relative py-14 px-4 sm:px-6 overflow-hidden hero-night-locked dark"
           aria-label="Why Choose BSR Films"
         >
           {/* Waterfall Background Image — Chitrakote Waterfall */}
@@ -746,6 +747,6 @@ export default function HeroCanvas() {
           </div>
         </section>
       )}
-    </>
+    </div>
   );
 }

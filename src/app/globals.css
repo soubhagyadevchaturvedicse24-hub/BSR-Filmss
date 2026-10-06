@@ -1265,58 +1265,58 @@ html.light main {
   color: #181613;
 }
 
-/* 3. Pure White Headings and Titles -> Deep Bold Black */
-html.light h1,
-html.light h2,
-html.light h3,
-html.light h4,
-html.light h5,
-html.light h6,
-html.light .color-heading,
-html.light [class*="text-white"]:not([class*="text-white/"]):not(.theme-toggle *):not(.cta-primary *):not([class*="bg-[#E3A652]"]:not([class*="/"]) *):not(#hero .relative:not(.glass-panel-var) h1 *) {
+/* 3. Pure White Headings and Titles -> Deep Bold Black (except hero & why-choose night lock) */
+html.light h1:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light h2:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light h3:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light h4:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light h5:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light h6:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light .color-heading:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light [class*="text-white"]:not([class*="text-white/"]):not(.theme-toggle *):not(.cta-primary *):not([class*="bg-[#E3A652]"]:not([class*="/"]) *):not(#hero *):not(.hero-night-locked *):not(.hero-end-overlay *):not(#why-choose-mobile *) {
   color: #080705 !important;
 }
 
 /* 4. High-Priority Body & Paragraphs (80% to 95% opacity) -> Rich Dark Graphite */
-html.light [class*="text-white/95"],
-html.light [class*="text-white/90"],
-html.light [class*="text-white/88"],
-html.light [class*="text-white/85"],
-html.light [class*="text-white/80"],
-html.light [class*="text-white/[0.88]"],
-html.light [class*="text-white/[0.85]"] {
+html.light [class*="text-white/95"]:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light [class*="text-white/90"]:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light [class*="text-white/88"]:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light [class*="text-white/85"]:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light [class*="text-white/80"]:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light [class*="text-white/[0.88]"]:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light [class*="text-white/[0.85]"]:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *) {
   color: #1A1815 !important;
 }
 
 /* 5. Medium Body Text & Descriptions (60% to 75% opacity) -> Solid Dark Charcoal */
-html.light [class*="text-white/75"],
-html.light [class*="text-white/70"],
-html.light [class*="text-white/65"],
-html.light [class*="text-white/60"] {
+html.light [class*="text-white/75"]:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light [class*="text-white/70"]:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light [class*="text-white/65"]:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light [class*="text-white/60"]:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *) {
   color: #2D2822 !important;
 }
 
 /* 6. Subtext, Captions & Meta (40% to 55% opacity) -> Crisp Espresso Stone */
-html.light [class*="text-white/55"],
-html.light [class*="text-white/50"],
-html.light [class*="text-white/45"],
-html.light [class*="text-white/40"] {
+html.light [class*="text-white/55"]:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light [class*="text-white/50"]:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light [class*="text-white/45"]:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light [class*="text-white/40"]:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *) {
   color: #4A4237 !important;
 }
 
 /* 7. Form Labels, Badges & Micro-Text (20% to 35% opacity) -> Highly Visible Dark Slate */
-html.light [class*="text-white/35"],
-html.light [class*="text-white/30"],
-html.light [class*="text-white/25"],
-html.light [class*="text-white/20"] {
+html.light [class*="text-white/35"]:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light [class*="text-white/30"]:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light [class*="text-white/25"]:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light [class*="text-white/20"]:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *) {
   color: #574F43 !important;
   font-weight: 600;
 }
 
 /* Ensure strong & b tags inside any text are dark and bold */
-html.light strong,
-html.light b,
-html.light strong[class*="text-white"] {
+html.light strong:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light b:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *),
+html.light strong[class*="text-white"]:not(.hero-night-locked *):not(#hero *):not(.hero-end-overlay *):not(#why-choose-mobile *) {
   color: #080705 !important;
   font-weight: 800 !important;
 }
@@ -2784,6 +2784,31 @@ html.light a[href*="mailto:"]:hover {
 }
 
 /* 12. Media Overlays Contrast Protection in Day / Light Mode */
+.hero-night-locked,
+#why-choose-mobile,
+html.light .hero-night-locked,
+html.light #why-choose-mobile {
+  --bg-primary: #050608 !important;
+  --bg-secondary: #0a0c10 !important;
+  --bg-card: rgba(255, 255, 255, 0.04) !important;
+  --text-heading: #ffffff !important;
+  --text-primary: #f7f3eb !important;
+  --text-muted: rgba(255, 255, 255, 0.6) !important;
+  --gold: #E3A652 !important;
+  --gold-soft: rgba(227, 166, 82, 0.15) !important;
+  --border-subtle: rgba(255, 255, 255, 0.15) !important;
+  color: #f7f3eb !important;
+}
+
+html.light .hero-night-locked h1,
+html.light .hero-night-locked h2,
+html.light .hero-night-locked h3,
+html.light .hero-night-locked h4,
+html.light .hero-night-locked p,
+html.light .hero-night-locked span,
+html.light .hero-night-locked a.cta-ghost,
+html.light .hero-night-locked blockquote p,
+html.light .hero-night-locked blockquote footer,
 html.light #hero h1,
 html.light #hero h2,
 html.light #hero h3,
@@ -2798,71 +2823,105 @@ html.light .hero-end-overlay p,
 html.light .hero-end-overlay span,
 html.light .hero-end-overlay blockquote p,
 html.light .hero-end-overlay blockquote footer,
+html.light #why-choose-mobile h2,
+html.light #why-choose-mobile h3,
+html.light #why-choose-mobile p,
+html.light #why-choose-mobile span,
+html.light #why-choose-mobile blockquote p,
+html.light #why-choose-mobile blockquote footer,
 html.light .slide-card h3,
 html.light .slide-card p,
 html.light .slide-card span {
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
 }
 
+html.light .hero-night-locked [class*="text-white"],
 html.light #hero [class*="text-white"],
 html.light .hero-end-overlay [class*="text-white"],
+html.light #why-choose-mobile [class*="text-white"],
 html.light .slide-card [class*="text-white"] {
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
 }
 
+html.light .hero-night-locked [class*="text-[#FFE29A]"],
+html.light #hero [class*="text-[#FFE29A]"],
+html.light .hero-end-overlay [class*="text-[#FFE29A]"],
+html.light #why-choose-mobile [class*="text-[#FFE29A]"],
+html.light .slide-card [class*="text-[#FFE29A]"] {
+  color: #FFE29A !important;
+  -webkit-text-fill-color: #FFE29A !important;
+  background: none !important;
+}
+
+html.light .hero-night-locked [class*="text-[#F4D090]"],
 html.light #hero [class*="text-[#F4D090]"],
 html.light .hero-end-overlay [class*="text-[#F4D090]"],
+html.light #why-choose-mobile [class*="text-[#F4D090]"],
 html.light .slide-card [class*="text-[#F4D090]"] {
   color: #F4D090 !important;
   -webkit-text-fill-color: #F4D090 !important;
   background: none !important;
 }
 
+html.light .hero-night-locked [class*="text-[#FFF5DC]"],
 html.light #hero [class*="text-[#FFF5DC]"],
 html.light .hero-end-overlay [class*="text-[#FFF5DC]"],
+html.light #why-choose-mobile [class*="text-[#FFF5DC]"],
 html.light .slide-card [class*="text-[#FFF5DC]"] {
   color: #FFF5DC !important;
   -webkit-text-fill-color: #FFF5DC !important;
 }
 
+html.light .hero-night-locked [class*="text-[#FFF8E7]"],
 html.light #hero [class*="text-[#FFF8E7]"],
 html.light .hero-end-overlay [class*="text-[#FFF8E7]"],
+html.light #why-choose-mobile [class*="text-[#FFF8E7]"],
 html.light .slide-card [class*="text-[#FFF8E7]"] {
   color: #FFF8E7 !important;
   -webkit-text-fill-color: #FFF8E7 !important;
 }
 
+html.light .hero-night-locked [class*="text-[#F3EDE2]"],
 html.light #hero [class*="text-[#F3EDE2]"],
 html.light .hero-end-overlay [class*="text-[#F3EDE2]"],
+html.light #why-choose-mobile [class*="text-[#F3EDE2]"],
 html.light .slide-card [class*="text-[#F3EDE2]"] {
   color: #F3EDE2 !important;
   -webkit-text-fill-color: #F3EDE2 !important;
 }
 
+html.light .hero-night-locked [class*="text-[#F0E6D2]"],
 html.light #hero [class*="text-[#F0E6D2]"],
 html.light .hero-end-overlay [class*="text-[#F0E6D2]"],
+html.light #why-choose-mobile [class*="text-[#F0E6D2]"],
 html.light .slide-card [class*="text-[#F0E6D2]"] {
   color: #F0E6D2 !important;
   -webkit-text-fill-color: #F0E6D2 !important;
 }
 
+html.light .hero-night-locked [class*="text-[#F7F3EB]"],
 html.light #hero [class*="text-[#F7F3EB]"],
 html.light .hero-end-overlay [class*="text-[#F7F3EB]"],
+html.light #why-choose-mobile [class*="text-[#F7F3EB]"],
 html.light .slide-card [class*="text-[#F7F3EB]"] {
   color: #F7F3EB !important;
   -webkit-text-fill-color: #F7F3EB !important;
 }
 
+html.light .hero-night-locked [class*="text-[#E8DFC8]"],
 html.light #hero [class*="text-[#E8DFC8]"],
 html.light .hero-end-overlay [class*="text-[#E8DFC8]"],
+html.light #why-choose-mobile [class*="text-[#E8DFC8]"],
 html.light .slide-card [class*="text-[#E8DFC8]"] {
   color: #E8DFC8 !important;
   -webkit-text-fill-color: #E8DFC8 !important;
 }
 
+html.light .hero-night-locked [class*="text-[#E2D9C8]"],
 html.light #hero [class*="text-[#E2D9C8]"],
 html.light .hero-end-overlay [class*="text-[#E2D9C8]"],
+html.light #why-choose-mobile [class*="text-[#E2D9C8]"],
 html.light .slide-card [class*="text-[#E2D9C8]"] {
   color: #E2D9C8 !important;
   -webkit-text-fill-color: #E2D9C8 !important;
