@@ -545,7 +545,7 @@ html_content = f"""<!DOCTYPE html>
         <div class="big-banner-icon">{svg_crest_big}</div>
         <div class="big-banner-text">
           <strong>शैक्षणिक गरिमा एवं सांस्कृतिक निष्ठा:</strong>
-          <b class="hl">राजनीति शास्त्र में स्नातकोत्तर</b>, <b class="hl">पत्रकारिता (BJMC)</b>, <b class="hl">खैरागढ़ विश्वविद्यालय</b> से <b class="hl">शास्त्रीय लोक संगीत दीक्षा</b> एवं <b class="hl">प्रसार भारती</b> से <b class="hl">वाणी प्रमाणन</b> का दुर्लभ व प्रतिष्ठित समन्वय।
+          <b class="hl">राजनीति शास्त्र में स्नातकोत्तर</b>, <b class="hl">पत्रकारिता (BJMC)</b>, <b class="hl">खैरागढ़ विश्वविद्यालय</b> से <b class="hl">लोक संगीत दीक्षा</b> एवं <b class="hl">प्रसार भारती</b> से <b class="hl">वाणी प्रमाणन</b> का दुर्लभ व प्रतिष्ठित समन्वय।
         </div>
       </div>
     </div>
