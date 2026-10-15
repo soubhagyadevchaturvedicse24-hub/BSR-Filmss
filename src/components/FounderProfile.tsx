@@ -16,6 +16,7 @@ import {
   ExternalLink,
   Printer,
   FileText,
+  Building2,
 } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import LanguageToggle from "./LanguageToggle";
@@ -201,16 +202,36 @@ END:VCARD`;
             <LanguageToggle />
             <ThemeToggle />
 
-            {/* Direct PDF Download */}
+            {/* Direct PDF Downloads: Company & Personal */}
+            <a
+              href="/BSR_Films_Business_Portfolio.pdf"
+              download="BSR_Films_Business_Portfolio.pdf"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-[#8C4E00] hover:bg-[#6E3C00] text-white shadow-md transition-all active:scale-95 cursor-pointer"
+              title="बी.एस.आर. फिल्म्स कंपनी पोर्टफोलियो PDF डाउनलोड करें"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>कंपनी PDF</span>
+            </a>
+
             <a
               href="/Bhishmdev_Chaturvedi_Portfolio.pdf"
               download="Bhishmdev_Chaturvedi_Portfolio.pdf"
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#8C4E00] hover:bg-[#6E3C00] text-white shadow-md transition-all active:scale-95 cursor-pointer"
-              title="पोर्टफोलियो PDF सीधे डाउनलोड करें"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-[#FAF2E3] hover:bg-[#F2E5CE] text-[#5A2D00] border border-[#C89038] shadow-sm transition-all active:scale-95 cursor-pointer"
+              title="भीष्मदेव चतुर्वेदी व्यक्तिगत पोर्टफोलियो PDF डाउनलोड करें"
             >
-              <Download className="w-3.5 h-3.5" />
-              <span>PDF डाउनलोड</span>
+              <FileText className="w-3.5 h-3.5 text-[#8C4E00]" />
+              <span className="hidden sm:inline">व्यक्तिगत PDF</span>
+              <span className="inline sm:hidden">प्रोफाइल</span>
             </a>
+
+            <Link
+              href="/company"
+              className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-[#FAF2E3] hover:bg-[#F2E5CE] text-[#8C4E00] border border-[#D5A04A] transition-all active:scale-95"
+              title="बी.एस.आर. फिल्म्स कॉरपोरेट प्रोफाइल देखें"
+            >
+              <Building2 className="w-3.5 h-3.5" />
+              <span>कंपनी प्रोफाइल</span>
+            </Link>
 
             {/* Print / Save as PDF */}
             <button
@@ -306,7 +327,7 @@ END:VCARD`;
               पिता - स्व.श्री दीनानाथ चतुर्वेदी
             </p>
             <p className="text-xs sm:text-sm font-semibold text-[#333333] mt-0.5 leading-snug">
-              ( स्वयं सेवक RSS, सेवा निवृत शिक्षक, रामायणविद, पूर्व मंडल अध्यक्ष भाजपा )
+              ( समाजसेवी, सेवा निवृत शिक्षक, रामायणविद, पूर्व मंडल अध्यक्ष भाजपा )
             </p>
           </div>
 
@@ -473,7 +494,7 @@ END:VCARD`;
                 <span className="bg-[#FAF2E3] border border-[#C89038] text-[#5A2D00] text-[10px] font-bold px-2 py-0.5 rounded">अध्यक्ष</span>
               </div>
               <p className="text-sm sm:text-base font-bold text-[#0A0A0A]">
-                विद्यार्थी परिषद द्वारा निर्मित भगवान शिव मंदिर समिति &quot; प्रबंध समिति कैलाश धाम &quot; भरदा का अध्यक्ष
+                भगवान शिव मंदिर समिति &quot; प्रबंध समिति कैलाश धाम &quot; भरदा का अध्यक्ष
               </p>
             </div>
           </div>
@@ -947,12 +968,21 @@ END:VCARD`;
         </a>
 
         <a
-          href="/Bhishmdev_Chaturvedi_Portfolio.pdf"
-          download="Bhishmdev_Chaturvedi_Portfolio.pdf"
+          href="/BSR_Films_Business_Portfolio.pdf"
+          download="BSR_Films_Business_Portfolio.pdf"
           className="flex-1 flex flex-col items-center justify-center py-1 text-[#8C4E00] hover:text-[#6E3C00] transition-colors cursor-pointer"
         >
           <Download className="w-4 h-4 text-[#8C4E00] mb-0.5" />
-          <span className="text-[0.65rem] font-bold">PDF डाउनलोड</span>
+          <span className="text-[0.65rem] font-bold">कंपनी PDF</span>
+        </a>
+
+        <a
+          href="/Bhishmdev_Chaturvedi_Portfolio.pdf"
+          download="Bhishmdev_Chaturvedi_Portfolio.pdf"
+          className="flex-1 flex flex-col items-center justify-center py-1 text-[#333333] hover:text-[#8C4E00] transition-colors cursor-pointer"
+        >
+          <FileText className="w-4 h-4 text-[#8C4E00] mb-0.5" />
+          <span className="text-[0.65rem] font-bold">व्यक्तिगत PDF</span>
         </a>
 
         <button
