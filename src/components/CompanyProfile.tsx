@@ -647,57 +647,86 @@ export default function CompanyProfile() {
               <div>
                 <h2 className="text-lg sm:text-xl font-black text-[#0A0A0A] leading-tight">बी.एस.आर. फिल्म्स</h2>
                 <p className="text-[10px] sm:text-xs font-bold text-[#8C4E00] uppercase tracking-wide">
-                  ऐतिहासिक चुनाव व सामाजिक अभियान
+                  प्रतिष्ठित क्लाइंट्स, संस्थाएं एवं राष्ट्रीय अभियान
                 </p>
               </div>
             </div>
             <div className="text-right text-[10px] sm:text-xs text-[#333333] font-bold leading-tight">
-              राष्ट्रीय अभियान<br />UNICEF / World Bank
+              24+ प्रमुख संस्थाएं<br />राष्ट्रीय व वैश्विक क्लाइंट्स
             </div>
           </div>
 
           <div className="mb-3.5 space-y-2.5">
             <div className="flex items-center justify-between border-b-[1.8px] border-[#8C4E00] pb-1">
-              <span className="text-sm sm:text-base font-black text-[#0A0A0A]">अनुभव — ऐतिहासिक चुनावी व सामाजिक अभियान</span>
-              <span className="text-[11px] font-bold text-[#8C4E00]">राज्य व राष्ट्रीय स्तर के अभियान</span>
+              <span className="text-sm sm:text-base font-black text-[#0A0A0A]">प्रतिष्ठित क्लाइंट्स, शासकीय विभाग एवं राष्ट्रीय अभियान</span>
+              <span className="text-[11px] font-bold text-[#8C4E00]">24+ प्रमाणित संस्थाएं</span>
             </div>
 
-            <div className="bg-[#FDFBF7] border border-[#D8CDB8] rounded-xl p-3.5">
-              <div className="flex justify-between items-baseline mb-1">
-                <span className="text-[10px] font-bold text-[#8C4E00] uppercase tracking-wide">विधान सभा चुनाव 2013</span>
-                <span className="bg-[#FAF2E3] border border-[#C89038] text-[#5A2D00] text-[10px] font-bold px-2 py-0.5 rounded">06 आकाशवाणी केंद्र</span>
+            {/* 1. International & National Organizations (10) */}
+            <div className="bg-[#FDFBF7] border border-[#D8CDB8] rounded-xl p-3">
+              <div className="flex justify-between items-baseline mb-2">
+                <span className="text-[10px] sm:text-xs font-bold text-[#8C4E00] uppercase tracking-wide">अंतर्राष्ट्रीय एवं राष्ट्रीय संगठन (10 संस्थाएं)</span>
+                <span className="bg-[#FAF2E3] border border-[#C89038] text-[#5A2D00] text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded">Global & National Bodies</span>
               </div>
-              <p className="text-xs sm:text-sm text-[#111111] font-semibold leading-relaxed">
-                विधान सभा चुनाव सन् 2013 में रेडियो के माध्यम से प्रदेश के 06 आकाशवाणी केन्द्रों से भारतीय जनता पार्टी के चुनाव प्रचार हेतु रेडियो जिंगल निर्माण व प्रसारण हेतु अनुबंधित एजेंसी ।
-              </p>
-            </div>
-
-            <div className="bg-[#FDFBF7] border border-[#D8CDB8] rounded-xl p-3.5">
-              <div className="flex justify-between items-baseline mb-1">
-                <span className="text-[10px] font-bold text-[#8C4E00] uppercase tracking-wide">लोक सभा चुनाव 2014</span>
-                <span className="bg-[#FAF2E3] border border-[#C89038] text-[#5A2D00] text-[10px] font-bold px-2 py-0.5 rounded">06 आकाशवाणी केंद्र</span>
+              <div className="flex flex-wrap gap-1.5">
+                {['World Bank', 'NABARD', 'UNICEF', 'SHRC', 'CHRI', 'IFFCO', 'Birla Group', 'DDUGKY', 'SRLM', 'PRIYA NGO'].map((org) => (
+                  <span key={org} className="bg-[#FAF2E3] border border-[#C89038] text-[#5A2D00] text-[11px] sm:text-xs font-bold px-2.5 py-1 rounded-md">
+                    {org}
+                  </span>
+                ))}
               </div>
-              <p className="text-xs sm:text-sm text-[#111111] font-semibold leading-relaxed">
-                लोक सभा चुनाव सन् 2014 में रेडियो के माध्यम से प्रदेश के 06 आकाशवाणी केन्द्रों से भारतीय जनता पार्टी के चुनाव प्रचार हेतु रेडियो जिंगल निर्माण व प्रसारण हेतु अनुबंधित एजेंसी ।
-              </p>
             </div>
 
-            <div className="bg-[#FDFBF7] border border-[#D8CDB8] rounded-xl p-3.5">
-              <span className="text-[10px] font-bold text-[#8C4E00] uppercase tracking-wide block mb-1">सामाजिक अभियान (जन जागरूकता)</span>
-              <p className="text-xs sm:text-sm text-[#111111] font-semibold leading-relaxed">
-                विभिन्न एनजीओ के साथ प्रचार - प्रसार फिल्म और रेडियो कार्यक्रम निर्माण का अनुभव। जन जागरूकता यात्रा में संयोजन।
-              </p>
+            {/* 2. Government Departments & Agencies (14) */}
+            <div className="bg-[#FDFBF7] border border-[#D8CDB8] rounded-xl p-3">
+              <div className="flex justify-between items-baseline mb-2">
+                <span className="text-[10px] sm:text-xs font-bold text-[#8C4E00] uppercase tracking-wide">शासकीय विभाग एवं राज्य आयोग (14 विभाग)</span>
+                <span className="bg-[#FAF2E3] border border-[#C89038] text-[#5A2D00] text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded">Government & Public Sector</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {[
+                  'जनसंपर्क विभाग (DPR)',
+                  'श्रम विभाग (Labour)',
+                  'पंचायत एवं ग्रामीण विकास',
+                  'लोक स्वास्थ्य यांत्रिकी (PHED)',
+                  'नगरीय प्रशासन',
+                  'स्वास्थ्य एवं परिवार कल्याण',
+                  'महिला एवं बाल विकास',
+                  'स्कूल शिक्षा विभाग',
+                  'जल संसाधन विभाग',
+                  'कृषि विभाग',
+                  'वन विभाग',
+                  'समाज कल्याण विभाग',
+                  'छत्तीसगढ़ पुलिस (CG Police)',
+                  'छत्तीसगढ़ राज्य महिला आयोग'
+                ].map((dept) => (
+                  <span key={dept} className="bg-[#FAF2E3] border border-[#C89038] text-[#5A2D00] text-[10.5px] sm:text-xs font-bold px-2 py-0.5 rounded-md">
+                    {dept}
+                  </span>
+                ))}
+              </div>
             </div>
 
+            {/* 3. Historic Election Campaigns */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <div className="bg-[#FDFBF7] border border-[#D8CDB8] rounded-xl p-3">
-                <span className="text-[10px] font-bold text-[#8C4E00] uppercase tracking-wide block mb-1">यूनिसेफ (UNICEF)</span>
-                <p className="text-xs sm:text-sm font-bold text-[#8C4E00]">यूनिसेफ के लिए वीडियो स्पॉट निर्माण</p>
+                <div className="flex justify-between items-baseline mb-1">
+                  <span className="text-[10px] font-bold text-[#8C4E00] uppercase tracking-wide">विधान सभा चुनाव 2013</span>
+                  <span className="bg-[#FAF2E3] border border-[#C89038] text-[#5A2D00] text-[10px] font-bold px-2 py-0.5 rounded">06 आकाशवाणी केंद्र</span>
+                </div>
+                <p className="text-xs text-[#111111] font-semibold leading-relaxed">
+                  प्रदेश के 06 आकाशवाणी केन्द्रों से रेडियो जिंगल निर्माण व व्यापक प्रसारण हेतु अनुबंधित अधिकृत एजेंसी।
+                </p>
               </div>
 
               <div className="bg-[#FDFBF7] border border-[#D8CDB8] rounded-xl p-3">
-                <span className="text-[10px] font-bold text-[#8C4E00] uppercase tracking-wide block mb-1">वर्ल्ड बैंक (WORLD BANK)</span>
-                <p className="text-xs sm:text-sm font-bold text-[#8C4E00]">वर्ल्ड बैंक वित्तपोषित योजनाओं के प्रचार हेतु फिल्म व रेडियो सीरियल निर्माण</p>
+                <div className="flex justify-between items-baseline mb-1">
+                  <span className="text-[10px] font-bold text-[#8C4E00] uppercase tracking-wide">लोक सभा चुनाव 2014</span>
+                  <span className="bg-[#FAF2E3] border border-[#C89038] text-[#5A2D00] text-[10px] font-bold px-2 py-0.5 rounded">06 आकाशवाणी केंद्र</span>
+                </div>
+                <p className="text-xs text-[#111111] font-semibold leading-relaxed">
+                  प्रदेश के 06 आकाशवाणी केन्द्रों से रेडियो जिंगल निर्माण व राष्ट्रव्यापी प्रसारण समन्वय हेतु अनुबंधित एजेंसी।
+                </p>
               </div>
             </div>
           </div>
@@ -706,8 +735,8 @@ export default function CompanyProfile() {
           <div className="flex items-center gap-3.5 bg-[#FFFDF8] border-2 border-[#D5A04A] rounded-xl p-3.5 shadow-sm">
             <SvgAward />
             <div className="text-xs sm:text-sm text-[#333333] leading-relaxed font-semibold">
-              <strong className="text-sm font-black text-[#8C4E00] block mb-0.5">राष्ट्रीय एवं वैश्विक अभियानों का सशक्त संचार:</strong>
-              <HL>2013 विधानसभा</HL> एवं <HL>2014 लोकसभा चुनावों</HL> में <HL>6 आकाशवाणी केंद्रों</HL> से व्यापक चुनावी प्रचार, तथा <HL>UNICEF</HL> एवं <HL>World Bank</HL> की जनहितकारी योजनाओं का <HL>व्यापक प्रसारण</HL>।
+              <strong className="text-sm font-black text-[#8C4E00] block mb-0.5">प्रतिष्ठित क्लाइंट्स व राष्ट्रीय अभियानों का सशक्त संचार:</strong>
+              <HL>World Bank</HL>, <HL>UNICEF</HL>, <HL>NABARD</HL>, <HL>Birla Group</HL> सहित <HL>24+ राष्ट्रीय संस्थाओं व शासकीय विभागों</HL> हेतु वृत्तचित्र, जिंगल व प्रचार स्पॉट्स निर्माण, तथा <HL>2013 विधानसभा</HL> व <HL>2014 लोकसभा चुनावों</HL> में <HL>6 आकाशवाणी केंद्रों</HL> से व्यापक प्रसारण।
             </div>
           </div>
 

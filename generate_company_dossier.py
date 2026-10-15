@@ -704,75 +704,96 @@ html_content = f"""<!DOCTYPE html>
         <img src="data:image/png;base64,{icon_b64}" class="header-logo" alt="Logo">
         <div>
           <div class="header-title">बी.एस.आर. फिल्म्स</div>
-          <div class="header-sub">ऐतिहासिक चुनाव व सामाजिक अभियान</div>
+          <div class="header-sub">प्रतिष्ठित क्लाइंट्स, संस्थाएं एवं राष्ट्रीय अभियान</div>
         </div>
       </div>
       <div class="header-meta">
-        राष्ट्रीय अभियान<br>
-        UNICEF / World Bank
+        24+ प्रमुख संस्थाएं<br>
+        राष्ट्रीय व वैश्विक क्लाइंट्स
       </div>
     </div>
 
     <div class="page-body">
       <div>
         <div class="section-title">
-          <span>अनुभव — ऐतिहासिक चुनावी व सामाजिक अभियान</span>
-          <span class="section-sub">राज्य व राष्ट्रीय स्तर के अभियान</span>
+          <span>प्रतिष्ठित क्लाइंट्स, शासकीय विभाग एवं राष्ट्रीय अभियान</span>
+          <span class="section-sub">24+ प्रमाणित संस्थाएं</span>
         </div>
 
-        <div class="card" style="padding: 9.5px 12px; margin-bottom: 8px;">
-          <div style="display: flex; justify-content: space-between; align-items: baseline;">
-            <span class="card-tag">विधान सभा चुनाव 2013</span>
-            <span class="card-badge">06 आकाशवाणी केंद्र</span>
+        <!-- 1. International & National Organizations (10) -->
+        <div class="card" style="padding: 7px 10px; margin-bottom: 6px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
+            <span class="card-tag" style="font-size: 8.5pt;">अंतर्राष्ट्रीय एवं राष्ट्रीय संगठन (10 संस्थाएं)</span>
+            <span class="card-badge" style="font-size: 7.2pt;">Global & National Bodies</span>
           </div>
-          <div class="card-desc" style="font-size: 9.2pt; color: #111111; font-weight: 600; margin-top: 2px;">
-            विधान सभा चुनाव सन् 2013 में रेडियो के माध्यम से प्रदेश के 06 आकाशवाणी केन्द्रों से भारतीय जनता पार्टी के चुनाव प्रचार हेतु रेडियो जिंगल निर्माण व प्रसारण हेतु अनुबंधित एजेंसी ।
-          </div>
-        </div>
-
-        <div class="card" style="padding: 9.5px 12px; margin-bottom: 8px;">
-          <div style="display: flex; justify-content: space-between; align-items: baseline;">
-            <span class="card-tag">लोक सभा चुनाव 2014</span>
-            <span class="card-badge">06 आकाशवाणी केंद्र</span>
-          </div>
-          <div class="card-desc" style="font-size: 9.2pt; color: #111111; font-weight: 600; margin-top: 2px;">
-            लोक सभा चुनाव सन् 2014 में रेडियो के माध्यम से प्रदेश के 06 आकाशवाणी केन्द्रों से भारतीय जनता पार्टी के चुनाव प्रचार हेतु रेडियो जिंगल निर्माण व प्रसारण हेतु अनुबंधित एजेंसी ।
-          </div>
-        </div>
-
-        <div class="card" style="padding: 9.5px 12px; margin-bottom: 8px;">
-          <div style="display: flex; justify-content: space-between; align-items: baseline;">
-            <span class="card-tag">सामाजिक अभियान</span>
-            <span class="card-badge">जन जागरूकता</span>
-          </div>
-          <div class="card-desc" style="font-size: 9.2pt; color: #111111; font-weight: 600; margin-top: 2px;">
-            विभिन्न एनजीओ के साथ प्रचार - प्रसार फिल्म और रेडियो कार्यक्रम निर्माण का अनुभव। जन जागरूकता यात्रा में संयोजन।
+          <div class="pill-wrap" style="gap: 4px; margin: 0;">
+            <span class="pill" style="font-size: 7.8pt; padding: 2px 7.5px;">World Bank</span>
+            <span class="pill" style="font-size: 7.8pt; padding: 2px 7.5px;">NABARD</span>
+            <span class="pill" style="font-size: 7.8pt; padding: 2px 7.5px;">UNICEF</span>
+            <span class="pill" style="font-size: 7.8pt; padding: 2px 7.5px;">SHRC</span>
+            <span class="pill" style="font-size: 7.8pt; padding: 2px 7.5px;">CHRI</span>
+            <span class="pill" style="font-size: 7.8pt; padding: 2px 7.5px;">IFFCO</span>
+            <span class="pill" style="font-size: 7.8pt; padding: 2px 7.5px;">Birla Group</span>
+            <span class="pill" style="font-size: 7.8pt; padding: 2px 7.5px;">DDUGKY</span>
+            <span class="pill" style="font-size: 7.8pt; padding: 2px 7.5px;">SRLM</span>
+            <span class="pill" style="font-size: 7.8pt; padding: 2px 7.5px;">PRIYA NGO</span>
           </div>
         </div>
 
-        <div class="grid-2" style="gap: 8px; margin-bottom: 0;">
-          <div class="card" style="padding: 9px 10px; margin-bottom: 0;">
-            <div class="card-tag">यूनिसेफ (UNICEF)</div>
-            <div class="card-title-bold" style="font-size: 9.8pt; color: #8C4E00; margin-top: 2px;">
-              यूनिसेफ के लिए वीडियो स्पॉट निर्माण
+        <!-- 2. Government Departments & Agencies (14) -->
+        <div class="card" style="padding: 7px 10px; margin-bottom: 6px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
+            <span class="card-tag" style="font-size: 8.5pt;">शासकीय विभाग एवं राज्य आयोग (14 विभाग)</span>
+            <span class="card-badge" style="font-size: 7.2pt;">Government & Public Sector</span>
+          </div>
+          <div class="pill-wrap" style="gap: 4px; margin: 0;">
+            <span class="pill" style="font-size: 7.6pt; padding: 2px 6.5px;">जनसंपर्क विभाग (DPR)</span>
+            <span class="pill" style="font-size: 7.6pt; padding: 2px 6.5px;">श्रम विभाग (Labour)</span>
+            <span class="pill" style="font-size: 7.6pt; padding: 2px 6.5px;">पंचायत एवं ग्रामीण विकास</span>
+            <span class="pill" style="font-size: 7.6pt; padding: 2px 6.5px;">लोक स्वास्थ्य यांत्रिकी (PHED)</span>
+            <span class="pill" style="font-size: 7.6pt; padding: 2px 6.5px;">नगरीय प्रशासन</span>
+            <span class="pill" style="font-size: 7.6pt; padding: 2px 6.5px;">स्वास्थ्य एवं परिवार कल्याण</span>
+            <span class="pill" style="font-size: 7.6pt; padding: 2px 6.5px;">महिला एवं बाल विकास</span>
+            <span class="pill" style="font-size: 7.6pt; padding: 2px 6.5px;">स्कूल शिक्षा विभाग</span>
+            <span class="pill" style="font-size: 7.6pt; padding: 2px 6.5px;">जल संसाधन विभाग</span>
+            <span class="pill" style="font-size: 7.6pt; padding: 2px 6.5px;">कृषि विभाग</span>
+            <span class="pill" style="font-size: 7.6pt; padding: 2px 6.5px;">वन विभाग</span>
+            <span class="pill" style="font-size: 7.6pt; padding: 2px 6.5px;">समाज कल्याण विभाग</span>
+            <span class="pill" style="font-size: 7.6pt; padding: 2px 6.5px;">छत्तीसगढ़ पुलिस (CG Police)</span>
+            <span class="pill" style="font-size: 7.6pt; padding: 2px 6.5px;">छत्तीसगढ़ राज्य महिला आयोग</span>
+          </div>
+        </div>
+
+        <!-- 3. Historic Election Campaigns -->
+        <div class="grid-2" style="gap: 6px; margin-bottom: 6px;">
+          <div class="card" style="padding: 7px 9px; margin-bottom: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <span class="card-tag" style="font-size: 8pt;">विधान सभा चुनाव 2013</span>
+              <span class="card-badge" style="font-size: 6.8pt;">06 आकाशवाणी</span>
+            </div>
+            <div class="card-desc" style="font-size: 7.6pt; color: #111111; font-weight: 600; margin-top: 2px; line-height: 1.28;">
+              प्रदेश के 06 आकाशवाणी केन्द्रों से रेडियो जिंगल निर्माण व व्यापक प्रसारण हेतु अनुबंधित अधिकृत एजेंसी।
             </div>
           </div>
 
-          <div class="card" style="padding: 9px 10px; margin-bottom: 0;">
-            <div class="card-tag">वर्ल्ड बैंक (WORLD BANK)</div>
-            <div class="card-title-bold" style="font-size: 9.8pt; color: #8C4E00; margin-top: 2px;">
-              वर्ल्ड बैंक योजनाओं हेतु फिल्म व रेडियो सीरियल निर्माण
+          <div class="card" style="padding: 7px 9px; margin-bottom: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <span class="card-tag" style="font-size: 8pt;">लोक सभा चुनाव 2014</span>
+              <span class="card-badge" style="font-size: 6.8pt;">06 आकाशवाणी</span>
+            </div>
+            <div class="card-desc" style="font-size: 7.6pt; color: #111111; font-weight: 600; margin-top: 2px; line-height: 1.28;">
+              प्रदेश के 06 आकाशवाणी केन्द्रों से रेडियो जिंगल निर्माण व राष्ट्रव्यापी प्रसारण समन्वय हेतु अनुबंधित एजेंसी।
             </div>
           </div>
         </div>
       </div>
 
       <!-- Big Campaign Shield Banner -->
-      <div class="big-banner" style="padding: 10px 13px; gap: 14px;">
+      <div class="big-banner" style="padding: 8px 11px; gap: 12px; margin-top: 0;">
         <div class="big-banner-icon">{svg_award_big}</div>
         <div class="big-banner-text">
-          <strong>राष्ट्रीय एवं वैश्विक अभियानों का सशक्त संचार:</strong>
-          <b class="hl">2013 विधानसभा</b> एवं <b class="hl">2014 लोकसभा चुनावों</b> में <b class="hl">6 आकाशवाणी केंद्रों</b> से व्यापक चुनावी प्रचार, तथा <b class="hl">UNICEF</b> एवं <b class="hl">World Bank</b> की जनहितकारी योजनाओं का <b class="hl">व्यापक प्रसारण</b>।
+          <strong>प्रतिष्ठित क्लाइंट्स व राष्ट्रीय अभियानों का सशक्त संचार:</strong>
+          <b class="hl">World Bank</b>, <b class="hl">UNICEF</b>, <b class="hl">NABARD</b>, <b class="hl">Birla Group</b> सहित <b class="hl">24+ राष्ट्रीय संस्थाओं व शासकीय विभागों</b> हेतु वृत्तचित्र, जिंगल व प्रचार स्पॉट्स निर्माण, तथा <b class="hl">2013 विधानसभा</b> व <b class="hl">2014 लोकसभा चुनावों</b> में <b class="hl">6 आकाशवाणी केंद्रों</b> से व्यापक प्रसारण।
         </div>
       </div>
     </div>
