@@ -183,15 +183,26 @@ export default function CompanyProfile() {
             <LanguageToggle />
             <ThemeToggle />
 
-            {/* Direct PDF Download: Company Portfolio */}
+            {/* A4 Print PDF Download */}
+            <a
+              href="/BSR_Films_Print_Portfolio_A4.pdf"
+              download="BSR_Films_Print_Portfolio_A4.pdf"
+              className="inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#8C4E00] hover:bg-[#6E3C00] text-white shadow-md transition-all active:scale-95 cursor-pointer"
+              title="बी.एस.आर. फिल्म्स A4 प्रिंट संस्करण PDF डाउनलोड करें"
+            >
+              <Printer className="w-3.5 h-3.5" />
+              <span>A4 प्रिंट PDF</span>
+            </a>
+
+            {/* Direct PDF Download: Company Portfolio (Mobile/Digital) */}
             <a
               href="/BSR_Films_Business_Portfolio.pdf"
               download="BSR_Films_Business_Portfolio.pdf"
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#8C4E00] hover:bg-[#6E3C00] text-white shadow-md transition-all active:scale-95 cursor-pointer"
-              title="बी.एस.आर. फिल्म्स कॉरपोरेट पोर्टफोलियो PDF डाउनलोड करें"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-[#FAF2E3] hover:bg-[#F2E5CE] text-[#5A2D00] border border-[#C89038] shadow-sm transition-all active:scale-95 cursor-pointer"
+              title="बी.एस.आर. फिल्म्स मोबाइल डिजिटल PDF डाउनलोड करें"
             >
-              <Download className="w-3.5 h-3.5" />
-              <span>कंपनी PDF</span>
+              <Download className="w-3.5 h-3.5 text-[#8C4E00]" />
+              <span>मोबाइल PDF</span>
             </a>
 
             {/* Founder Portfolio Link */}
@@ -951,12 +962,13 @@ export default function CompanyProfile() {
         </a>
 
         <a
-          href="/BSR_Films_Business_Portfolio.pdf"
-          download="BSR_Films_Business_Portfolio.pdf"
+          href="/BSR_Films_Print_Portfolio_A4.pdf"
+          download="BSR_Films_Print_Portfolio_A4.pdf"
           className="flex-1 flex flex-col items-center justify-center py-1 text-[#8C4E00] hover:text-[#6E3C00] transition-colors cursor-pointer"
+          title="A4 प्रिंट PDF डाउनलोड करें"
         >
-          <Download className="w-4 h-4 text-[#8C4E00] mb-0.5" />
-          <span className="text-[0.65rem] font-bold">कंपनी PDF</span>
+          <Printer className="w-4 h-4 text-[#8C4E00] mb-0.5" />
+          <span className="text-[0.65rem] font-bold">A4 प्रिंट</span>
         </a>
 
         <Link
