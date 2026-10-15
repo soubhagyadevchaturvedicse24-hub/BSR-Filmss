@@ -9,6 +9,9 @@ with open('public/team/bhishma.png', 'rb') as f:
 with open('public/bsr-icon.png', 'rb') as f:
     icon_b64 = base64.b64encode(f.read()).decode('utf-8')
 
+with open('public/bsr-logo-clean.png', 'rb') as f:
+    logo_b64 = base64.b64encode(f.read()).decode('utf-8')
+
 # High-resolution, BIG vector SVGs (70px - 85px) for brand compliance & space coverage
 svg_camera_big = """<svg width="72" height="72" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect x="8" y="24" width="44" height="36" rx="6" fill="#FAF2E3" stroke="#8C4E00" stroke-width="3"/>
@@ -73,7 +76,7 @@ html_content = f"""<!DOCTYPE html>
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
-  <title>बी.एस.आर. फिल्म्स रायपुर - आधिकारिक कॉरपोरेट पोर्टफोलियो | BSR Films Raipur</title>
+  <title>बी.एस.आर. फिल्म्स - आधिकारिक कॉरपोरेट पोर्टफोलियो | BSR Films</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -345,14 +348,14 @@ html_content = f"""<!DOCTYPE html>
 <body>
 
   <!-- ═══════════════════════════════════════════════════════════════════
-       MOBILE PAGE 1: BSR FILMS RAIPUR - CORPORATE OVERVIEW & CORE CREDENTIALS
+       MOBILE PAGE 1: BSR FILMS - CORPORATE OVERVIEW, LOGO SHOWCASE & CREDENTIALS
        ═══════════════════════════════════════════════════════════════════ -->
   <div class="page">
     <div class="header">
       <div class="header-left">
         <img src="data:image/png;base64,{icon_b64}" class="header-logo" alt="Logo">
         <div>
-          <div class="header-title">बी.एस.आर. फिल्म्स रायपुर</div>
+          <div class="header-title">बी.एस.आर. फिल्म्स</div>
           <div class="header-sub">फिल्म, टीवी, वृत्तचित्र एवं मीडिया प्रोडक्शन हाउस</div>
         </div>
       </div>
@@ -363,21 +366,24 @@ html_content = f"""<!DOCTYPE html>
     </div>
 
     <div class="page-body">
-      <!-- Corporate Cover Banner -->
-      <div style="background: linear-gradient(135deg, #FAF2E3 0%, #FFFDF8 100%); border: 2px solid #8C4E00; border-radius: 9px; padding: 10px 12px; text-align: center; margin-bottom: 4px;">
-        <div style="font-size: 8.5pt; font-weight: 800; color: #8C4E00; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px;">
-          आधिकारिक कॉरपोरेट प्रोफाइल • BSR FILMS RAIPUR
+      <!-- Prominent Brand Logo & Cover Showcase Box -->
+      <div style="background: linear-gradient(135deg, #FAF2E3 0%, #FFFDF8 100%); border: 2px solid #8C4E00; border-radius: 9px; padding: 7px 10px; text-align: center; margin-bottom: 4px; box-shadow: 0 2px 8px rgba(140, 78, 0, 0.08);">
+        <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 3px;">
+          <img src="data:image/png;base64,{logo_b64}" style="height: 48px; width: auto; max-width: 175px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(140, 78, 0, 0.22));" alt="बी.एस.आर. फिल्म्स Logo">
         </div>
-        <div style="font-size: 14pt; font-weight: 900; color: #0A0A0A; line-height: 1.2;">
+        <div style="font-size: 14.5pt; font-weight: 900; color: #0A0A0A; line-height: 1.15; letter-spacing: -0.2px;">
+          बी.एस.आर. फिल्म्स
+        </div>
+        <div style="font-size: 8.3pt; font-weight: 800; color: #8C4E00; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 1.5px;">
           सेंट्रल इंडिया का प्रतिष्ठित मीडिया प्रोडक्शन हाउस
         </div>
-        <div style="font-size: 8.5pt; color: #444444; font-weight: 600; margin-top: 3px;">
+        <div style="font-size: 7.5pt; color: #444444; font-weight: 600; margin-top: 1px;">
           संस्कृति, सृजनात्मकता एवं अत्याधुनिक प्रसारण तकनीक का 25+ वर्षों का विश्वास
         </div>
-        <div class="pill-wrap" style="justify-content: center; gap: 5px; margin-top: 5px; margin-bottom: 0;">
-          <span class="pill" style="font-size: 7.8pt; padding: 2px 7px;">छत्तीसगढ़ संवाद 'ब' श्रेणी (पंजीयन: 489)</span>
-          <span class="pill" style="font-size: 7.8pt; padding: 2px 7px;">NFDC इम्पैनल्ड</span>
-          <span class="pill" style="font-size: 7.8pt; padding: 2px 7px;">प्रसार भारती अधिकृत</span>
+        <div class="pill-wrap" style="justify-content: center; gap: 4px; margin-top: 4px; margin-bottom: 0;">
+          <span class="pill" style="font-size: 7.5pt; padding: 1.5px 6.5px;">छत्तीसगढ़ संवाद 'ब' श्रेणी (पंजीयन: 489)</span>
+          <span class="pill" style="font-size: 7.5pt; padding: 1.5px 6.5px;">NFDC इम्पैनल्ड</span>
+          <span class="pill" style="font-size: 7.5pt; padding: 1.5px 6.5px;">प्रसार भारती अधिकृत</span>
         </div>
       </div>
 
@@ -442,7 +448,7 @@ html_content = f"""<!DOCTYPE html>
     </div>
 
     <div class="footer">
-      <div><strong>बी.एस.आर. फिल्म्स रायपुर</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</div>
+      <div><strong>बी.एस.आर. फिल्म्स</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</div>
       <div>1 / 7</div>
     </div>
   </div>
@@ -455,7 +461,7 @@ html_content = f"""<!DOCTYPE html>
       <div class="header-left">
         <img src="data:image/png;base64,{icon_b64}" class="header-logo" alt="Logo">
         <div>
-          <div class="header-title">बी.एस.आर. फिल्म्स रायपुर</div>
+          <div class="header-title">बी.एस.आर. फिल्म्स</div>
           <div class="header-sub">संस्थागत कार्यक्षेत्र, विधाएं एवं पंजीयन</div>
         </div>
       </div>
@@ -518,7 +524,7 @@ html_content = f"""<!DOCTYPE html>
     </div>
 
     <div class="footer">
-      <div><strong>बी.एस.आर. फिल्म्स रायपुर</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</div>
+      <div><strong>बी.एस.आर. फिल्म्स</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</div>
       <div>2 / 7</div>
     </div>
   </div>
@@ -531,7 +537,7 @@ html_content = f"""<!DOCTYPE html>
       <div class="header-left">
         <img src="data:image/png;base64,{icon_b64}" class="header-logo" alt="Logo">
         <div>
-          <div class="header-title">बी.एस.आर. फिल्म्स रायपुर</div>
+          <div class="header-title">बी.एस.आर. फिल्म्स</div>
           <div class="header-sub">दूरदर्शन केंद्र रायपुर प्रसारण विंग</div>
         </div>
       </div>
@@ -595,7 +601,7 @@ html_content = f"""<!DOCTYPE html>
     </div>
 
     <div class="footer">
-      <div><strong>बी.एस.आर. फिल्म्स रायपुर</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</div>
+      <div><strong>बी.एस.आर. फिल्म्स</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</div>
       <div>3 / 7</div>
     </div>
   </div>
@@ -608,7 +614,7 @@ html_content = f"""<!DOCTYPE html>
       <div class="header-left">
         <img src="data:image/png;base64,{icon_b64}" class="header-logo" alt="Logo">
         <div>
-          <div class="header-title">बी.एस.आर. फिल्म्स रायपुर</div>
+          <div class="header-title">बी.एस.आर. फिल्म्स</div>
           <div class="header-sub">आकाशवाणी रायपुर एवं ऑडियो विंग</div>
         </div>
       </div>
@@ -684,7 +690,7 @@ html_content = f"""<!DOCTYPE html>
     </div>
 
     <div class="footer">
-      <div><strong>बी.एस.आर. फिल्म्स रायपुर</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</div>
+      <div><strong>बी.एस.आर. फिल्म्स</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</div>
       <div>4 / 7</div>
     </div>
   </div>
@@ -697,7 +703,7 @@ html_content = f"""<!DOCTYPE html>
       <div class="header-left">
         <img src="data:image/png;base64,{icon_b64}" class="header-logo" alt="Logo">
         <div>
-          <div class="header-title">बी.एस.आर. फिल्म्स रायपुर</div>
+          <div class="header-title">बी.एस.आर. फिल्म्स</div>
           <div class="header-sub">ऐतिहासिक चुनाव व सामाजिक अभियान</div>
         </div>
       </div>
@@ -772,7 +778,7 @@ html_content = f"""<!DOCTYPE html>
     </div>
 
     <div class="footer">
-      <div><strong>बी.एस.आर. फिल्म्स रायपुर</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</div>
+      <div><strong>बी.एस.आर. फिल्म्स</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</div>
       <div>5 / 7</div>
     </div>
   </div>
@@ -785,7 +791,7 @@ html_content = f"""<!DOCTYPE html>
       <div class="header-left">
         <img src="data:image/png;base64,{icon_b64}" class="header-logo" alt="Logo">
         <div>
-          <div class="header-title">बी.एस.आर. फिल्म्स रायपुर</div>
+          <div class="header-title">बी.एस.आर. फिल्म्स</div>
           <div class="header-sub">संस्थापक एवं सृजनात्मक नेतृत्व</div>
         </div>
       </div>
@@ -864,7 +870,7 @@ html_content = f"""<!DOCTYPE html>
     </div>
 
     <div class="footer">
-      <div><strong>बी.एस.आर. फिल्म्स रायपुर</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</div>
+      <div><strong>बी.एस.आर. फिल्म्स</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</div>
       <div>6 / 7</div>
     </div>
   </div>
@@ -877,7 +883,7 @@ html_content = f"""<!DOCTYPE html>
       <div class="header-left">
         <img src="data:image/png;base64,{icon_b64}" class="header-logo" alt="Logo">
         <div>
-          <div class="header-title">बी.एस.आर. फिल्म्स रायपुर</div>
+          <div class="header-title">बी.एस.आर. फिल्म्स</div>
           <div class="header-sub">आधिकारिक संपर्क, स्टूडियो एवं संचिका</div>
         </div>
       </div>
@@ -930,10 +936,10 @@ html_content = f"""<!DOCTYPE html>
         </div>
         <div style="text-align: right; flex: 1; padding-left: 14px;">
           <div style="font-size: 8.2pt; color: #555555; margin-bottom: 4px;">
-            <b class="hl">प्रमाणित:</b> संचिका में अंकित समस्त विवरण बी.एस.आर. फिल्म्स रायपुर के <b class="hl">अधिकृत अभिलेखों एवं अनुबंधों</b> पर आधारित हैं।
+            <b class="hl">प्रमाणित:</b> संचिका में अंकित समस्त विवरण बी.एस.आर. फिल्म्स के <b class="hl">अधिकृत अभिलेखों एवं अनुबंधों</b> पर आधारित हैं।
           </div>
           <div style="font-size: 14.5pt; font-weight: 900; color: #8C4E00; line-height: 1.15;">
-            बी.एस.आर. फिल्म्स रायपुर
+            बी.एस.आर. फिल्म्स
           </div>
           <div style="font-size: 10pt; font-weight: 800; color: #111111; margin-top: 2.5px;">
             अधिकृत हस्ताक्षरकर्ता • संस्थापक एवं निर्देशक
@@ -943,7 +949,7 @@ html_content = f"""<!DOCTYPE html>
     </div>
 
     <div class="footer">
-      <div><strong>बी.एस.आर. फिल्म्स रायपुर</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</div>
+      <div><strong>बी.एस.आर. फिल्म्स</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</div>
       <div>7 / 7</div>
     </div>
   </div>
@@ -957,7 +963,7 @@ with open('public/bsr_company_dossier.html', 'w', encoding='utf-8') as f:
 
 print("Saved public/bsr_company_dossier.html!")
 
-# Compile to PDF using Edge - Output as BSR_Films_Business_Portfolio.pdf (keeping Bhishmdev_Chaturvedi_Portfolio.pdf untouched!)
+# Compile to PDF using Edge - Output as BSR_Films_Business_Portfolio.pdf
 res = subprocess.run([
     r'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe',
     '--headless',

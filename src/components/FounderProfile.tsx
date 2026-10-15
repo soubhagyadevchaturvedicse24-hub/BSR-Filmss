@@ -286,7 +286,7 @@ END:VCARD`;
               <div>
                 <h2 className="text-lg sm:text-xl font-black text-[#0A0A0A] leading-tight">भीष्मदेव चतुर्वेदी</h2>
                 <p className="text-[10px] sm:text-xs font-bold text-[#8C4E00] uppercase tracking-wide">
-                  बी.एस.आर. फिल्म्स रायपुर • संस्थापक एवं निर्देशक
+                  बी.एस.आर. फिल्म्स • संस्थापक एवं निर्देशक
                 </p>
               </div>
             </div>
@@ -415,7 +415,7 @@ END:VCARD`;
 
           {/* Screen 1 Footer */}
           <div className="border-t border-[#D5A04A] pt-2 mt-3 flex justify-between text-[11px] font-bold text-[#444444]">
-            <span>बी.एस.आर. फिल्म्स रायपुर • <strong className="text-[#8C4E00]">भीष्मदेव चतुर्वेदी</strong></span>
+            <span>बी.एस.आर. फिल्म्स • <strong className="text-[#8C4E00]">भीष्मदेव चतुर्वेदी</strong></span>
             <span>1 / 7</span>
           </div>
         </section>
@@ -510,7 +510,7 @@ END:VCARD`;
 
           {/* Screen 2 Footer */}
           <div className="border-t border-[#D5A04A] pt-2 mt-3 flex justify-between text-[11px] font-bold text-[#444444]">
-            <span>बी.एस.आर. फिल्म्स रायपुर • <strong className="text-[#8C4E00]">भीष्मदेव चतुर्वेदी</strong></span>
+            <span>बी.एस.आर. फिल्म्स • <strong className="text-[#8C4E00]">भीष्मदेव चतुर्वेदी</strong></span>
             <span>2 / 7</span>
           </div>
         </section>
@@ -526,7 +526,7 @@ END:VCARD`;
               <div>
                 <h2 className="text-lg sm:text-xl font-black text-[#0A0A0A] leading-tight">भीष्मदेव चतुर्वेदी</h2>
                 <p className="text-[10px] sm:text-xs font-bold text-[#8C4E00] uppercase tracking-wide">
-                  बी.एस.आर. फिल्म्स रायपुर • संस्थागत पंजीयन
+                  बी.एस.आर. फिल्म्स • संस्थागत पंजीयन
                 </p>
               </div>
             </div>
@@ -594,7 +594,7 @@ END:VCARD`;
 
           {/* Screen 3 Footer */}
           <div className="border-t border-[#D5A04A] pt-2 mt-3 flex justify-between text-[11px] font-bold text-[#444444]">
-            <span>बी.एस.आर. फिल्म्स रायपुर • <strong className="text-[#8C4E00]">भीष्मदेव चतुर्वेदी</strong></span>
+            <span>बी.एस.आर. फिल्म्स • <strong className="text-[#8C4E00]">भीष्मदेव चतुर्वेदी</strong></span>
             <span>3 / 7</span>
           </div>
         </section>
@@ -686,7 +686,7 @@ END:VCARD`;
 
           {/* Screen 4 Footer */}
           <div className="border-t border-[#D5A04A] pt-2 mt-3 flex justify-between text-[11px] font-bold text-[#444444]">
-            <span>बी.एस.आर. फिल्म्स रायपुर • <strong className="text-[#8C4E00]">भीष्मदेव चतुर्वेदी</strong></span>
+            <span>बी.एस.आर. फिल्म्स • <strong className="text-[#8C4E00]">भीष्मदेव चतुर्वेदी</strong></span>
             <span>4 / 7</span>
           </div>
         </section>
@@ -772,7 +772,7 @@ END:VCARD`;
 
           {/* Screen 5 Footer */}
           <div className="border-t border-[#D5A04A] pt-2 mt-3 flex justify-between text-[11px] font-bold text-[#444444]">
-            <span>बी.एस.आर. फिल्म्स रायपुर • <strong className="text-[#8C4E00]">भीष्मदेव चतुर्वेदी</strong></span>
+            <span>बी.एस.आर. फिल्म्स • <strong className="text-[#8C4E00]">भीष्मदेव चतुर्वेदी</strong></span>
             <span>5 / 7</span>
           </div>
         </section>
@@ -854,7 +854,7 @@ END:VCARD`;
 
           {/* Screen 6 Footer */}
           <div className="border-t border-[#D5A04A] pt-2 mt-3 flex justify-between text-[11px] font-bold text-[#444444]">
-            <span>बी.एस.आर. फिल्म्स रायपुर • <strong className="text-[#8C4E00]">भीष्मदेव चतुर्वेदी</strong></span>
+            <span>बी.एस.आर. फिल्म्स • <strong className="text-[#8C4E00]">भीष्मदेव चतुर्वेदी</strong></span>
             <span>6 / 7</span>
           </div>
         </section>
@@ -931,14 +931,14 @@ END:VCARD`;
                 ( भीष्मदेव चतुर्वेदी )
               </p>
               <p className="text-xs sm:text-sm font-bold text-[#111111] mt-0.5">
-                संस्थापक एवं निर्देशक • बी.एस.आर. फिल्म्स रायपुर
+                संस्थापक एवं निर्देशक • बी.एस.आर. फिल्म्स
               </p>
             </div>
           </div>
 
           {/* Screen 7 Footer */}
           <div className="border-t border-[#D5A04A] pt-2 mt-3 flex justify-between text-[11px] font-bold text-[#444444]">
-            <span>बी.एस.आर. फिल्म्स रायपुर • <strong className="text-[#8C4E00]">भीष्मदेव चतुर्वेदी</strong></span>
+            <span>बी.एस.आर. फिल्म्स • <strong className="text-[#8C4E00]">भीष्मदेव चतुर्वेदी</strong></span>
             <span>7 / 7</span>
           </div>
         </section>

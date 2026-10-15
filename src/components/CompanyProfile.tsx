@@ -17,7 +17,6 @@ import {
   Printer,
   FileText,
   Building2,
-  Award,
 } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import LanguageToggle from "./LanguageToggle";
@@ -127,8 +126,8 @@ export default function CompanyProfile() {
 
   const handleShare = async () => {
     const shareData = {
-      title: "बी.एस.आर. फिल्म्स रायपुर | कॉरपोरेट पोर्टफोलियो",
-      text: "बी.एस.आर. फिल्म्स रायपुर — फिल्म, टीवी, वृत्तचित्र एवं मीडिया प्रोडक्शन हाउस। 25+ वर्षों की संस्थागत विश्वसनीयता।",
+      title: "बी.एस.आर. फिल्म्स | कॉरपोरेट पोर्टफोलियो",
+      text: "बी.एस.आर. फिल्म्स — फिल्म, टीवी, वृत्तचित्र एवं मीडिया प्रोडक्शन हाउस। 25+ वर्षों की संस्थागत विश्वसनीयता।",
       url: typeof window !== "undefined" ? window.location.href : "https://bsrfilms.com/company",
     };
 
@@ -242,7 +241,7 @@ export default function CompanyProfile() {
       <main className="max-w-[460px] sm:max-w-xl md:max-w-2xl mx-auto px-3 sm:px-4 pt-6 space-y-6">
 
         {/* ═══════════════════════════════════════════════════════════════════
-            SCREEN 1: BSR FILMS RAIPUR - CORPORATE OVERVIEW & CORE CREDENTIALS
+            SCREEN 1: BSR FILMS - CORPORATE OVERVIEW, LOGO SHOWCASE & CREDENTIALS
             ═══════════════════════════════════════════════════════════════════ */}
         <section className="bg-white border-2 border-[#8C4E00] rounded-2xl p-4 sm:p-5 shadow-lg relative overflow-hidden break-inside-avoid print:border-none print:shadow-none print:rounded-none print:mb-12">
           {/* Header */}
@@ -256,7 +255,7 @@ export default function CompanyProfile() {
                 className="w-8 h-8 sm:w-9 sm:h-9 object-contain"
               />
               <div>
-                <h1 className="text-lg sm:text-xl font-black text-[#0A0A0A] leading-tight">बी.एस.आर. फिल्म्स रायपुर</h1>
+                <h1 className="text-lg sm:text-xl font-black text-[#0A0A0A] leading-tight">बी.एस.आर. फिल्म्स</h1>
                 <p className="text-[10px] sm:text-xs font-bold text-[#8C4E00] uppercase tracking-wide">
                   फिल्म, टीवी, वृत्तचित्र एवं मीडिया प्रोडक्शन हाउस
                 </p>
@@ -268,15 +267,25 @@ export default function CompanyProfile() {
             </div>
           </div>
 
-          {/* Corporate Cover Banner */}
+          {/* Prominent Brand Logo Showcase Box */}
           <div className="bg-gradient-to-br from-[#FAF2E3] to-[#FFFDF8] border-2 border-[#8C4E00] rounded-xl p-3.5 text-center mb-3 shadow-sm">
-            <span className="text-[10px] font-extrabold text-[#8C4E00] uppercase tracking-wider block mb-1">
-              आधिकारिक कॉरपोरेट प्रोफाइल • BSR FILMS RAIPUR
-            </span>
-            <h2 className="text-base sm:text-lg font-black text-[#0A0A0A] leading-tight">
-              सेंट्रल इंडिया का प्रतिष्ठित मीडिया प्रोडक्शन हाउस
+            <div className="flex justify-center items-center mb-2">
+              <Image
+                src="/bsr-logo-clean.png"
+                alt="बी.एस.आर. फिल्म्स Logo"
+                width={180}
+                height={68}
+                className="h-12 w-auto max-w-[175px] object-contain drop-shadow-[0_2px_4px_rgba(140,78,0,0.22)]"
+                priority
+              />
+            </div>
+            <h2 className="text-lg sm:text-xl font-black text-[#0A0A0A] leading-tight">
+              बी.एस.आर. फिल्म्स
             </h2>
-            <p className="text-xs text-[#444444] font-medium mt-1">
+            <p className="text-[11px] sm:text-xs font-bold text-[#8C4E00] uppercase tracking-wide mt-0.5">
+              सेंट्रल इंडिया का प्रतिष्ठित मीडिया प्रोडक्शन हाउस
+            </p>
+            <p className="text-[11px] text-[#444444] font-medium mt-1">
               संस्कृति, सृजनात्मकता एवं अत्याधुनिक प्रसारण तकनीक का 25+ वर्षों का विश्वास
             </p>
             <div className="flex flex-wrap justify-center gap-1.5 mt-2.5">
@@ -361,7 +370,7 @@ export default function CompanyProfile() {
 
           {/* Screen 1 Footer */}
           <div className="border-t border-[#D5A04A] pt-2 mt-3 flex justify-between text-[11px] font-bold text-[#444444]">
-            <span><strong>बी.एस.आर. फिल्म्स रायपुर</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</span>
+            <span><strong>बी.एस.आर. फिल्म्स</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</span>
             <span>1 / 7</span>
           </div>
         </section>
@@ -375,7 +384,7 @@ export default function CompanyProfile() {
             <div className="flex items-center gap-2">
               <Image src="/bsr-icon.webp" alt="Logo" width={34} height={34} className="w-8 h-8 sm:w-9 sm:h-9 object-contain" />
               <div>
-                <h2 className="text-lg sm:text-xl font-black text-[#0A0A0A] leading-tight">बी.एस.आर. फिल्म्स रायपुर</h2>
+                <h2 className="text-lg sm:text-xl font-black text-[#0A0A0A] leading-tight">बी.एस.आर. फिल्म्स</h2>
                 <p className="text-[10px] sm:text-xs font-bold text-[#8C4E00] uppercase tracking-wide">
                   संस्थागत कार्यक्षेत्र, विधाएं एवं पंजीयन
                 </p>
@@ -441,7 +450,7 @@ export default function CompanyProfile() {
 
           {/* Screen 2 Footer */}
           <div className="border-t border-[#D5A04A] pt-2 mt-3 flex justify-between text-[11px] font-bold text-[#444444]">
-            <span><strong>बी.एस.आर. फिल्म्स रायपुर</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</span>
+            <span><strong>बी.एस.आर. फिल्म्स</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</span>
             <span>2 / 7</span>
           </div>
         </section>
@@ -455,7 +464,7 @@ export default function CompanyProfile() {
             <div className="flex items-center gap-2">
               <Image src="/bsr-icon.webp" alt="Logo" width={34} height={34} className="w-8 h-8 sm:w-9 sm:h-9 object-contain" />
               <div>
-                <h2 className="text-lg sm:text-xl font-black text-[#0A0A0A] leading-tight">बी.एस.आर. फिल्म्स रायपुर</h2>
+                <h2 className="text-lg sm:text-xl font-black text-[#0A0A0A] leading-tight">बी.एस.आर. फिल्म्स</h2>
                 <p className="text-[10px] sm:text-xs font-bold text-[#8C4E00] uppercase tracking-wide">
                   दूरदर्शन केंद्र रायपुर प्रसारण विंग
                 </p>
@@ -531,7 +540,7 @@ export default function CompanyProfile() {
 
           {/* Screen 3 Footer */}
           <div className="border-t border-[#D5A04A] pt-2 mt-3 flex justify-between text-[11px] font-bold text-[#444444]">
-            <span><strong>बी.एस.आर. फिल्म्स रायपुर</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</span>
+            <span><strong>बी.एस.आर. फिल्म्स</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</span>
             <span>3 / 7</span>
           </div>
         </section>
@@ -545,7 +554,7 @@ export default function CompanyProfile() {
             <div className="flex items-center gap-2">
               <Image src="/bsr-icon.webp" alt="Logo" width={34} height={34} className="w-8 h-8 sm:w-9 sm:h-9 object-contain" />
               <div>
-                <h2 className="text-lg sm:text-xl font-black text-[#0A0A0A] leading-tight">बी.एस.आर. फिल्म्स रायपुर</h2>
+                <h2 className="text-lg sm:text-xl font-black text-[#0A0A0A] leading-tight">बी.एस.आर. फिल्म्स</h2>
                 <p className="text-[10px] sm:text-xs font-bold text-[#8C4E00] uppercase tracking-wide">
                   आकाशवाणी रायपुर एवं ऑडियो विंग
                 </p>
@@ -622,7 +631,7 @@ export default function CompanyProfile() {
 
           {/* Screen 4 Footer */}
           <div className="border-t border-[#D5A04A] pt-2 mt-3 flex justify-between text-[11px] font-bold text-[#444444]">
-            <span><strong>बी.एस.आर. फिल्म्स रायपुर</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</span>
+            <span><strong>बी.एस.आर. फिल्म्स</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</span>
             <span>4 / 7</span>
           </div>
         </section>
@@ -636,7 +645,7 @@ export default function CompanyProfile() {
             <div className="flex items-center gap-2">
               <Image src="/bsr-icon.webp" alt="Logo" width={34} height={34} className="w-8 h-8 sm:w-9 sm:h-9 object-contain" />
               <div>
-                <h2 className="text-lg sm:text-xl font-black text-[#0A0A0A] leading-tight">बी.एस.आर. फिल्म्स रायपुर</h2>
+                <h2 className="text-lg sm:text-xl font-black text-[#0A0A0A] leading-tight">बी.एस.आर. फिल्म्स</h2>
                 <p className="text-[10px] sm:text-xs font-bold text-[#8C4E00] uppercase tracking-wide">
                   ऐतिहासिक चुनाव व सामाजिक अभियान
                 </p>
@@ -704,7 +713,7 @@ export default function CompanyProfile() {
 
           {/* Screen 5 Footer */}
           <div className="border-t border-[#D5A04A] pt-2 mt-3 flex justify-between text-[11px] font-bold text-[#444444]">
-            <span><strong>बी.एस.आर. फिल्म्स रायपुर</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</span>
+            <span><strong>बी.एस.आर. फिल्म्स</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</span>
             <span>5 / 7</span>
           </div>
         </section>
@@ -718,7 +727,7 @@ export default function CompanyProfile() {
             <div className="flex items-center gap-2">
               <Image src="/bsr-icon.webp" alt="Logo" width={34} height={34} className="w-8 h-8 sm:w-9 sm:h-9 object-contain" />
               <div>
-                <h2 className="text-lg sm:text-xl font-black text-[#0A0A0A] leading-tight">बी.एस.आर. फिल्म्स रायपुर</h2>
+                <h2 className="text-lg sm:text-xl font-black text-[#0A0A0A] leading-tight">बी.एस.आर. फिल्म्स</h2>
                 <p className="text-[10px] sm:text-xs font-bold text-[#8C4E00] uppercase tracking-wide">
                   संस्थापक एवं सृजनात्मक नेतृत्व
                 </p>
@@ -799,7 +808,7 @@ export default function CompanyProfile() {
 
           {/* Screen 6 Footer */}
           <div className="border-t border-[#D5A04A] pt-2 mt-3 flex justify-between text-[11px] font-bold text-[#444444]">
-            <span><strong>बी.एस.आर. फिल्म्स रायपुर</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</span>
+            <span><strong>बी.एस.आर. फिल्म्स</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</span>
             <span>6 / 7</span>
           </div>
         </section>
@@ -813,7 +822,7 @@ export default function CompanyProfile() {
             <div className="flex items-center gap-2">
               <Image src="/bsr-icon.webp" alt="Logo" width={34} height={34} className="w-8 h-8 sm:w-9 sm:h-9 object-contain" />
               <div>
-                <h2 className="text-lg sm:text-xl font-black text-[#0A0A0A] leading-tight">बी.एस.आर. फिल्म्स रायपुर</h2>
+                <h2 className="text-lg sm:text-xl font-black text-[#0A0A0A] leading-tight">बी.एस.आर. फिल्म्स</h2>
                 <p className="text-[10px] sm:text-xs font-bold text-[#8C4E00] uppercase tracking-wide">
                   आधिकारिक संपर्क, स्टूडियो एवं संचिका
                 </p>
@@ -870,10 +879,10 @@ export default function CompanyProfile() {
             <SvgSeal />
             <div className="text-right flex-1 pl-3.5">
               <p className="text-[10px] text-[#555555] mb-1">
-                <HL>प्रमाणित:</HL> संचिका में अंकित समस्त विवरण बी.एस.आर. फिल्म्स रायपुर के <HL>अधिकृत अभिलेखों एवं अनुबंधों</HL> पर आधारित हैं।
+                <HL>प्रमाणित:</HL> संचिका में अंकित समस्त विवरण बी.एस.आर. फिल्म्स के <HL>अधिकृत अभिलेखों एवं अनुबंधों</HL> पर आधारित हैं।
               </p>
               <p className="text-lg sm:text-xl font-black text-[#8C4E00] leading-tight">
-                बी.एस.आर. फिल्म्स रायपुर
+                बी.एस.आर. फिल्म्स
               </p>
               <p className="text-xs sm:text-sm font-bold text-[#111111] mt-0.5">
                 अधिकृत हस्ताक्षरकर्ता • संस्थापक एवं निर्देशक
@@ -883,7 +892,7 @@ export default function CompanyProfile() {
 
           {/* Screen 7 Footer */}
           <div className="border-t border-[#D5A04A] pt-2 mt-3 flex justify-between text-[11px] font-bold text-[#444444]">
-            <span><strong>बी.एस.आर. फिल्म्स रायपुर</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</span>
+            <span><strong>बी.एस.आर. फिल्म्स</strong> • कॉरपोरेट प्रोफाइल • www.bsrfilms.com</span>
             <span>7 / 7</span>
           </div>
         </section>
@@ -902,7 +911,7 @@ export default function CompanyProfile() {
 
         <a
           href={`https://wa.me/917000866323?text=${encodeURIComponent(
-            "नमस्ते, मैं बी.एस.आर. फिल्म्स रायपुर की कॉरपोरेट प्रोफ़ाइल देखकर संपर्क कर रहा हूँ।"
+            "नमस्ते, मैं बी.एस.आर. फिल्म्स की कॉरपोरेट प्रोफ़ाइल देखकर संपर्क कर रहा हूँ।"
           )}`}
           target="_blank"
           rel="noopener noreferrer"
