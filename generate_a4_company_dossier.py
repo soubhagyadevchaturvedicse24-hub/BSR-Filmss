@@ -4,6 +4,9 @@ import subprocess
 import fitz
 
 # Load image assets as Base64 strings
+with open('public/cm-award.jpg', 'rb') as f:
+    cm_b64 = base64.b64encode(f.read()).decode('utf-8')
+
 with open('public/team/bhishma.png', 'rb') as f:
     bhishma_b64 = base64.b64encode(f.read()).decode('utf-8')
 
@@ -14,33 +17,14 @@ with open('public/bsr-logo-clean.png', 'rb') as f:
     logo_b64 = base64.b64encode(f.read()).decode('utf-8')
 
 # High-resolution vector SVGs for print fidelity
-svg_camera_big = """<svg width="56" height="56" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect x="8" y="24" width="44" height="36" rx="6" fill="#FAF2E3" stroke="#8C4E00" stroke-width="3"/>
-  <circle cx="30" cy="42" r="10" stroke="#8C4E00" stroke-width="3" fill="#FFFFFF"/>
-  <circle cx="30" cy="42" r="5" fill="#8C4E00"/>
-  <path d="M52 34L72 22V62L52 50V34Z" fill="#FAF2E3" stroke="#8C4E00" stroke-width="3" stroke-linejoin="round"/>
-  <circle cx="18" cy="14" r="8" fill="#FAF2E3" stroke="#8C4E00" stroke-width="2.8"/>
-  <circle cx="18" cy="14" r="3.5" fill="#8C4E00"/>
-  <circle cx="38" cy="14" r="8" fill="#FAF2E3" stroke="#8C4E00" stroke-width="2.8"/>
-  <circle cx="38" cy="14" r="3.5" fill="#8C4E00"/>
-  <path d="M18 60L12 74M42 60L48 74M30 60V74" stroke="#8C4E00" stroke-width="3" stroke-linecap="round"/>
-</svg>"""
-
-svg_award_big = """<svg width="56" height="56" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="40" cy="30" r="22" fill="#FAF2E3" stroke="#8C4E00" stroke-width="3.2"/>
-  <circle cx="40" cy="30" r="14" stroke="#8C4E00" stroke-width="2.4" fill="#FFFDF8"/>
-  <path d="M40 20L43.5 27L51 28L45.5 33.5L47 41L40 37.5L33 41L34.5 33.5L29 28L36.5 27L40 20Z" fill="#8C4E00"/>
-  <path d="M30 48L22 72L40 64L58 72L50 48" fill="#FAF2E3" stroke="#8C4E00" stroke-width="3" stroke-linejoin="round"/>
-</svg>"""
-
-svg_crest_big = """<svg width="56" height="56" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+svg_crest_big = """<svg width="52" height="52" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M40 8L60 16V36C60 52 40 70 40 70C40 70 20 52 20 36V16L40 8Z" fill="#FAF2E3" stroke="#8C4E00" stroke-width="3.2" stroke-linejoin="round"/>
   <path d="M30 30C35 27 45 27 50 30V48C45 45 35 45 30 48V30Z" fill="#FFFFFF" stroke="#8C4E00" stroke-width="2.4"/>
   <line x1="40" y1="28" x2="40" y2="47" stroke="#8C4E00" stroke-width="2.4"/>
   <circle cx="40" cy="20" r="4" fill="#8C4E00"/>
 </svg>"""
 
-svg_seal_big = """<svg width="74" height="74" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+svg_seal_big = """<svg width="78" height="78" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
   <circle cx="40" cy="40" r="37" stroke="#8C4E00" stroke-width="3.2" stroke-dasharray="4 2.5" fill="#FFFDF8"/>
   <circle cx="40" cy="40" r="30" stroke="#8C4E00" stroke-width="2.4" fill="#FAF2E3"/>
   <circle cx="40" cy="40" r="22" stroke="#8C4E00" stroke-width="2" fill="#FFFFFF"/>
@@ -55,7 +39,7 @@ html_content = f"""<!DOCTYPE html>
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
-  <title>बी.एस.आर. फिल्म्स - आधिकारिक कॉरपोरेट पोर्टफोलियो (A4 संक्षिप्त प्रिंट संस्करण) | BSR Films</title>
+  <title>बी.एस.आर. फिल्म्स - आधिकारिक कॉरपोरेट पोर्टफोलियो (A4 2-पृष्ठ प्रिंट संस्करण) | BSR Films</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -74,9 +58,9 @@ html_content = f"""<!DOCTYPE html>
     body {{
       font-family: 'Noto Sans Devanagari', 'Nirmala UI', sans-serif;
       background: #EAE6DF;
-      color: #111111;
-      line-height: 1.35;
-      font-size: 9.8pt;
+      color: #0A0A0A;
+      line-height: 1.32;
+      font-size: 10pt;
     }}
     .page {{
       width: 210mm;
@@ -85,7 +69,7 @@ html_content = f"""<!DOCTYPE html>
       max-height: 297mm;
       margin: 0 auto;
       background: #FFFFFF;
-      padding: 8mm 12mm 7mm 12mm;
+      padding: 6.5mm 12mm 5.5mm 12mm;
       position: relative;
       page-break-after: always;
       page-break-inside: avoid;
@@ -100,14 +84,13 @@ html_content = f"""<!DOCTYPE html>
       .page {{ border-bottom: none; }}
     }}
 
-    /* Balanced Page Body */
     .page-body {{
       flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       overflow: hidden;
-      margin: 4px 0 3px 0;
+      margin: 3px 0 2px 0;
     }}
 
     /* Header */
@@ -116,8 +99,8 @@ html_content = f"""<!DOCTYPE html>
       align-items: center;
       justify-content: space-between;
       border-bottom: 2.2px solid #8C4E00;
-      padding-bottom: 4px;
-      margin-bottom: 3px;
+      padding-bottom: 3.5px;
+      margin-bottom: 2.5px;
     }}
     .header-left {{
       display: flex;
@@ -125,19 +108,19 @@ html_content = f"""<!DOCTYPE html>
       gap: 10px;
     }}
     .header-logo {{
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       object-fit: contain;
     }}
     .header-title {{
-      font-size: 17pt;
+      font-size: 18pt;
       font-weight: 900;
       color: #0A0A0A;
       line-height: 1.1;
       letter-spacing: -0.2px;
     }}
     .header-sub {{
-      font-size: 9.2pt;
+      font-size: 9.6pt;
       font-weight: 800;
       color: #8C4E00;
       text-transform: uppercase;
@@ -146,26 +129,26 @@ html_content = f"""<!DOCTYPE html>
     }}
     .header-meta {{
       text-align: right;
-      font-size: 8.8pt;
-      color: #333333;
-      font-weight: 700;
-      line-height: 1.3;
+      font-size: 9.2pt;
+      color: #222222;
+      font-weight: 800;
+      line-height: 1.25;
     }}
 
     /* Section Titles */
     .section-title {{
-      font-size: 11.5pt;
+      font-size: 12pt;
       font-weight: 900;
       color: #0A0A0A;
       border-bottom: 1.8px solid #8C4E00;
       padding-bottom: 2px;
-      margin: 4px 0 5px 0;
+      margin: 3px 0 4.5px 0;
       display: flex;
       justify-content: space-between;
       align-items: baseline;
     }}
     .section-sub {{
-      font-size: 8.8pt;
+      font-size: 9.2pt;
       font-weight: 800;
       color: #8C4E00;
     }}
@@ -175,8 +158,8 @@ html_content = f"""<!DOCTYPE html>
       background: #FDFBF7;
       border: 1.2px solid #D8CDB8;
       border-radius: 7px;
-      padding: 6.5px 10px;
-      margin-bottom: 5px;
+      padding: 6px 9px;
+      margin-bottom: 4px;
     }}
     .card-highlight {{
       background: #FFFDF8;
@@ -184,22 +167,22 @@ html_content = f"""<!DOCTYPE html>
       box-shadow: 0 2px 5px rgba(140, 78, 0, 0.06);
     }}
     .card-title-bold {{
-      font-size: 10.2pt;
+      font-size: 10.5pt;
       font-weight: 800;
       color: #8C4E00;
       line-height: 1.25;
     }}
     .card-desc {{
-      font-size: 8.8pt;
-      color: #222222;
-      line-height: 1.35;
-      font-weight: 500;
+      font-size: 9.2pt;
+      color: #1A1A1A;
+      line-height: 1.32;
+      font-weight: 600;
       margin-top: 2px;
     }}
     .card-tag {{
       display: inline-block;
-      font-size: 8.6pt;
-      font-weight: 800;
+      font-size: 9pt;
+      font-weight: 900;
       color: #8C4E00;
       text-transform: uppercase;
       letter-spacing: 0.4px;
@@ -208,7 +191,7 @@ html_content = f"""<!DOCTYPE html>
       background: #FAF2E3;
       border: 1px solid #C89038;
       color: #5A2D00;
-      font-size: 8.2pt;
+      font-size: 8.6pt;
       font-weight: 800;
       padding: 1.5px 6.5px;
       border-radius: 4px;
@@ -219,14 +202,14 @@ html_content = f"""<!DOCTYPE html>
     .grid-2 {{
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 7px;
-      margin-bottom: 5px;
+      gap: 6.5px;
+      margin-bottom: 4px;
     }}
     .grid-3 {{
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap: 6.5px;
-      margin-bottom: 5px;
+      gap: 6px;
+      margin-bottom: 4px;
     }}
 
     /* Stat Box */
@@ -234,43 +217,43 @@ html_content = f"""<!DOCTYPE html>
       background: #FDFBF7;
       border: 1.3px solid #D5A04A;
       border-radius: 7px;
-      padding: 6px 5px;
+      padding: 5px 4px;
       text-align: center;
     }}
     .stat-num {{
-      font-size: 19pt;
+      font-size: 21pt;
       font-weight: 900;
       color: #8C4E00;
-      line-height: 1.1;
+      line-height: 1.05;
     }}
     .stat-label {{
-      font-size: 9.5pt;
-      font-weight: 800;
+      font-size: 10pt;
+      font-weight: 900;
       color: #0A0A0A;
       margin-top: 1px;
     }}
     .stat-sub {{
-      font-size: 7.6pt;
+      font-size: 8pt;
       color: #555555;
-      font-weight: 600;
-      line-height: 1.2;
+      font-weight: 700;
+      line-height: 1.15;
     }}
 
     /* Pills */
     .pill-wrap {{
       display: flex;
       flex-wrap: wrap;
-      gap: 4.5px;
-      margin: 2.5px 0;
+      gap: 4px;
+      margin: 2px 0;
     }}
     .pill {{
       background: #FAF2E3;
-      border: 1px solid #C89038;
-      color: #5A2D00;
-      font-size: 8.4pt;
+      border: 1.1px solid #C89038;
+      color: #4A2400;
+      font-size: 8.8pt;
       font-weight: 800;
       padding: 2px 7.5px;
-      border-radius: 5px;
+      border-radius: 4px;
       display: inline-block;
     }}
     .pill-gold {{
@@ -287,27 +270,27 @@ html_content = f"""<!DOCTYPE html>
       background: #FFFDF8;
       border: 1.5px solid #D5A04A;
       border-radius: 8px;
-      padding: 7px 11px;
+      padding: 6px 11px;
       box-shadow: 0 2px 5px rgba(140, 78, 0, 0.05);
     }}
     .big-banner-icon {{
       flex-shrink: 0;
-      width: 56px;
-      height: 56px;
+      width: 52px;
+      height: 52px;
       display: flex;
       align-items: center;
       justify-content: center;
     }}
     .big-banner-text {{
-      font-size: 8.8pt;
-      color: #333333;
-      line-height: 1.38;
-      font-weight: 500;
+      font-size: 9.2pt;
+      color: #222222;
+      line-height: 1.34;
+      font-weight: 600;
     }}
     .big-banner-text strong {{
       color: #8C4E00;
       font-weight: 900;
-      font-size: 9.8pt;
+      font-size: 10.2pt;
       display: block;
       margin-bottom: 1.5px;
     }}
@@ -324,10 +307,10 @@ html_content = f"""<!DOCTYPE html>
       align-items: center;
       justify-content: space-between;
       border-top: 1.5px solid #D5A04A;
-      padding-top: 4px;
-      margin-top: 3px;
-      font-size: 8.5pt;
-      font-weight: 700;
+      padding-top: 3.5px;
+      margin-top: 2px;
+      font-size: 8.8pt;
+      font-weight: 800;
       color: #444444;
     }}
   </style>
@@ -335,7 +318,7 @@ html_content = f"""<!DOCTYPE html>
 <body>
 
   <!-- ═══════════════════════════════════════════════════════════════════
-       A4 PAGE 1 OF 2: CORPORATE IDENTITY, METRICS, SERVICES & STUDIO
+       A4 PAGE 1 OF 2: CORPORATE IDENTITY, METRICS, SERVICES & INFRASTRUCTURE
        ═══════════════════════════════════════════════════════════════════ -->
   <div class="page">
     <div class="header">
@@ -353,22 +336,22 @@ html_content = f"""<!DOCTYPE html>
     </div>
 
     <div class="page-body">
-      <!-- 1. Hero Brand Showcase Box -->
-      <div style="background: linear-gradient(135deg, #FAF2E3 0%, #FFFDF8 100%); border: 2px solid #8C4E00; border-radius: 9px; padding: 9px 14px; text-align: center; box-shadow: 0 2px 7px rgba(140, 78, 0, 0.08);">
-        <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 3px;">
-          <img src="data:image/png;base64,{logo_b64}" style="height: 48px; width: auto; max-width: 200px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(140, 78, 0, 0.22));" alt="बी.एस.आर. फिल्म्स Logo">
+      <!-- 1. Hero Brand Showcase Box (Concise & Big Font) -->
+      <div style="background: linear-gradient(135deg, #FAF2E3 0%, #FFFDF8 100%); border: 2px solid #8C4E00; border-radius: 9px; padding: 7px 12px; text-align: center; box-shadow: 0 2px 6px rgba(140, 78, 0, 0.08);">
+        <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 2px;">
+          <img src="data:image/png;base64,{logo_b64}" style="height: 46px; width: auto; max-width: 190px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(140, 78, 0, 0.22));" alt="बी.एस.आर. फिल्म्स Logo">
         </div>
-        <div style="font-size: 17pt; font-weight: 900; color: #0A0A0A; line-height: 1.15; letter-spacing: -0.2px;">
+        <div style="font-size: 18pt; font-weight: 900; color: #0A0A0A; line-height: 1.1; letter-spacing: -0.2px;">
           बी.एस.आर. फिल्म्स
         </div>
-        <div style="font-size: 9.6pt; font-weight: 800; color: #8C4E00; text-transform: uppercase; letter-spacing: 0.6px; margin-top: 1.5px;">
+        <div style="font-size: 10.2pt; font-weight: 900; color: #8C4E00; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 1px;">
           सेंट्रल इंडिया का प्रतिष्ठित मीडिया प्रोडक्शन हाउस
         </div>
-        <div style="font-size: 8.5pt; color: #444444; font-weight: 600; margin-top: 1px;">
+        <div style="font-size: 9pt; color: #333333; font-weight: 700; margin-top: 1px;">
           संस्कृति, सृजनात्मकता एवं अत्याधुनिक प्रसारण तकनीक का 25+ वर्षों का अटूट विश्वास
         </div>
-        <!-- Pills / Badges with Owner Red Markups -->
-        <div class="pill-wrap" style="justify-content: center; gap: 5px; margin-top: 5px;">
+        <!-- Pills / Badges (Owner Red Pen Corrections) -->
+        <div class="pill-wrap" style="justify-content: center; gap: 4px; margin-top: 4px;">
           <span class="pill">छत्तीसगढ़ संवाद 'ब' श्रेणी</span>
           <span class="pill">NFDC एनलिस्टेड एजेंसी (निदेशक अनुबंध)</span>
           <span class="pill">प्रसार भारती / दूरदर्शन (वीडियो स्पॉट अनुबंध)</span>
@@ -378,13 +361,13 @@ html_content = f"""<!DOCTYPE html>
         </div>
       </div>
 
-      <!-- 2. Key Production Statistics (3x2 Grid) -->
+      <!-- 2. Key Production Statistics (3x2 Grid - Big Bold Numbers) -->
       <div>
         <div class="section-title">
           <span>प्रमुख सांख्यिकी एवं उपलब्धियां</span>
           <span class="section-sub">प्रमाणित मीडिया परिमाण</span>
         </div>
-        <div class="grid-3" style="margin-bottom: 5px; gap: 5px;">
+        <div class="grid-3" style="margin-bottom: 4px;">
           <div class="stat-box">
             <div class="stat-num">650+</div>
             <div class="stat-label">विज्ञापन स्पॉट्स</div>
@@ -402,16 +385,16 @@ html_content = f"""<!DOCTYPE html>
           </div>
         </div>
 
-        <div class="grid-3" style="margin-bottom: 0; gap: 5px;">
+        <div class="grid-3" style="margin-bottom: 0;">
           <div class="stat-box">
             <div class="stat-num">400+</div>
             <div class="stat-label">रेडियो जिंगल्स</div>
-            <div class="stat-sub">विभिन्न शासकीय, निगम व कॉर्पोरेट</div>
+            <div class="stat-sub">शासकीय, निगम व कॉर्पोरेट</div>
           </div>
           <div class="stat-box">
             <div class="stat-num">32+</div>
             <div class="stat-label">वर्ष मीडिया अनुभव</div>
-            <div class="stat-sub">Professional Media Experience</div>
+            <div class="stat-sub">Industry Leadership</div>
           </div>
           <div class="stat-box">
             <div class="stat-num">10+</div>
@@ -421,79 +404,79 @@ html_content = f"""<!DOCTYPE html>
         </div>
       </div>
 
-      <!-- 3. Core Media Production Services (6 Numbered Verticals) -->
+      <!-- 3. Core Media Production Services (Numbered ① to ⑥ - Concise & Big Font) -->
       <div>
         <div class="section-title">
           <span>व्यावसायिक मीडिया सेवाएं — 6 प्रमुख कार्यक्षेत्र</span>
           <span class="section-sub">स्क्रिप्ट से स्क्रीन तक सम्पूर्ण इन-हाउस निर्माण</span>
         </div>
-        <div class="grid-2" style="gap: 5px; margin-bottom: 5px;">
-          <div class="card" style="padding: 5.5px 8.5px; margin-bottom: 0;">
+        <div class="grid-2" style="gap: 5px; margin-bottom: 4px;">
+          <div class="card" style="padding: 5px 8px; margin-bottom: 0;">
             <div style="display: flex; justify-content: space-between; align-items: baseline;">
               <span class="card-tag">① • शोध एवं विकास</span>
               <span class="card-badge">350+ निर्मित</span>
             </div>
-            <div class="card-title-bold" style="font-size: 9.6pt;">वृत्तचित्र निर्माण (Documentary Films)</div>
-            <div class="card-desc" style="font-size: 8.5pt;">
-              शोध-आधारित, सामाजिक, ऐतिहासिक, पुरातात्विक, जनजातीय एवं विकासात्मक डाक्यूमेंट्रीज। राज्य शासन व अंतरराष्ट्रीय संस्थाओं की फ्लैगशिप योजनाओं का प्रामाणिक दस्तावेजीकरण।
+            <div class="card-title-bold">वृत्तचित्र निर्माण (Documentary Films)</div>
+            <div class="card-desc">
+              शोध-आधारित, सामाजिक, जनजातीय एवं विकासात्मक डाक्यूमेंट्रीज। राज्य शासन व अंतरराष्ट्रीय संस्थाओं की फ्लैगशिप योजनाओं का प्रामाणिक दस्तावेजीकरण।
             </div>
           </div>
 
-          <div class="card" style="padding: 5.5px 8.5px; margin-bottom: 0;">
+          <div class="card" style="padding: 5px 8px; margin-bottom: 0;">
             <div style="display: flex; justify-content: space-between; align-items: baseline;">
               <span class="card-tag">② • शासकीय / कॉर्पोरेट संचार</span>
               <span class="card-badge">650+ निर्मित</span>
             </div>
-            <div class="card-title-bold" style="font-size: 9.6pt;">विज्ञापन व वीडियो स्पॉट्स (Commercials & Promos)</div>
-            <div class="card-desc" style="font-size: 8.5pt;">
-              हाई-इम्पैक्ट टीवी कमर्शियल्स, विज्ञापन, डिजिटल प्रोमोज एवं सोशल मीडिया रील्स। शासकीय जनकल्याणकारी योजनाओं एवं ब्रांड्स हेतु सशक्त विजुअल स्टोरीटेलिंग।
+            <div class="card-title-bold">विज्ञापन व वीडियो स्पॉट्स (Commercials & Promos)</div>
+            <div class="card-desc">
+              हाई-इम्पैक्ट टीवी कमर्शियल्स, विज्ञापन, डिजिटल प्रोमोज एवं सोशल मीडिया रील्स। शासकीय योजनाओं व ब्रांड्स हेतु सशक्त विजुअल स्टोरीटेलिंग।
             </div>
           </div>
         </div>
 
-        <div class="grid-2" style="gap: 5px; margin-bottom: 5px;">
-          <div class="card" style="padding: 5.5px 8.5px; margin-bottom: 0;">
+        <div class="grid-2" style="gap: 5px; margin-bottom: 4px;">
+          <div class="card" style="padding: 5px 8px; margin-bottom: 0;">
             <div style="display: flex; justify-content: space-between; align-items: baseline;">
               <span class="card-tag">③ • साउंड एवं ब्रॉडकास्ट</span>
               <span class="card-badge">500+ निर्मित</span>
             </div>
-            <div class="card-title-bold" style="font-size: 9.6pt;">ऑडियो कार्यक्रम व जिंगल्स (Audio Jingles)</div>
-            <div class="card-desc" style="font-size: 8.5pt;">
+            <div class="card-title-bold">ऑडियो कार्यक्रम व जिंगल्स (Audio Jingles)</div>
+            <div class="card-desc">
               रेडियो जिंगल्स, जन-जागरूकता धारावाहिक, लोकगीत व पॉडकास्ट। आकाशवाणी के 6 केंद्रों हेतु विशेष ऑडियो कंटेंट, साउंड डिजाइनिंग व प्रभावी प्रसारण।
             </div>
           </div>
 
-          <div class="card" style="padding: 5.5px 8.5px; margin-bottom: 0;">
+          <div class="card" style="padding: 5px 8px; margin-bottom: 0;">
             <div style="display: flex; justify-content: space-between; align-items: baseline;">
               <span class="card-tag">④ • विजुअल इफेक्ट्स</span>
               <span class="card-badge">10+ प्रोजेक्ट्स</span>
             </div>
-            <div class="card-title-bold" style="font-size: 9.6pt;">2D / 3D एनिमेशन व वीएफएक्स (Animation & VFX)</div>
-            <div class="card-desc" style="font-size: 8.5pt;">
-              एक्सप्लेनर वीडियो, 3D आर्किटेक्चरल वॉकथ्रू, मोशन इंफोग्राफिक्स, कैरेक्टर एनीमेशन एवं उन्नत वीएफएक्स (VFX) जो जटिल संदेशों को सहज बनाते हैं।
+            <div class="card-title-bold">2D / 3D एनिमेशन व वीएफएक्स (Animation & VFX)</div>
+            <div class="card-desc">
+              एक्सप्लेनर वीडियो, 3D आर्किटेक्चरल वॉकथ्रू, मोशन इंफोग्राफिक्स, कैरेक्टर एनीमेशन एवं उन्नत वीएफएक्स जो जटिल संदेशों को सहज बनाते हैं।
             </div>
           </div>
         </div>
 
         <div class="grid-2" style="gap: 5px; margin-bottom: 0;">
-          <div class="card" style="padding: 5.5px 8.5px; margin-bottom: 0;">
+          <div class="card" style="padding: 5px 8px; margin-bottom: 0;">
             <div style="display: flex; justify-content: space-between; align-items: baseline;">
               <span class="card-tag">⑤ • रेडियो प्रचार प्रसार</span>
               <span class="card-badge">400+ जिंगल्स</span>
             </div>
-            <div class="card-title-bold" style="font-size: 9.6pt;">रेडियो जिंगल्स निर्माण (Radio Jingles)</div>
-            <div class="card-desc" style="font-size: 8.5pt;">
-              400+ रेडियो जिंगल्स का निर्माण विभिन्न शासकीय विभागों, निगमों, मंडलों एवं कॉर्पोरेट संस्थानों हेतु आकाशवाणी के माध्यम से व्यापक प्रसारण।
+            <div class="card-title-bold">रेडियो जिंगल्स निर्माण (Radio Jingles)</div>
+            <div class="card-desc">
+              400+ रेडियो जिंगल्स का निर्माण विभिन्न शासकीय विभागों, निगमों, मंडलों एवं कॉर्पोरेट संस्थानों हेतु आकाशवाणी द्वारा व्यापक प्रसारण।
             </div>
           </div>
 
-          <div class="card" style="padding: 5.5px 8.5px; margin-bottom: 0;">
+          <div class="card" style="padding: 5px 8px; margin-bottom: 0;">
             <div style="display: flex; justify-content: space-between; align-items: baseline;">
               <span class="card-tag">⑥ • लाइव इवेंट्स कवरेज</span>
               <span class="card-badge">4K मल्टी-कैमरा</span>
             </div>
-            <div class="card-title-bold" style="font-size: 9.6pt;">मल्टी-कैमरा लाइव प्रसारण (Multi-Cam Live Telecast)</div>
-            <div class="card-desc" style="font-size: 8.5pt;">
+            <div class="card-title-bold">मल्टी-कैमरा लाइव प्रसारण (Multi-Cam Live Telecast)</div>
+            <div class="card-desc">
               राज्योत्सव, राष्ट्रीय सम्मेलनों, शासकीय उत्सवों, खेल व सांस्कृतिक समारोहों का 4K मल्टी-कैमरा ब्रॉडकास्ट सेटअप एवं सीमलेस लाइव वेबकास्टिंग।
             </div>
           </div>
@@ -501,12 +484,12 @@ html_content = f"""<!DOCTYPE html>
       </div>
 
       <!-- 4. Studio Infrastructure & Cinema Gear Summary -->
-      <div class="card" style="padding: 6px 10px; margin-bottom: 0;">
-        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 3px;">
+      <div class="card" style="padding: 5.5px 9px; margin-bottom: 0;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
           <span class="card-tag">प्रोडक्शन इंफ्रास्ट्रक्चर एवं सिनेमाई उपकरण</span>
           <span class="card-badge">इन-हाउस 4K / 6K फैसिलिटी</span>
         </div>
-        <div class="grid-2" style="gap: 6px; margin-bottom: 0; font-size: 8.5pt; color: #222222;">
+        <div class="grid-2" style="gap: 6px; margin-bottom: 0; font-size: 8.8pt; color: #1A1A1A; font-weight: 600;">
           <div>
             • <strong>कैमरा व गिंबल:</strong> Sony FX Cinema Line / FX6 / FX3, Blackmagic 6K Pro, सिने प्राइम लेंस, Ronin RS3 Pro।<br>
             • <strong>सिनेमा लाइटिंग:</strong> Aputure, Godox Pro LED पैनल्स, 1200W/600W COB, सॉफ्टबॉक्सेज, कटर्स एवं जनरेटर बैकअप।
@@ -519,19 +502,17 @@ html_content = f"""<!DOCTYPE html>
       </div>
 
       <!-- 5. Studio Office Coordinates Box -->
-      <div class="card card-highlight" style="padding: 6px 10px; margin-bottom: 0;">
+      <div class="card card-highlight" style="padding: 5.5px 9px; margin-bottom: 0;">
         <div style="display: flex; justify-content: space-between; align-items: baseline;">
           <span class="card-tag">कार्यालय एवं प्रोडक्शन स्टूडियो</span>
           <span class="card-badge">राजधानी रायपुर (छ.ग.)</span>
         </div>
-        <div style="font-size: 8.8pt; color: #111111; line-height: 1.35; margin-top: 2px;">
+        <div style="font-size: 9pt; color: #0A0A0A; line-height: 1.35; margin-top: 1.5px; font-weight: 600;">
           <p><strong>पता:</strong> राजकुमार कॉलेज के पीछे, सोनकर बड़ी, अश्वनी नगर रायपुर, पोस्ट सुंदर नगर , पिन - 492013 (छ.ग.)</p>
-          <p style="margin-top: 1.5px;">
-            <strong>दूरभाष:</strong> <span style="font-weight: 800; color: #0A0A0A;">+91 7000866323, +91 9826167533</span>
-            &nbsp;•&nbsp; <strong>ईमेल:</strong> bsrfilms2017@gmail.com
-          </p>
           <p style="margin-top: 1px;">
-            <strong>वेबसाइट:</strong> <span style="color: #8C4E00; font-weight: 800;">www.bsrfilms.com</span>
+            <strong>दूरभाष:</strong> <span style="font-weight: 900; color: #0A0A0A;">+91 7000866323, +91 9826167533</span>
+            &nbsp;•&nbsp; <strong>ईमेल:</strong> bsrfilms2017@gmail.com
+            &nbsp;•&nbsp; <strong>वेबसाइट:</strong> <span style="color: #8C4E00; font-weight: 900;">www.bsrfilms.com</span>
           </p>
         </div>
       </div>
@@ -553,7 +534,7 @@ html_content = f"""<!DOCTYPE html>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════════════
-       A4 PAGE 2 OF 2: CLIENTS, GOVT DEPARTMENTS, FOUNDER & ROYAL SEAL
+       A4 PAGE 2 OF 2: CLIENTS, HON'BLE CM AWARD SHOWCASE, FOUNDER & SEAL
        ═══════════════════════════════════════════════════════════════════ -->
   <div class="page">
     <div class="header">
@@ -571,30 +552,28 @@ html_content = f"""<!DOCTYPE html>
     </div>
 
     <div class="page-body">
-      <!-- 1. Official Empanelments & Statutory Standing (Compact Multi-Card) -->
+      <!-- 1. Official Empanelments & Statutory Standing (Compact 2-col) -->
       <div>
         <div class="section-title">
           <span>वैधानिक पंजीकरण, इम्पैनलमेंट एवं बैंकिंग साख</span>
           <span class="section-sub">आधिकारिक अधिकृत संस्थाएं</span>
         </div>
-        <div class="grid-2" style="gap: 5.5px; margin-bottom: 5px;">
-          <div class="card" style="padding: 5.5px 9px; margin-bottom: 0;">
+        <div class="grid-2" style="gap: 5px; margin-bottom: 4px;">
+          <div class="card" style="padding: 5px 8px; margin-bottom: 0;">
             <div class="card-tag">शासकीय एवं राष्ट्रीय इम्पैनलमेंट</div>
-            <div style="font-size: 8.5pt; color: #222222; line-height: 1.35; margin-top: 2px;">
-              • <strong>छत्तीसगढ़ संवाद:</strong> 'ब' श्रेणी (Category B) अधिकृत एजेंसी।<br>
-              • <strong>NFDC:</strong> राष्ट्रीय फिल्म विकास निगम एनलिस्टेड (निदेशक का अनुबंध)।<br>
-              • <strong>दूरदर्शन:</strong> वीडियो स्पॉट निर्माण का अनुबंध।<br>
-              • <strong>आकाशवाणी:</strong> 06 आकाशवाणी केंद्र रेडियो जिंगल्स व ड्रामा प्रसारण अनुबंध।
+            <div style="font-size: 8.8pt; color: #1A1A1A; line-height: 1.34; margin-top: 1.5px; font-weight: 600;">
+              • <strong>छत्तीसगढ़ संवाद:</strong> 'ब' श्रेणी अधिकृत प्रोडक्शन हाउस।<br>
+              • <strong>NFDC:</strong> राष्ट्रीय फिल्म विकास निगम एनलिस्टेड (निदेशक अनुबंध)।<br>
+              • <strong>दूरदर्शन व आकाशवाणी:</strong> वीडियो स्पॉट एवं 06 केंद्र प्रसारण अनुबंध।
             </div>
           </div>
 
-          <div class="card" style="padding: 5.5px 9px; margin-bottom: 0;">
+          <div class="card" style="padding: 5px 8px; margin-bottom: 0;">
             <div class="card-tag">वैधानिक अनुपालन एवं बैंकिंग</div>
-            <div style="font-size: 8.5pt; color: #222222; line-height: 1.35; margin-top: 2px;">
-              • <strong>आयकर (PAN):</strong> स्थायी खाता संख्या व नियमित ITR अनुपालन।<br>
-              • <strong>GST एवं गुमाश्ता:</strong> नियमित टैक्स फाइलिंग व वैध ट्रेड लाइसेंस।<br>
-              • <strong>MSME रजिस्टर्ड:</strong> सूक्ष्म, लघु एवं मध्यम उद्यम पंजीकृत।<br>
-              • <strong>बैंकिंग पार्टनर:</strong> <span style="font-weight: 800; color: #8C4E00;">बैंक ऑफ बड़ौदा (Bank of Baroda)</span> चालू खाता।
+            <div style="font-size: 8.8pt; color: #1A1A1A; line-height: 1.34; margin-top: 1.5px; font-weight: 600;">
+              • <strong>आयकर (PAN) व GST:</strong> नियमित टैक्स फाइलिंग व इनवॉइसिंग सक्षम।<br>
+              • <strong>ट्रेड लाइसेंस व MSME:</strong> नगर निगम गुमाश्ता व सूक्ष्म-लघु उद्योग पंजीकृत।<br>
+              • <strong>बैंकिंग पार्टनर:</strong> <span style="font-weight: 900; color: #8C4E00;">बैंक ऑफ बड़ौदा (Bank of Baroda)</span> चालू खाता।
             </div>
           </div>
         </div>
@@ -608,12 +587,12 @@ html_content = f"""<!DOCTYPE html>
         </div>
 
         <!-- Card A: International & National Organizations -->
-        <div class="card" style="padding: 6px 9px; margin-bottom: 4.5px;">
-          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 3px;">
+        <div class="card" style="padding: 5px 8px; margin-bottom: 4px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
             <span class="card-tag">अंतर्राष्ट्रीय एवं राष्ट्रीय संगठन (10 संस्थाएं)</span>
             <span class="card-badge">वित्त पोषित सर्व शिक्षा</span>
           </div>
-          <div class="pill-wrap" style="gap: 4px; margin: 2px 0;">
+          <div class="pill-wrap" style="gap: 3.5px; margin: 1px 0;">
             <span class="pill">World Bank</span>
             <span class="pill">NABARD</span>
             <span class="pill">UNICEF</span>
@@ -625,38 +604,38 @@ html_content = f"""<!DOCTYPE html>
             <span class="pill">SRLM</span>
             <span class="pill">PRIYA NGO</span>
           </div>
-          <div style="font-size: 8pt; color: #555555; margin-top: 2px;">
+          <div style="font-size: 8.2pt; color: #444444; font-weight: 600; margin-top: 1.5px;">
             विश्व बैंक, यूनिसेफ, नाबार्ड व बिड़ला ग्रुप जैसी वैश्विक संस्थाओं हेतु विकास, स्वास्थ्य व आजीविका आधारित वृत्तचित्र व वीडियो स्पॉट्स का निर्माण।
           </div>
         </div>
 
         <!-- Card B: Government Departments & State Commissions (22+ Depts with Red Additions) -->
-        <div class="card" style="padding: 6px 9px; margin-bottom: 4.5px;">
-          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 3px;">
+        <div class="card" style="padding: 5px 8px; margin-bottom: 4px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
             <span class="card-tag">शासकीय विभाग, आयोग एवं राज्य संस्थाएं (22+ विभाग)</span>
             <span class="card-badge">Government & Public Sector</span>
           </div>
-          <div class="pill-wrap" style="gap: 3.5px; margin: 2px 0;">
+          <div class="pill-wrap" style="gap: 3.5px; margin: 1px 0;">
             <span class="pill">जनसंपर्क विभाग (DPR)</span>
-            <span class="pill">श्रम विभाग (Labour)</span>
-            <span class="pill">पंचायत एवं ग्रामीण विकास विभाग</span>
+            <span class="pill">श्रम विभाग</span>
+            <span class="pill">पंचायत एवं ग्रामीण विकास</span>
             <span class="pill">लोक स्वास्थ्य यांत्रिकी (PHED)</span>
-            <span class="pill">स्वास्थ्य एवं परिवार कल्याण विभाग</span>
-            <span class="pill">महिला एवं बाल विकास विभाग</span>
+            <span class="pill">स्वास्थ्य एवं परिवार कल्याण</span>
+            <span class="pill">महिला एवं बाल विकास</span>
             <span class="pill">स्कूल शिक्षा विभाग</span>
-            <span class="pill">जल संसाधन विभाग</span>
-            <span class="pill">कृषि विकास एवं किसान कल्याण</span>
-            <span class="pill">वन एवं जलवायु परिवर्तन विभाग</span>
-            <span class="pill">समाज कल्याण विभाग</span>
+            <span class="pill">जल संसाधन</span>
+            <span class="pill">कृषि विकास</span>
+            <span class="pill">वन विभाग</span>
+            <span class="pill">समाज कल्याण</span>
             <span class="pill">छत्तीसगढ़ पुलिस (CG Police)</span>
             <span class="pill">छत्तीसगढ़ राज्य महिला आयोग</span>
-            <!-- NEW Owner Red Pen Additions -->
+            <!-- Red-pen additions by owner -->
             <span class="pill pill-gold">ट्राइबल विभाग</span>
             <span class="pill pill-gold">नाफेड (NAFED)</span>
             <span class="pill pill-gold">दिग्विजय कॉलेज</span>
             <span class="pill pill-gold">देवभोग दुग्ध महासंघ छ.ग.</span>
             <span class="pill pill-gold">योग आयोग</span>
-            <span class="pill pill-gold">ठाकुर प्यारेलाल सिंह ग्रामीण विकास संस्थान निमोरा</span>
+            <span class="pill pill-gold">ठाकुर प्यारेलाल सिंह संस्थान निमोरा</span>
             <span class="pill pill-gold">छ.ग. राज्य स्वच्छ भारत मिशन</span>
             <span class="pill pill-gold">एड्स कंट्रोल सोसायटी</span>
           </div>
@@ -664,71 +643,66 @@ html_content = f"""<!DOCTYPE html>
 
         <!-- Card C: Historic Election Campaigns -->
         <div class="grid-2" style="gap: 5px; margin-bottom: 0;">
-          <div class="card" style="padding: 5px 8px; margin-bottom: 0;">
+          <div class="card" style="padding: 4.5px 7px; margin-bottom: 0;">
             <div style="display: flex; justify-content: space-between; align-items: baseline;">
-              <span class="card-tag" style="font-size: 8.2pt;">विधान सभा चुनाव 2013</span>
-              <span class="card-badge" style="font-size: 7.8pt;">06 आकाशवाणी केंद्र</span>
+              <span class="card-tag" style="font-size: 8.4pt;">विधान सभा चुनाव 2013</span>
+              <span class="card-badge" style="font-size: 8pt;">06 आकाशवाणी केंद्र</span>
             </div>
-            <div class="card-desc" style="font-size: 8.2pt; line-height: 1.3; margin-top: 1.5px;">
-              रेडियो के माध्यम से प्रदेश के 06 आकाशवाणी केन्द्रों से भारतीय जनता पार्टी के चुनाव प्रचार हेतु रेडियो जिंगल निर्माण व व्यापक प्रसारण हेतु अनुबंधित अधिकृत एजेंसी (सर्व वित्त पोषित)।
+            <div class="card-desc" style="font-size: 8.4pt; line-height: 1.25; margin-top: 1px;">
+              प्रदेश के 06 आकाशवाणी केन्द्रों से भाजपा चुनाव प्रचार हेतु रेडियो जिंगल निर्माण व व्यापक प्रसारण अनुबंधित एजेंसी (सर्व वित्त पोषित)।
             </div>
           </div>
 
-          <div class="card" style="padding: 5px 8px; margin-bottom: 0;">
+          <div class="card" style="padding: 4.5px 7px; margin-bottom: 0;">
             <div style="display: flex; justify-content: space-between; align-items: baseline;">
-              <span class="card-tag" style="font-size: 8.2pt;">लोक सभा चुनाव 2014</span>
-              <span class="card-badge" style="font-size: 7.8pt;">06 आकाशवाणी केंद्र</span>
+              <span class="card-tag" style="font-size: 8.4pt;">लोक सभा चुनाव 2014</span>
+              <span class="card-badge" style="font-size: 8pt;">06 आकाशवाणी केंद्र</span>
             </div>
-            <div class="card-desc" style="font-size: 8.2pt; line-height: 1.3; margin-top: 1.5px;">
-              रेडियो के माध्यम से प्रदेश के 06 आकाशवाणी केन्द्रों से भारतीय जनता पार्टी के चुनाव प्रचार हेतु रेडियो जिंगल निर्माण व राष्ट्रव्यापी प्रसारण समन्वय हेतु अनुबंधित एजेंसी (सर्व वित्त पोषित)।
+            <div class="card-desc" style="font-size: 8.4pt; line-height: 1.25; margin-top: 1px;">
+              प्रदेश के 06 आकाशवाणी केन्द्रों से भाजपा चुनाव प्रचार हेतु रेडियो जिंगल निर्माण व राष्ट्रव्यापी प्रसारण समन्वय एजेंसी (सर्व वित्त पोषित)।
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 3. Founder & Creative Director Profile -->
+      <!-- 3. Hon'ble CM Award Photo & Founder Leadership Showcase Box -->
       <div>
         <div class="section-title">
-          <span>सृजनात्मक नेतृत्व एवं विज़न — भीष्मदेव चतुर्वेदी</span>
+          <span>सृजनात्मक नेतृत्व एवं राज्यस्तरीय सम्मान — भीष्मदेव चतुर्वेदी</span>
           <span class="section-sub">32+ वर्षों का मीडिया अनुभव</span>
         </div>
 
-        <div class="card card-highlight" style="display: flex; gap: 12px; align-items: center; padding: 7px 11px; margin-bottom: 5px;">
-          <img src="data:image/png;base64,{bhishma_b64}" style="width: 72px; height: 86px; object-fit: cover; border-radius: 6px; border: 2px solid #8C4E00; box-shadow: 0 3px 6px rgba(140, 78, 0, 0.2); flex-shrink: 0;" alt="भीष्मदेव चतुर्वेदी">
-          <div>
+        <div class="card card-highlight" style="display: flex; gap: 11px; align-items: center; padding: 6px 10px; margin-bottom: 4px;">
+          <!-- Special Photograph: Hon'ble CM of Chhattisgarh Honoring Founder -->
+          <div style="position: relative; flex-shrink: 0; text-align: center;">
+            <img src="data:image/jpeg;base64,{cm_b64}" style="width: 82px; height: 112px; object-fit: cover; border-radius: 6px; border: 2.2px solid #8C4E00; box-shadow: 0 3px 8px rgba(140, 78, 0, 0.25);" alt="माननीय मुख्यमंत्री द्वारा सम्मानित">
+            <div style="font-size: 7.2pt; font-weight: 800; color: #8C4E00; margin-top: 2px; line-height: 1.15; max-width: 86px;">
+              मा. मुख्यमंत्री द्वारा 'दीदी के गोठ' सम्मान
+            </div>
+          </div>
+
+          <!-- Founder Details & Leadership Credentials -->
+          <div style="flex: 1;">
             <div style="display: flex; justify-content: space-between; align-items: baseline;">
-              <div style="font-size: 13pt; font-weight: 900; color: #0A0A0A; line-height: 1.15;">
+              <div style="font-size: 13.5pt; font-weight: 900; color: #0A0A0A; line-height: 1.1;">
                 भीष्मदेव चतुर्वेदी
               </div>
-              <span class="card-badge" style="font-size: 8.2pt;">एंकर / डायरेक्टर / राइटर • प्रोड्यूसर</span>
+              <span class="card-badge" style="font-size: 8.5pt;">एंकर / डायरेक्टर / राइटर • प्रोड्यूसर</span>
             </div>
-            <div style="font-size: 9pt; font-weight: 800; color: #8C4E00; margin-top: 1.5px;">
+            <div style="font-size: 9.2pt; font-weight: 800; color: #8C4E00; margin-top: 1px;">
               संस्थापक, मुख्य निर्माता एवं वरिष्ठ फिल्म निर्देशक
             </div>
-            <div style="font-size: 8.4pt; color: #222222; margin-top: 2.5px; line-height: 1.32;">
-              32 से अधिक वर्षों से भारतीय सिनेमा, वृत्तचित्र एवं जनसंचार के क्षेत्र में सक्रिय। आकाशवाणी एवं दूरदर्शन अनुमोदित एंकर, राइटर एवं 'ए' ग्रेड कलाकार।
+            <div style="font-size: 8.6pt; color: #1A1A1A; margin-top: 2px; line-height: 1.3; font-weight: 600;">
+              <strong>विशेष सम्मान:</strong> माननीय मुख्यमंत्री श्री विष्णु देव साय जी द्वारा राज्यस्तरीय फ्लैगशिप कार्यक्रम <strong>'दीदी के गोठ'</strong> हेतु मंच पर विशेष रूप से सम्मानित। 32 से अधिक वर्षों से भारतीय सिनेमा, वृत्तचित्र एवं जनसंचार के क्षेत्र में सक्रिय।
             </div>
-            <div class="pill-wrap" style="margin-top: 3.5px; gap: 4px;">
-              <span class="pill" style="font-size: 7.8pt; padding: 1.5px 6.5px;">अनुमोदित एंकर / राइटर / 'ए' ग्रेड कलाकार</span>
-              <span class="pill" style="font-size: 7.8pt; padding: 1.5px 6.5px;">32+ वर्ष मीडिया अनुभव</span>
-              <span class="pill" style="font-size: 7.8pt; padding: 1.5px 6.5px;">विषयों के विशेषज्ञ के रूप में सम्मानित</span>
+            <div class="pill-wrap" style="margin-top: 3px; gap: 4px;">
+              <span class="pill" style="font-size: 8.2pt; padding: 1.5px 6.5px;">अनुमोदित एंकर / राइटर / 'ए' ग्रेड कलाकार</span>
+              <span class="pill" style="font-size: 8.2pt; padding: 1.5px 6.5px;">32+ वर्ष मीडिया अनुभव</span>
+              <span class="pill" style="font-size: 8.2pt; padding: 1.5px 6.5px;">विषयों के विशेषज्ञ के रूप में सम्मानित</span>
             </div>
-          </div>
-        </div>
-
-        <!-- 4 Key Pillars of Founder's Work -->
-        <div class="grid-2" style="gap: 5px; margin-bottom: 0;">
-          <div class="card" style="padding: 5px 8px; margin-bottom: 0;">
-            <div class="card-tag" style="font-size: 8.2pt;">सांस्कृतिक संरक्षण</div>
-            <div class="card-desc" style="font-size: 8.2pt; line-height: 1.3;">
-              छत्तीसगढ़ी, हल्बी, गोंडी व हिंदी में 350+ प्रामाणिक वृत्तचित्रों व फिल्मों का निर्माण कर लोकसंस्कृति को राष्ट्रीय पटल पर स्थापित किया।
-            </div>
-          </div>
-
-          <div class="card" style="padding: 5px 8px; margin-bottom: 0;">
-            <div class="card-tag" style="font-size: 8.2pt;">सम्मान एवं विशेषज्ञता</div>
-            <div class="card-desc" style="font-size: 8.2pt; line-height: 1.3;">
-              विषयों के विशेषज्ञ के रूप में सम्मानित व्यक्तित्व (के साथ हम कदम)। कला, संस्कृति एवं दृश्य-श्रव्य जनसंचार के आधिकारिक सलाहकार।
+            <div style="font-size: 8.2pt; color: #444444; font-weight: 600; margin-top: 2.5px; line-height: 1.25;">
+              • <strong>सांस्कृतिक संरक्षण:</strong> 350+ वृत्तचित्र व फिल्मों का सफल निर्देशन।<br>
+              • <strong>मार्गदर्शन:</strong> युवा प्रतिभाओं, फिल्मकारों व तकनीशियनों को व्यावहारिक प्रशिक्षण।
             </div>
           </div>
         </div>
@@ -736,32 +710,32 @@ html_content = f"""<!DOCTYPE html>
 
       <!-- 4. Official Declaration & Grand Royal Corporate Seal -->
       <div>
-        <div class="card" style="padding: 6px 10px; margin-bottom: 5px; background: #FFFDF8; border: 1.4px solid #C89038;">
-          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
+        <div class="card" style="padding: 5px 9px; margin-bottom: 4px; background: #FFFDF8; border: 1.3px solid #C89038;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.5px;">
             <span class="card-tag" style="font-size: 8.6pt;">आधिकारिक घोषणा एवं प्रामाणिकता पत्र (Official Declaration)</span>
-            <span class="card-badge" style="font-size: 7.8pt;">सत्यापित संचिका</span>
+            <span class="card-badge" style="font-size: 8pt;">सत्यापित संचिका</span>
           </div>
-          <div style="font-size: 8.2pt; color: #222222; line-height: 1.32;">
+          <div style="font-size: 8.5pt; color: #1A1A1A; line-height: 1.28; font-weight: 600;">
             <strong>यह प्रमाणित किया जाता है कि</strong> इस कॉरपोरेट पोर्टफोलियो संचिका में अंकित समस्त संस्थागत विवरण, शासकीय इम्पैनलमेंट, 24+ क्लाइंट सूचियां, तकनीकी उपकरण, वित्तीय साख एवं उत्पादन सांख्यिकी बी.एस.आर. फिल्म्स के वास्तविक, अधिकृत अभिलेखों एवं वैध अनुबंधों पर पूर्णतः आधारित हैं।
           </div>
         </div>
 
         <!-- Royal Seal Stamp & Signature Banner -->
-        <div style="display: flex; align-items: center; justify-content: space-between; background: #FFFDF8; border: 1.8px solid #D5A04A; border-radius: 9px; padding: 7px 14px; box-shadow: 0 2px 6px rgba(140, 78, 0, 0.07);">
-          <div style="flex-shrink: 0; width: 74px; height: 74px; display: flex; align-items: center; justify-content: center;">
+        <div style="display: flex; align-items: center; justify-content: space-between; background: #FFFDF8; border: 1.8px solid #D5A04A; border-radius: 9px; padding: 6px 12px; box-shadow: 0 2px 6px rgba(140, 78, 0, 0.07);">
+          <div style="flex-shrink: 0; width: 78px; height: 78px; display: flex; align-items: center; justify-content: center;">
             {svg_seal_big}
           </div>
           <div style="text-align: right; flex: 1; padding-left: 14px;">
-            <div style="font-size: 8.2pt; color: #555555; margin-bottom: 2px;">
+            <div style="font-size: 8.5pt; color: #444444; font-weight: 600; margin-bottom: 1.5px;">
               <b class="hl">प्रमाणित:</b> संचिका में अंकित समस्त विवरण बी.एस.आर. फिल्म्स के <b class="hl">अधिकृत अभिलेखों एवं अनुबंधों</b> पर आधारित हैं।
             </div>
-            <div style="font-size: 15pt; font-weight: 900; color: #8C4E00; line-height: 1.15;">
+            <div style="font-size: 16pt; font-weight: 900; color: #8C4E00; line-height: 1.1;">
               बी.एस.आर. फिल्म्स
             </div>
-            <div style="font-size: 9.6pt; font-weight: 800; color: #111111; margin-top: 2px;">
+            <div style="font-size: 9.8pt; font-weight: 800; color: #0A0A0A; margin-top: 2px;">
               अधिकृत हस्ताक्षरकर्ता • संस्थापक एवं प्रबंध निर्देशक
             </div>
-            <div style="font-size: 8.2pt; color: #666666; margin-top: 1px;">
+            <div style="font-size: 8.4pt; color: #555555; font-weight: 700; margin-top: 1px;">
               रायपुर, छत्तीसगढ़ (भारत)
             </div>
           </div>
