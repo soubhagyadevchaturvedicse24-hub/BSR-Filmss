@@ -21,6 +21,7 @@
 # ── OS / IDE ──────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
+~$*
 *.pem
 *.tsbuildinfo
 next-env.d.ts
