@@ -353,7 +353,7 @@ html_content = f"""<!DOCTYPE html>
         <img src="data:image/png;base64,{icon_b64}" class="header-logo" alt="Logo">
         <div>
           <div class="header-owner-name">भीष्मदेव चतुर्वेदी</div>
-          <div class="header-owner-sub">बी.एस.आर. फिल्म्स • संस्थापक एवं निर्देशक</div>
+          <div class="header-owner-sub">बी.एस.आर. • संस्थापक एवं निर्देशक</div>
         </div>
       </div>
       <div class="header-meta">
@@ -457,7 +457,7 @@ html_content = f"""<!DOCTYPE html>
     </div>
 
     <div class="footer">
-      <div>बी.एस.आर. फिल्म्स • <strong>भीष्मदेव चतुर्वेदी</strong></div>
+      <div>बी.एस.आर. • <strong>भीष्मदेव चतुर्वेदी</strong></div>
       <div>1 / 7</div>
     </div>
   </div>
@@ -551,7 +551,7 @@ html_content = f"""<!DOCTYPE html>
     </div>
 
     <div class="footer">
-      <div>बी.एस.आर. फिल्म्स • <strong>भीष्मदेव चतुर्वेदी</strong></div>
+      <div>बी.एस.आर. • <strong>भीष्मदेव चतुर्वेदी</strong></div>
       <div>2 / 7</div>
     </div>
   </div>
@@ -565,7 +565,7 @@ html_content = f"""<!DOCTYPE html>
         <img src="data:image/png;base64,{icon_b64}" class="header-logo" alt="Logo">
         <div>
           <div class="header-owner-name">भीष्मदेव चतुर्वेदी</div>
-          <div class="header-owner-sub">बी.एस.आर. फिल्म्स • संस्थागत पंजीयन</div>
+          <div class="header-owner-sub">बी.एस.आर. • संस्थागत पंजीयन</div>
         </div>
       </div>
       <div class="header-meta">
@@ -635,7 +635,7 @@ html_content = f"""<!DOCTYPE html>
     </div>
 
     <div class="footer">
-      <div>बी.एस.आर. फिल्म्स • <strong>भीष्मदेव चतुर्वेदी</strong></div>
+      <div>बी.एस.आर. • <strong>भीष्मदेव चतुर्वेदी</strong></div>
       <div>3 / 7</div>
     </div>
   </div>
@@ -724,7 +724,7 @@ html_content = f"""<!DOCTYPE html>
     </div>
 
     <div class="footer">
-      <div>बी.एस.आर. फिल्म्स • <strong>भीष्मदेव चतुर्वेदी</strong></div>
+      <div>बी.एस.आर. • <strong>भीष्मदेव चतुर्वेदी</strong></div>
       <div>4 / 7</div>
     </div>
   </div>
@@ -801,7 +801,7 @@ html_content = f"""<!DOCTYPE html>
     </div>
 
     <div class="footer">
-      <div>बी.एस.आर. फिल्म्स • <strong>भीष्मदेव चतुर्वेदी</strong></div>
+      <div>बी.एस.आर. • <strong>भीष्मदेव चतुर्वेदी</strong></div>
       <div>5 / 7</div>
     </div>
   </div>
@@ -889,7 +889,7 @@ html_content = f"""<!DOCTYPE html>
     </div>
 
     <div class="footer">
-      <div>बी.एस.आर. फिल्म्स • <strong>भीष्मदेव चतुर्वेदी</strong></div>
+      <div>बी.एस.आर. • <strong>भीष्मदेव चतुर्वेदी</strong></div>
       <div>6 / 7</div>
     </div>
   </div>
@@ -961,14 +961,14 @@ html_content = f"""<!DOCTYPE html>
             ( भीष्मदेव चतुर्वेदी )
           </div>
           <div style="font-size: 10pt; font-weight: 800; color: #111111; margin-top: 2.5px;">
-            संस्थापक एवं निर्देशक • बी.एस.आर. फिल्म्स
+            संस्थापक एवं निर्देशक • बी.एस.आर.
           </div>
         </div>
       </div>
     </div>
 
     <div class="footer">
-      <div>बी.एस.आर. फिल्म्स • <strong>भीष्मदेव चतुर्वेदी</strong></div>
+      <div>बी.एस.आर. • <strong>भीष्मदेव चतुर्वेदी</strong></div>
       <div>7 / 7</div>
     </div>
   </div>
