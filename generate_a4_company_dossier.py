@@ -534,7 +534,7 @@ html_content = f"""<!DOCTYPE html>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════════════
-       A4 PAGE 2 OF 2: CLIENTS, HON'BLE CM AWARD SHOWCASE, FOUNDER & SEAL
+       A4 PAGE 2 OF 2: CLIENTS, HON'BLE CM AWARD & FOUNDER SHOWCASE, SEAL
        ═══════════════════════════════════════════════════════════════════ -->
   <div class="page">
     <div class="header">
@@ -558,19 +558,19 @@ html_content = f"""<!DOCTYPE html>
           <span>वैधानिक पंजीकरण, इम्पैनलमेंट एवं बैंकिंग साख</span>
           <span class="section-sub">आधिकारिक अधिकृत संस्थाएं</span>
         </div>
-        <div class="grid-2" style="gap: 5px; margin-bottom: 4px;">
-          <div class="card" style="padding: 5px 8px; margin-bottom: 0;">
+        <div class="grid-2" style="gap: 5px; margin-bottom: 3.5px;">
+          <div class="card" style="padding: 4.5px 7.5px; margin-bottom: 0;">
             <div class="card-tag">शासकीय एवं राष्ट्रीय इम्पैनलमेंट</div>
-            <div style="font-size: 8.8pt; color: #1A1A1A; line-height: 1.34; margin-top: 1.5px; font-weight: 600;">
+            <div style="font-size: 8.6pt; color: #1A1A1A; line-height: 1.32; margin-top: 1px; font-weight: 600;">
               • <strong>छत्तीसगढ़ संवाद:</strong> 'ब' श्रेणी अधिकृत प्रोडक्शन हाउस।<br>
               • <strong>NFDC:</strong> राष्ट्रीय फिल्म विकास निगम एनलिस्टेड (निदेशक अनुबंध)।<br>
               • <strong>दूरदर्शन व आकाशवाणी:</strong> वीडियो स्पॉट एवं 06 केंद्र प्रसारण अनुबंध।
             </div>
           </div>
 
-          <div class="card" style="padding: 5px 8px; margin-bottom: 0;">
+          <div class="card" style="padding: 4.5px 7.5px; margin-bottom: 0;">
             <div class="card-tag">वैधानिक अनुपालन एवं बैंकिंग</div>
-            <div style="font-size: 8.8pt; color: #1A1A1A; line-height: 1.34; margin-top: 1.5px; font-weight: 600;">
+            <div style="font-size: 8.6pt; color: #1A1A1A; line-height: 1.32; margin-top: 1px; font-weight: 600;">
               • <strong>आयकर (PAN) व GST:</strong> नियमित टैक्स फाइलिंग व इनवॉइसिंग सक्षम।<br>
               • <strong>ट्रेड लाइसेंस व MSME:</strong> नगर निगम गुमाश्ता व सूक्ष्म-लघु उद्योग पंजीकृत।<br>
               • <strong>बैंकिंग पार्टनर:</strong> <span style="font-weight: 900; color: #8C4E00;">बैंक ऑफ बड़ौदा (Bank of Baroda)</span> चालू खाता।
@@ -587,8 +587,8 @@ html_content = f"""<!DOCTYPE html>
         </div>
 
         <!-- Card A: International & National Organizations -->
-        <div class="card" style="padding: 5px 8px; margin-bottom: 4px;">
-          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
+        <div class="card" style="padding: 4.5px 7.5px; margin-bottom: 3.5px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.5px;">
             <span class="card-tag">अंतर्राष्ट्रीय एवं राष्ट्रीय संगठन (10 संस्थाएं)</span>
             <span class="card-badge">वित्त पोषित सर्व शिक्षा</span>
           </div>
@@ -604,14 +604,14 @@ html_content = f"""<!DOCTYPE html>
             <span class="pill">SRLM</span>
             <span class="pill">PRIYA NGO</span>
           </div>
-          <div style="font-size: 8.2pt; color: #444444; font-weight: 600; margin-top: 1.5px;">
+          <div style="font-size: 8.2pt; color: #444444; font-weight: 600; margin-top: 1px;">
             विश्व बैंक, यूनिसेफ, नाबार्ड व बिड़ला ग्रुप जैसी वैश्विक संस्थाओं हेतु विकास, स्वास्थ्य व आजीविका आधारित वृत्तचित्र व वीडियो स्पॉट्स का निर्माण।
           </div>
         </div>
 
         <!-- Card B: Government Departments & State Commissions (22+ Depts with Red Additions) -->
-        <div class="card" style="padding: 5px 8px; margin-bottom: 4px;">
-          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
+        <div class="card" style="padding: 4.5px 7.5px; margin-bottom: 3.5px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.5px;">
             <span class="card-tag">शासकीय विभाग, आयोग एवं राज्य संस्थाएं (22+ विभाग)</span>
             <span class="card-badge">Government & Public Sector</span>
           </div>
@@ -643,66 +643,74 @@ html_content = f"""<!DOCTYPE html>
 
         <!-- Card C: Historic Election Campaigns -->
         <div class="grid-2" style="gap: 5px; margin-bottom: 0;">
-          <div class="card" style="padding: 4.5px 7px; margin-bottom: 0;">
+          <div class="card" style="padding: 4px 7px; margin-bottom: 0;">
             <div style="display: flex; justify-content: space-between; align-items: baseline;">
               <span class="card-tag" style="font-size: 8.4pt;">विधान सभा चुनाव 2013</span>
               <span class="card-badge" style="font-size: 8pt;">06 आकाशवाणी केंद्र</span>
             </div>
-            <div class="card-desc" style="font-size: 8.4pt; line-height: 1.25; margin-top: 1px;">
+            <div class="card-desc" style="font-size: 8.2pt; line-height: 1.25; margin-top: 1px;">
               प्रदेश के 06 आकाशवाणी केन्द्रों से भाजपा चुनाव प्रचार हेतु रेडियो जिंगल निर्माण व व्यापक प्रसारण अनुबंधित एजेंसी (सर्व वित्त पोषित)।
             </div>
           </div>
 
-          <div class="card" style="padding: 4.5px 7px; margin-bottom: 0;">
+          <div class="card" style="padding: 4px 7px; margin-bottom: 0;">
             <div style="display: flex; justify-content: space-between; align-items: baseline;">
               <span class="card-tag" style="font-size: 8.4pt;">लोक सभा चुनाव 2014</span>
               <span class="card-badge" style="font-size: 8pt;">06 आकाशवाणी केंद्र</span>
             </div>
-            <div class="card-desc" style="font-size: 8.4pt; line-height: 1.25; margin-top: 1px;">
+            <div class="card-desc" style="font-size: 8.2pt; line-height: 1.25; margin-top: 1px;">
               प्रदेश के 06 आकाशवाणी केन्द्रों से भाजपा चुनाव प्रचार हेतु रेडियो जिंगल निर्माण व राष्ट्रव्यापी प्रसारण समन्वय एजेंसी (सर्व वित्त पोषित)।
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 3. Hon'ble CM Award Photo & Founder Leadership Showcase Box -->
+      <!-- 3. Hon'ble CM Award Photo & Founder Leadership Showcase Box (MAXIMISED DUAL PHOTOS) -->
       <div>
         <div class="section-title">
           <span>सृजनात्मक नेतृत्व एवं राज्यस्तरीय सम्मान — भीष्मदेव चतुर्वेदी</span>
           <span class="section-sub">32+ वर्षों का मीडिया अनुभव</span>
         </div>
 
-        <div class="card card-highlight" style="display: flex; gap: 11px; align-items: center; padding: 6px 10px; margin-bottom: 4px;">
-          <!-- Special Photograph: Hon'ble CM of Chhattisgarh Honoring Founder -->
-          <div style="position: relative; flex-shrink: 0; text-align: center;">
-            <img src="data:image/jpeg;base64,{cm_b64}" style="width: 82px; height: 112px; object-fit: cover; border-radius: 6px; border: 2.2px solid #8C4E00; box-shadow: 0 3px 8px rgba(140, 78, 0, 0.25);" alt="माननीय मुख्यमंत्री द्वारा सम्मानित">
-            <div style="font-size: 7.2pt; font-weight: 800; color: #8C4E00; margin-top: 2px; line-height: 1.15; max-width: 86px;">
-              मा. मुख्यमंत्री द्वारा 'दीदी के गोठ' सम्मान
+        <div class="card card-highlight" style="display: flex; gap: 12px; align-items: center; padding: 7px 11px; margin-bottom: 4px;">
+          <!-- Photo 1: Large Portrait of Founder / Owner -->
+          <div style="text-align: center; flex-shrink: 0;">
+            <img src="data:image/png;base64,{bhishma_b64}" style="width: 104px; height: 136px; object-fit: cover; border-radius: 7px; border: 2.4px solid #8C4E00; box-shadow: 0 4px 10px rgba(140, 78, 0, 0.28); display: block;" alt="भीष्मदेव चतुर्वेदी - संस्थापक">
+            <div style="font-size: 7.8pt; font-weight: 900; color: #8C4E00; margin-top: 2px; line-height: 1.15; max-width: 106px;">
+              भीष्मदेव चतुर्वेदी<br><span style="font-size: 7pt; color: #444444; font-weight: 700;">संस्थापक एवं निर्देशक</span>
             </div>
           </div>
 
-          <!-- Founder Details & Leadership Credentials -->
-          <div style="flex: 1;">
+          <!-- Photo 2: Large Photo of Hon'ble CM of Chhattisgarh Awarding the Owner -->
+          <div style="text-align: center; flex-shrink: 0;">
+            <img src="data:image/jpeg;base64,{cm_b64}" style="width: 104px; height: 136px; object-fit: cover; border-radius: 7px; border: 2.4px solid #8C4E00; box-shadow: 0 4px 10px rgba(140, 78, 0, 0.28); display: block;" alt="माननीय मुख्यमंत्री द्वारा सम्मानित">
+            <div style="font-size: 7.8pt; font-weight: 900; color: #8C4E00; margin-top: 2px; line-height: 1.15; max-width: 106px;">
+              मा. मुख्यमंत्री द्वारा सम्मान<br><span style="font-size: 7pt; color: #444444; font-weight: 700;">'दीदी के गोठ' राज्य कार्यक्रम</span>
+            </div>
+          </div>
+
+          <!-- Founder Leadership Details & Credentials (Big Fonts, Punchy) -->
+          <div style="flex: 1; padding-left: 2px;">
             <div style="display: flex; justify-content: space-between; align-items: baseline;">
-              <div style="font-size: 13.5pt; font-weight: 900; color: #0A0A0A; line-height: 1.1;">
+              <div style="font-size: 14pt; font-weight: 900; color: #0A0A0A; line-height: 1.1;">
                 भीष्मदेव चतुर्वेदी
               </div>
               <span class="card-badge" style="font-size: 8.5pt;">एंकर / डायरेक्टर / राइटर • प्रोड्यूसर</span>
             </div>
-            <div style="font-size: 9.2pt; font-weight: 800; color: #8C4E00; margin-top: 1px;">
+            <div style="font-size: 9.6pt; font-weight: 900; color: #8C4E00; margin-top: 1.5px;">
               संस्थापक, मुख्य निर्माता एवं वरिष्ठ फिल्म निर्देशक
             </div>
-            <div style="font-size: 8.6pt; color: #1A1A1A; margin-top: 2px; line-height: 1.3; font-weight: 600;">
-              <strong>विशेष सम्मान:</strong> माननीय मुख्यमंत्री श्री विष्णु देव साय जी द्वारा राज्यस्तरीय फ्लैगशिप कार्यक्रम <strong>'दीदी के गोठ'</strong> हेतु मंच पर विशेष रूप से सम्मानित। 32 से अधिक वर्षों से भारतीय सिनेमा, वृत्तचित्र एवं जनसंचार के क्षेत्र में सक्रिय।
+            <div style="font-size: 8.8pt; color: #1A1A1A; margin-top: 2.5px; line-height: 1.34; font-weight: 600;">
+              <strong>ऐतिहासिक सम्मान:</strong> माननीय मुख्यमंत्री श्री विष्णु देव साय जी द्वारा राज्यस्तरीय फ्लैगशिप कार्यक्रम <strong>'दीदी के गोठ'</strong> हेतु मंच पर विशेष रूप से सम्मानित। 32 से अधिक वर्षों से भारतीय सिनेमा, वृत्तचित्र एवं जनसंचार के क्षेत्र में सक्रिय नेतृत्व।
             </div>
-            <div class="pill-wrap" style="margin-top: 3px; gap: 4px;">
-              <span class="pill" style="font-size: 8.2pt; padding: 1.5px 6.5px;">अनुमोदित एंकर / राइटर / 'ए' ग्रेड कलाकार</span>
-              <span class="pill" style="font-size: 8.2pt; padding: 1.5px 6.5px;">32+ वर्ष मीडिया अनुभव</span>
-              <span class="pill" style="font-size: 8.2pt; padding: 1.5px 6.5px;">विषयों के विशेषज्ञ के रूप में सम्मानित</span>
+            <div class="pill-wrap" style="margin-top: 3.5px; gap: 4px;">
+              <span class="pill" style="font-size: 8.4pt; padding: 2px 7.5px;">अनुमोदित एंकर / राइटर / 'ए' ग्रेड कलाकार</span>
+              <span class="pill" style="font-size: 8.4pt; padding: 2px 7.5px;">32+ वर्ष मीडिया अनुभव</span>
+              <span class="pill" style="font-size: 8.4pt; padding: 2px 7.5px;">विषयों के विशेषज्ञ के रूप में सम्मानित</span>
             </div>
-            <div style="font-size: 8.2pt; color: #444444; font-weight: 600; margin-top: 2.5px; line-height: 1.25;">
+            <div style="font-size: 8.5pt; color: #333333; font-weight: 700; margin-top: 3px; line-height: 1.3;">
               • <strong>सांस्कृतिक संरक्षण:</strong> 350+ वृत्तचित्र व फिल्मों का सफल निर्देशन।<br>
-              • <strong>मार्गदर्शन:</strong> युवा प्रतिभाओं, फिल्मकारों व तकनीशियनों को व्यावहारिक प्रशिक्षण।
+              • <strong>मार्गदर्शन:</strong> युवा फिल्मकारों व मीडिया कर्मियों को व्यावहारिक प्रशिक्षण।
             </div>
           </div>
         </div>
@@ -710,23 +718,23 @@ html_content = f"""<!DOCTYPE html>
 
       <!-- 4. Official Declaration & Grand Royal Corporate Seal -->
       <div>
-        <div class="card" style="padding: 5px 9px; margin-bottom: 4px; background: #FFFDF8; border: 1.3px solid #C89038;">
-          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.5px;">
+        <div class="card" style="padding: 4.5px 8px; margin-bottom: 3.5px; background: #FFFDF8; border: 1.3px solid #C89038;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1px;">
             <span class="card-tag" style="font-size: 8.6pt;">आधिकारिक घोषणा एवं प्रामाणिकता पत्र (Official Declaration)</span>
             <span class="card-badge" style="font-size: 8pt;">सत्यापित संचिका</span>
           </div>
-          <div style="font-size: 8.5pt; color: #1A1A1A; line-height: 1.28; font-weight: 600;">
+          <div style="font-size: 8.4pt; color: #1A1A1A; line-height: 1.26; font-weight: 600;">
             <strong>यह प्रमाणित किया जाता है कि</strong> इस कॉरपोरेट पोर्टफोलियो संचिका में अंकित समस्त संस्थागत विवरण, शासकीय इम्पैनलमेंट, 24+ क्लाइंट सूचियां, तकनीकी उपकरण, वित्तीय साख एवं उत्पादन सांख्यिकी बी.एस.आर. फिल्म्स के वास्तविक, अधिकृत अभिलेखों एवं वैध अनुबंधों पर पूर्णतः आधारित हैं।
           </div>
         </div>
 
         <!-- Royal Seal Stamp & Signature Banner -->
-        <div style="display: flex; align-items: center; justify-content: space-between; background: #FFFDF8; border: 1.8px solid #D5A04A; border-radius: 9px; padding: 6px 12px; box-shadow: 0 2px 6px rgba(140, 78, 0, 0.07);">
-          <div style="flex-shrink: 0; width: 78px; height: 78px; display: flex; align-items: center; justify-content: center;">
+        <div style="display: flex; align-items: center; justify-content: space-between; background: #FFFDF8; border: 1.8px solid #D5A04A; border-radius: 9px; padding: 5.5px 12px; box-shadow: 0 2px 6px rgba(140, 78, 0, 0.07);">
+          <div style="flex-shrink: 0; width: 76px; height: 76px; display: flex; align-items: center; justify-content: center;">
             {svg_seal_big}
           </div>
           <div style="text-align: right; flex: 1; padding-left: 14px;">
-            <div style="font-size: 8.5pt; color: #444444; font-weight: 600; margin-bottom: 1.5px;">
+            <div style="font-size: 8.4pt; color: #444444; font-weight: 600; margin-bottom: 1.5px;">
               <b class="hl">प्रमाणित:</b> संचिका में अंकित समस्त विवरण बी.एस.आर. फिल्म्स के <b class="hl">अधिकृत अभिलेखों एवं अनुबंधों</b> पर आधारित हैं।
             </div>
             <div style="font-size: 16pt; font-weight: 900; color: #8C4E00; line-height: 1.1;">
