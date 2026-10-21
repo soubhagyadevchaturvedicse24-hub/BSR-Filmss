@@ -39,7 +39,7 @@ html_content = f"""<!DOCTYPE html>
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
-  <title>बी.एस.आर. फिल्म्स - आधिकारिक कॉरपोरेट पोर्टफोलियो (A4 2-पृष्ठ प्रिंट संस्करण) | BSR Films</title>
+  <title>बी.एस.आर. फिल्मस - आधिकारिक कॉरपोरेट पोर्टफोलियो (A4 2-पृष्ठ प्रिंट संस्करण) | BSR Films</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -337,7 +337,7 @@ html_content = f"""<!DOCTYPE html>
       <div class="header-left">
         <img src="data:image/png;base64,{icon_b64}" class="header-logo" alt="Logo">
         <div>
-          <div class="header-title">बी.एस.आर. फिल्म्स</div>
+          <div class="header-title">बी.एस.आर. फिल्मस</div>
           <div class="header-sub">फिल्म, टीवी, वृत्तचित्र एवं मीडिया प्रोडक्शन हाउस</div>
         </div>
       </div>
@@ -363,13 +363,13 @@ html_content = f"""<!DOCTYPE html>
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px;">
             <div>
               <div style="font-size: 18pt; font-weight: 900; color: #0A0A0A; line-height: 1.1; letter-spacing: -0.2px;">
-                बी.एस.आर. फिल्म्स
+                बी.एस.आर. फिल्मस
               </div>
               <div style="font-size: 9.6pt; font-weight: 900; color: #8C4E00; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 1px;">
                 सेंट्रल इंडिया का प्रतिष्ठित मीडिया प्रोडक्शन हाउस
               </div>
             </div>
-            <img src="data:image/png;base64,{logo_b64}" style="height: 38px; width: auto; max-width: 135px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(140, 78, 0, 0.2));" alt="बी.एस.आर. फिल्म्स Logo">
+            <img src="data:image/png;base64,{logo_b64}" style="height: 38px; width: auto; max-width: 135px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(140, 78, 0, 0.2));" alt="बी.एस.आर. फिल्मस Logo">
           </div>
 
           <div style="font-size: 8.8pt; color: #2A2A2A; font-weight: 700; margin-top: 2px; line-height: 1.36;">
@@ -549,13 +549,13 @@ html_content = f"""<!DOCTYPE html>
         <div class="big-banner-icon">{svg_crest_big}</div>
         <div class="big-banner-text">
           <strong>25+ वर्षों की अनवरत मीडिया उत्कृष्टता एवं विश्वसनीयता:</strong>
-          बी.एस.आर. फिल्म्स मध्य भारत का अग्रणी एवं प्रतिष्ठित प्रोडक्शन हाउस है, जो <b class="hl">शासकीय एवं कॉर्पोरेट क्षेत्र</b> में उच्च-गुणवत्ता पूर्ण <b class="hl">फिल्म निर्माण, विज्ञापन एवं व्यापक प्रसारण अभियानों</b> हेतु पूर्णतः समर्पित व प्रमाणित है।
+          बी.एस.आर. फिल्मस मध्य भारत का अग्रणी एवं प्रतिष्ठित प्रोडक्शन हाउस है, जो <b class="hl">शासकीय एवं कॉर्पोरेट क्षेत्र</b> में उच्च-गुणवत्ता पूर्ण <b class="hl">फिल्म निर्माण, विज्ञापन एवं व्यापक प्रसारण अभियानों</b> हेतु पूर्णतः समर्पित व प्रमाणित है।
         </div>
       </div>
     </div>
 
     <div class="footer">
-      <div><strong>बी.एस.आर. फिल्म्स</strong> • आधिकारिक कॉरपोरेट प्रोफाइल • www.bsrfilms.com</div>
+      <div><strong>बी.एस.आर. फिल्मस</strong> • आधिकारिक कॉरपोरेट प्रोफाइल • www.bsrfilms.com</div>
       <div>पृष्ठ 1 / 2</div>
     </div>
   </div>
@@ -568,7 +568,7 @@ html_content = f"""<!DOCTYPE html>
       <div class="header-left">
         <img src="data:image/png;base64,{icon_b64}" class="header-logo" alt="Logo">
         <div>
-          <div class="header-title">बी.एस.आर. फिल्म्स</div>
+          <div class="header-title">बी.एस.आर. फिल्मस</div>
           <div class="header-sub">संस्थापक नेतृत्व, प्रतिष्ठित क्लाइंट्स एवं प्रमाणीकरण</div>
         </div>
       </div>
@@ -736,7 +736,7 @@ html_content = f"""<!DOCTYPE html>
             <span class="card-badge" style="font-size: 8pt;">सत्यापित संचिका</span>
           </div>
           <div style="font-size: 8.4pt; color: #1A1A1A; line-height: 1.32; font-weight: 600;">
-            <strong>यह प्रमाणित किया जाता है कि</strong> इस कॉरपोरेट पोर्टफोलियो संचिका में अंकित समस्त संस्थागत विवरण, शासकीय इम्पैनलमेंट, 24+ क्लाइंट सूचियां, तकनीकी उपकरण, वित्तीय साख एवं उत्पादन सांख्यिकी बी.एस.आर. फिल्म्स के वास्तविक, अधिकृत अभिलेखों एवं वैध अनुबंधों पर पूर्णतः आधारित हैं।
+            <strong>यह प्रमाणित किया जाता है कि</strong> इस कॉरपोरेट पोर्टफोलियो संचिका में अंकित समस्त संस्थागत विवरण, शासकीय इम्पैनलमेंट, 24+ क्लाइंट सूचियां, तकनीकी उपकरण, वित्तीय साख एवं उत्पादन सांख्यिकी बी.एस.आर. फिल्मस के वास्तविक, अधिकृत अभिलेखों एवं वैध अनुबंधों पर पूर्णतः आधारित हैं।
           </div>
         </div>
 
@@ -747,10 +747,10 @@ html_content = f"""<!DOCTYPE html>
           </div>
           <div style="text-align: right; flex: 1; padding-left: 14px;">
             <div style="font-size: 8.4pt; color: #444444; font-weight: 600; margin-bottom: 1.5px;">
-              <b class="hl">प्रमाणित:</b> संचिका में अंकित समस्त विवरण बी.एस.आर. फिल्म्स के <b class="hl">अधिकृत अभिलेखों एवं अनुबंधों</b> पर आधारित हैं।
+              <b class="hl">प्रमाणित:</b> संचिका में अंकित समस्त विवरण बी.एस.आर. फिल्मस के <b class="hl">अधिकृत अभिलेखों एवं अनुबंधों</b> पर आधारित हैं।
             </div>
             <div style="font-size: 16pt; font-weight: 900; color: #8C4E00; line-height: 1.1;">
-              बी.एस.आर. फिल्म्स
+              बी.एस.आर. फिल्मस
             </div>
             <div style="font-size: 9.8pt; font-weight: 800; color: #0A0A0A; margin-top: 2px;">
               अधिकृत हस्ताक्षरकर्ता • संस्थापक एवं प्रबंध निर्देशक
@@ -764,7 +764,7 @@ html_content = f"""<!DOCTYPE html>
     </div>
 
     <div class="footer">
-      <div><strong>बी.एस.आर. फिल्म्स</strong> • आधिकारिक कॉरपोरेट प्रोफाइल • www.bsrfilms.com</div>
+      <div><strong>बी.एस.आर. फिल्मस</strong> • आधिकारिक कॉरपोरेट प्रोफाइल • www.bsrfilms.com</div>
       <div>पृष्ठ 2 / 2</div>
     </div>
   </div>
